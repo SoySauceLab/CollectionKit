@@ -1,0 +1,77 @@
+disabled_rules: # rule identifiers to exclude from running
+  - missing_docs
+  - shorthand_operator
+  - vertical_parameter_alignment
+  - opening_brace
+  - variable_name
+
+opt_in_rules: # some rules are only opt-in
+  - empty_count
+# Find all the available rules by running:
+# swiftlint rules
+
+included: # paths to include during linting. `--path` is ignored if present.
+- Sources
+
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - Carthage
+  - Pods
+
+# configurable rules can be customized from this configuration file
+# binary rules can set their severity level
+force_cast: warning # implicitly
+force_try:
+  severity: warning # explicitly
+
+# rules that have both warning and error levels, can set just the warning level
+# implicitly
+line_length: 130
+
+# they can set both implicitly with an array
+type_body_length:
+  - 100 # warning
+  - 150 # error
+
+# or they can set both explicitly
+file_length:
+  warning: 200
+  error: 500
+
+# naming rules can set warnings/errors for min_length and max_length
+# additionally they can set excluded names
+type_name:
+  min_length: 3 # only warning
+  max_length: # warning and error
+    warning: 40
+    error: 50
+  excluded: # excluded via string
+    - T
+    - t
+
+variable_name:
+  min_length: # only min_length
+    error: 3 # only error
+  excluded: # excluded via string array
+    - id
+    - vc
+    - to
+    - a
+    - b
+    - t
+    - x
+    - y
+    - z
+    - w
+    - p
+    - xy
+    - dx
+    - dy
+    - dt
+    - dv
+    - gr
+    - ax
+    - ay
+    - bx
+    - by
+    - cx
+    - cy
