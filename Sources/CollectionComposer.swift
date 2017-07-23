@@ -9,8 +9,8 @@
 import UIKit
 
 public class SectionSizeProvider: CollectionSizeProvider<AnyCollectionProvider> {
-  public override func size(at: Int, data: AnyCollectionProvider, maxSize: CGSize) -> CGSize {
-    data.layout(collectionSize: maxSize)
+  public override func size(at: Int, data: AnyCollectionProvider, collectionSize: CGSize) -> CGSize {
+    data.layout(collectionSize: collectionSize)
     return data.contentSize
   }
 }

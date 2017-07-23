@@ -10,15 +10,15 @@ import UIKit
 import CollectionKit
 
 class ImageSizeProvider: CollectionSizeProvider<UIImage> {
-  override func size(at: Int, data: UIImage, maxSize: CGSize) -> CGSize {
+  override func size(at: Int, data: UIImage, collectionSize: CGSize) -> CGSize {
     var imageSize = data.size
-    if imageSize.width > maxSize.width {
-      imageSize.height /= imageSize.width/maxSize.width
-      imageSize.width = maxSize.width
+    if imageSize.width > collectionSize.width {
+      imageSize.height /= imageSize.width/collectionSize.width
+      imageSize.width = collectionSize.width
     }
-    if imageSize.height > maxSize.height {
-      imageSize.width /= imageSize.height/maxSize.height
-      imageSize.height = maxSize.height
+    if imageSize.height > collectionSize.height {
+      imageSize.width /= imageSize.height/collectionSize.height
+      imageSize.height = collectionSize.height
     }
     return imageSize
   }

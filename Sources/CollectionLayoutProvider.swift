@@ -9,8 +9,8 @@
 import UIKit
 
 open class CollectionSizeProvider<Data> {
-  open func size(at: Int, data: Data, maxSize: CGSize) -> CGSize {
-    return .zero
+  open func size(at: Int, data: Data, collectionSize: CGSize) -> CGSize {
+    return CGSize(width: 50, height: 50)
   }
   public init() {}
 }
@@ -22,8 +22,8 @@ open class ClosureSizeProvider<Data>: CollectionSizeProvider<Data> {
     self.sizeProvider = sizeProvider
   }
   
-  open override func size(at: Int, data: Data, maxSize: CGSize) -> CGSize {
-    return self.sizeProvider(at, data, maxSize)
+  open override func size(at: Int, data: Data, collectionSize: CGSize) -> CGSize {
+    return self.sizeProvider(at, data, collectionSize)
   }
 }
 
@@ -102,12 +102,39 @@ public class HorizontalWaterfallLayoutProvider<Data>: CollectionLayoutProvider<D
     
     for i in 0..<dataProvider.numberOfItems {
       let avaliableHeight = (maxSize.height - CGFloat(rowWidth.count - 1) * 10) / CGFloat(rowWidth.count)
-      var cellSize = sizeProvider.size(at: i, data: dataProvider.data(at: i), maxSize: CGSize(width: .infinity, height: avaliableHeight))
+      var cellSize = sizeProvider.size(at: i, data: dataProvider.data(at: i), collectionSize: CGSize(width: collectionSize.width, height: avaliableHeight))
       cellSize.height = avaliableHeight
       let (rowIndex, offsetX) = getMinRow()
       rowWidth[rowIndex] += cellSize.width + 10
       let frame = CGRect(origin: CGPoint(x: offsetX, y: CGFloat(rowIndex) * (avaliableHeight + 10)), size: cellSize)
       frames.append(frame)
+    }
+  }
+}
+
+public class FlowLayout<Data>: CollectionLayoutProvider<Data> {
+  var padding: CGFloat
+  
+  public init(padding: CGFloat = 0) {
+    self.padding = padding
+    super.init()
+  }
+
+  public override func layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: CollectionSizeProvider<Data>) {
+    super.layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
+
+    var offset = CGPoint.zero
+    var currentRowMaxHeight: CGFloat = 0
+    for i in 0..<dataProvider.numberOfItems {
+      let size = sizeProvider.size(at: i, data: dataProvider.data(at: i), collectionSize: collectionSize)
+      currentRowMaxHeight = max(currentRowMaxHeight, size.height)
+      if offset.x + size.width > collectionSize.width {
+        offset.x = 0
+        offset.y += currentRowMaxHeight + padding
+      }
+      let frame = CGRect(origin: offset, size: size)
+      frames.append(frame)
+      offset.x += size.width + padding
     }
   }
 }

@@ -51,7 +51,7 @@ public class CollectionProvider<Data, View>: AnyCollectionProvider where View: U
 
   public init(dataProvider: CollectionDataProvider<Data>,
               viewProvider: CollectionViewProvider<Data, View>,
-              layoutProvider: CollectionLayoutProvider<Data>,
+              layoutProvider: CollectionLayoutProvider<Data> = FlowLayout<Data>(),
               sizeProvider: CollectionSizeProvider<Data> = CollectionSizeProvider<Data>(),
               responder: CollectionResponder = CollectionResponder(),
               presenter: CollectionPresenter = CollectionPresenter()) {
