@@ -18,8 +18,10 @@ public protocol AnyCollectionProvider {
   func update(view: UIView, at: Int)
 
   // layout
-  func prepareLayout(maxSize: CGSize)
-  var insets: UIEdgeInsets { get }
+  func layout(collectionSize: CGSize)
+
+  func visibleIndexes(activeFrame: CGRect) -> Set<Int>
+  var contentSize: CGSize { get }
   func frame(at: Int) -> CGRect
 
   // event
@@ -43,13 +45,20 @@ public class CollectionProvider<Data, View>: AnyCollectionProvider where View: U
   public var dataProvider: CollectionDataProvider<Data>
   public var viewProvider: CollectionViewProvider<Data, View>
   public var layoutProvider: CollectionLayoutProvider<Data>
+  public var sizeProvider: CollectionSizeProvider<Data>
   public var responder: CollectionResponder
   public var presenter: CollectionPresenter
 
-  public init(dataProvider: CollectionDataProvider<Data>, viewProvider: CollectionViewProvider<Data, View>, layoutProvider: CollectionLayoutProvider<Data>, responder: CollectionResponder = CollectionResponder(), presenter: CollectionPresenter = CollectionPresenter()) {
+  public init(dataProvider: CollectionDataProvider<Data>,
+              viewProvider: CollectionViewProvider<Data, View>,
+              layoutProvider: CollectionLayoutProvider<Data>,
+              sizeProvider: CollectionSizeProvider<Data> = CollectionSizeProvider<Data>(),
+              responder: CollectionResponder = CollectionResponder(),
+              presenter: CollectionPresenter = CollectionPresenter()) {
     self.dataProvider = dataProvider
     self.viewProvider = viewProvider
     self.layoutProvider = layoutProvider
+    self.sizeProvider = sizeProvider
     self.responder = responder
     self.presenter = presenter
   }
@@ -67,14 +76,17 @@ public class CollectionProvider<Data, View>: AnyCollectionProvider where View: U
     return dataProvider.identifier(at: at)
   }
 
-  public func prepareLayout(maxSize: CGSize) {
-    layoutProvider.prepareLayout(maxSize: maxSize)
+  public func layout(collectionSize: CGSize) {
+    layoutProvider._layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
   }
-  public var insets: UIEdgeInsets {
-    return layoutProvider.insets
+  public var contentSize: CGSize {
+    return layoutProvider.contentSize
   }
   public func frame(at: Int) -> CGRect {
-    return layoutProvider.frame(with: dataProvider.data(at: at), at: at)
+    return layoutProvider.frame(at: at)
+  }
+  public func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
+    return layoutProvider.visibleIndexes(activeFrame: activeFrame)
   }
 
   public func willReload() {
@@ -110,5 +122,11 @@ public class CollectionProvider<Data, View>: AnyCollectionProvider where View: U
   }
   public func update(view: UIView, at: Int, frame: CGRect) {
     presenter.update(view: view, at: at, frame: frame)
+  }
+}
+
+class EmptyCollectionProvider: CollectionProvider<Int, UIView> {
+  init() {
+    super.init(dataProvider: CollectionDataProvider<Int>(), viewProvider: CollectionViewProvider<Int, UIView>(), layoutProvider: CollectionLayoutProvider<Int>())
   }
 }

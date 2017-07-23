@@ -8,31 +8,24 @@
 
 import UIKit
 
-public class CollectionComposer<LayoutProvider> where LayoutProvider: CustomSizeLayoutProvider<AnyCollectionProvider> {
+public class SectionSizeProvider: CollectionSizeProvider<AnyCollectionProvider> {
+  public override func size(at: Int, data: AnyCollectionProvider, maxSize: CGSize) -> CGSize {
+    data.layout(collectionSize: maxSize)
+    return data.contentSize
+  }
+}
+
+public class CollectionComposer<LayoutProvider> where LayoutProvider: CollectionLayoutProvider<AnyCollectionProvider> {
   public var sections: [AnyCollectionProvider]
 
   fileprivate var sectionBeginIndex:[Int] = []
   fileprivate var sectionForIndex:[Int] = []
-  fileprivate var sectionFrames:[[CGRect]] = []
-  fileprivate var sectionFrameOrigin:[CGPoint] = []
 
   var layoutProvider: LayoutProvider
 
   public init(_ sections: [AnyCollectionProvider] = [], layoutProvider: LayoutProvider) {
     self.sections = sections
     self.layoutProvider = layoutProvider
-    self.layoutProvider.sizeProvider = { [weak self] (index, section, size) -> CGSize in
-      guard let strongSelf = self else { return .zero }
-      var sectionUnionFrame: CGRect = .zero
-      strongSelf.sectionFrames.append([])
-      section.prepareLayout(maxSize: size)
-      for i in 0..<section.numberOfItems {
-        let frame = section.frame(at: i)
-        strongSelf.sectionFrames[index].append(frame)
-        sectionUnionFrame = sectionUnionFrame.union(frame)
-      }
-      return sectionUnionFrame.size
-    }
   }
 
   public convenience init(_ sections: AnyCollectionProvider..., layoutProvider: LayoutProvider) {
@@ -44,19 +37,9 @@ public class CollectionComposer<LayoutProvider> where LayoutProvider: CustomSize
     let item = index - sectionBeginIndex[section]
     return (section, item)
   }
-
-  func insets(for index: Int) -> UIEdgeInsets {
-    if let section = sections.get(index) {
-      return section.insets
-    }
-    return .zero
-  }
 }
 
 extension CollectionComposer: AnyCollectionProvider {
-  public var insets: UIEdgeInsets {
-    return layoutProvider.insets
-  }
   public var numberOfItems: Int {
     return sectionForIndex.count
   }
@@ -73,18 +56,27 @@ extension CollectionComposer: AnyCollectionProvider {
     return "section-\(sectionIndex)-" + sections[sectionIndex].identifier(at: item)
   }
 
-  public func prepareLayout(maxSize: CGSize) {
-    sectionFrames = []
-    sectionFrameOrigin = []
-    layoutProvider.prepareLayout(maxSize: maxSize)
-    for (i, section) in sections.enumerated() {
-      sectionFrameOrigin.append(layoutProvider.frame(with: section, at: i).origin)
+  public func layout(collectionSize: CGSize) {
+    layoutProvider._layout(collectionSize: collectionSize,
+                           dataProvider: ArrayDataProvider(data: sections),
+                           sizeProvider: SectionSizeProvider())
+  }
+  public var contentSize: CGSize {
+    return layoutProvider.contentSize
+  }
+  public func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
+    var visible = Set<Int>()
+    for sectionIndex in layoutProvider.visibleIndexes(activeFrame: activeFrame) {
+      let sectionOrigin = layoutProvider.frame(at: sectionIndex).origin
+      let sectionVisible = sections[sectionIndex].visibleIndexes(activeFrame: CGRect(origin: activeFrame.origin - sectionOrigin, size: activeFrame.size))
+      visible.formUnion(sectionVisible)
     }
+    return visible
   }
   public func frame(at: Int) -> CGRect {
     let (sectionIndex, item) = indexPath(at)
-    var frame = sectionFrames[sectionIndex][item]
-    frame.origin = frame.origin + sectionFrameOrigin[sectionIndex]
+    var frame = sections[sectionIndex].frame(at: item)
+    frame.origin = frame.origin + layoutProvider.frame(at: sectionIndex).origin
     return frame
   }
   public func willReload() {

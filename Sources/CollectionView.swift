@@ -10,7 +10,7 @@ import UIKit
 import YetAnotherAnimationLibrary
 
 open class CollectionView: UIScrollView {
-  public var provider: AnyCollectionProvider?
+  public var provider: AnyCollectionProvider = EmptyCollectionProvider()
 
   public private(set) var hasReloaded = false
 
@@ -32,11 +32,6 @@ open class CollectionView: UIScrollView {
 
   public var supportOverflow = false
 
-  // the computed frames for cells, constructed in reloadData
-  var frames: [CGRect] = []
-
-  // visible indexes & cell
-  let visibleIndexesManager = CollectionVisibleIndexesManager()
   let dragManager = CollectionDragManager()
   public var visibleIndexes: Set<Int> = []
   public var visibleCells: [UIView] { return Array(visibleCellToIndexMap.st.keys) }
@@ -169,16 +164,14 @@ open class CollectionView: UIScrollView {
     provider.willReload()
     reloading = true
     lastReloadSize = bounds.size
-    provider.prepareLayout(maxSize: innerSize)
+    provider.layout(collectionSize: innerSize)
     provider.prepareForPresentation(collectionView: self)
 
     // ask the delegate for all cell's identifier & frames
     frames = []
     var newIdentifiersToIndexMap: DictionaryTwoWay<String, Int> = [:]
     var newVisibleCellToIndexMap: DictionaryTwoWay<UIView, Int> = [:]
-    var unionFrame = CGRect.zero
     let itemCount = provider.numberOfItems
-    let padding = provider.insets
 
     frames.reserveCapacity(itemCount)
     for index in 0..<itemCount {

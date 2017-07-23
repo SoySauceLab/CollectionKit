@@ -50,18 +50,6 @@ open class WobblePresenter: CollectionPresenter {
       cell.yaal.center.updateWithCurrentState()
     }
   }
-
-  open override func insert(view: UIView, at: Int, frame: CGRect) {
-//    view.bounds = frame.bounds
-//    let cellDiff = frame.center - contentOffset - screenDragLocation
-//    let resistance = (cellDiff * sensitivity).distance(.zero) / 1000 * delta / 4
-//    view.center = frame.center + delta * abs(resistance)
-//    view.yaal.center.animateTo(frame.center, stiffness: 200, damping: 30, threshold:0.5)
-
-    super.insert(view: view, at: at, frame: frame)
-    view.yaal.center.stop()
-    view.yaal.center.updateWithCurrentState()
-  }
   
   open override func delete(view: UIView, at: Int, frame: CGRect) {
     view.yaal.center.stop()
