@@ -12,6 +12,7 @@ open class CollectionSizeProvider<Data> {
   open func size(at: Int, data: Data, maxSize: CGSize) -> CGSize {
     return .zero
   }
+  public init() {}
 }
 
 open class ClosureSizeProvider<Data>: CollectionSizeProvider<Data> {

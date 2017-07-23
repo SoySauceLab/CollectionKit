@@ -24,10 +24,6 @@ open class CollectionView: UIScrollView {
     }
   }
 
-  public var numberOfItems: Int {
-    return frames.count
-  }
-
   public var overlayView = UIView()
 
   public var supportOverflow = false
@@ -84,7 +80,7 @@ open class CollectionView: UIScrollView {
   @objc func tap(gr: UITapGestureRecognizer) {
     for cell in visibleCells {
       if cell.point(inside: gr.location(in: cell), with: nil) {
-        provider?.didTap(cell: cell, at: visibleCellToIndexMap[cell]!)
+        provider.didTap(cell: cell, at: visibleCellToIndexMap[cell]!)
         return
       }
     }
@@ -137,9 +133,9 @@ open class CollectionView: UIScrollView {
   func loadCells() {
     if loading || reloading || !hasReloaded { return }
     loading = true
-    provider?.prepareForPresentation(collectionView: self)
+    provider.prepareForPresentation(collectionView: self)
 
-    let indexes = visibleIndexesManager.visibleIndexes(for: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
+    let indexes = provider.visibleIndexes(activeFrame: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
     let deletedIndexes = visibleIndexes.subtracting(indexes)
     let newIndexes = indexes.subtracting(visibleIndexes)
     for i in deletedIndexes {
@@ -152,7 +148,7 @@ open class CollectionView: UIScrollView {
 
     for (index, view) in visibleCellToIndexMap.ts {
       if !floatingCells.contains(view) {
-        provider?.update(view: view, at: index, frame: frames[index])
+        provider.update(view: view, at: index, frame: provider.frame(at: index))
       }
     }
     loading = false
@@ -160,7 +156,6 @@ open class CollectionView: UIScrollView {
 
   // reload all frames. will automatically diff insertion & deletion
   public func reloadData(contentOffsetAdjustFn: (()->CGPoint)? = nil) {
-    guard let provider = provider else { return }
     provider.willReload()
     reloading = true
     lastReloadSize = bounds.size
@@ -168,14 +163,11 @@ open class CollectionView: UIScrollView {
     provider.prepareForPresentation(collectionView: self)
 
     // ask the delegate for all cell's identifier & frames
-    frames = []
     var newIdentifiersToIndexMap: DictionaryTwoWay<String, Int> = [:]
     var newVisibleCellToIndexMap: DictionaryTwoWay<UIView, Int> = [:]
     let itemCount = provider.numberOfItems
 
-    frames.reserveCapacity(itemCount)
     for index in 0..<itemCount {
-      let frame = provider.frame(at: index)
       let identifier = provider.identifier(at: index)
       if newIdentifiersToIndexMap[identifier] != nil {
         print("[CollectionView] Duplicate Identifier: \(identifier)")
@@ -189,19 +181,11 @@ open class CollectionView: UIScrollView {
       } else {
         newIdentifiersToIndexMap[identifier] = index
       }
-      unionFrame = unionFrame.union(frame)
-      frames.append(frame)
     }
-    if padding.top != 0 || padding.left != 0 {
-      for index in 0..<frames.count {
-        frames[index].origin = frames[index].origin + CGPoint(x: padding.left, y: padding.top)
-      }
-    }
-    visibleIndexesManager.reload(with: frames)
 
     let oldContentOffset = contentOffset
-    contentSize = CGSize(width: max(minimumContentSize.width, unionFrame.size.width + padding.left + padding.right),
-                         height: max(minimumContentSize.height, unionFrame.size.height + padding.top + padding.bottom))
+    contentSize = CGSize(width: max(minimumContentSize.width, provider.contentSize.width),
+                         height: max(minimumContentSize.height, provider.contentSize.height))
     if let offset = contentOffsetAdjustFn?() {
       contentOffset = offset
     }
@@ -209,7 +193,7 @@ open class CollectionView: UIScrollView {
 
     provider.shift(delta: contentOffsetDiff)
 
-    var newVisibleIndexes = visibleIndexesManager.visibleIndexes(for: activeFrame)
+    var newVisibleIndexes = provider.visibleIndexes(activeFrame: activeFrame)
     for cell in floatingCells {
       let cellIdentifier = identifiersToIndexMap[visibleCellToIndexMap[cell]!]!
       if let index = newIdentifiersToIndexMap[cellIdentifier] {
@@ -258,7 +242,7 @@ open class CollectionView: UIScrollView {
 
     for (index, view) in visibleCellToIndexMap.ts {
       if !floatingCells.contains(view) {
-        provider.update(view: view, at: index, frame: frames[index])
+        provider.update(view: view, at: index, frame: provider.frame(at: index))
       }
     }
     reloading = false
@@ -268,18 +252,17 @@ open class CollectionView: UIScrollView {
 
   fileprivate func disappearCell(at index: Int) {
     if let cell = visibleCellToIndexMap[index] {
-      provider?.delete(view: cell, at: index, frame: frames[index])
+      provider.delete(view: cell, at: index, frame: provider.frame(at: index))
       visibleCellToIndexMap.remove(index)
     }
   }
   fileprivate func appearCell(at index: Int) {
-    guard let provider = provider else { return }
     let cell = provider.view(at: index)
     provider.update(view: cell, at: index)
     if visibleCellToIndexMap[cell] == nil {
       visibleCellToIndexMap[cell] = index
       insert(cell: cell)
-      provider.insert(view: cell, at: index, frame: frames[index])
+      provider.insert(view: cell, at: index, frame: provider.frame(at: index))
     }
   }
   fileprivate func insert(cell: UIView) {
@@ -345,27 +328,27 @@ extension CollectionView {
 
     // index & frame should be always avaliable because floating cell is always visible. Otherwise we have a bug
     let index = self.index(for: cell)!
-    let frame = frameForCell(at: index)!
+    let frame = provider.frame(at: index)
     cell.yaal.center.animateTo(frame.center, stiffness: 300, damping: 25)
   }
 }
 
 extension CollectionView {
   public func indexForCell(at point: CGPoint) -> Int? {
-    for (index, frame) in frames.enumerated() {
-      if frame.contains(point) {
+    for (cell, index) in visibleCellToIndexMap.st {
+      if cell.point(inside: cell.convert(point, from: self), with: nil) {
         return index
       }
     }
     return nil
   }
-
-  public func frameForCell(at index: Int?) -> CGRect? {
-    if let index = index {
-      return frames.count > index ? frames[index] : nil
-    }
-    return nil
-  }
+//
+//  public func frameForCell(at index: Int?) -> CGRect? {
+//    if let index = index {
+//      return frames.count > index ? frames[index] : nil
+//    }
+//    return nil
+//  }
 
   public func index(for cell: UIView) -> Int? {
     return visibleCellToIndexMap[cell]

@@ -9,17 +9,19 @@
 import UIKit
 import CollectionKit
 
-func sizeForImage(_ imageSize: CGSize, maxSize: CGSize) -> CGSize {
-  var imageSize = imageSize
-  if imageSize.width > maxSize.width {
-    imageSize.height /= imageSize.width/maxSize.width
-    imageSize.width = maxSize.width
+class ImageSizeProvider: CollectionSizeProvider<UIImage> {
+  override func size(at: Int, data: UIImage, maxSize: CGSize) -> CGSize {
+    var imageSize = data.size
+    if imageSize.width > maxSize.width {
+      imageSize.height /= imageSize.width/maxSize.width
+      imageSize.width = maxSize.width
+    }
+    if imageSize.height > maxSize.height {
+      imageSize.width /= imageSize.height/maxSize.height
+      imageSize.height = maxSize.height
+    }
+    return imageSize
   }
-  if imageSize.height > maxSize.height {
-    imageSize.width /= imageSize.height/maxSize.height
-    imageSize.height = maxSize.height
-  }
-  return imageSize
 }
 
 class HorizontalGalleryViewController: UIViewController {
@@ -55,25 +57,27 @@ class HorizontalGalleryViewController: UIViewController {
       view.clipsToBounds = true
       view.yaal.rotation.setTo(CGFloat.random(-0.035, max: 0.035))
     })
-    let layoutProvider = HorizontalWaterfallLayoutProvider(sizeProvider: { (_, data: UIImage, maxSize) in
-      return sizeForImage(data.size, maxSize: maxSize)
-    })
+    let layoutProvider = HorizontalWaterfallLayoutProvider<UIImage>()
+    let sizeProvider = ImageSizeProvider()
 
     let provider1 = CollectionProvider(
       dataProvider: dataProvider,
       viewProvider: viewProvider,
-      layoutProvider: layoutProvider
+      layoutProvider: layoutProvider,
+      sizeProvider: sizeProvider
     )
     let provider2 = CollectionProvider(
       dataProvider: dataProvider,
       viewProvider: viewProvider,
       layoutProvider: layoutProvider,
+      sizeProvider: sizeProvider,
       presenter: WobblePresenter()
     )
     let provider3 = CollectionProvider(
       dataProvider: dataProvider,
       viewProvider: viewProvider,
       layoutProvider: layoutProvider,
+      sizeProvider: sizeProvider,
       presenter: ZoomPresenter()
     )
 

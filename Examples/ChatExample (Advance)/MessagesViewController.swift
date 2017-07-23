@@ -18,43 +18,42 @@ class MessageDataProvider: ArrayDataProvider<Message> {
 }
 
 class MessageLayout: CollectionLayoutProvider<Message> {
-  var lastMessage: Message?
-  var lastFrame: CGRect?
-  var maxWidth: CGFloat = 0
-  override func prepareLayout(maxSize: CGSize) {
-    super.prepareLayout(maxSize: maxSize)
-    maxWidth = maxSize.width
-    lastMessage = nil
-    lastFrame = nil
-  }
-  override func frame(with message: Message, at: Int) -> CGRect {
-    var yHeight: CGFloat = 0
-    var xOffset: CGFloat = 0
-    var cellFrame = MessageCell.frameForMessage(message, containerWidth: maxWidth)
-    if let lastMessage = lastMessage, let lastFrame = lastFrame {
-      if message.type == .image &&
-        lastMessage.type == .image && message.alignment == lastMessage.alignment {
-        if message.alignment == .left && lastFrame.maxX + cellFrame.width + 2 < maxWidth {
-          yHeight = lastFrame.minY
-          xOffset = lastFrame.maxX + 2
-        } else if message.alignment == .right && lastFrame.minX - cellFrame.width - 2 > 0 {
-          yHeight = lastFrame.minY
-          xOffset = lastFrame.minX - 2 - cellFrame.width
-          cellFrame.origin.x = 0
+  override func layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Message>, sizeProvider: CollectionSizeProvider<Message>) {
+    super.layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
+    var lastMessage: Message?
+    var lastFrame: CGRect?
+    let maxWidth: CGFloat = collectionSize.width
+    
+    for i in 0..<dataProvider.numberOfItems {
+      let message = dataProvider.data(at: i)
+      var yHeight: CGFloat = 0
+      var xOffset: CGFloat = 0
+      var cellFrame = MessageCell.frameForMessage(message, containerWidth: maxWidth)
+      if let lastMessage = lastMessage, let lastFrame = lastFrame {
+        if message.type == .image &&
+          lastMessage.type == .image && message.alignment == lastMessage.alignment {
+          if message.alignment == .left && lastFrame.maxX + cellFrame.width + 2 < maxWidth {
+            yHeight = lastFrame.minY
+            xOffset = lastFrame.maxX + 2
+          } else if message.alignment == .right && lastFrame.minX - cellFrame.width - 2 > 0 {
+            yHeight = lastFrame.minY
+            xOffset = lastFrame.minX - 2 - cellFrame.width
+            cellFrame.origin.x = 0
+          } else {
+            yHeight = lastFrame.maxY + message.verticalPaddingBetweenMessage(lastMessage)
+          }
         } else {
           yHeight = lastFrame.maxY + message.verticalPaddingBetweenMessage(lastMessage)
         }
-      } else {
-        yHeight = lastFrame.maxY + message.verticalPaddingBetweenMessage(lastMessage)
       }
+      cellFrame.origin.x += xOffset
+      cellFrame.origin.y = yHeight
+      
+      lastFrame = cellFrame
+      lastMessage = message
+      
+      frames.append(cellFrame)
     }
-    cellFrame.origin.x += xOffset
-    cellFrame.origin.y = yHeight
-
-    lastFrame = cellFrame
-    lastMessage = message
-
-    return cellFrame
   }
 }
 

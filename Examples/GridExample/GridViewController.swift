@@ -35,7 +35,7 @@ class GridViewController: UIViewController {
       view.backgroundColor = UIColor.lightGray
       view.text = "\(data)"
     })
-    let layoutProvider = ClosureLayoutProvider(frameProvider: { (data: Int, i: Int) in
+    let layoutProvider = ClosureLayoutProvider(frameProvider: { (i: Int, data: Int,  _) in
       CGRect(x: CGFloat(i % kGridSize.width) * (kGridCellSize.width + kGridCellPadding),
              y: CGFloat(i / kGridSize.width) * (kGridCellSize.height + kGridCellPadding),
              width: kGridCellSize.width,

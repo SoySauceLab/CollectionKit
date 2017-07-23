@@ -69,7 +69,10 @@ extension CollectionComposer: AnyCollectionProvider {
     for sectionIndex in layoutProvider.visibleIndexes(activeFrame: activeFrame) {
       let sectionOrigin = layoutProvider.frame(at: sectionIndex).origin
       let sectionVisible = sections[sectionIndex].visibleIndexes(activeFrame: CGRect(origin: activeFrame.origin - sectionOrigin, size: activeFrame.size))
-      visible.formUnion(sectionVisible)
+      let beginIndex = sectionBeginIndex[sectionIndex]
+      for item in sectionVisible {
+        visible.insert(item + beginIndex)
+      }
     }
     return visible
   }
