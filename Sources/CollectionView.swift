@@ -335,20 +335,14 @@ extension CollectionView {
 
 extension CollectionView {
   public func indexForCell(at point: CGPoint) -> Int? {
-    for (cell, index) in visibleCellToIndexMap.st {
-      if cell.point(inside: cell.convert(point, from: self), with: nil) {
+    for index in 0..<provider.numberOfItems {
+      let frame = provider.frame(at: index)
+      if frame.contains(point) {
         return index
       }
     }
     return nil
   }
-//
-//  public func frameForCell(at index: Int?) -> CGRect? {
-//    if let index = index {
-//      return frames.count > index ? frames[index] : nil
-//    }
-//    return nil
-//  }
 
   public func index(for cell: UIView) -> Int? {
     return visibleCellToIndexMap[cell]
