@@ -21,15 +21,15 @@ public class CollectionComposer {
   fileprivate var sectionBeginIndex:[Int] = []
   fileprivate var sectionForIndex:[Int] = []
 
-  var layoutProvider: CollectionLayout<AnyCollectionProvider>
+  var layout: CollectionLayout<AnyCollectionProvider>
 
-  public init(layoutProvider: CollectionLayout<AnyCollectionProvider> = FlowLayout(), _ sections: [AnyCollectionProvider] = []) {
+  public init(layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(), _ sections: [AnyCollectionProvider] = []) {
     self.sections = sections
-    self.layoutProvider = layoutProvider
+    self.layout = layout
   }
 
-  public convenience init(layoutProvider: CollectionLayout<AnyCollectionProvider> = FlowLayout(), _ sections: AnyCollectionProvider...) {
-    self.init(layoutProvider: layoutProvider, sections)
+  public convenience init(layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(), _ sections: AnyCollectionProvider...) {
+    self.init(layout: layout, sections)
   }
 
   func indexPath(_ index: Int) -> (Int, Int) {
@@ -57,17 +57,17 @@ extension CollectionComposer: AnyCollectionProvider {
   }
 
   public func layout(collectionSize: CGSize) {
-    layoutProvider._layout(collectionSize: collectionSize,
+    layout._layout(collectionSize: collectionSize,
                            dataProvider: ArrayDataProvider(data: sections),
                            sizeProvider: SectionSizeProvider())
   }
   public var contentSize: CGSize {
-    return layoutProvider.contentSize
+    return layout.contentSize
   }
   public func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
     var visible = Set<Int>()
-    for sectionIndex in layoutProvider.visibleIndexes(activeFrame: activeFrame) {
-      let sectionOrigin = layoutProvider.frame(at: sectionIndex).origin
+    for sectionIndex in layout.visibleIndexes(activeFrame: activeFrame) {
+      let sectionOrigin = layout.frame(at: sectionIndex).origin
       let sectionVisible = sections[sectionIndex].visibleIndexes(activeFrame: CGRect(origin: activeFrame.origin - sectionOrigin, size: activeFrame.size))
       let beginIndex = sectionBeginIndex[sectionIndex]
       for item in sectionVisible {
@@ -79,7 +79,7 @@ extension CollectionComposer: AnyCollectionProvider {
   public func frame(at: Int) -> CGRect {
     let (sectionIndex, item) = indexPath(at)
     var frame = sections[sectionIndex].frame(at: item)
-    frame.origin = frame.origin + layoutProvider.frame(at: sectionIndex).origin
+    frame.origin = frame.origin + layout.frame(at: sectionIndex).origin
     return frame
   }
   public func willReload() {

@@ -59,7 +59,7 @@ open class CollectionLayout<Data> {
   }
 }
 
-public class ClosureLayoutProvider<Data>: CollectionLayout<Data> {
+public class Closurelayout<Data>: CollectionLayout<Data> {
   public var frameProvider: (Int, Data, CGSize) -> CGRect
 
   public init(frameProvider: @escaping (Int, Data, CGSize) -> CGRect) {

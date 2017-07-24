@@ -42,6 +42,6 @@ public class SingleViewCollectionProvider: CollectionProvider<UIView, UIView> {
                   return size
                 }
                }))
-    layoutProvider.insets = insets
+    layout.insets = insets
   }
 }

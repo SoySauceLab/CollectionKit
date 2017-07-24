@@ -36,7 +36,7 @@ class ViewController: UIViewController {
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
       }),
-      layoutProvider: WaterfallLayout<UIImage>(insets: bodyInset, axis: .horizontal),
+      layout: WaterfallLayout<UIImage>(insets: bodyInset, axis: .horizontal),
       sizeProvider: ImageSizeProvider(),
       presenter: WobblePresenter()
     )
@@ -52,12 +52,12 @@ class ViewController: UIViewController {
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
       }),
-      layoutProvider: WaterfallLayout<UIImage>(insets: bodyInset, axis: .vertical),
+      layout: WaterfallLayout<UIImage>(insets: bodyInset, axis: .vertical),
       sizeProvider: ImageSizeProvider(),
       presenter: WobblePresenter()
     )
     
-    collectionView.provider = CollectionComposer(layoutProvider: FlowLayout(),
+    collectionView.provider = CollectionComposer(layout: FlowLayout(),
                                                  space(100),
                                                  CollectionComposer(titleSection, subtitleSection),
                                                  section(title: "Horizontal Waterfall Layout", provider: image1Section),

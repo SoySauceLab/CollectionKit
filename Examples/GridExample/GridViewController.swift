@@ -35,7 +35,7 @@ class GridViewController: UIViewController {
       view.backgroundColor = UIColor.lightGray
       view.text = "\(data)"
     })
-    let layoutProvider = ClosureLayoutProvider(frameProvider: { (i: Int, data: Int,  _) in
+    let layout = Closurelayout(frameProvider: { (i: Int, data: Int,  _) in
       CGRect(x: CGFloat(i % kGridSize.width) * (kGridCellSize.width + kGridCellPadding),
              y: CGFloat(i / kGridSize.width) * (kGridCellSize.height + kGridCellPadding),
              width: kGridCellSize.width,
@@ -51,7 +51,7 @@ class GridViewController: UIViewController {
     collectionView.provider = CollectionProvider(
       dataProvider: dataProvider,
       viewProvider: viewProvider,
-      layoutProvider: layoutProvider,
+      layout: layout,
       responder: responder,
       presenter: WobblePresenter()
     )

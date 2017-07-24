@@ -136,7 +136,7 @@ class MessagesViewController: UIViewController {
       viewProvider: ClosureViewProvider(viewUpdater: { (view: MessageCell, data: Message, at: Int) in
         view.message = data
       }),
-      layoutProvider: MessageLayout(),
+      layout: MessageLayout(),
       presenter: presenter
     )
     collectionView.provider = provider

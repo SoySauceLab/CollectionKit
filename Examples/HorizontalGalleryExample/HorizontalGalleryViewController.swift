@@ -39,38 +39,38 @@ class HorizontalGalleryViewController: UIViewController, UIScrollViewDelegate {
       view.layer.cornerRadius = 5
       view.clipsToBounds = true
     })
-    let layoutProvider = WaterfallLayout<UIImage>(axis: .horizontal)
+    let layout = WaterfallLayout<UIImage>(axis: .horizontal)
     let sizeProvider = ImageSizeProvider()
 
     let provider1 = CollectionProvider(
       dataProvider: dataProvider,
       viewProvider: viewProvider,
-      layoutProvider: layoutProvider,
+      layout: layout,
       sizeProvider: sizeProvider
     )
     let provider2 = CollectionProvider(
       dataProvider: dataProvider,
       viewProvider: viewProvider,
-      layoutProvider: layoutProvider,
+      layout: layout,
       sizeProvider: sizeProvider,
       presenter: WobblePresenter()
     )
     let provider3 = CollectionProvider(
       dataProvider: dataProvider,
       viewProvider: viewProvider,
-      layoutProvider: layoutProvider,
+      layout: layout,
       sizeProvider: sizeProvider,
       presenter: ZoomPresenter()
     )
     let provider4 = CollectionProvider(
       dataProvider: dataProvider,
       viewProvider: viewProvider,
-      layoutProvider: layoutProvider,
+      layout: layout,
       sizeProvider: sizeProvider,
       presenter: EdgeShrinkPresenter()
     )
 
-    collectionView.provider = CollectionComposer(layoutProvider: WaterfallLayout(axis: .horizontal), provider1, provider2, provider3, provider4)
+    collectionView.provider = CollectionComposer(layout: WaterfallLayout(axis: .horizontal), provider1, provider2, provider3, provider4)
     view.addSubview(collectionView)
   }
 

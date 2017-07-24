@@ -12,20 +12,20 @@ open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIV
 {
   public var dataProvider: CollectionDataProvider<Data>
   public var viewProvider: CollectionViewProvider<Data, View>
-  public var layoutProvider: CollectionLayout<Data>
+  public var layout: CollectionLayout<Data>
   public var sizeProvider: CollectionSizeProvider<Data>
   public var responder: CollectionResponder
   public var presenter: CollectionPresenter
 
   public init(dataProvider: CollectionDataProvider<Data>,
               viewProvider: CollectionViewProvider<Data, View>,
-              layoutProvider: CollectionLayout<Data> = FlowLayout<Data>(),
+              layout: CollectionLayout<Data> = FlowLayout<Data>(),
               sizeProvider: CollectionSizeProvider<Data> = CollectionSizeProvider<Data>(),
               responder: CollectionResponder = CollectionResponder(),
               presenter: CollectionPresenter = CollectionPresenter()) {
     self.dataProvider = dataProvider
     self.viewProvider = viewProvider
-    self.layoutProvider = layoutProvider
+    self.layout = layout
     self.sizeProvider = sizeProvider
     self.responder = responder
     self.presenter = presenter
@@ -45,16 +45,16 @@ open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIV
   }
 
   public func layout(collectionSize: CGSize) {
-    layoutProvider._layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
+    layout._layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
   }
   public var contentSize: CGSize {
-    return layoutProvider.contentSize
+    return layout.contentSize
   }
   public func frame(at: Int) -> CGRect {
-    return layoutProvider.frame(at: at)
+    return layout.frame(at: at)
   }
   public func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
-    return layoutProvider.visibleIndexes(activeFrame: activeFrame)
+    return layout.visibleIndexes(activeFrame: activeFrame)
   }
 
   public func willReload() {
