@@ -75,14 +75,15 @@ public class ClosureLayoutProvider<Data>: CollectionLayout<Data> {
   }
 }
 
-public class HorizontalWaterfallLayoutProvider<Data>: CollectionLayout<Data> {
-  public var prefferedRowHeight: CGFloat
-  private var numRows = 2
-  private var rowWidth: [CGFloat] = [0, 0]
+public class WaterfallLayout<Data>: CollectionLayout<Data> {
+  public var axis: UILayoutConstraintAxis
+  public var columns = 2
+  private var columnWidth: [CGFloat] = [0, 0]
   private var maxSize = CGSize.zero
 
-  public init(prefferedRowHeight: CGFloat  = 180, insets: UIEdgeInsets = .zero) {
-    self.prefferedRowHeight = prefferedRowHeight
+  public init(columns: Int  = 2, insets: UIEdgeInsets = .zero, axis: UILayoutConstraintAxis = .vertical) {
+    self.columns = columns
+    self.axis = axis
     super.init(insets: insets)
   }
 
@@ -90,12 +91,11 @@ public class HorizontalWaterfallLayoutProvider<Data>: CollectionLayout<Data> {
     super.layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
     
     let maxSize = collectionSize
-    let numRows = max(1, Int(maxSize.height / prefferedRowHeight))
-    var rowWidth = Array<CGFloat>(repeating: 0, count: numRows)
+    var columnWidth = Array<CGFloat>(repeating: 0, count: columns)
     
-    func getMinRow() -> (Int, CGFloat) {
-      var minWidth: (Int, CGFloat) = (0, rowWidth[0])
-      for (index, width) in rowWidth.enumerated() {
+    func getMinColomn() -> (Int, CGFloat) {
+      var minWidth: (Int, CGFloat) = (0, columnWidth[0])
+      for (index, width) in columnWidth.enumerated() {
         if width < minWidth.1 {
           minWidth = (index, width)
         }
@@ -103,14 +103,28 @@ public class HorizontalWaterfallLayoutProvider<Data>: CollectionLayout<Data> {
       return minWidth
     }
     
-    for i in 0..<dataProvider.numberOfItems {
-      let avaliableHeight = (maxSize.height - CGFloat(rowWidth.count - 1) * 10) / CGFloat(rowWidth.count)
-      var cellSize = sizeProvider.size(at: i, data: dataProvider.data(at: i), collectionSize: CGSize(width: collectionSize.width, height: avaliableHeight))
-      cellSize.height = avaliableHeight
-      let (rowIndex, offsetX) = getMinRow()
-      rowWidth[rowIndex] += cellSize.width + 10
-      let frame = CGRect(origin: CGPoint(x: offsetX, y: CGFloat(rowIndex) * (avaliableHeight + 10)), size: cellSize)
-      frames.append(frame)
+    if axis == .vertical {
+      for i in 0..<dataProvider.numberOfItems {
+        let avaliableHeight = (maxSize.width - CGFloat(columnWidth.count - 1) * 10) / CGFloat(columnWidth.count)
+        var cellSize = sizeProvider.size(at: i, data: dataProvider.data(at: i), collectionSize: CGSize(width: avaliableHeight, height: collectionSize.width))
+        cellSize.width = avaliableHeight
+        let (columnIndex, offsetY) = getMinColomn()
+        columnWidth[columnIndex] += cellSize.height + 10
+        let frame = CGRect(origin: CGPoint(x: CGFloat(columnIndex) * (avaliableHeight + 10),
+                                           y: offsetY), size: cellSize)
+        frames.append(frame)
+      }
+    } else {
+      for i in 0..<dataProvider.numberOfItems {
+        let avaliableHeight = (maxSize.height - CGFloat(columnWidth.count - 1) * 10) / CGFloat(columnWidth.count)
+        var cellSize = sizeProvider.size(at: i, data: dataProvider.data(at: i), collectionSize: CGSize(width: collectionSize.width, height: avaliableHeight))
+        cellSize.height = avaliableHeight
+        let (rowIndex, offsetX) = getMinColomn()
+        columnWidth[rowIndex] += cellSize.width + 10
+        let frame = CGRect(origin: CGPoint(x: offsetX,
+                                           y: CGFloat(rowIndex) * (avaliableHeight + 10)), size: cellSize)
+        frames.append(frame)
+      }
     }
   }
 }

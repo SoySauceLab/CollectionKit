@@ -36,10 +36,10 @@ let testImages: [UIImage] = [
   UIImage(named: "6")!
 ]
 
-class HorizontalGalleryViewController: UIViewController {
+class HorizontalGalleryViewController: UIViewController, UIScrollViewDelegate {
 
   var collectionView = CollectionView()
-  let images = testImages + testImages
+  let images = testImages
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -49,9 +49,8 @@ class HorizontalGalleryViewController: UIViewController {
       view.image = data
       view.layer.cornerRadius = 5
       view.clipsToBounds = true
-      view.yaal.rotation.setTo(CGFloat.random(-0.035, max: 0.035))
     })
-    let layoutProvider = HorizontalWaterfallLayoutProvider<UIImage>()
+    let layoutProvider = WaterfallLayout<UIImage>(axis: .horizontal)
     let sizeProvider = ImageSizeProvider()
 
     let provider1 = CollectionProvider(
@@ -74,8 +73,15 @@ class HorizontalGalleryViewController: UIViewController {
       sizeProvider: sizeProvider,
       presenter: ZoomPresenter()
     )
+    let provider4 = CollectionProvider(
+      dataProvider: dataProvider,
+      viewProvider: viewProvider,
+      layoutProvider: layoutProvider,
+      sizeProvider: sizeProvider,
+      presenter: EdgeShrinkPresenter()
+    )
 
-    collectionView.provider = CollectionComposer(layoutProvider: HorizontalWaterfallLayoutProvider(), provider1, provider2, provider3)
+    collectionView.provider = CollectionComposer(layoutProvider: WaterfallLayout(axis: .horizontal), provider1, provider2, provider3, provider4)
     view.addSubview(collectionView)
   }
 

@@ -33,7 +33,6 @@ open class WobblePresenter: CollectionPresenter {
   var contentOffset: CGPoint!
   var delta: CGPoint = .zero
   var sensitivity: CGPoint = CGPoint(x: 1, y: 1)
-  var offsetAnimation = MixAnimation(value: AnimationProperty<CGPoint>())
   
   open override func prepare(collectionView: CollectionView) {
     self.collectionView = collectionView
@@ -88,6 +87,36 @@ open class ZoomPresenter: CollectionPresenter {
   
   open override func delete(view: UIView, at: Int, frame: CGRect) {
     view.transform = .identity
+    super.delete(view: view, at: at, frame: frame)
+  }
+}
+
+
+open class EdgeShrinkPresenter: CollectionPresenter {
+  var collectionViewBounds: CGRect = .zero
+  var contentOffset: CGPoint = .zero
+  
+  var effectiveRange: ClosedRange<CGFloat> = -200...0
+  
+  open override func prepare(collectionView: CollectionView) {
+    super.prepare(collectionView: collectionView)
+    contentOffset = collectionView.contentOffset
+    collectionViewBounds = CGRect(origin: .zero, size: collectionView.bounds.size)
+  }
+  
+  open override func update(view: UIView, at: Int, frame: CGRect) {
+    super.update(view: view, at: at, frame: frame)
+    let absolutePosition = frame.origin - contentOffset
+    let scale = (absolutePosition.x.clamp(effectiveRange.lowerBound, effectiveRange.upperBound) - effectiveRange.lowerBound) / (effectiveRange.upperBound - effectiveRange.lowerBound)
+    let alpha = scale
+    let translation = absolutePosition.x < effectiveRange.upperBound ? effectiveRange.upperBound - absolutePosition.x : 0
+    view.alpha = alpha
+    view.transform = CGAffineTransform.identity.translatedBy(x: translation, y: 0).scaledBy(x: scale, y: scale)
+  }
+  
+  open override func delete(view: UIView, at: Int, frame: CGRect) {
+    view.transform = .identity
+    view.alpha = 1
     super.delete(view: view, at: at, frame: frame)
   }
 }

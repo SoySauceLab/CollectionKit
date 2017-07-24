@@ -103,6 +103,8 @@ open class CollectionView: UIScrollView {
     overlayView.frame = CGRect(origin: contentOffset, size: bounds.size)
     if bounds.size != lastReloadSize {
       reloadData()
+    } else {
+      loadCells()
     }
   }
 
@@ -118,7 +120,6 @@ open class CollectionView: UIScrollView {
   open override var contentOffset: CGPoint{
     didSet{
       scrollVelocity = contentOffset - oldValue
-      loadCells()
     }
   }
   var activeFrame: CGRect {

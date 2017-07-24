@@ -14,6 +14,7 @@ public class LabelCollectionProvider: SingleViewCollectionProvider {
     label.font = font
     label.textColor = color
     label.text = text
-    super.init(view: label, insets: insets)
+    label.numberOfLines = 0
+    super.init(view: label, sizeStrategy:.fillWidth(height: nil), insets: insets)
   }
 }

@@ -27,11 +27,18 @@ extension CGPoint {
   func distance(_ b: CGPoint) -> CGFloat {
     return sqrt(pow(self.x-b.x, 2)+pow(self.y-b.y, 2))
   }
+
+  var inverted: CGPoint {
+    return CGPoint(x: y, y: x)
+  }
 }
 
 extension CGSize {
   func insets(by: UIEdgeInsets) -> CGSize {
     return CGSize(width: width - by.left - by.right, height: height - by.top - by.bottom)
+  }
+  var inverted: CGSize {
+    return CGSize(width: height, height: width)
   }
 }
 
@@ -89,6 +96,9 @@ extension CGRect {
   init(center: CGPoint, size: CGSize) {
     self.origin = center - size / 2
     self.size = size
+  }
+  var inverted: CGRect {
+    return CGRect(origin: origin.inverted, size: size.inverted)
   }
 }
 

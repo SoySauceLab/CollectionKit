@@ -17,7 +17,8 @@ class ComposeViewController: UIViewController {
     super.viewDidLoad()
     view.addSubview(collectionView)
     
-    let defaultInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+    let bodyInset = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
+    let headerInset = UIEdgeInsets(top: 20, left: 16, bottom: 0, right: 16)
     let imageCollectionView = CollectionView()
     imageCollectionView.provider = CollectionProvider(
       dataProvider: ArrayDataProvider(data: testImages),
@@ -25,22 +26,36 @@ class ComposeViewController: UIViewController {
         view.image = data
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
-        view.yaal.rotation.setTo(CGFloat.random(-0.035, max: 0.035))
       }),
-      layoutProvider: HorizontalWaterfallLayoutProvider<UIImage>(insets: defaultInsets),
+      layoutProvider: WaterfallLayout<UIImage>(insets: bodyInset, axis: .horizontal),
       sizeProvider: ImageSizeProvider(),
       presenter: WobblePresenter()
     )
     
-    let labelSection = LabelCollectionProvider(text: "Section 1", font: .boldSystemFont(ofSize: 30), insets: defaultInsets)
-    let imageSection = SingleViewCollectionProvider(view: imageCollectionView, sizeStrategy: .fillWidth(height: 200))
-    let label2Section = LabelCollectionProvider(text: "Section 2", font: .boldSystemFont(ofSize: 30), insets: defaultInsets)
+    let titleSection = LabelCollectionProvider(text: "CollectionKit", font: .boldSystemFont(ofSize: 40), insets: headerInset)
+    let subtitleSection = LabelCollectionProvider(text: "A modern swift framework for building reusable collection view components.", font: .systemFont(ofSize: 22), insets: bodyInset)
+    
+    let label1Section = LabelCollectionProvider(text: "Section 1", font: .boldSystemFont(ofSize: 30), insets: headerInset)
+    let image1Section = SingleViewCollectionProvider(view: imageCollectionView, sizeStrategy: .fillWidth(height: 400))
+    let label2Section = LabelCollectionProvider(text: "Section 2", font: .boldSystemFont(ofSize: 30), insets: headerInset)
+    let image2Section = CollectionProvider(
+      dataProvider: ArrayDataProvider(data: testImages),
+      viewProvider: ClosureViewProvider(viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
+        view.image = data
+        view.layer.cornerRadius = 5
+        view.clipsToBounds = true
+      }),
+      layoutProvider: WaterfallLayout<UIImage>(insets: bodyInset, axis: .vertical),
+      sizeProvider: ImageSizeProvider(),
+      presenter: WobblePresenter()
+    )
     
     collectionView.provider = CollectionComposer(layoutProvider: FlowLayout(),
-      labelSection,
-      imageSection,
-      SpaceCollectionProvider(.fillWidth(height: 50)),
-      label2Section)
+      SpaceCollectionProvider(.fillWidth(height: 80)),
+      CollectionComposer(titleSection, subtitleSection),
+      CollectionComposer(label1Section, image1Section),
+      SpaceCollectionProvider(.fillWidth(height: 20)),
+      CollectionComposer(label2Section, image2Section))
   }
   
   override func viewDidLayoutSubviews() {
