@@ -10,7 +10,7 @@ import UIKit
 import YetAnotherAnimationLibrary
 
 open class CollectionView: UIScrollView {
-  public var provider: AnyCollectionProvider = EmptyCollectionProvider()
+  public var provider: AnyCollectionProvider = BaseCollectionProvider()
 
   public private(set) var hasReloaded = false
 
@@ -42,6 +42,11 @@ open class CollectionView: UIScrollView {
 
   public var tapGestureRecognizer = UITapGestureRecognizer()
 
+  public convenience init(provider: AnyCollectionProvider) {
+    self.init()
+    self.provider = provider
+  }
+  
   public override init(frame: CGRect) {
     super.init(frame: frame)
     commonInit()

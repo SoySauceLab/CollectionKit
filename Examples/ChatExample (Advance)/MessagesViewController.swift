@@ -17,7 +17,7 @@ class MessageDataProvider: ArrayDataProvider<Message> {
   }
 }
 
-class MessageLayout: CollectionLayoutProvider<Message> {
+class MessageLayout: CollectionLayout<Message> {
   override func layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Message>, sizeProvider: CollectionSizeProvider<Message>) {
     super.layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
     var lastMessage: Message?

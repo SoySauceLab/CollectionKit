@@ -8,28 +8,28 @@
 
 import UIKit
 
-public class SectionSizeProvider: CollectionSizeProvider<AnyCollectionProvider> {
-  public override func size(at: Int, data: AnyCollectionProvider, collectionSize: CGSize) -> CGSize {
+fileprivate class SectionSizeProvider: CollectionSizeProvider<AnyCollectionProvider> {
+  override func size(at: Int, data: AnyCollectionProvider, collectionSize: CGSize) -> CGSize {
     data.layout(collectionSize: collectionSize)
     return data.contentSize
   }
 }
 
-public class CollectionComposer<LayoutProvider> where LayoutProvider: CollectionLayoutProvider<AnyCollectionProvider> {
+public class CollectionComposer {
   public var sections: [AnyCollectionProvider]
 
   fileprivate var sectionBeginIndex:[Int] = []
   fileprivate var sectionForIndex:[Int] = []
 
-  var layoutProvider: LayoutProvider
+  var layoutProvider: CollectionLayout<AnyCollectionProvider>
 
-  public init(_ sections: [AnyCollectionProvider] = [], layoutProvider: LayoutProvider) {
+  public init(layoutProvider: CollectionLayout<AnyCollectionProvider> = FlowLayout(), _ sections: [AnyCollectionProvider] = []) {
     self.sections = sections
     self.layoutProvider = layoutProvider
   }
 
-  public convenience init(_ sections: AnyCollectionProvider..., layoutProvider: LayoutProvider) {
-    self.init(sections, layoutProvider: layoutProvider)
+  public convenience init(layoutProvider: CollectionLayout<AnyCollectionProvider> = FlowLayout(), _ sections: AnyCollectionProvider...) {
+    self.init(layoutProvider: layoutProvider, sections)
   }
 
   func indexPath(_ index: Int) -> (Int, Int) {

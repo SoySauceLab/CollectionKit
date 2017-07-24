@@ -1,5 +1,5 @@
 //
-//  CollectionLayoutProvider.swift
+//  CollectionLayout.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2017-07-20.
@@ -27,9 +27,10 @@ open class ClosureSizeProvider<Data>: CollectionSizeProvider<Data> {
   }
 }
 
-open class CollectionLayoutProvider<Data> {
+open class CollectionLayout<Data> {
   private let visibleIndexesManager = CollectionVisibleIndexesManager()
 
+  open var insets: UIEdgeInsets = .zero
   open var frames: [CGRect] = []
   open func layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: CollectionSizeProvider<Data>) {
     frames = []
@@ -37,7 +38,7 @@ open class CollectionLayoutProvider<Data> {
   
   private var _contentSize: CGSize = .zero
   internal func _layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: CollectionSizeProvider<Data>) {
-    layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
+    layout(collectionSize: collectionSize.insets(by: insets), dataProvider: dataProvider, sizeProvider: sizeProvider)
     visibleIndexesManager.reload(with: frames)
     _contentSize = frames.reduce(CGRect.zero) { (old, item) in
       old.union(item)
@@ -45,18 +46,20 @@ open class CollectionLayoutProvider<Data> {
   }
 
   open var contentSize: CGSize {
-    return _contentSize
+    return _contentSize.insets(by: -insets)
   }
   open func frame(at: Int) -> CGRect {
-    return frames[at]
+    return frames[at] + CGPoint(x: insets.left, y: insets.top)
   }
   open func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
-    return visibleIndexesManager.visibleIndexes(for: activeFrame)
+    return visibleIndexesManager.visibleIndexes(for: activeFrame - CGPoint(x: insets.left, y: insets.top))
   }
-  public init() {}
+  public init(insets: UIEdgeInsets = .zero) {
+    self.insets = insets
+  }
 }
 
-public class ClosureLayoutProvider<Data>: CollectionLayoutProvider<Data> {
+public class ClosureLayoutProvider<Data>: CollectionLayout<Data> {
   public var frameProvider: (Int, Data, CGSize) -> CGRect
 
   public init(frameProvider: @escaping (Int, Data, CGSize) -> CGRect) {
@@ -72,15 +75,15 @@ public class ClosureLayoutProvider<Data>: CollectionLayoutProvider<Data> {
   }
 }
 
-public class HorizontalWaterfallLayoutProvider<Data>: CollectionLayoutProvider<Data> {
+public class HorizontalWaterfallLayoutProvider<Data>: CollectionLayout<Data> {
   public var prefferedRowHeight: CGFloat
   private var numRows = 2
   private var rowWidth: [CGFloat] = [0, 0]
   private var maxSize = CGSize.zero
 
-  public init(prefferedRowHeight: CGFloat  = 180) {
+  public init(prefferedRowHeight: CGFloat  = 180, insets: UIEdgeInsets = .zero) {
     self.prefferedRowHeight = prefferedRowHeight
-    super.init()
+    super.init(insets: insets)
   }
 
   public override func layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: CollectionSizeProvider<Data>) {
@@ -112,12 +115,13 @@ public class HorizontalWaterfallLayoutProvider<Data>: CollectionLayoutProvider<D
   }
 }
 
-public class FlowLayout<Data>: CollectionLayoutProvider<Data> {
+public class FlowLayout<Data>: CollectionLayout<Data> {
   var padding: CGFloat
   
-  public init(padding: CGFloat = 0) {
+  public init(insets: UIEdgeInsets = .zero, padding: CGFloat = 0) {
     self.padding = padding
     super.init()
+    self.insets = insets
   }
 
   public override func layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: CollectionSizeProvider<Data>) {
@@ -127,12 +131,14 @@ public class FlowLayout<Data>: CollectionLayoutProvider<Data> {
     var currentRowMaxHeight: CGFloat = 0
     for i in 0..<dataProvider.numberOfItems {
       let size = sizeProvider.size(at: i, data: dataProvider.data(at: i), collectionSize: collectionSize)
-      currentRowMaxHeight = max(currentRowMaxHeight, size.height)
-      if offset.x + size.width > collectionSize.width {
+      if offset.x + size.width > collectionSize.width, offset.x != 0 {
         offset.x = 0
         offset.y += currentRowMaxHeight + padding
+        currentRowMaxHeight = 0
       }
+      currentRowMaxHeight = max(currentRowMaxHeight, size.height)
       let frame = CGRect(origin: offset, size: size)
+//      print(i, type(of: dataProvider.data(at: i)), frame)
       frames.append(frame)
       offset.x += size.width + padding
     }

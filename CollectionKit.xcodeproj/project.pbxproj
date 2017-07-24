@@ -18,7 +18,6 @@
 		B100C3FA1EA55B3200868840 /* DictionaryTwoWay.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100C3F91EA55B3200868840 /* DictionaryTwoWay.swift */; };
 		B100C3FC1EA55DB500868840 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100C3FB1EA55DB500868840 /* Util.swift */; };
 		B102FC591D10FE0100408DD6 /* HorizontalGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC581D10FE0100408DD6 /* HorizontalGalleryViewController.swift */; };
-		B102FC5B1D10FEB900408DD6 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC5A1D10FEB900408DD6 /* ImageCell.swift */; };
 		B102FC5D1D10FF5100408DD6 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC5C1D10FF5100408DD6 /* Random.swift */; };
 		B10A06281F20073C00069E17 /* CollectionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10A06271F20073C00069E17 /* CollectionPresenter.swift */; };
 		B10A062C1F20082600069E17 /* CollectionResponder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10A062B1F20082600069E17 /* CollectionResponder.swift */; };
@@ -29,6 +28,11 @@
 		B136E9A01D04BA5700D02FCA /* GridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B136E99F1D04BA5700D02FCA /* GridViewController.swift */; };
 		B148237C1F1E88430007A7E2 /* CollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B148237A1F1E87F60007A7E2 /* CollectionProvider.swift */; };
 		B15029151EA671E600F89915 /* YetAnotherAnimationLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */; };
+		B1688A271F25448900C229BD /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A261F25448900C229BD /* ComposeViewController.swift */; };
+		B1688A291F2562AC00C229BD /* SingleViewCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A281F2562AC00C229BD /* SingleViewCollectionProvider.swift */; };
+		B1688A2B1F25631200C229BD /* LabelCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A2A1F25631200C229BD /* LabelCollectionProvider.swift */; };
+		B1688A2D1F25632900C229BD /* SpaceCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A2C1F25632900C229BD /* SpaceCollectionProvider.swift */; };
+		B1688A2F1F2563A200C229BD /* AnyCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A2E1F2563A200C229BD /* AnyCollectionProvider.swift */; };
 		B19D64C91F23DCA800D02FDB /* CollectionReuseViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19E0BCF1F22B21C00214866 /* CollectionReuseViewManager.swift */; };
 		B19D64CF1F23DE8100D02FDB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B19D64CD1F23DE8100D02FDB /* Info.plist */; };
 		B19D64D01F23DE8100D02FDB /* MCollectionViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19D64CE1F23DE8100D02FDB /* MCollectionViewTests.swift */; };
@@ -97,7 +101,6 @@
 		B100C3F91EA55B3200868840 /* DictionaryTwoWay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DictionaryTwoWay.swift; sourceTree = "<group>"; };
 		B100C3FB1EA55DB500868840 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		B102FC581D10FE0100408DD6 /* HorizontalGalleryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizontalGalleryViewController.swift; sourceTree = "<group>"; };
-		B102FC5A1D10FEB900408DD6 /* ImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
 		B102FC5C1D10FF5100408DD6 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 		B10A06271F20073C00069E17 /* CollectionPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPresenter.swift; sourceTree = "<group>"; };
 		B10A062B1F20082600069E17 /* CollectionResponder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionResponder.swift; sourceTree = "<group>"; };
@@ -107,6 +110,11 @@
 		B136E99F1D04BA5700D02FCA /* GridViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridViewController.swift; sourceTree = "<group>"; };
 		B148237A1F1E87F60007A7E2 /* CollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionProvider.swift; sourceTree = "<group>"; };
 		B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YetAnotherAnimationLibrary.framework; path = Carthage/Build/iOS/YetAnotherAnimationLibrary.framework; sourceTree = "<group>"; };
+		B1688A261F25448900C229BD /* ComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ComposeViewController.swift; path = "Examples/ComposeExample'/ComposeViewController.swift"; sourceTree = SOURCE_ROOT; };
+		B1688A281F2562AC00C229BD /* SingleViewCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleViewCollectionProvider.swift; sourceTree = "<group>"; };
+		B1688A2A1F25631200C229BD /* LabelCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelCollectionProvider.swift; sourceTree = "<group>"; };
+		B1688A2C1F25632900C229BD /* SpaceCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpaceCollectionProvider.swift; sourceTree = "<group>"; };
+		B1688A2E1F2563A200C229BD /* AnyCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCollectionProvider.swift; sourceTree = "<group>"; };
 		B19D64CD1F23DE8100D02FDB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B19D64CE1F23DE8100D02FDB /* MCollectionViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCollectionViewTests.swift; sourceTree = "<group>"; };
 		B19E0BCF1F22B21C00214866 /* CollectionReuseViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionReuseViewManager.swift; sourceTree = "<group>"; };
@@ -154,6 +162,7 @@
 				A372A3681C79567A0023C797 /* MessageCell.swift */,
 				A3DDEECE1C7D88430053BFAE /* Messages.swift */,
 				A3FC21C91C6EE5AA008566BB /* MessagesViewController.swift */,
+				B1688A261F25448900C229BD /* ComposeViewController.swift */,
 			);
 			path = "ChatExample (Advance)";
 			sourceTree = "<group>";
@@ -163,6 +172,7 @@
 			children = (
 				A351C3451CE4CCD2005E15A7 /* CollectionView.swift */,
 				B148237A1F1E87F60007A7E2 /* CollectionProvider.swift */,
+				B1688A2E1F2563A200C229BD /* AnyCollectionProvider.swift */,
 				B1E861F51F21518700621BA0 /* CollectionLayoutProvider.swift */,
 				B1E861F21F21516E00621BA0 /* CollectionDataProvider.swift */,
 				B1E861EF1F21514E00621BA0 /* CollectionViewProvider.swift */,
@@ -172,6 +182,9 @@
 				B19E0BCF1F22B21C00214866 /* CollectionReuseViewManager.swift */,
 				B12F9B2E1E8067480085F37D /* CollectionDragManager.swift */,
 				B12A1BFE1F22B33C00D5C1C1 /* CollectionVisibleIndexesManager.swift */,
+				B1688A281F2562AC00C229BD /* SingleViewCollectionProvider.swift */,
+				B1688A2A1F25631200C229BD /* LabelCollectionProvider.swift */,
+				B1688A2C1F25632900C229BD /* SpaceCollectionProvider.swift */,
 				B12A1C001F22B3CC00D5C1C1 /* Extensions */,
 				B19D64CC1F23DE8100D02FDB /* CollectionKitTests */,
 			);
@@ -197,7 +210,6 @@
 			isa = PBXGroup;
 			children = (
 				B102FC581D10FE0100408DD6 /* HorizontalGalleryViewController.swift */,
-				B102FC5A1D10FEB900408DD6 /* ImageCell.swift */,
 			);
 			path = HorizontalGalleryExample;
 			sourceTree = "<group>";
@@ -459,10 +471,10 @@
 				A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */,
 				B136E9A01D04BA5700D02FCA /* GridViewController.swift in Sources */,
 				B102FC5D1D10FF5100408DD6 /* Random.swift in Sources */,
+				B1688A271F25448900C229BD /* ComposeViewController.swift in Sources */,
 				B100C3FC1EA55DB500868840 /* Util.swift in Sources */,
 				A3FC21CA1C6EE5AA008566BB /* MessagesViewController.swift in Sources */,
 				A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */,
-				B102FC5B1D10FEB900408DD6 /* ImageCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,6 +491,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B10A06281F20073C00069E17 /* CollectionPresenter.swift in Sources */,
+				B1688A2D1F25632900C229BD /* SpaceCollectionProvider.swift in Sources */,
 				B1B7B0611E7DAD2700F2483E /* Util.swift in Sources */,
 				B19D64C91F23DCA800D02FDB /* CollectionReuseViewManager.swift in Sources */,
 				B1E861F11F21515F00621BA0 /* CollectionViewProvider.swift in Sources */,
@@ -487,11 +500,14 @@
 				B1E861F41F21517400621BA0 /* CollectionDataProvider.swift in Sources */,
 				B100C3FA1EA55B3200868840 /* DictionaryTwoWay.swift in Sources */,
 				B10A062C1F20082600069E17 /* CollectionResponder.swift in Sources */,
+				B1688A291F2562AC00C229BD /* SingleViewCollectionProvider.swift in Sources */,
 				B1E861F91F21520200621BA0 /* CollectionComposer.swift in Sources */,
 				B12A1BFF1F22B38900D5C1C1 /* CollectionVisibleIndexesManager.swift in Sources */,
+				B1688A2F1F2563A200C229BD /* AnyCollectionProvider.swift in Sources */,
 				B12F9B301E8069530085F37D /* CollectionDragManager.swift in Sources */,
 				B1E861F71F21519900621BA0 /* CollectionLayoutProvider.swift in Sources */,
 				B148237C1F1E88430007A7E2 /* CollectionProvider.swift in Sources */,
+				B1688A2B1F25631200C229BD /* LabelCollectionProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

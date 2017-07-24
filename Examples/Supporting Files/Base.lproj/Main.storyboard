@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mgK-bW-0De">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="mgK-bW-0De">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -71,7 +75,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Advance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="MOZ-jG-SQc">
-                                                    <rect key="frame" x="15" y="25" width="49" height="14.5"/>
+                                                    <rect key="frame" x="15" y="25.5" width="49" height="14.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <nil key="textColor"/>
@@ -81,6 +85,26 @@
                                         </tableViewCellContentView>
                                         <connections>
                                             <segue destination="4Ci-Dg-TIK" kind="show" id="5DS-iv-SGH"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="zof-Q3-aWN" style="IBUITableViewCellStyleDefault" id="nW0-Y7-jdz">
+                                        <rect key="frame" x="0.0" y="132" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nW0-Y7-jdz" id="Ify-cI-8FI">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Composing View" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zof-Q3-aWN">
+                                                    <rect key="frame" x="15" y="0.0" width="345" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="nKE-Fg-oxl" kind="show" id="BhX-S8-7Rw"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
@@ -102,7 +126,7 @@
         <!--Grid View Controller-->
         <scene sceneID="zdz-bh-XIS">
             <objects>
-                <viewController id="5cu-tU-PHL" customClass="GridViewController" customModule="MCollectionViewExample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="5cu-tU-PHL" customClass="GridViewController" customModule="CollectionKitExample" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="aHs-YF-Fgh"/>
                         <viewControllerLayoutGuide type="bottom" id="eZO-Pc-Hp2"/>
@@ -120,7 +144,7 @@
         <!--Horizontal Gallery View Controller-->
         <scene sceneID="O0j-dF-51s">
             <objects>
-                <viewController id="rY3-Tn-GR4" customClass="HorizontalGalleryViewController" customModule="MCollectionViewExample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="rY3-Tn-GR4" customClass="HorizontalGalleryViewController" customModule="CollectionKitExample" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Fav-eJ-8Mh"/>
                         <viewControllerLayoutGuide type="bottom" id="Ycf-vy-v13"/>
@@ -138,7 +162,7 @@
         <!--Chat-->
         <scene sceneID="smO-nw-nso">
             <objects>
-                <viewController title="Chat" id="4Ci-Dg-TIK" customClass="MessagesViewController" customModule="MCollectionViewExample" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Chat" id="4Ci-Dg-TIK" customClass="MessagesViewController" customModule="CollectionKitExample" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8YV-m7-MbP"/>
                         <viewControllerLayoutGuide type="bottom" id="J4v-lN-aRh"/>
@@ -154,7 +178,28 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MWB-zL-bsB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="814" y="1774"/>
+            <point key="canvasLocation" x="263" y="1774"/>
+        </scene>
+        <!--Chat-->
+        <scene sceneID="owl-WO-oPk">
+            <objects>
+                <viewController title="Chat" id="nKE-Fg-oxl" customClass="ComposeViewController" customModule="CollectionKitExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="UO2-sG-Ir8"/>
+                        <viewControllerLayoutGuide type="bottom" id="jeo-2c-g80"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="i5f-8J-Uln">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Compose" id="CG5-sI-vIt">
+                        <barButtonItem key="backBarButtonItem" title="Chat" id="Q3j-dQ-j4j"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BkD-bJ-eAz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="970" y="1775"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="LCX-dJ-bIm">

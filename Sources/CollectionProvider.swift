@@ -8,50 +8,18 @@
 
 import UIKit
 
-public protocol AnyCollectionProvider {
-  // data
-  var numberOfItems: Int { get }
-  func identifier(at: Int) -> String
-
-  // view
-  func view(at: Int) -> UIView
-  func update(view: UIView, at: Int)
-
-  // layout
-  func layout(collectionSize: CGSize)
-
-  func visibleIndexes(activeFrame: CGRect) -> Set<Int>
-  var contentSize: CGSize { get }
-  func frame(at: Int) -> CGRect
-
-  // event
-  func willReload()
-  func didReload()
-  func willDrag(cell: UIView, at:Int) -> Bool
-  func didDrag(cell: UIView, at:Int)
-  func moveItem(at: Int, to: Int) -> Bool
-  func didTap(cell: UIView, at: Int)
-
-  // presentation
-  func prepareForPresentation(collectionView: CollectionView)
-  func shift(delta: CGPoint)
-  func insert(view: UIView, at: Int, frame: CGRect)
-  func delete(view: UIView, at: Int, frame: CGRect)
-  func update(view: UIView, at: Int, frame: CGRect)
-}
-
-public class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIView
+open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIView
 {
   public var dataProvider: CollectionDataProvider<Data>
   public var viewProvider: CollectionViewProvider<Data, View>
-  public var layoutProvider: CollectionLayoutProvider<Data>
+  public var layoutProvider: CollectionLayout<Data>
   public var sizeProvider: CollectionSizeProvider<Data>
   public var responder: CollectionResponder
   public var presenter: CollectionPresenter
 
   public init(dataProvider: CollectionDataProvider<Data>,
               viewProvider: CollectionViewProvider<Data, View>,
-              layoutProvider: CollectionLayoutProvider<Data> = FlowLayout<Data>(),
+              layoutProvider: CollectionLayout<Data> = FlowLayout<Data>(),
               sizeProvider: CollectionSizeProvider<Data> = CollectionSizeProvider<Data>(),
               responder: CollectionResponder = CollectionResponder(),
               presenter: CollectionPresenter = CollectionPresenter()) {
@@ -125,8 +93,45 @@ public class CollectionProvider<Data, View>: AnyCollectionProvider where View: U
   }
 }
 
-class EmptyCollectionProvider: CollectionProvider<Int, UIView> {
-  init() {
-    super.init(dataProvider: CollectionDataProvider<Int>(), viewProvider: CollectionViewProvider<Int, UIView>(), layoutProvider: CollectionLayoutProvider<Int>())
+open class BaseCollectionProvider: AnyCollectionProvider {
+  public init() {}
+  
+  open var numberOfItems: Int {
+    return 0
   }
+  open func view(at: Int) -> UIView {
+    return UIView()
+  }
+  open func update(view: UIView, at: Int) {}
+  open func identifier(at: Int) -> String {
+    return "\(at)"
+  }
+  
+  open var contentSize: CGSize {
+    return .zero
+  }
+  open func layout(collectionSize: CGSize) {}
+  open func frame(at: Int) -> CGRect {
+    return .zero
+  }
+  open func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
+    return Set<Int>()
+  }
+  
+  open func willReload() {}
+  open func didReload() {}
+  open func willDrag(cell: UIView, at:Int) -> Bool {
+    return false
+  }
+  open func didDrag(cell: UIView, at:Int) {}
+  open func moveItem(at: Int, to: Int) -> Bool {
+    return false
+  }
+  open func didTap(cell: UIView, at: Int) {}
+  
+  open func prepareForPresentation(collectionView: CollectionView) {}
+  open func shift(delta: CGPoint) {}
+  open func insert(view: UIView, at: Int, frame: CGRect) {}
+  open func delete(view: UIView, at: Int, frame: CGRect) {}
+  open func update(view: UIView, at: Int, frame: CGRect) {}
 }

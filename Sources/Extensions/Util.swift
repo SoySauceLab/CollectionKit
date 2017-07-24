@@ -28,6 +28,13 @@ extension CGPoint {
     return sqrt(pow(self.x-b.x, 2)+pow(self.y-b.y, 2))
   }
 }
+
+extension CGSize {
+  func insets(by: UIEdgeInsets) -> CGSize {
+    return CGSize(width: width - by.left - by.right, height: height - by.top - by.bottom)
+  }
+}
+
 func abs(_ left: CGPoint) -> CGPoint {
   return CGPoint(x: abs(left.x), y: abs(left.y))
 }
@@ -37,8 +44,14 @@ func min(_ left: CGPoint, _ right: CGPoint) -> CGPoint {
 func +(left: CGPoint, right: CGPoint) -> CGPoint {
   return CGPoint(x: left.x + right.x, y: left.y + right.y)
 }
+func +(left: CGRect, right: CGPoint) -> CGRect {
+  return CGRect(origin: left.origin + right, size: left.size)
+}
 func -(left: CGPoint, right: CGPoint) -> CGPoint {
   return CGPoint(x: left.x - right.x, y: left.y - right.y)
+}
+func -(left: CGRect, right: CGPoint) -> CGRect {
+  return CGRect(origin: left.origin - right, size: left.size)
 }
 func /(left: CGPoint, right: CGFloat) -> CGPoint {
   return CGPoint(x: left.x/right, y: left.y/right)
