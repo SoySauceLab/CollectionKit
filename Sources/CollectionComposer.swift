@@ -144,4 +144,14 @@ extension CollectionComposer: AnyCollectionProvider {
     let (sectionIndex, item) = indexPath(at)
     sections[sectionIndex].update(view: view, at: item, frame: frame)
   }
+  
+  public func hasContext(_ context: CollectionContext) -> Bool {
+    if context === self { return true }
+    for section in sections {
+      if section.hasContext(context) {
+        return true
+      }
+    }
+    return false
+  }
 }

@@ -10,12 +10,12 @@ import UIKit
 
 open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIView
 {
-  public var dataProvider: CollectionDataProvider<Data>
-  public var viewProvider: CollectionViewProvider<Data, View>
-  public var layout: CollectionLayout<Data>
-  public var sizeProvider: CollectionSizeProvider<Data>
-  public var responder: CollectionResponder<Data>
-  public var presenter: CollectionPresenter
+  public var dataProvider: CollectionDataProvider<Data> { didSet { setNeedsReload() } }
+  public var viewProvider: CollectionViewProvider<Data, View> { didSet { setNeedsReload() } }
+  public var layout: CollectionLayout<Data> { didSet { setNeedsReload() } }
+  public var sizeProvider: CollectionSizeProvider<Data> { didSet { setNeedsReload() } }
+  public var responder: CollectionResponder<Data> { didSet { setNeedsReload() } }
+  public var presenter: CollectionPresenter { didSet { setNeedsReload() } }
 
   public init(dataProvider: CollectionDataProvider<Data>,
               viewProvider: CollectionViewProvider<Data, View>,
@@ -90,6 +90,9 @@ open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIV
   }
   public func update(view: UIView, at: Int, frame: CGRect) {
     presenter.update(view: view, at: at, frame: frame)
+  }
+  public func hasContext(_ context: CollectionContext) -> Bool {
+    return context === self || context === dataProvider || context === responder
   }
 }
 

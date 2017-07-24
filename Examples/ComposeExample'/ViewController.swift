@@ -73,8 +73,9 @@ let presenterSection: AnyCollectionProvider = {
   providerCollectionView.provider = provider
   
   let buttonsCollectionView = CollectionView()
+  let buttonsDataProvider = ArrayDataProvider(data: presenters)
   let buttonsProvider = CollectionProvider(
-    dataProvider: ArrayDataProvider(data: presenters),
+    dataProvider: buttonsDataProvider,
     viewProvider: ClosureViewProvider(viewUpdater: { (view: SelectionButton, data: (String, CollectionPresenter), at: Int) in
       view.text = data.0
       view.backgroundColor = provider.presenter === data.1 ? .lightGray : .white
@@ -83,10 +84,9 @@ let presenterSection: AnyCollectionProvider = {
     sizeProvider: ClosureSizeProvider(sizeProvider: { _, data, maxSize in
       return CGSize(width: data.0.width(withConstraintedHeight: maxSize.height, font: UIFont.systemFont(ofSize:18)) + 20, height: maxSize.height)
     }),
-    responder: ClosureResponder(onTap: { [weak buttonsCollectionView] _, data, _ in
+    responder: ClosureResponder(onTap: { _, data, _ in
       provider.presenter = data.1
-      providerCollectionView.reloadData()
-      buttonsCollectionView?.reloadData()
+      buttonsDataProvider.reloadData()
     }),
     presenter: WobblePresenter()
   )

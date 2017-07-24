@@ -10,9 +10,14 @@ import UIKit
 import YetAnotherAnimationLibrary
 
 open class CollectionView: UIScrollView {
-  public var provider: AnyCollectionProvider = BaseCollectionProvider()
+  public var provider: AnyCollectionProvider = BaseCollectionProvider() {
+    didSet {
+      setNeedsReload()
+    }
+  }
 
   public private(set) var hasReloaded = false
+  public private(set) var needsReload = false
 
   public var minimumContentSize: CGSize = .zero {
     didSet{
@@ -58,6 +63,8 @@ open class CollectionView: UIScrollView {
   }
 
   func commonInit() {
+    CollectionViewManager.shared.register(collectionView: self)
+
     tapGestureRecognizer.addTarget(self, action: #selector(tap(gr:)))
     addGestureRecognizer(tapGestureRecognizer)
 
@@ -101,7 +108,7 @@ open class CollectionView: UIScrollView {
   open override func layoutSubviews() {
     super.layoutSubviews()
     overlayView.frame = CGRect(origin: contentOffset, size: bounds.size)
-    if bounds.size != lastReloadSize {
+    if needsReload || bounds.size != lastReloadSize {
       reloadData()
     } else {
       loadCells()
@@ -164,6 +171,7 @@ open class CollectionView: UIScrollView {
   public func reloadData(contentOffsetAdjustFn: (()->CGPoint)? = nil) {
     provider.willReload()
     reloading = true
+    needsReload = false
     lastReloadSize = bounds.size
     provider.layout(collectionSize: innerSize)
     provider.prepareForPresentation(collectionView: self)
@@ -254,6 +262,11 @@ open class CollectionView: UIScrollView {
     reloading = false
     hasReloaded = true
     provider.didReload()
+  }
+  
+  public func setNeedsReload() {
+    needsReload = true
+    setNeedsLayout()
   }
 
   fileprivate func disappearCell(at index: Int) {

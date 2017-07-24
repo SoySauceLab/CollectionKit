@@ -13,6 +13,7 @@ open class CollectionLayout<Data> {
 
   open var insets: UIEdgeInsets = .zero
   open var frames: [CGRect] = []
+
   open func layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: CollectionSizeProvider<Data>) {
     frames = []
   }
@@ -29,12 +30,15 @@ open class CollectionLayout<Data> {
   open var contentSize: CGSize {
     return _contentSize.insets(by: -insets)
   }
+
   open func frame(at: Int) -> CGRect {
     return frames[at] + CGPoint(x: insets.left, y: insets.top)
   }
+
   open func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
     return visibleIndexesManager.visibleIndexes(for: activeFrame - CGPoint(x: insets.left, y: insets.top))
   }
+
   public init(insets: UIEdgeInsets = .zero) {
     self.insets = insets
   }

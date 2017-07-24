@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CollectionResponder<Data> {
+open class CollectionResponder<Data>: CollectionContext {
   open func willReload() {}
   open func didReload() {}
   open func willDrag(view: UIView, data: Data, at index:Int) -> Bool { return false }
