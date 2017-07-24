@@ -12,7 +12,7 @@ import YetAnotherAnimationLibrary
 open class CollectionPresenter {
   open func prepare(collectionView: CollectionView) {}
   open func insert(view: UIView, at: Int, frame: CGRect) {
-    view.bounds = frame.bounds
+    view.bounds.size = frame.bounds.size
     view.center = frame.center
   }
   open func delete(view: UIView, at: Int, frame: CGRect) {
@@ -20,7 +20,7 @@ open class CollectionPresenter {
     CollectionReuseViewManager.shared.queue(view: view)
   }
   open func update(view: UIView, at: Int, frame: CGRect) {
-    view.bounds = frame.bounds
+    view.bounds.size = frame.bounds.size
     view.center = frame.center
   }
   open func shift(delta: CGPoint) {}
@@ -56,7 +56,7 @@ open class WobblePresenter: CollectionPresenter {
   }
   
   open override func update(view: UIView, at: Int, frame: CGRect) {
-    view.bounds = frame.bounds
+    view.bounds.size = frame.bounds.size
     let cellDiff = frame.center - contentOffset - screenDragLocation
     let resistance = (cellDiff * sensitivity).distance(.zero) / 1000
     let newCenterDiff = delta * resistance
