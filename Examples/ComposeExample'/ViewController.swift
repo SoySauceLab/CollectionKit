@@ -1,5 +1,5 @@
 //
-//  ComposeViewController.swift
+//  ViewController.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2017-07-23.
@@ -9,16 +9,25 @@
 import UIKit
 import CollectionKit
 
-class ComposeViewController: UIViewController {
+let bodyInset = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
+let headerInset = UIEdgeInsets(top: 20, left: 16, bottom: 0, right: 16)
+
+func section(title: String, provider: AnyCollectionProvider) -> AnyCollectionProvider {
+  let titleSection = LabelCollectionProvider(text: title, font: .boldSystemFont(ofSize: 30), insets: headerInset)
+  return CollectionComposer(titleSection, provider)
+}
+
+func space(_ height: CGFloat) -> AnyCollectionProvider {
+  return SpaceCollectionProvider(.fillWidth(height: height))
+}
+
+class ViewController: UIViewController {
   
-  let collectionView = CollectionView()
+  @IBOutlet var collectionView: CollectionView!
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.addSubview(collectionView)
     
-    let bodyInset = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
-    let headerInset = UIEdgeInsets(top: 20, left: 16, bottom: 0, right: 16)
     let imageCollectionView = CollectionView()
     imageCollectionView.provider = CollectionProvider(
       dataProvider: ArrayDataProvider(data: testImages),
@@ -34,10 +43,8 @@ class ComposeViewController: UIViewController {
     
     let titleSection = LabelCollectionProvider(text: "CollectionKit", font: .boldSystemFont(ofSize: 40), insets: headerInset)
     let subtitleSection = LabelCollectionProvider(text: "A modern swift framework for building reusable collection view components.", font: .systemFont(ofSize: 22), insets: bodyInset)
-    
-    let label1Section = LabelCollectionProvider(text: "Section 1", font: .boldSystemFont(ofSize: 30), insets: headerInset)
+
     let image1Section = SingleViewCollectionProvider(view: imageCollectionView, sizeStrategy: .fillWidth(height: 400))
-    let label2Section = LabelCollectionProvider(text: "Section 2", font: .boldSystemFont(ofSize: 30), insets: headerInset)
     let image2Section = CollectionProvider(
       dataProvider: ArrayDataProvider(data: testImages),
       viewProvider: ClosureViewProvider(viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
@@ -51,18 +58,11 @@ class ComposeViewController: UIViewController {
     )
     
     collectionView.provider = CollectionComposer(layoutProvider: FlowLayout(),
-      SpaceCollectionProvider(.fillWidth(height: 80)),
-      CollectionComposer(titleSection, subtitleSection),
-      CollectionComposer(label1Section, image1Section),
-      SpaceCollectionProvider(.fillWidth(height: 20)),
-      CollectionComposer(label2Section, image2Section))
+                                                 space(100),
+                                                 CollectionComposer(titleSection, subtitleSection),
+                                                 section(title: "Horizontal Waterfall Layout", provider: image1Section),
+                                                 space(20),
+                                                 section(title: "Vertical Waterfall Layout", provider: image2Section))
   }
-  
-  override func viewDidLayoutSubviews() {
-    super.viewDidLayoutSubviews()
-    collectionView.frame = view.bounds
-    collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length, 0, 0, 0)
-  }
-
 }
 

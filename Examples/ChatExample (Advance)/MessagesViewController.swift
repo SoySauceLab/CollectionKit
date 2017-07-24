@@ -11,7 +11,7 @@ import CollectionKit
 
 class MessageDataProvider: ArrayDataProvider<Message> {
   init() {
-    super.init(data: TestMessages, identifierMapper: { (_, data) in
+    super.init(data: testMessages, identifierMapper: { (_, data) in
       return data.identifier
     })
   }
@@ -169,23 +169,10 @@ class MessagesViewController: UIViewController {
   }
 }
 
-extension String {
-  static func random(length: Int = 20) -> String {
-    let base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-    var randomString: String = ""
-    
-    for _ in 0..<length {
-      let randomValue = arc4random_uniform(UInt32(base.characters.count))
-      randomString += "\(base[base.index(base.startIndex, offsetBy: Int(randomValue))])"
-    }
-    return randomString
-  }
-}
-
 // For sending new messages
 extension MessagesViewController {
   func send() {
-    let text = String.random()
+    let text = UUID().uuidString
     
     dataProvider.data.append(Message(true, content: text))
     presenter.sendingMessage = true
@@ -211,7 +198,7 @@ extension MessagesViewController: UIScrollViewDelegate {
       !loading {
       loading = true
       delay(0.5) { // Simulate network request
-        let newMessages = TestMessages.map{ $0.copy() }
+        let newMessages = testMessages.map{ $0.copy() }
         self.dataProvider.data = newMessages + self.dataProvider.data
         let bottomOffset = self.collectionView.offsetFrame.maxY - self.collectionView.contentOffset.y
         self.collectionView.reloadData() {
