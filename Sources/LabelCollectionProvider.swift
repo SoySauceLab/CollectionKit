@@ -8,13 +8,13 @@
 
 import UIKit
 
-public class LabelCollectionProvider: SingleViewCollectionProvider {
+public class LabelCollectionProvider: ViewCollectionProvider {
   public init(text: String, font: UIFont = .systemFont(ofSize: 12), color: UIColor = .black, insets: UIEdgeInsets = .zero) {
     let label = UILabel()
     label.font = font
     label.textColor = color
     label.text = text
     label.numberOfLines = 0
-    super.init(view: label, sizeStrategy:.fillWidth(height: nil), insets: insets)
+    super.init(label, sizeStrategy:.fillWidth(height: nil), insets: insets)
   }
 }

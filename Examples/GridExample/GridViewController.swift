@@ -41,7 +41,7 @@ class GridViewController: UIViewController {
              width: kGridCellSize.width,
              height: kGridCellSize.height)
     })
-    let responder = ClosureResponder(canDrag: { _, _ in return true }, onMove: { [weak self] from, to in
+    let responder = ClosureResponder<Int>(canDrag: { _, _, _ in return true }, onMove: { [weak self] from, _, to in
       guard let this = self else { return false }
       this.items.insert(this.items.remove(at: from), at: to)
       dataProvider.data = this.items

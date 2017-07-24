@@ -14,14 +14,14 @@ open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIV
   public var viewProvider: CollectionViewProvider<Data, View>
   public var layout: CollectionLayout<Data>
   public var sizeProvider: CollectionSizeProvider<Data>
-  public var responder: CollectionResponder
+  public var responder: CollectionResponder<Data>
   public var presenter: CollectionPresenter
 
   public init(dataProvider: CollectionDataProvider<Data>,
               viewProvider: CollectionViewProvider<Data, View>,
               layout: CollectionLayout<Data> = FlowLayout<Data>(),
               sizeProvider: CollectionSizeProvider<Data> = CollectionSizeProvider<Data>(),
-              responder: CollectionResponder = CollectionResponder(),
+              responder: CollectionResponder<Data> = CollectionResponder<Data>(),
               presenter: CollectionPresenter = CollectionPresenter()) {
     self.dataProvider = dataProvider
     self.viewProvider = viewProvider
@@ -63,17 +63,17 @@ open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIV
   public func didReload() {
     responder.didReload()
   }
-  public func willDrag(cell: UIView, at:Int) -> Bool {
-    return responder.willDrag(cell: cell, at: at)
+  public func willDrag(view: UIView, at:Int) -> Bool {
+    return responder.willDrag(view: view, data: dataProvider.data(at: at), at: at)
   }
-  public func didDrag(cell: UIView, at:Int) {
-    responder.didDrag(cell: cell, at: at)
+  public func didDrag(view: UIView, at:Int) {
+    responder.didDrag(view: view, data: dataProvider.data(at: at), at: at)
   }
   public func moveItem(at: Int, to: Int) -> Bool {
-    return responder.moveItem(at: at, to: to)
+    return responder.moveItem(at: at, data: dataProvider.data(at: at), to: to)
   }
-  public func didTap(cell: UIView, at: Int) {
-    responder.didTap(cell: cell, index: at)
+  public func didTap(view: UIView, at: Int) {
+    responder.didTap(view: view, data: dataProvider.data(at: at), at: at)
   }
   
   public func prepareForPresentation(collectionView: CollectionView) {
@@ -120,14 +120,14 @@ open class BaseCollectionProvider: AnyCollectionProvider {
   
   open func willReload() {}
   open func didReload() {}
-  open func willDrag(cell: UIView, at:Int) -> Bool {
+  open func willDrag(view: UIView, at:Int) -> Bool {
     return false
   }
-  open func didDrag(cell: UIView, at:Int) {}
+  open func didDrag(view: UIView, at:Int) {}
   open func moveItem(at: Int, to: Int) -> Bool {
     return false
   }
-  open func didTap(cell: UIView, at: Int) {}
+  open func didTap(view: UIView, at: Int) {}
   
   open func prepareForPresentation(collectionView: CollectionView) {}
   open func shift(delta: CGPoint) {}

@@ -85,7 +85,7 @@ open class CollectionView: UIScrollView {
   @objc func tap(gr: UITapGestureRecognizer) {
     for cell in visibleCells {
       if cell.point(inside: gr.location(in: cell), with: nil) {
-        provider.didTap(cell: cell, at: visibleCellToIndexMap[cell]!)
+        provider.didTap(view: cell, at: visibleCellToIndexMap[cell]!)
         return
       }
     }

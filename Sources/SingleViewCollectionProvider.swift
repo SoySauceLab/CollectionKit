@@ -8,27 +8,28 @@
 
 import UIKit
 
-public class SingleViewCollectionProvider: CollectionProvider<UIView, UIView> {
-  private class SingleViewProvider: CollectionViewProvider<UIView, UIView> {
-    var view: UIView
-    init(view: UIView) {
-      self.view = view
+public class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
+  private class ViewProvider: CollectionViewProvider<UIView, UIView> {
+    var views: [UIView]
+    init(views: [UIView]) {
+      self.views = views
       super.init()
     }
     override func view(at: Int) -> UIView {
-      return view
+      return views[at]
     }
   }
   
-  public enum SingleViewSizeStrategy {
+  public enum ViewSizeStrategy {
     case sizeThatFits
     case fillWidth(height: CGFloat?)
     case fillHeight(width: CGFloat?)
     case absolute(size: CGSize)
   }
-  public init(view: UIView, sizeStrategy: SingleViewSizeStrategy = .sizeThatFits, insets: UIEdgeInsets = .zero) {
-    super.init(dataProvider: ArrayDataProvider(data: [view]),
-               viewProvider: SingleViewProvider(view: view),
+
+  public init(_ views: UIView..., sizeStrategy: ViewSizeStrategy = .sizeThatFits, insets: UIEdgeInsets = .zero) {
+    super.init(dataProvider: ArrayDataProvider(data: views),
+               viewProvider: ViewProvider(views: views),
                sizeProvider: ClosureSizeProvider(sizeProvider: { (_, view, size) -> CGSize in
                 let fitSize = view.sizeThatFits(size)
                 switch sizeStrategy {

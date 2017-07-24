@@ -102,13 +102,13 @@ extension CollectionComposer: AnyCollectionProvider {
       section.didReload()
     }
   }
-  public func willDrag(cell: UIView, at index:Int) -> Bool {
+  public func willDrag(view: UIView, at index:Int) -> Bool {
     let (sectionIndex, item) = indexPath(index)
-    return sections[sectionIndex].willDrag(cell: cell, at: item)
+    return sections[sectionIndex].willDrag(view: view, at: item)
   }
-  public func didDrag(cell: UIView, at index:Int) {
+  public func didDrag(view: UIView, at index:Int) {
     let (sectionIndex, item) = indexPath(index)
-    sections[sectionIndex].didDrag(cell: cell, at: item)
+    sections[sectionIndex].didDrag(view: view, at: item)
   }
   public func moveItem(at index: Int, to: Int) -> Bool {
     let (fromSection, fromItem) = indexPath(index)
@@ -118,9 +118,9 @@ extension CollectionComposer: AnyCollectionProvider {
     }
     return false
   }
-  public func didTap(cell: UIView, at: Int) {
+  public func didTap(view: UIView, at: Int) {
     let (sectionIndex, item) = indexPath(at)
-    sections[sectionIndex].didTap(cell: cell, at: item)
+    sections[sectionIndex].didTap(view: view, at: item)
   }
   public func prepareForPresentation(collectionView: CollectionView) {
     for section in sections {

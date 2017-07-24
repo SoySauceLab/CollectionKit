@@ -27,10 +27,10 @@ public protocol AnyCollectionProvider {
   // event
   func willReload()
   func didReload()
-  func willDrag(cell: UIView, at:Int) -> Bool
-  func didDrag(cell: UIView, at:Int)
+  func willDrag(view: UIView, at:Int) -> Bool
+  func didDrag(view: UIView, at:Int)
   func moveItem(at: Int, to: Int) -> Bool
-  func didTap(cell: UIView, at: Int)
+  func didTap(view: UIView, at: Int)
   
   // presentation
   func prepareForPresentation(collectionView: CollectionView)

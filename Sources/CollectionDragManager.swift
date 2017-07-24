@@ -103,7 +103,7 @@ class CollectionDragManager: NSObject {
       if let index = collectionView.indexForCell(at: gestureRecognizer.location(in: collectionView)),
         let cell = collectionView.cell(at: index),
         !collectionView.isFloating(cell: cell),
-        collectionView.provider.willDrag(cell: cell, at: index) == true {
+        collectionView.provider.willDrag(view: cell, at: index) == true {
         addNextLongPressGesture()
         collectionView.panGestureRecognizer.isEnabled = false
         collectionView.panGestureRecognizer.isEnabled = true
@@ -124,7 +124,7 @@ class CollectionDragManager: NSObject {
         let cell = moveContext.cell
         if let index = collectionView.index(for: cell), collectionView.isFloating(cell: cell) {
           collectionView.unfloat(cell: cell)
-          collectionView.provider.didDrag(cell: cell, at: index)
+          collectionView.provider.didDrag(view: cell, at: index)
         }
       }
       break
