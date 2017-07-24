@@ -18,7 +18,8 @@ extension UIView {
     set { objc_setAssociatedObject(self, &AssociatedKeys.reuseManager, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
   }
   
-  internal func recycle() {
+  public func recycleForCollectionKitReuse() {
+    removeFromSuperview()
     reuseManager?.queue(view: self)
   }
 }

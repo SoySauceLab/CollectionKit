@@ -17,7 +17,7 @@ open class CollectionPresenter {
   }
   open func delete(view: UIView, at: Int, frame: CGRect) {
     view.removeFromSuperview()
-    view.recycle()
+    view.recycleForCollectionKitReuse()
   }
   open func update(view: UIView, at: Int, frame: CGRect) {
     view.bounds.size = frame.bounds.size
