@@ -9,8 +9,9 @@
 import UIKit
 
 open class CollectionViewProvider<Data, View: UIView>  {
+  lazy var reuseManager = CollectionReuseViewManager()
   open func view(at: Int) -> View {
-    return CollectionReuseViewManager.shared.dequeue(View.self)
+    return reuseManager.dequeue(View.self)
   }
   open func update(view: View, with data: Data, at: Int) {
   }

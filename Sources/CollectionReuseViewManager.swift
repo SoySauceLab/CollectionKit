@@ -12,29 +12,30 @@ public protocol CollectionViewReusableView: class {
   func prepareForReuse()
 }
 
-public class CollectionReuseViewManager {
-  public static let shared = CollectionReuseViewManager()
-
+public class CollectionReuseViewManager: NSObject {
   var reusableViews: [String:[UIView]] = [:]
   var cleanupTimer: Timer?
+  public var lifeSpan: TimeInterval = 0.25
 
   public func queue(view: UIView) {
     let identifier = String(describing: type(of: view))
+    view.reuseManager = nil
     if reusableViews[identifier] != nil && !reusableViews[identifier]!.contains(view) {
       reusableViews[identifier]?.append(view)
     } else {
       reusableViews[identifier] = [view]
     }
     cleanupTimer?.invalidate()
-    cleanupTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(cleanup), userInfo: nil, repeats: false)
+    cleanupTimer = Timer.scheduledTimer(timeInterval: lifeSpan, target: self, selector: #selector(cleanup), userInfo: nil, repeats: false)
   }
   
   public func dequeue<T: UIView> (_ viewClass: T.Type) -> T {
-    let cell = reusableViews[String(describing: viewClass)]?.popLast() as? T ?? T()
-    if let cell = cell as? CollectionViewReusableView {
-      cell.prepareForReuse()
+    let view = reusableViews[String(describing: viewClass)]?.popLast() as? T ?? T()
+    if let view = view as? CollectionViewReusableView {
+      view.prepareForReuse()
     }
-    return cell
+    view.reuseManager = self
+    return view
   }
   
   @objc func cleanup() {

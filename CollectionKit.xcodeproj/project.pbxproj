@@ -27,6 +27,7 @@
 		B12F9B301E8069530085F37D /* CollectionDragManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B12F9B2E1E8067480085F37D /* CollectionDragManager.swift */; };
 		B136E9A01D04BA5700D02FCA /* GridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B136E99F1D04BA5700D02FCA /* GridViewController.swift */; };
 		B148237C1F1E88430007A7E2 /* CollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B148237A1F1E87F60007A7E2 /* CollectionProvider.swift */; };
+		B14B0DFD1F2679E7003E5105 /* UIView+CollectionKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0DFB1F2679E4003E5105 /* UIView+CollectionKit.swift */; };
 		B15029151EA671E600F89915 /* YetAnotherAnimationLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */; };
 		B1688A271F25448900C229BD /* ComposeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A261F25448900C229BD /* ComposeViewController.swift */; };
 		B1688A291F2562AC00C229BD /* SingleViewCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A281F2562AC00C229BD /* SingleViewCollectionProvider.swift */; };
@@ -109,6 +110,7 @@
 		B12F9B2E1E8067480085F37D /* CollectionDragManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDragManager.swift; sourceTree = "<group>"; };
 		B136E99F1D04BA5700D02FCA /* GridViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridViewController.swift; sourceTree = "<group>"; };
 		B148237A1F1E87F60007A7E2 /* CollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionProvider.swift; sourceTree = "<group>"; };
+		B14B0DFB1F2679E4003E5105 /* UIView+CollectionKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+CollectionKit.swift"; sourceTree = "<group>"; };
 		B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YetAnotherAnimationLibrary.framework; path = Carthage/Build/iOS/YetAnotherAnimationLibrary.framework; sourceTree = "<group>"; };
 		B1688A261F25448900C229BD /* ComposeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ComposeViewController.swift; path = "Examples/ComposeExample'/ComposeViewController.swift"; sourceTree = SOURCE_ROOT; };
 		B1688A281F2562AC00C229BD /* SingleViewCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleViewCollectionProvider.swift; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 			children = (
 				B1B7B0531E7DAD1F00F2483E /* Info.plist */,
 				B1A54FAC1EA3E0ED00A96112 /* UIScrollView+CollectionKit.swift */,
+				B14B0DFB1F2679E4003E5105 /* UIView+CollectionKit.swift */,
 				A351C3461CE4CCD2005E15A7 /* Util.swift */,
 				B100C3F91EA55B3200868840 /* DictionaryTwoWay.swift */,
 			);
@@ -495,6 +498,7 @@
 				B1B7B0611E7DAD2700F2483E /* Util.swift in Sources */,
 				B19D64C91F23DCA800D02FDB /* CollectionReuseViewManager.swift in Sources */,
 				B1E861F11F21515F00621BA0 /* CollectionViewProvider.swift in Sources */,
+				B14B0DFD1F2679E7003E5105 /* UIView+CollectionKit.swift in Sources */,
 				B1A54FAD1EA3E0ED00A96112 /* UIScrollView+CollectionKit.swift in Sources */,
 				B1B7B05F1E7DAD2700F2483E /* CollectionView.swift in Sources */,
 				B1E861F41F21517400621BA0 /* CollectionDataProvider.swift in Sources */,
