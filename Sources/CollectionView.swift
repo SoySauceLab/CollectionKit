@@ -166,6 +166,11 @@ open class CollectionView: UIScrollView {
     }
     loading = false
   }
+  
+  public func invalidateLayout() {
+    provider.layout(collectionSize: innerSize)
+    loadCells()
+  }
 
   // reload all frames. will automatically diff insertion & deletion
   public func reloadData(contentOffsetAdjustFn: (()->CGPoint)? = nil) {
