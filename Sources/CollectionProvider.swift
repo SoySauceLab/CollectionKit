@@ -38,72 +38,73 @@ open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIV
     self.presenter = presenter
   }
   
-  public var numberOfItems: Int {
+  open var numberOfItems: Int {
     return dataProvider.numberOfItems
   }
-  public func view(at: Int) -> UIView {
+  open func view(at: Int) -> UIView {
     return viewProvider.view(at: at)
   }
-  public func update(view: UIView, at: Int) {
+  open func update(view: UIView, at: Int) {
     viewProvider.update(view: view as! View, with: dataProvider.data(at: at), at: at)
   }
-  public func identifier(at: Int) -> String {
+  open func identifier(at: Int) -> String {
     return dataProvider.identifier(at: at)
   }
 
-  public func layout(collectionSize: CGSize) {
+  open func layout(collectionSize: CGSize) {
     layout._layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
   }
-  public var contentSize: CGSize {
+  open var contentSize: CGSize {
     return layout.contentSize
   }
-  public func frame(at: Int) -> CGRect {
+  open func frame(at: Int) -> CGRect {
     return layout.frame(at: at)
   }
-  public func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
+  open func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
     return layout.visibleIndexes(activeFrame: activeFrame)
   }
 
-  public func willReload() {
+  open func willReload() {
     responder.willReload()
   }
-  public func didReload() {
+  open func didReload() {
     responder.didReload()
   }
-  public func willDrag(view: UIView, at:Int) -> Bool {
+  open func willDrag(view: UIView, at:Int) -> Bool {
     return responder.willDrag(view: view, at: at, dataProvider: dataProvider)
   }
-  public func didDrag(view: UIView, at:Int) {
+  open func didDrag(view: UIView, at:Int) {
     responder.didDrag(view: view, at: at, dataProvider: dataProvider)
   }
-  public func moveItem(at: Int, to: Int) -> Bool {
+  open func moveItem(at: Int, to: Int) -> Bool {
     return responder.moveItem(at: at, to: to, dataProvider: dataProvider)
   }
-  public func didTap(view: UIView, at: Int) {
+  open func didTap(view: UIView, at: Int) {
     responder.didTap(view: view, at: at, dataProvider: dataProvider)
   }
   
-  public func prepareForPresentation(collectionView: CollectionView) {
+  open func prepareForPresentation(collectionView: CollectionView) {
     presenter.prepare(collectionView: collectionView)
   }
-  public func shift(delta: CGPoint) {
+  open func shift(delta: CGPoint) {
     presenter.shift(delta: delta)
   }
-  public func insert(view: UIView, at: Int, frame: CGRect) {
+  open func insert(view: UIView, at: Int, frame: CGRect) {
     presenter.insert(view: view, at: at, frame: frame)
   }
-  public func delete(view: UIView, at: Int, frame: CGRect) {
+  open func delete(view: UIView, at: Int, frame: CGRect) {
     presenter.delete(view: view, at: at, frame: frame)
   }
-  public func update(view: UIView, at: Int, frame: CGRect) {
+  open func update(view: UIView, at: Int, frame: CGRect) {
     presenter.update(view: view, at: at, frame: frame)
   }
-  public func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
+  open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     return reloadable === self || reloadable === dataProvider || reloadable === responder
   }
 }
 
 open class BaseCollectionProvider: AnyCollectionProvider {
+
   public init() {}
   
   open var numberOfItems: Int {

@@ -15,15 +15,23 @@ fileprivate class SectionSizeProvider: CollectionSizeProvider<AnyCollectionProvi
   }
 }
 
-public class CollectionComposer {
-  public var sections: [AnyCollectionProvider]
+open class CollectionComposer {
+  public var sections: [AnyCollectionProvider] {
+    didSet{
+      setNeedsReload()
+    }
+  }
 
   fileprivate var sectionBeginIndex:[Int] = []
   fileprivate var sectionForIndex:[Int] = []
 
+  fileprivate var lastReloadSections: [AnyCollectionProvider] = []
+  fileprivate var lastSectionBeginIndex:[Int] = []
+  fileprivate var lastSectionForIndex:[Int] = []
+
   var layout: CollectionLayout<AnyCollectionProvider>
 
-  public init(layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(), _ sections: [AnyCollectionProvider] = []) {
+  public init(layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(), _ sections: [AnyCollectionProvider]) {
     self.sections = sections
     self.layout = layout
   }
@@ -86,8 +94,8 @@ extension CollectionComposer: AnyCollectionProvider {
     for section in sections {
       section.willReload()
     }
-    sectionBeginIndex.removeAll()
-    sectionForIndex.removeAll()
+    sectionBeginIndex = []
+    sectionForIndex = []
     sectionBeginIndex.reserveCapacity(sections.count)
     for (sectionIndex, section) in sections.enumerated() {
       let itemCount = section.numberOfItems
@@ -101,6 +109,9 @@ extension CollectionComposer: AnyCollectionProvider {
     for section in sections {
       section.didReload()
     }
+    lastReloadSections = sections
+    lastSectionForIndex = sectionForIndex
+    lastSectionBeginIndex = sectionBeginIndex
   }
   public func willDrag(view: UIView, at index:Int) -> Bool {
     let (sectionIndex, item) = indexPath(index)
@@ -137,8 +148,9 @@ extension CollectionComposer: AnyCollectionProvider {
     sections[sectionIndex].insert(view: view, at: item, frame: frame)
   }
   public func delete(view: UIView, at: Int, frame: CGRect) {
-    let (sectionIndex, item) = indexPath(at)
-    sections[sectionIndex].delete(view: view, at: item, frame: frame)
+    let section = lastSectionForIndex[at]
+    let item = at - lastSectionBeginIndex[section]
+    lastReloadSections.get(section)?.delete(view: view, at: item, frame: frame)
   }
   public func update(view: UIView, at: Int, frame: CGRect) {
     let (sectionIndex, item) = indexPath(at)

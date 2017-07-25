@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class SpaceCollectionProvider: BaseCollectionProvider {
+open class SpaceCollectionProvider: BaseCollectionProvider {
   public enum SpaceSizeStrategy {
     case fillWidth(height: CGFloat)
     case fillHeight(width: CGFloat)
@@ -19,10 +19,10 @@ public class SpaceCollectionProvider: BaseCollectionProvider {
     self.spaceSizeStrategy = spaceSizeStrategy
   }
   var _contentSize: CGSize = .zero
-  public override var contentSize: CGSize {
+  open override var contentSize: CGSize {
     return _contentSize
   }
-  public override func layout(collectionSize: CGSize) {
+  open override func layout(collectionSize: CGSize) {
     switch spaceSizeStrategy {
     case .fillWidth(let height):
       _contentSize = CGSize(width: collectionSize.width, height: height)

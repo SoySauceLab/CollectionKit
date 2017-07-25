@@ -62,13 +62,15 @@ public class Closurelayout<Data>: CollectionLayout<Data> {
 
 public class WaterfallLayout<Data>: CollectionLayout<Data> {
   public var axis: UILayoutConstraintAxis
-  public var columns = 2
+  public var columns: Int
+  public var padding: CGFloat
   private var columnWidth: [CGFloat] = [0, 0]
   private var maxSize = CGSize.zero
 
-  public init(columns: Int = 2, insets: UIEdgeInsets = .zero, axis: UILayoutConstraintAxis = .vertical) {
+  public init(columns: Int = 1, insets: UIEdgeInsets = .zero, padding: CGFloat = 10, axis: UILayoutConstraintAxis = .vertical) {
     self.columns = columns
     self.axis = axis
+    self.padding = padding
     super.init(insets: insets)
   }
 
@@ -90,24 +92,24 @@ public class WaterfallLayout<Data>: CollectionLayout<Data> {
     
     if axis == .vertical {
       for i in 0..<dataProvider.numberOfItems {
-        let avaliableHeight = (maxSize.width - CGFloat(columnWidth.count - 1) * 10) / CGFloat(columnWidth.count)
+        let avaliableHeight = (maxSize.width - CGFloat(columnWidth.count - 1) * padding) / CGFloat(columnWidth.count)
         var cellSize = sizeProvider.size(at: i, data: dataProvider.data(at: i), collectionSize: CGSize(width: avaliableHeight, height: collectionSize.width))
         cellSize.width = avaliableHeight
         let (columnIndex, offsetY) = getMinColomn()
-        columnWidth[columnIndex] += cellSize.height + 10
-        let frame = CGRect(origin: CGPoint(x: CGFloat(columnIndex) * (avaliableHeight + 10),
+        columnWidth[columnIndex] += cellSize.height + padding
+        let frame = CGRect(origin: CGPoint(x: CGFloat(columnIndex) * (avaliableHeight + padding),
                                            y: offsetY), size: cellSize)
         frames.append(frame)
       }
     } else {
       for i in 0..<dataProvider.numberOfItems {
-        let avaliableHeight = (maxSize.height - CGFloat(columnWidth.count - 1) * 10) / CGFloat(columnWidth.count)
+        let avaliableHeight = (maxSize.height - CGFloat(columnWidth.count - 1) * padding) / CGFloat(columnWidth.count)
         var cellSize = sizeProvider.size(at: i, data: dataProvider.data(at: i), collectionSize: CGSize(width: collectionSize.width, height: avaliableHeight))
         cellSize.height = avaliableHeight
         let (rowIndex, offsetX) = getMinColomn()
-        columnWidth[rowIndex] += cellSize.width + 10
+        columnWidth[rowIndex] += cellSize.width + padding
         let frame = CGRect(origin: CGPoint(x: offsetX,
-                                           y: CGFloat(rowIndex) * (avaliableHeight + 10)), size: cellSize)
+                                           y: CGFloat(rowIndex) * (avaliableHeight + padding)), size: cellSize)
         frames.append(frame)
       }
     }

@@ -84,7 +84,7 @@ open class CollectionView: UIScrollView {
 
       if limit != newOffset {
         collectionView.contentOffset = limit
-        collectionView.yaal.contentOffset.updateWithCurrentState()
+        collectionView.yaal.contentOffset.stop()
       }
     }
   }
@@ -276,7 +276,7 @@ open class CollectionView: UIScrollView {
 
   fileprivate func disappearCell(at index: Int) {
     if let cell = visibleCellToIndexMap[index] {
-      provider.delete(view: cell, at: index, frame: provider.frame(at: index))
+      provider.delete(view: cell, at: index, frame: cell.frame)
       visibleCellToIndexMap.remove(index)
     }
   }

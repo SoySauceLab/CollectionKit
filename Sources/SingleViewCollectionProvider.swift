@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
+open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
   private class ViewProvider: CollectionViewProvider<UIView, UIView> {
     var views: [UIView]
     init(views: [UIView]) {
