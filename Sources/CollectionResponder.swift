@@ -9,34 +9,35 @@
 import UIKit
 
 open class CollectionResponder<Data>: CollectionReloadable {
+  public typealias DataProvider = CollectionDataProvider<Data>
   open func willReload() {}
   open func didReload() {}
-  open func willDrag(view: UIView, data: Data, at index:Int) -> Bool { return false }
-  open func didDrag(view: UIView, data: Data, at index:Int) {}
-  open func moveItem(at index: Int, data: Data, to: Int) -> Bool { return false }
-  open func didTap(view: UIView, data: Data, at index: Int) {}
+  open func willDrag(view: UIView, at index:Int, dataProvider: DataProvider) -> Bool { return false }
+  open func didDrag(view: UIView, at index:Int, dataProvider: DataProvider) {}
+  open func moveItem(at index: Int, to: Int, dataProvider: DataProvider) -> Bool { return false }
+  open func didTap(view: UIView, at index: Int, dataProvider: DataProvider) {}
   public init() {}
 }
 
 open class ClosureResponder<Data>: CollectionResponder<Data> {
-  open var canDrag: (UIView, Data, Int) -> Bool
-  open var onMove: (Int, Data, Int) -> Bool
-  open var onTap: (UIView, Data, Int) -> Void
+  open var canDrag: (UIView, Int, DataProvider) -> Bool
+  open var onMove: (Int, Int, DataProvider) -> Bool
+  open var onTap: (UIView, Int, DataProvider) -> Void
   
-  public init(canDrag: @escaping (UIView, Data, Int) -> Bool = { _, _, _ in return false },
-              onMove: @escaping (Int, Data, Int) -> Bool = { _, _, _ in return false },
-              onTap: @escaping (UIView, Data, Int) -> Void = { _, _, _ in }) {
+  public init(canDrag: @escaping (UIView, Int, DataProvider) -> Bool = { _, _, _ in return false },
+              onMove: @escaping (Int, Int, DataProvider) -> Bool = { _, _, _ in return false },
+              onTap: @escaping (UIView, Int, DataProvider) -> Void = { _, _, _ in }) {
     self.canDrag = canDrag
     self.onMove = onMove
     self.onTap = onTap
   }
-  open override func willDrag(view: UIView, data: Data, at index:Int) -> Bool {
-    return canDrag(view, data, index)
+  open override func willDrag(view: UIView, at index:Int, dataProvider: DataProvider) -> Bool {
+    return canDrag(view, index, dataProvider)
   }
-  open override func moveItem(at index: Int, data: Data, to: Int) -> Bool {
-    return onMove(index, data, to)
+  open override func moveItem(at index: Int, to: Int, dataProvider: DataProvider) -> Bool {
+    return onMove(index, to, dataProvider)
   }
-  open override func didTap(view: UIView, data: Data, at index: Int) {
-    onTap(view, data, index)
+  open override func didTap(view: UIView, at index: Int, dataProvider: DataProvider) {
+    onTap(view, index, dataProvider)
   }
 }

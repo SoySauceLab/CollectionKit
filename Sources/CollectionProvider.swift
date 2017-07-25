@@ -10,19 +10,26 @@ import UIKit
 
 open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIView
 {
-  public var dataProvider: CollectionDataProvider<Data> { didSet { setNeedsReload() } }
-  public var viewProvider: CollectionViewProvider<Data, View> { didSet { setNeedsReload() } }
-  public var layout: CollectionLayout<Data> { didSet { setNeedsReload() } }
-  public var sizeProvider: CollectionSizeProvider<Data> { didSet { setNeedsReload() } }
-  public var responder: CollectionResponder<Data> { didSet { setNeedsReload() } }
-  public var presenter: CollectionPresenter { didSet { setNeedsReload() } }
+  public typealias DataProvider = CollectionDataProvider<Data>
+  public typealias ViewProvider = CollectionViewProvider<Data, View>
+  public typealias Layout = CollectionLayout<Data>
+  public typealias SizeProvider = CollectionSizeProvider<Data>
+  public typealias Responder = CollectionResponder<Data>
+  public typealias Presenter = CollectionPresenter
+  
+  public var dataProvider: DataProvider { didSet { setNeedsReload() } }
+  public var viewProvider: ViewProvider { didSet { setNeedsReload() } }
+  public var layout: Layout { didSet { setNeedsReload() } }
+  public var sizeProvider: SizeProvider { didSet { setNeedsReload() } }
+  public var responder: Responder { didSet { setNeedsReload() } }
+  public var presenter: Presenter { didSet { setNeedsReload() } }
 
-  public init(dataProvider: CollectionDataProvider<Data>,
-              viewProvider: CollectionViewProvider<Data, View>,
-              layout: CollectionLayout<Data> = FlowLayout<Data>(),
-              sizeProvider: CollectionSizeProvider<Data> = CollectionSizeProvider<Data>(),
-              responder: CollectionResponder<Data> = CollectionResponder<Data>(),
-              presenter: CollectionPresenter = CollectionPresenter()) {
+  public init(dataProvider: DataProvider,
+              viewProvider: ViewProvider,
+              layout: Layout = FlowLayout<Data>(),
+              sizeProvider: SizeProvider = SizeProvider(),
+              responder: Responder = Responder(),
+              presenter: Presenter = Presenter()) {
     self.dataProvider = dataProvider
     self.viewProvider = viewProvider
     self.layout = layout
@@ -64,16 +71,16 @@ open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIV
     responder.didReload()
   }
   public func willDrag(view: UIView, at:Int) -> Bool {
-    return responder.willDrag(view: view, data: dataProvider.data(at: at), at: at)
+    return responder.willDrag(view: view, at: at, dataProvider: dataProvider)
   }
   public func didDrag(view: UIView, at:Int) {
-    responder.didDrag(view: view, data: dataProvider.data(at: at), at: at)
+    responder.didDrag(view: view, at: at, dataProvider: dataProvider)
   }
   public func moveItem(at: Int, to: Int) -> Bool {
-    return responder.moveItem(at: at, data: dataProvider.data(at: at), to: to)
+    return responder.moveItem(at: at, to: to, dataProvider: dataProvider)
   }
   public func didTap(view: UIView, at: Int) {
-    responder.didTap(view: view, data: dataProvider.data(at: at), at: at)
+    responder.didTap(view: view, at: at, dataProvider: dataProvider)
   }
   
   public func prepareForPresentation(collectionView: CollectionView) {

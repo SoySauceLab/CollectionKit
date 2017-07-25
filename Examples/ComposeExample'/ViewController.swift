@@ -29,27 +29,6 @@ func space(_ height: CGFloat) -> AnyCollectionProvider {
   return SpaceCollectionProvider(.fillWidth(height: height))
 }
 
-class SelectionButton: DynamicView {
-  let label = UILabel()
-  var text: String = "" {
-    didSet {
-      label.text = text
-    }
-  }
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    label.textAlignment = .center
-    layer.cornerRadius = 5
-    addSubview(label)
-  }
-  public required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  override func layoutSubviews() {
-    super.layoutSubviews()
-    label.frame = bounds
-  }
-}
 
 let presenterSection: AnyCollectionProvider = {
   let presenters = [
@@ -73,9 +52,9 @@ let presenterSection: AnyCollectionProvider = {
   providerCollectionView.provider = provider
   
   let buttonsCollectionView = CollectionView()
-  let buttonsDataProvider = ArrayDataProvider(data: presenters)
+  buttonsCollectionView.showsHorizontalScrollIndicator = false
   let buttonsProvider = CollectionProvider(
-    dataProvider: buttonsDataProvider,
+    dataProvider: ArrayDataProvider(data: presenters),
     viewProvider: ClosureViewProvider(viewUpdater: { (view: SelectionButton, data: (String, CollectionPresenter), at: Int) in
       view.text = data.0
       view.backgroundColor = provider.presenter === data.1 ? .lightGray : .white
@@ -84,9 +63,9 @@ let presenterSection: AnyCollectionProvider = {
     sizeProvider: ClosureSizeProvider(sizeProvider: { _, data, maxSize in
       return CGSize(width: data.0.width(withConstraintedHeight: maxSize.height, font: UIFont.systemFont(ofSize:18)) + 20, height: maxSize.height)
     }),
-    responder: ClosureResponder(onTap: { _, data, _ in
-      provider.presenter = data.1
-      buttonsDataProvider.reloadData()
+    responder: ClosureResponder(onTap: { _, index, dataProvider in
+      provider.presenter = dataProvider.data(at: index).1
+      dataProvider.reloadData()
     }),
     presenter: WobblePresenter()
   )
@@ -106,7 +85,7 @@ class ViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    
+
     let imageCollectionView = CollectionView()
     imageCollectionView.provider = CollectionProvider(
       dataProvider: ArrayDataProvider(data: testImages),
@@ -131,9 +110,41 @@ class ViewController: UIViewController {
       sizeProvider: ImageSizeProvider()
     )
     
+    let coreConceptSection: AnyCollectionProvider = {
+      let concepts: [(String, String)] = [
+        ("Data Provider", "The data source for the collection. It provides a homogenious set of data. The data will be passed to view provider, layout provider, and responder."),
+        ("View Provider", "Provides corresponding UIView object for each of the data provided by the data source."),
+        ("Layout Provider", "Provides layout information for the collection view."),
+        ("Size Provider", "Provides size information to the layout provider."),
+        ("Responder", "Provides event handler to the collection view events like tap, drag, & reload."),
+        ("Presenter", "Can be used to customize the presentation of the child views. It is independent of the layout and have direct access to the view object. It is the perfect place to add animations to an existing provider.")
+      ]
+      let collectionView = CollectionView()
+      collectionView.clipsToBounds = false
+      collectionView.provider = CollectionProvider(
+        dataProvider: ArrayDataProvider(data: concepts),
+        viewProvider: ClosureViewProvider(viewUpdater: { (view: CardView, data: (String, String), at: Int) in
+          view.title = data.0
+          view.subtitle = data.1
+        }),
+        layout: WaterfallLayout(columns:1, insets: bodyInset, axis: .horizontal),
+        sizeProvider: ClosureSizeProvider(sizeProvider: { (_, _, size) -> CGSize in
+          return size
+        }),
+        responder: ClosureResponder(onTap: { [weak self] _, index, dataProvider in
+          self?.present(MessagesViewController(), animated: true, completion: nil)
+        })
+      )
+      
+      return section(title: "Core Concepts", content: ViewCollectionProvider(collectionView, sizeStrategy: .fillWidth(height: 200)))
+    }()
+    
     collectionView.provider = CollectionComposer(
       space(100),
       section(title: "CollectionKit", subtitle: "A modern swift framework for building reusable collection view components."),
+      space(20),
+      coreConceptSection,
+      space(20),
       section(title: "Horizontal Waterfall Layout", content: image1Section),
       space(20),
       section(title: "Vertical Waterfall Layout", content: image2Section),

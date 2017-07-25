@@ -9,7 +9,6 @@
 import Foundation
 
 open class CollectionDataProvider<Data>: CollectionReloadable {
-  weak var context: CollectionReloadable?
   open var numberOfItems: Int {
     return 0
   }
@@ -23,8 +22,16 @@ open class CollectionDataProvider<Data>: CollectionReloadable {
 }
 
 open class ArrayDataProvider<Data>: CollectionDataProvider<Data> {
-  public var data: [Data]
-  public var identifierMapper: (Int, Data) -> String
+  public var data: [Data] {
+    didSet {
+      setNeedsReload()
+    }
+  }
+  public var identifierMapper: (Int, Data) -> String {
+    didSet {
+      setNeedsReload()
+    }
+  }
 
   public init(data: [Data], identifierMapper: @escaping (Int, Data) -> String = { "\($0)" }) {
     self.data = data

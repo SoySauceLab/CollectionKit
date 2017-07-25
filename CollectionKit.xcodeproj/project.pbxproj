@@ -30,8 +30,9 @@
 		B14B0DFD1F2679E7003E5105 /* UIView+CollectionKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0DFB1F2679E4003E5105 /* UIView+CollectionKit.swift */; };
 		B14B0E001F267FE9003E5105 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0DFE1F267FE0003E5105 /* TestData.swift */; };
 		B14B0E021F2682EA003E5105 /* CollectionSizeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0E011F2682EA003E5105 /* CollectionSizeProvider.swift */; };
-		B14B0E041F2699E0003E5105 /* CoreConceptSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0E031F2699E0003E5105 /* CoreConceptSection.swift */; };
 		B14B0E061F2790E6003E5105 /* CollectionReloadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0E051F2790E6003E5105 /* CollectionReloadable.swift */; };
+		B14B0E081F27A02A003E5105 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0E071F27A02A003E5105 /* CardView.swift */; };
+		B14B0E0A1F27A084003E5105 /* SelectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0E091F27A084003E5105 /* SelectionButton.swift */; };
 		B15029151EA671E600F89915 /* YetAnotherAnimationLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */; };
 		B1688A271F25448900C229BD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A261F25448900C229BD /* ViewController.swift */; };
 		B1688A291F2562AC00C229BD /* SingleViewCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A281F2562AC00C229BD /* SingleViewCollectionProvider.swift */; };
@@ -117,8 +118,9 @@
 		B14B0DFB1F2679E4003E5105 /* UIView+CollectionKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+CollectionKit.swift"; sourceTree = "<group>"; };
 		B14B0DFE1F267FE0003E5105 /* TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		B14B0E011F2682EA003E5105 /* CollectionSizeProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionSizeProvider.swift; sourceTree = "<group>"; };
-		B14B0E031F2699E0003E5105 /* CoreConceptSection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreConceptSection.swift; sourceTree = "<group>"; };
 		B14B0E051F2790E6003E5105 /* CollectionReloadable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionReloadable.swift; sourceTree = "<group>"; };
+		B14B0E071F27A02A003E5105 /* CardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		B14B0E091F27A084003E5105 /* SelectionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionButton.swift; sourceTree = "<group>"; };
 		B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YetAnotherAnimationLibrary.framework; path = Carthage/Build/iOS/YetAnotherAnimationLibrary.framework; sourceTree = "<group>"; };
 		B1688A261F25448900C229BD /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = "Examples/ComposeExample'/ViewController.swift"; sourceTree = SOURCE_ROOT; };
 		B1688A281F2562AC00C229BD /* SingleViewCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleViewCollectionProvider.swift; sourceTree = "<group>"; };
@@ -252,7 +254,8 @@
 			isa = PBXGroup;
 			children = (
 				B1688A261F25448900C229BD /* ViewController.swift */,
-				B14B0E031F2699E0003E5105 /* CoreConceptSection.swift */,
+				B14B0E071F27A02A003E5105 /* CardView.swift */,
+				B14B0E091F27A084003E5105 /* SelectionButton.swift */,
 				A3E7918A1D11025B005D9410 /* HorizontalGalleryExample */,
 				B136E9A11D04C0D500D02FCA /* GridExample */,
 				A351C3441CE4C917005E15A7 /* ChatExample (Advance) */,
@@ -484,9 +487,10 @@
 				B14B0E001F267FE9003E5105 /* TestData.swift in Sources */,
 				A372A3691C79567A0023C797 /* MessageCell.swift in Sources */,
 				B102FC591D10FE0100408DD6 /* HorizontalGalleryViewController.swift in Sources */,
+				B14B0E0A1F27A084003E5105 /* SelectionButton.swift in Sources */,
 				A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */,
-				B14B0E041F2699E0003E5105 /* CoreConceptSection.swift in Sources */,
 				B136E9A01D04BA5700D02FCA /* GridViewController.swift in Sources */,
+				B14B0E081F27A02A003E5105 /* CardView.swift in Sources */,
 				B102FC5D1D10FF5100408DD6 /* Random.swift in Sources */,
 				B1688A271F25448900C229BD /* ViewController.swift in Sources */,
 				B100C3FC1EA55DB500868840 /* Util.swift in Sources */,

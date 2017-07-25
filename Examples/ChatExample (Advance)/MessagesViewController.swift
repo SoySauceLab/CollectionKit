@@ -119,7 +119,6 @@ class MessagesViewController: UIViewController {
     view.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
     view.clipsToBounds = true
     collectionView = CollectionView(frame:view.bounds)
-    collectionView.keyboardDismissMode = .interactive
     collectionView.delegate = self
     view.addSubview(collectionView)
 
@@ -174,9 +173,8 @@ extension MessagesViewController {
   func send() {
     let text = UUID().uuidString
     
-    dataProvider.data.append(Message(true, content: text))
     presenter.sendingMessage = true
-
+    dataProvider.data.append(Message(true, content: text))
     collectionView.reloadData()
     collectionView.scrollTo(edge: .bottom, animated:true)
     presenter.sendingMessage = false

@@ -66,7 +66,7 @@ public class WaterfallLayout<Data>: CollectionLayout<Data> {
   private var columnWidth: [CGFloat] = [0, 0]
   private var maxSize = CGSize.zero
 
-  public init(columns: Int  = 2, insets: UIEdgeInsets = .zero, axis: UILayoutConstraintAxis = .vertical) {
+  public init(columns: Int = 2, insets: UIEdgeInsets = .zero, axis: UILayoutConstraintAxis = .vertical) {
     self.columns = columns
     self.axis = axis
     super.init(insets: insets)
