@@ -8,8 +8,8 @@
 
 import Foundation
 
-open class CollectionDataProvider<Data>: CollectionContext {
-  weak var context: CollectionContext?
+open class CollectionDataProvider<Data>: CollectionReloadable {
+  weak var context: CollectionReloadable?
   open var numberOfItems: Int {
     return 0
   }

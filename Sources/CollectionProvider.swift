@@ -91,8 +91,8 @@ open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIV
   public func update(view: UIView, at: Int, frame: CGRect) {
     presenter.update(view: view, at: at, frame: frame)
   }
-  public func hasContext(_ context: CollectionContext) -> Bool {
-    return context === self || context === dataProvider || context === responder
+  public func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
+    return reloadable === self || reloadable === dataProvider || reloadable === responder
   }
 }
 

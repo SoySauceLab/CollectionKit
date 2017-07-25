@@ -145,10 +145,10 @@ extension CollectionComposer: AnyCollectionProvider {
     sections[sectionIndex].update(view: view, at: item, frame: frame)
   }
   
-  public func hasContext(_ context: CollectionContext) -> Bool {
-    if context === self { return true }
+  public func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
+    if reloadable === self { return true }
     for section in sections {
-      if section.hasContext(context) {
+      if section.hasReloadable(reloadable) {
         return true
       }
     }

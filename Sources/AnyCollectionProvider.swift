@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol AnyCollectionProvider: CollectionContext {
+public protocol AnyCollectionProvider: CollectionReloadable {
   // data
   var numberOfItems: Int { get }
   func identifier(at: Int) -> String
@@ -40,47 +40,11 @@ public protocol AnyCollectionProvider: CollectionContext {
   func update(view: UIView, at: Int, frame: CGRect)
   
   // determines if a context belongs to current provider
-  func hasContext(_ context: CollectionContext) -> Bool
+  func hasReloadable(_ reloadable: CollectionReloadable) -> Bool
 }
 
 extension AnyCollectionProvider {
-  public func hasContext(_ context: CollectionContext) -> Bool {
-    return context === self
-  }
-}
-
-class CollectionViewManager {
-  static let shared = CollectionViewManager()
-  var collectionViews = NSHashTable<CollectionView>.weakObjects()
-  func register(collectionView: CollectionView) {
-    collectionViews.add(collectionView)
-  }
-  internal func reloadData(context: CollectionContext) {
-    for collectionView in collectionViews.allObjects {
-      if collectionView.provider.hasContext(context) {
-        collectionView.reloadData()
-      }
-    }
-  }
-  internal func setNeedsReload(context: CollectionContext) {
-    for collectionView in collectionViews.allObjects {
-      if collectionView.provider.hasContext(context) {
-        collectionView.setNeedsReload()
-      }
-    }
-  }
-}
-
-public protocol CollectionContext: class {
-  func reloadData()
-  func setNeedsReload()
-}
-
-extension CollectionContext {
-  public func reloadData() {
-    CollectionViewManager.shared.reloadData(context: self)
-  }
-  public func setNeedsReload() {
-    CollectionViewManager.shared.setNeedsReload(context: self)
+  public func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
+    return reloadable === self
   }
 }
