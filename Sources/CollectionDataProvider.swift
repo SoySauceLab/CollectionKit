@@ -33,7 +33,7 @@ open class ArrayDataProvider<Data>: CollectionDataProvider<Data> {
     }
   }
 
-  public init(data: [Data], identifierMapper: @escaping (Int, Data) -> String = { "\($0)" }) {
+  public init(data: [Data], identifierMapper: @escaping (Int, Data) -> String = { "\($0.0)" }) {
     self.data = data
     self.identifierMapper = identifierMapper
   }

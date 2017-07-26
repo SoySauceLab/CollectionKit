@@ -61,9 +61,8 @@ extension CollectionComposer: AnyCollectionProvider {
   }
   public func identifier(at: Int) -> String {
     let (sectionIndex, item) = indexPath(at)
-    return "section-\(sectionIndex)-" + sections[sectionIndex].identifier(at: item)
+    return "\(sectionIndex)." + sections[sectionIndex].identifier(at: item)
   }
-
   public func layout(collectionSize: CGSize) {
     layout._layout(collectionSize: collectionSize,
                            dataProvider: ArrayDataProvider(data: sections),
