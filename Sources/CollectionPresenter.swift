@@ -11,43 +11,59 @@ import YetAnotherAnimationLibrary
 
 open class CollectionPresenter {
 
-  public struct CollectionInsertAnimation {
-    typealias AnimationBlock = (CollectionView, UIView, Int, CGRect) -> Void
-    internal let animationBlock: AnimationBlock
-    static let fade = CollectionInsertAnimation { (_, view, _, frame) in
-      view.alpha = 0
-      UIView.animate(withDuration: 0.3, animations: {
-        view.alpha = 1
-      })
-    }
-    static let scale = CollectionInsertAnimation { (_, view, _, frame) in
-      view.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
-      view.alpha = 0
-      UIView.animate(withDuration: 0.3, animations: {
-        view.transform = CGAffineTransform.identity
-        view.alpha = 1
-      })
-    }
-    static func custom(animation: @escaping AnimationBlock) -> CollectionInsertAnimation {
-      return CollectionInsertAnimation(animationBlock: animation)
-    }
+  public enum CollectionPresenterAnimation {
+    case fade
+    case scale
   }
 
-  open var insertAnimation: CollectionInsertAnimation?
+  open var insertAnimation: CollectionPresenterAnimation?
+  open var deleteAnimation: CollectionPresenterAnimation?
   weak var collectionView: CollectionView?
   open func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     view.bounds.size = frame.bounds.size
     view.center = frame.center
-    if let insertAnimation = insertAnimation {
-      insertAnimation.animationBlock(collectionView, view, at, frame)
+    if collectionView.hasReloaded, collectionView.bounds.intersects(frame), let insertAnimation = insertAnimation {
+      switch insertAnimation {
+      case .fade:
+        view.alpha = 0
+        UIView.animate(withDuration: 0.2, animations: {
+          view.alpha = 1
+        })
+      case .scale:
+        view.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
+        view.alpha = 0
+        UIView.animate(withDuration: 0.2, animations: {
+          view.transform = CGAffineTransform.identity
+          view.alpha = 1
+        })
+      }
     }
   }
   open func delete(collectionView: CollectionView, view: UIView, at: Int) {
-    view.removeFromSuperview()
-    view.recycleForCollectionKitReuse()
+    if collectionView.bounds.intersects(view.frame), let deleteAnimation = insertAnimation {
+      switch deleteAnimation {
+      case .fade:
+        UIView.animate(withDuration: 0.2, animations: {
+          view.alpha = 0
+        }) { _ in
+          view.recycleForCollectionKitReuse()
+        }
+      case .scale:
+        UIView.animate(withDuration: 0.2, animations: {
+          view.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
+          view.alpha = 0
+        }) { _ in
+          view.recycleForCollectionKitReuse()
+        }
+      }
+    } else {
+      view.recycleForCollectionKitReuse()
+    }
   }
   open func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
-    view.bounds.size = frame.bounds.size
+    if view.bounds.size != frame.bounds.size {
+      view.bounds.size = frame.bounds.size
+    }
     view.center = frame.center
   }
   open func shift(collectionView: CollectionView, delta: CGPoint, view: UIView, at: Int, frame: CGRect) {}
@@ -55,16 +71,11 @@ open class CollectionPresenter {
 }
 
 open class WobblePresenter: CollectionPresenter {
-  var sensitivity: CGPoint = CGPoint(x: 1, y: 1)
+  public var sensitivity: CGPoint = CGPoint(x: 1, y: 1)
 
   open override func shift(collectionView: CollectionView, delta: CGPoint, view: UIView, at: Int, frame: CGRect) {
     view.center = view.center + delta
     view.yaal.center.updateWithCurrentState()
-  }
-
-  open override func delete(collectionView: CollectionView, view: UIView, at: Int) {
-    view.yaal.center.stop()
-    super.delete(collectionView: collectionView, view: view, at: at)
   }
 
   open override func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {

@@ -9,6 +9,8 @@
 import UIKit
 
 public protocol AnyCollectionProvider: CollectionReloadable {
+  var identifier: String? { get }
+
   // data
   var numberOfItems: Int { get }
   func identifier(at: Int) -> String
@@ -34,10 +36,4 @@ public protocol AnyCollectionProvider: CollectionReloadable {
   
   // determines if a context belongs to current provider
   func hasReloadable(_ reloadable: CollectionReloadable) -> Bool
-}
-
-extension AnyCollectionProvider {
-  public func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
-    return reloadable === self
-  }
 }

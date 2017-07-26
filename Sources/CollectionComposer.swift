@@ -15,7 +15,7 @@ fileprivate class SectionSizeProvider: CollectionSizeProvider<AnyCollectionProvi
   }
 }
 
-open class CollectionComposer {
+open class CollectionComposer: BaseCollectionProvider {
   public var sections: [AnyCollectionProvider] {
     didSet{
       setNeedsReload()
@@ -34,6 +34,7 @@ open class CollectionComposer {
   public init(layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(), _ sections: [AnyCollectionProvider]) {
     self.sections = sections
     self.layout = layout
+    super.init()
   }
 
   public convenience init(layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(), _ sections: AnyCollectionProvider...) {
@@ -45,33 +46,32 @@ open class CollectionComposer {
     let item = index - sectionBeginIndex[section]
     return (section, item)
   }
-}
 
-extension CollectionComposer: AnyCollectionProvider {
-  public var numberOfItems: Int {
+  open override var numberOfItems: Int {
     return sectionForIndex.count
   }
-  public func view(at: Int) -> UIView {
+  open override func view(at: Int) -> UIView {
     let (sectionIndex, item) = indexPath(at)
     return sections[sectionIndex].view(at: item)
   }
-  public func update(view: UIView, at: Int) {
+  open override func update(view: UIView, at: Int) {
     let (sectionIndex, item) = indexPath(at)
     sections[sectionIndex].update(view: view, at: item)
   }
-  public func identifier(at: Int) -> String {
+  open override func identifier(at: Int) -> String {
     let (sectionIndex, item) = indexPath(at)
-    return "\(sectionIndex)." + sections[sectionIndex].identifier(at: item)
+    let sectionIdentifier = sections[sectionIndex].identifier ?? "\(sectionIndex)"
+    return "\(sectionIdentifier)." + sections[sectionIndex].identifier(at: item)
   }
-  public func layout(collectionSize: CGSize) {
+  open override func layout(collectionSize: CGSize) {
     layout._layout(collectionSize: collectionSize,
                            dataProvider: ArrayDataProvider(data: sections),
                            sizeProvider: SectionSizeProvider())
   }
-  public var contentSize: CGSize {
+  open override var contentSize: CGSize {
     return layout.contentSize
   }
-  public func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
+  open override func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
     var visible = Set<Int>()
     for sectionIndex in layout.visibleIndexes(activeFrame: activeFrame) {
       let sectionOrigin = layout.frame(at: sectionIndex).origin
@@ -83,13 +83,13 @@ extension CollectionComposer: AnyCollectionProvider {
     }
     return visible
   }
-  public func frame(at: Int) -> CGRect {
+  open override func frame(at: Int) -> CGRect {
     let (sectionIndex, item) = indexPath(at)
     var frame = sections[sectionIndex].frame(at: item)
     frame.origin = frame.origin + layout.frame(at: sectionIndex).origin
     return frame
   }
-  public func willReload() {
+  open override func willReload() {
     lastSectionForIndex = sectionForIndex
     lastSectionBeginIndex = sectionBeginIndex
     lastReloadSections = sections
@@ -107,22 +107,22 @@ extension CollectionComposer: AnyCollectionProvider {
       }
     }
   }
-  public func didReload() {
+  open override func didReload() {
     for section in sections {
       section.didReload()
     }
     lastSectionForIndex = nil
     lastSectionBeginIndex = nil
   }
-  public func willDrag(view: UIView, at index:Int) -> Bool {
+  open override func willDrag(view: UIView, at index:Int) -> Bool {
     let (sectionIndex, item) = indexPath(index)
     return sections[sectionIndex].willDrag(view: view, at: item)
   }
-  public func didDrag(view: UIView, at index:Int) {
+  open override func didDrag(view: UIView, at index:Int) {
     let (sectionIndex, item) = indexPath(index)
     sections[sectionIndex].didDrag(view: view, at: item)
   }
-  public func moveItem(at index: Int, to: Int) -> Bool {
+  open override func moveItem(at index: Int, to: Int) -> Bool {
     let (fromSection, fromItem) = indexPath(index)
     let (toSection, toItem) = indexPath(to)
     if fromSection == toSection {
@@ -130,12 +130,12 @@ extension CollectionComposer: AnyCollectionProvider {
     }
     return false
   }
-  public func didTap(view: UIView, at: Int) {
+  open override func didTap(view: UIView, at: Int) {
     let (sectionIndex, item) = indexPath(at)
     sections[sectionIndex].didTap(view: view, at: item)
   }
   
-  public func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
+  open override func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     if reloadable === self { return true }
     for section in sections {
       if section.hasReloadable(reloadable) {

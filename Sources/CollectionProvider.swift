@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIView
+open class CollectionProvider<Data, View>: BaseCollectionProvider where View: UIView
 {
   public typealias DataProvider = CollectionDataProvider<Data>
   public typealias ViewProvider = CollectionViewProvider<Data, View>
@@ -24,7 +24,8 @@ open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIV
   public var responder: Responder { didSet { setNeedsReload() } }
   public var presenter: Presenter? { didSet { setNeedsReload() } }
 
-  public init(dataProvider: DataProvider,
+  public init(identifier: String? = nil,
+              dataProvider: DataProvider,
               viewProvider: ViewProvider,
               layout: Layout = FlowLayout<Data>(),
               sizeProvider: SizeProvider = SizeProvider(),
@@ -36,62 +37,65 @@ open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIV
     self.sizeProvider = sizeProvider
     self.responder = responder
     self.presenter = presenter
+    super.init()
+    self.identifier = identifier
   }
   
-  open var numberOfItems: Int {
+  open override var numberOfItems: Int {
     return dataProvider.numberOfItems
   }
-  open func view(at: Int) -> UIView {
+  open override func view(at: Int) -> UIView {
     let view = viewProvider.view(at: at)
     if let presenter = presenter, view.collectionPresenter == nil {
       view.collectionPresenter = presenter
     }
     return view
   }
-  open func update(view: UIView, at: Int) {
+  open override func update(view: UIView, at: Int) {
     viewProvider.update(view: view as! View, with: dataProvider.data(at: at), at: at)
   }
-  open func identifier(at: Int) -> String {
+  open override func identifier(at: Int) -> String {
     return dataProvider.identifier(at: at)
   }
 
-  open func layout(collectionSize: CGSize) {
+  open override func layout(collectionSize: CGSize) {
     layout._layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
   }
-  open var contentSize: CGSize {
+  open override var contentSize: CGSize {
     return layout.contentSize
   }
-  open func frame(at: Int) -> CGRect {
+  open override func frame(at: Int) -> CGRect {
     return layout.frame(at: at)
   }
-  open func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
+  open override func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
     return layout.visibleIndexes(activeFrame: activeFrame)
   }
 
-  open func willReload() {
+  open override func willReload() {
     responder.willReload()
   }
-  open func didReload() {
+  open override func didReload() {
     responder.didReload()
   }
-  open func willDrag(view: UIView, at:Int) -> Bool {
+  open override func willDrag(view: UIView, at:Int) -> Bool {
     return responder.willDrag(view: view, at: at, dataProvider: dataProvider)
   }
-  open func didDrag(view: UIView, at:Int) {
+  open override func didDrag(view: UIView, at:Int) {
     responder.didDrag(view: view, at: at, dataProvider: dataProvider)
   }
-  open func moveItem(at: Int, to: Int) -> Bool {
+  open override func moveItem(at: Int, to: Int) -> Bool {
     return responder.moveItem(at: at, to: to, dataProvider: dataProvider)
   }
-  open func didTap(view: UIView, at: Int) {
+  open override func didTap(view: UIView, at: Int) {
     responder.didTap(view: view, at: at, dataProvider: dataProvider)
   }
-  open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
+  open override func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     return reloadable === self || reloadable === dataProvider || reloadable === responder
   }
 }
 
 open class BaseCollectionProvider: AnyCollectionProvider {
+  public var identifier: String?
 
   public init() {}
   
@@ -127,4 +131,8 @@ open class BaseCollectionProvider: AnyCollectionProvider {
     return false
   }
   open func didTap(view: UIView, at: Int) {}
+
+  open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
+    return reloadable === self
+  }
 }

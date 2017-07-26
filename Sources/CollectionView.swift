@@ -19,7 +19,7 @@ open class CollectionView: UIScrollView {
   public var presenter: CollectionPresenter = CollectionPresenter()
 
   public private(set) var hasReloaded = false
-  public private(set) var needsReload = false
+  public private(set) var needsReload = true
 
   public var minimumContentSize: CGSize = .zero {
     didSet{
@@ -41,7 +41,7 @@ open class CollectionView: UIScrollView {
   var visibleCellToIndexMap: DictionaryTwoWay<UIView, Int> = [:]
   var identifiersToIndexMap: DictionaryTwoWay<String, Int> = [:]
 
-  var lastReloadSize: CGSize?
+  var lastLoadBounds: CGRect?
   // TODO: change this to private
   public var floatingCells: Set<UIView> = []
   public var loading = false
@@ -110,9 +110,11 @@ open class CollectionView: UIScrollView {
   open override func layoutSubviews() {
     super.layoutSubviews()
     overlayView.frame = CGRect(origin: contentOffset, size: bounds.size)
-    if needsReload || bounds.size != lastReloadSize {
+    if needsReload {
       reloadData()
-    } else {
+    } else if bounds.size != lastLoadBounds?.size {
+      invalidateLayout()
+    } else if bounds != lastLoadBounds {
       loadCells()
     }
   }
@@ -148,6 +150,7 @@ open class CollectionView: UIScrollView {
   func loadCells() {
     if loading || reloading || !hasReloaded { return }
     loading = true
+    lastLoadBounds = bounds
 
     let indexes = provider.visibleIndexes(activeFrame: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
     let deletedIndexes = visibleIndexes.subtracting(indexes)
@@ -170,6 +173,8 @@ open class CollectionView: UIScrollView {
   
   public func invalidateLayout() {
     provider.layout(collectionSize: innerSize)
+    contentSize = CGSize(width: max(minimumContentSize.width, provider.contentSize.width),
+                         height: max(minimumContentSize.height, provider.contentSize.height))
     loadCells()
   }
 
@@ -178,7 +183,7 @@ open class CollectionView: UIScrollView {
     provider.willReload()
     reloading = true
     needsReload = false
-    lastReloadSize = bounds.size
+    lastLoadBounds = bounds
     provider.layout(collectionSize: innerSize)
 
     // ask the delegate for all cell's identifier & frames
