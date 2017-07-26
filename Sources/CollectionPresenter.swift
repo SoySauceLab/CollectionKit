@@ -10,54 +10,67 @@ import UIKit
 import YetAnotherAnimationLibrary
 
 open class CollectionPresenter {
-  open func prepare(collectionView: CollectionView) {}
-  open func insert(view: UIView, at: Int, frame: CGRect) {
+
+  public struct CollectionInsertAnimation {
+    typealias AnimationBlock = (CollectionView, UIView, Int, CGRect) -> Void
+    internal let animationBlock: AnimationBlock
+    static let fade = CollectionInsertAnimation { (_, view, _, frame) in
+      view.alpha = 0
+      UIView.animate(withDuration: 0.3, animations: {
+        view.alpha = 1
+      })
+    }
+    static let scale = CollectionInsertAnimation { (_, view, _, frame) in
+      view.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
+      view.alpha = 0
+      UIView.animate(withDuration: 0.3, animations: {
+        view.transform = CGAffineTransform.identity
+        view.alpha = 1
+      })
+    }
+    static func custom(animation: @escaping AnimationBlock) -> CollectionInsertAnimation {
+      return CollectionInsertAnimation(animationBlock: animation)
+    }
+  }
+
+  open var insertAnimation: CollectionInsertAnimation?
+  weak var collectionView: CollectionView?
+  open func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     view.bounds.size = frame.bounds.size
     view.center = frame.center
+    if let insertAnimation = insertAnimation {
+      insertAnimation.animationBlock(collectionView, view, at, frame)
+    }
   }
-  open func delete(view: UIView, at: Int, frame: CGRect) {
+  open func delete(collectionView: CollectionView, view: UIView, at: Int) {
     view.removeFromSuperview()
     view.recycleForCollectionKitReuse()
   }
-  open func update(view: UIView, at: Int, frame: CGRect) {
+  open func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     view.bounds.size = frame.bounds.size
     view.center = frame.center
   }
-  open func shift(delta: CGPoint) {}
+  open func shift(collectionView: CollectionView, delta: CGPoint, view: UIView, at: Int, frame: CGRect) {}
   public init() {}
 }
 
 open class WobblePresenter: CollectionPresenter {
-  weak var collectionView: CollectionView?
-  var screenDragLocation: CGPoint = .zero
-  var contentOffset: CGPoint!
-  var delta: CGPoint = .zero
   var sensitivity: CGPoint = CGPoint(x: 1, y: 1)
-  
-  open override func prepare(collectionView: CollectionView) {
-    self.collectionView = collectionView
-    screenDragLocation = collectionView.screenDragLocation
-    let oldContentOffset = contentOffset ?? collectionView.contentOffset
-    contentOffset = collectionView.contentOffset
-    delta = contentOffset - oldContentOffset
+
+  open override func shift(collectionView: CollectionView, delta: CGPoint, view: UIView, at: Int, frame: CGRect) {
+    view.center = view.center + delta
+    view.yaal.center.updateWithCurrentState()
   }
 
-  open override func shift(delta: CGPoint) {
-    contentOffset = contentOffset + delta
-    for cell in collectionView?.visibleCells ?? [] {
-      cell.center = cell.center + delta
-      cell.yaal.center.updateWithCurrentState()
-    }
-  }
-  
-  open override func delete(view: UIView, at: Int, frame: CGRect) {
+  open override func delete(collectionView: CollectionView, view: UIView, at: Int) {
     view.yaal.center.stop()
-    super.delete(view: view, at: at, frame: frame)
+    super.delete(collectionView: collectionView, view: view, at: at)
   }
-  
-  open override func update(view: UIView, at: Int, frame: CGRect) {
+
+  open override func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
+    let delta = collectionView.scrollVelocity
     view.bounds.size = frame.bounds.size
-    let cellDiff = frame.center - contentOffset - screenDragLocation
+    let cellDiff = frame.center - collectionView.contentOffset - collectionView.screenDragLocation
     let resistance = (cellDiff * sensitivity).distance(.zero) / 1000
     let newCenterDiff = delta * resistance
     let constrainted = CGPoint(x: delta.x > 0 ? min(delta.x, newCenterDiff.x) : max(delta.x, newCenterDiff.x),
@@ -69,54 +82,28 @@ open class WobblePresenter: CollectionPresenter {
 }
 
 open class ZoomPresenter: CollectionPresenter {
-  var collectionViewBounds: CGRect = .zero
-  var contentOffset: CGPoint = .zero
-  
-  open override func prepare(collectionView: CollectionView) {
-    super.prepare(collectionView: collectionView)
-    contentOffset = collectionView.contentOffset
-    collectionViewBounds = CGRect(origin: .zero, size: collectionView.bounds.size)
-  }
-  
-  open override func update(view: UIView, at: Int, frame: CGRect) {
-    super.update(view: view, at: at, frame: frame)
-    let absolutePosition = frame.center - contentOffset
+  open override func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
+    super.update(collectionView: collectionView, view: view, at: at, frame: frame)
+    let collectionViewBounds = CGRect(origin: .zero, size: collectionView.bounds.size)
+    let absolutePosition = frame.center - collectionView.contentOffset
     let scale = 1 - max(0, absolutePosition.distance(collectionViewBounds.center) - 200) / (max(collectionViewBounds.width, collectionViewBounds.height) - 200)
     view.transform = CGAffineTransform.identity.scaledBy(x: scale, y: scale)
-  }
-  
-  open override func delete(view: UIView, at: Int, frame: CGRect) {
-    view.transform = .identity
-    super.delete(view: view, at: at, frame: frame)
   }
 }
 
 
 open class EdgeShrinkPresenter: CollectionPresenter {
-  var collectionViewBounds: CGRect = .zero
-  var contentOffset: CGPoint = .zero
   
   var effectiveRange: ClosedRange<CGFloat> = -200...0
-  
-  open override func prepare(collectionView: CollectionView) {
-    super.prepare(collectionView: collectionView)
-    contentOffset = collectionView.contentOffset
-    collectionViewBounds = CGRect(origin: .zero, size: collectionView.bounds.size)
-  }
-  
-  open override func update(view: UIView, at: Int, frame: CGRect) {
-    super.update(view: view, at: at, frame: frame)
-    let absolutePosition = frame.origin - contentOffset
+
+  open override func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
+    super.update(collectionView: collectionView, view: view, at: at, frame: frame)
+    let collectionViewBounds = CGRect(origin: .zero, size: collectionView.bounds.size)
+    let absolutePosition = frame.origin - collectionView.contentOffset
     let scale = (absolutePosition.x.clamp(effectiveRange.lowerBound, effectiveRange.upperBound) - effectiveRange.lowerBound) / (effectiveRange.upperBound - effectiveRange.lowerBound)
     let alpha = scale
     let translation = absolutePosition.x < effectiveRange.upperBound ? effectiveRange.upperBound - absolutePosition.x : 0
     view.alpha = alpha
     view.transform = CGAffineTransform.identity.translatedBy(x: translation, y: 0).scaledBy(x: scale, y: scale)
-  }
-  
-  open override func delete(view: UIView, at: Int, frame: CGRect) {
-    view.transform = .identity
-    view.alpha = 1
-    super.delete(view: view, at: at, frame: frame)
   }
 }

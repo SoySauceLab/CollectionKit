@@ -25,9 +25,9 @@ open class CollectionComposer {
   fileprivate var sectionBeginIndex:[Int] = []
   fileprivate var sectionForIndex:[Int] = []
 
-  fileprivate var lastReloadSections: [AnyCollectionProvider] = []
-  fileprivate var lastSectionBeginIndex:[Int] = []
-  fileprivate var lastSectionForIndex:[Int] = []
+  fileprivate var lastReloadSections: [AnyCollectionProvider]?
+  fileprivate var lastSectionBeginIndex: [Int]?
+  fileprivate var lastSectionForIndex: [Int]?
 
   var layout: CollectionLayout<AnyCollectionProvider>
 
@@ -90,6 +90,9 @@ extension CollectionComposer: AnyCollectionProvider {
     return frame
   }
   public func willReload() {
+    lastSectionForIndex = sectionForIndex
+    lastSectionBeginIndex = sectionBeginIndex
+    lastReloadSections = sections
     for section in sections {
       section.willReload()
     }
@@ -108,9 +111,8 @@ extension CollectionComposer: AnyCollectionProvider {
     for section in sections {
       section.didReload()
     }
-    lastReloadSections = sections
-    lastSectionForIndex = sectionForIndex
-    lastSectionBeginIndex = sectionBeginIndex
+    lastSectionForIndex = nil
+    lastSectionBeginIndex = nil
   }
   public func willDrag(view: UIView, at index:Int) -> Bool {
     let (sectionIndex, item) = indexPath(index)
@@ -131,29 +133,6 @@ extension CollectionComposer: AnyCollectionProvider {
   public func didTap(view: UIView, at: Int) {
     let (sectionIndex, item) = indexPath(at)
     sections[sectionIndex].didTap(view: view, at: item)
-  }
-  public func prepareForPresentation(collectionView: CollectionView) {
-    for section in sections {
-      section.prepareForPresentation(collectionView: collectionView)
-    }
-  }
-  public func shift(delta: CGPoint) {
-    for section in sections {
-      section.shift(delta: delta)
-    }
-  }
-  public func insert(view: UIView, at: Int, frame: CGRect) {
-    let (sectionIndex, item) = indexPath(at)
-    sections[sectionIndex].insert(view: view, at: item, frame: frame)
-  }
-  public func delete(view: UIView, at: Int, frame: CGRect) {
-    let section = lastSectionForIndex[at]
-    let item = at - lastSectionBeginIndex[section]
-    lastReloadSections.get(section)?.delete(view: view, at: item, frame: frame)
-  }
-  public func update(view: UIView, at: Int, frame: CGRect) {
-    let (sectionIndex, item) = indexPath(at)
-    sections[sectionIndex].update(view: view, at: item, frame: frame)
   }
   
   public func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {

@@ -16,6 +16,8 @@ open class CollectionView: UIScrollView {
     }
   }
 
+  public var presenter: CollectionPresenter = CollectionPresenter()
+
   public private(set) var hasReloaded = false
   public private(set) var needsReload = false
 
@@ -146,7 +148,6 @@ open class CollectionView: UIScrollView {
   func loadCells() {
     if loading || reloading || !hasReloaded { return }
     loading = true
-    provider.prepareForPresentation(collectionView: self)
 
     let indexes = provider.visibleIndexes(activeFrame: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
     let deletedIndexes = visibleIndexes.subtracting(indexes)
@@ -161,7 +162,7 @@ open class CollectionView: UIScrollView {
 
     for (index, view) in visibleCellToIndexMap.ts {
       if !floatingCells.contains(view) {
-        provider.update(view: view, at: index, frame: provider.frame(at: index))
+        (view.collectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
       }
     }
     loading = false
@@ -179,7 +180,6 @@ open class CollectionView: UIScrollView {
     needsReload = false
     lastReloadSize = bounds.size
     provider.layout(collectionSize: innerSize)
-    provider.prepareForPresentation(collectionView: self)
 
     // ask the delegate for all cell's identifier & frames
     var newIdentifiersToIndexMap: DictionaryTwoWay<String, Int> = [:]
@@ -206,11 +206,11 @@ open class CollectionView: UIScrollView {
     contentSize = CGSize(width: max(minimumContentSize.width, provider.contentSize.width),
                          height: max(minimumContentSize.height, provider.contentSize.height))
     if let offset = contentOffsetAdjustFn?() {
+      let scrollVelocity = self.scrollVelocity
       contentOffset = offset
+      self.scrollVelocity = scrollVelocity
     }
     let contentOffsetDiff = contentOffset - oldContentOffset
-
-    provider.shift(delta: contentOffsetDiff)
 
     var newVisibleIndexes = provider.visibleIndexes(activeFrame: activeFrame)
     for cell in floatingCells {
@@ -245,6 +245,7 @@ open class CollectionView: UIScrollView {
 
       newVisibleCellToIndexMap[newIndex] = cell
       provider.update(view: cell, at: newIndex)
+      (cell.collectionPresenter ?? presenter).shift(collectionView: self, delta: contentOffsetDiff, view: cell, at: newIndex, frame: provider.frame(at: newIndex))
     }
 
     for identifier in deletedVisibleIdentifiers {
@@ -261,7 +262,7 @@ open class CollectionView: UIScrollView {
 
     for (index, view) in visibleCellToIndexMap.ts {
       if !floatingCells.contains(view) {
-        provider.update(view: view, at: index, frame: provider.frame(at: index))
+        (view.collectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
       }
     }
     reloading = false
@@ -276,7 +277,7 @@ open class CollectionView: UIScrollView {
 
   fileprivate func disappearCell(at index: Int) {
     if let cell = visibleCellToIndexMap[index] {
-      provider.delete(view: cell, at: index, frame: cell.frame)
+      (cell.collectionPresenter ?? presenter).delete(collectionView: self, view: cell, at: index)
       visibleCellToIndexMap.remove(index)
     }
   }
@@ -286,7 +287,7 @@ open class CollectionView: UIScrollView {
     if visibleCellToIndexMap[cell] == nil {
       visibleCellToIndexMap[cell] = index
       insert(cell: cell)
-      provider.insert(view: cell, at: index, frame: provider.frame(at: index))
+      (cell.collectionPresenter ?? presenter).insert(collectionView: self, view: cell, at: index, frame: provider.frame(at: index))
     }
   }
   fileprivate func insert(cell: UIView) {

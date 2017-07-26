@@ -35,7 +35,7 @@
 		B14B0E0A1F27A084003E5105 /* SelectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0E091F27A084003E5105 /* SelectionButton.swift */; };
 		B15029151EA671E600F89915 /* YetAnotherAnimationLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */; };
 		B1688A271F25448900C229BD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A261F25448900C229BD /* ViewController.swift */; };
-		B1688A291F2562AC00C229BD /* SingleViewCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A281F2562AC00C229BD /* SingleViewCollectionProvider.swift */; };
+		B1688A291F2562AC00C229BD /* ViewCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A281F2562AC00C229BD /* ViewCollectionProvider.swift */; };
 		B1688A2B1F25631200C229BD /* LabelCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A2A1F25631200C229BD /* LabelCollectionProvider.swift */; };
 		B1688A2D1F25632900C229BD /* SpaceCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A2C1F25632900C229BD /* SpaceCollectionProvider.swift */; };
 		B1688A2F1F2563A200C229BD /* AnyCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A2E1F2563A200C229BD /* AnyCollectionProvider.swift */; };
@@ -123,7 +123,7 @@
 		B14B0E091F27A084003E5105 /* SelectionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionButton.swift; sourceTree = "<group>"; };
 		B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YetAnotherAnimationLibrary.framework; path = Carthage/Build/iOS/YetAnotherAnimationLibrary.framework; sourceTree = "<group>"; };
 		B1688A261F25448900C229BD /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = "Examples/ComposeExample'/ViewController.swift"; sourceTree = SOURCE_ROOT; };
-		B1688A281F2562AC00C229BD /* SingleViewCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SingleViewCollectionProvider.swift; sourceTree = "<group>"; };
+		B1688A281F2562AC00C229BD /* ViewCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewCollectionProvider.swift; sourceTree = "<group>"; };
 		B1688A2A1F25631200C229BD /* LabelCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelCollectionProvider.swift; sourceTree = "<group>"; };
 		B1688A2C1F25632900C229BD /* SpaceCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpaceCollectionProvider.swift; sourceTree = "<group>"; };
 		B1688A2E1F2563A200C229BD /* AnyCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCollectionProvider.swift; sourceTree = "<group>"; };
@@ -195,7 +195,7 @@
 				B19E0BCF1F22B21C00214866 /* CollectionReuseViewManager.swift */,
 				B12F9B2E1E8067480085F37D /* CollectionDragManager.swift */,
 				B12A1BFE1F22B33C00D5C1C1 /* CollectionVisibleIndexesManager.swift */,
-				B1688A281F2562AC00C229BD /* SingleViewCollectionProvider.swift */,
+				B1688A281F2562AC00C229BD /* ViewCollectionProvider.swift */,
 				B1688A2A1F25631200C229BD /* LabelCollectionProvider.swift */,
 				B1688A2C1F25632900C229BD /* SpaceCollectionProvider.swift */,
 				B12A1C001F22B3CC00D5C1C1 /* Extensions */,
@@ -523,7 +523,7 @@
 				B1E861F41F21517400621BA0 /* CollectionDataProvider.swift in Sources */,
 				B100C3FA1EA55B3200868840 /* DictionaryTwoWay.swift in Sources */,
 				B10A062C1F20082600069E17 /* CollectionResponder.swift in Sources */,
-				B1688A291F2562AC00C229BD /* SingleViewCollectionProvider.swift in Sources */,
+				B1688A291F2562AC00C229BD /* ViewCollectionProvider.swift in Sources */,
 				B1E861F91F21520200621BA0 /* CollectionComposer.swift in Sources */,
 				B12A1BFF1F22B38900D5C1C1 /* CollectionVisibleIndexesManager.swift in Sources */,
 				B1688A2F1F2563A200C229BD /* AnyCollectionProvider.swift in Sources */,

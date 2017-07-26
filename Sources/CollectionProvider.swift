@@ -22,14 +22,14 @@ open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIV
   public var layout: Layout { didSet { setNeedsReload() } }
   public var sizeProvider: SizeProvider { didSet { setNeedsReload() } }
   public var responder: Responder { didSet { setNeedsReload() } }
-  public var presenter: Presenter { didSet { setNeedsReload() } }
+  public var presenter: Presenter? { didSet { setNeedsReload() } }
 
   public init(dataProvider: DataProvider,
               viewProvider: ViewProvider,
               layout: Layout = FlowLayout<Data>(),
               sizeProvider: SizeProvider = SizeProvider(),
               responder: Responder = Responder(),
-              presenter: Presenter = Presenter()) {
+              presenter: Presenter? = nil) {
     self.dataProvider = dataProvider
     self.viewProvider = viewProvider
     self.layout = layout
@@ -42,7 +42,11 @@ open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIV
     return dataProvider.numberOfItems
   }
   open func view(at: Int) -> UIView {
-    return viewProvider.view(at: at)
+    let view = viewProvider.view(at: at)
+    if let presenter = presenter, view.collectionPresenter == nil {
+      view.collectionPresenter = presenter
+    }
+    return view
   }
   open func update(view: UIView, at: Int) {
     viewProvider.update(view: view as! View, with: dataProvider.data(at: at), at: at)
@@ -81,22 +85,6 @@ open class CollectionProvider<Data, View>: AnyCollectionProvider where View: UIV
   }
   open func didTap(view: UIView, at: Int) {
     responder.didTap(view: view, at: at, dataProvider: dataProvider)
-  }
-  
-  open func prepareForPresentation(collectionView: CollectionView) {
-    presenter.prepare(collectionView: collectionView)
-  }
-  open func shift(delta: CGPoint) {
-    presenter.shift(delta: delta)
-  }
-  open func insert(view: UIView, at: Int, frame: CGRect) {
-    presenter.insert(view: view, at: at, frame: frame)
-  }
-  open func delete(view: UIView, at: Int, frame: CGRect) {
-    presenter.delete(view: view, at: at, frame: frame)
-  }
-  open func update(view: UIView, at: Int, frame: CGRect) {
-    presenter.update(view: view, at: at, frame: frame)
   }
   open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     return reloadable === self || reloadable === dataProvider || reloadable === responder
@@ -139,10 +127,4 @@ open class BaseCollectionProvider: AnyCollectionProvider {
     return false
   }
   open func didTap(view: UIView, at: Int) {}
-  
-  open func prepareForPresentation(collectionView: CollectionView) {}
-  open func shift(delta: CGPoint) {}
-  open func insert(view: UIView, at: Int, frame: CGRect) {}
-  open func delete(view: UIView, at: Int, frame: CGRect) {}
-  open func update(view: UIView, at: Int, frame: CGRect) {}
 }

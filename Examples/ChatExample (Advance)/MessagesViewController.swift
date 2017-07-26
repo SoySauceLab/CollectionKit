@@ -60,20 +60,13 @@ class MessageLayout: CollectionLayout<Message> {
 class MessagePresenter: WobblePresenter {
   var dataProvider: MessageDataProvider?
   weak var sourceView: UIView?
-  weak var collectionView: CollectionView?
   var sendingMessage = false
 
-  override func prepare(collectionView: CollectionView) {
-    super.prepare(collectionView: collectionView)
-    self.collectionView = collectionView
-  }
-
-  override func insert(view: UIView, at index: Int, frame: CGRect) {
-    super.insert(view: view, at: index, frame: frame)
+  override func insert(collectionView: CollectionView, view: UIView, at index: Int, frame: CGRect) {
+    super.insert(collectionView: collectionView, view: view, at: index, frame: frame)
     guard let messages = dataProvider?.data,
-          let collectionView = collectionView,
-          let sourceView = sourceView,
-          collectionView.hasReloaded else { return }
+      let sourceView = sourceView,
+      collectionView.hasReloaded else { return }
     if sendingMessage && index == messages.count - 1 {
       // we just sent this message, lets animate it from inputToolbarView to it's position
       view.frame = collectionView.convert(sourceView.bounds, from: sourceView)
