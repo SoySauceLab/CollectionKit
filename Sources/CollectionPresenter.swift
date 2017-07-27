@@ -88,7 +88,7 @@ open class WobblePresenter: CollectionPresenter {
                                y: delta.y > 0 ? min(delta.y, newCenterDiff.y) : max(delta.y, newCenterDiff.y))
     view.center = view.center + constrainted
     view.yaal.center.updateWithCurrentState()
-    view.yaal.center.animateTo(frame.center, stiffness: 200, damping: 30, threshold:0.5)
+    view.yaal.center.animateTo(frame.center, stiffness: 250, damping: 30, threshold:0.5)
   }
 }
 

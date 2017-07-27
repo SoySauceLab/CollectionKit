@@ -21,19 +21,7 @@ open class CollectionView: UIScrollView {
   public private(set) var hasReloaded = false
   public private(set) var needsReload = true
 
-  public var minimumContentSize: CGSize = .zero {
-    didSet{
-      let newContentSize = CGSize(width: max(minimumContentSize.width, contentSize.width),
-                                  height: max(minimumContentSize.height, contentSize.height))
-      if newContentSize != contentSize {
-        contentSize = newContentSize
-      }
-    }
-  }
-
   public var overlayView = UIView()
-
-  public var supportOverflow = false
 
   let dragManager = CollectionDragManager()
   public var visibleIndexes: Set<Int> = []
@@ -173,8 +161,7 @@ open class CollectionView: UIScrollView {
   
   public func invalidateLayout() {
     provider.layout(collectionSize: innerSize)
-    contentSize = CGSize(width: max(minimumContentSize.width, provider.contentSize.width),
-                         height: max(minimumContentSize.height, provider.contentSize.height))
+    contentSize = provider.contentSize
     loadCells()
   }
 
@@ -208,8 +195,7 @@ open class CollectionView: UIScrollView {
     }
 
     let oldContentOffset = contentOffset
-    contentSize = CGSize(width: max(minimumContentSize.width, provider.contentSize.width),
-                         height: max(minimumContentSize.height, provider.contentSize.height))
+    contentSize = provider.contentSize
     if let offset = contentOffsetAdjustFn?() {
       let scrollVelocity = self.scrollVelocity
       contentOffset = offset
@@ -310,22 +296,6 @@ open class CollectionView: UIScrollView {
       }
     } else {
       insertSubview(cell, belowSubview: overlayView)
-    }
-  }
-
-  override open func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
-    if supportOverflow {
-      if super.point(inside: point, with: event) {
-        return true
-      }
-      for cell in visibleCells {
-        if cell.point(inside: cell.convert(point, from: self), with: event) {
-          return true
-        }
-      }
-      return false
-    } else {
-      return super.point(inside: point, with: event)
     }
   }
 }
