@@ -45,7 +45,7 @@ let presenterSection: AnyCollectionProvider = {
       view.layer.cornerRadius = 5
       view.clipsToBounds = true
     }),
-    layout: WaterfallLayout<UIImage>(insets: bodyInset, axis: .horizontal),
+    layout: WaterfallLayout<UIImage>(columns:2, insets: bodyInset, axis: .horizontal),
     sizeProvider: ImageSizeProvider(),
     presenter: presenters[0].1
   )
@@ -65,10 +65,12 @@ let presenterSection: AnyCollectionProvider = {
     }),
     responder: ClosureResponder(onTap: { _, index, dataProvider in
       provider.presenter = dataProvider.data(at: index).1
+      provider.layout = WaterfallLayout<UIImage>(columns:1, insets: bodyInset, axis: .horizontal)
       dataProvider.reloadData()
     }),
     presenter: WobblePresenter()
   )
+
   buttonsCollectionView.provider = buttonsProvider
   
   let buttonsCollectionViewProvider = ViewCollectionProvider(buttonsCollectionView, sizeStrategy: .fillWidth(height: 64))
@@ -106,8 +108,9 @@ class ViewController: UIViewController {
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
       }),
-      layout: WaterfallLayout<UIImage>(insets: bodyInset, axis: .vertical),
-      sizeProvider: ImageSizeProvider()
+      layout: WaterfallLayout<UIImage>(columns:2, insets: bodyInset, axis: .vertical),
+      sizeProvider: ImageSizeProvider(),
+      presenter: WobblePresenter()
     )
     
     let coreConceptSection: AnyCollectionProvider = {

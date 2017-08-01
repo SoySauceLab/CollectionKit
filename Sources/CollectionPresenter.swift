@@ -40,7 +40,7 @@ open class CollectionPresenter {
     }
   }
   open func delete(collectionView: CollectionView, view: UIView, at: Int) {
-    if collectionView.bounds.intersects(view.frame), let deleteAnimation = insertAnimation {
+    if collectionView.bounds.intersects(view.frame), let deleteAnimation = deleteAnimation {
       switch deleteAnimation {
       case .fade:
         UIView.animate(withDuration: 0.2, animations: {
