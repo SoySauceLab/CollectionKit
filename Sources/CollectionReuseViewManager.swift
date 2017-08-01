@@ -29,12 +29,13 @@ public class CollectionReuseViewManager: NSObject {
     cleanupTimer = Timer.scheduledTimer(timeInterval: lifeSpan, target: self, selector: #selector(cleanup), userInfo: nil, repeats: false)
   }
   
-  public func dequeue<T: UIView> (_ viewClass: T.Type) -> T? {
-    let view = reusableViews[String(describing: viewClass)]?.popLast() as? T
+  public func dequeue<T: UIView> (_ defaultView: @autoclosure () -> T) -> T {
+    let queuedView = reusableViews[String(describing: T.self)]?.popLast() as? T
+    let view = queuedView ?? defaultView()
     if let view = view as? CollectionViewReusableView {
       view.prepareForReuse()
     }
-    view?.reuseManager = self
+    view.reuseManager = self
     return view
   }
   

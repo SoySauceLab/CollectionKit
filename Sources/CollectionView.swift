@@ -122,11 +122,10 @@ open class CollectionView: UIScrollView {
     }
   }
   var activeFrame: CGRect {
-    let extendedFrame = visibleFrame.insetBy(dx: -abs(scrollVelocity.x * 10).clamp(50, 400), dy: -abs(scrollVelocity.y * 10).clamp(50, 400))
     if let activeFrameSlop = activeFrameSlop {
-      return CGRect(x: extendedFrame.origin.x + activeFrameSlop.left, y: extendedFrame.origin.y + activeFrameSlop.top, width: extendedFrame.width - activeFrameSlop.left - activeFrameSlop.right, height: extendedFrame.height - activeFrameSlop.top - activeFrameSlop.bottom)
+      return CGRect(x: visibleFrame.origin.x + activeFrameSlop.left, y: visibleFrame.origin.y + activeFrameSlop.top, width: visibleFrame.width - activeFrameSlop.left - activeFrameSlop.right, height: visibleFrame.height - activeFrameSlop.top - activeFrameSlop.bottom)
     } else {
-      return extendedFrame
+      return visibleFrame
     }
   }
 
@@ -140,11 +139,17 @@ open class CollectionView: UIScrollView {
     loading = true
     lastLoadBounds = bounds
 
-    let indexes = provider.visibleIndexes(activeFrame: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
+    var indexes = provider.visibleIndexes(activeFrame: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
     let deletedIndexes = visibleIndexes.subtracting(indexes)
     let newIndexes = indexes.subtracting(visibleIndexes)
     for i in deletedIndexes {
-      disappearCell(at: i)
+      if let cell = visibleCellToIndexMap[i], bounds.intersects(cell.frame) {
+        // Dont remove cell if it is still on screen. this is probably because the presenter is doing some animation with the cell
+        // which resulted the cell being at a different position. We will remove this cell later.
+        indexes.insert(i)
+      } else {
+        disappearCell(at: i)
+      }
     }
     for i in newIndexes {
       appearCell(at: i)

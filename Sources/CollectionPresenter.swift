@@ -22,7 +22,7 @@ open class CollectionPresenter {
   open func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     view.bounds.size = frame.bounds.size
     view.center = frame.center
-    if collectionView.hasReloaded, collectionView.bounds.intersects(frame), let insertAnimation = insertAnimation {
+    if collectionView.reloading, collectionView.hasReloaded, collectionView.bounds.intersects(frame), let insertAnimation = insertAnimation {
       switch insertAnimation {
       case .fade:
         view.alpha = 0
@@ -40,7 +40,7 @@ open class CollectionPresenter {
     }
   }
   open func delete(collectionView: CollectionView, view: UIView, at: Int) {
-    if collectionView.bounds.intersects(view.frame), let deleteAnimation = deleteAnimation {
+    if collectionView.reloading, collectionView.bounds.intersects(view.frame), let deleteAnimation = deleteAnimation {
       switch deleteAnimation {
       case .fade:
         UIView.animate(withDuration: 0.2, animations: {
@@ -76,6 +76,20 @@ open class WobblePresenter: CollectionPresenter {
   open override func shift(collectionView: CollectionView, delta: CGPoint, view: UIView, at: Int, frame: CGRect) {
     view.center = view.center + delta
     view.yaal.center.updateWithCurrentState()
+  }
+
+  open override func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
+    super.insert(collectionView: collectionView, view: view, at: at, frame: frame)
+    let delta = collectionView.scrollVelocity * 4
+    view.bounds.size = frame.bounds.size
+    let cellDiff = frame.center - collectionView.contentOffset - collectionView.screenDragLocation
+    let resistance = (cellDiff * sensitivity).distance(.zero) / 1000
+    let newCenterDiff = delta * resistance
+    let constrainted = CGPoint(x: delta.x > 0 ? min(delta.x, newCenterDiff.x) : max(delta.x, newCenterDiff.x),
+                               y: delta.y > 0 ? min(delta.y, newCenterDiff.y) : max(delta.y, newCenterDiff.y))
+    view.center = view.center + constrainted
+    view.yaal.center.updateWithCurrentState()
+    view.yaal.center.animateTo(frame.center, stiffness: 250, damping: 30, threshold:0.5)
   }
 
   open override func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
