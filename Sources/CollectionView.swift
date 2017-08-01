@@ -274,6 +274,9 @@ open class CollectionView: UIScrollView {
   }
   fileprivate func appearCell(at index: Int) {
     let cell = provider.view(at: index)
+    let frame = provider.frame(at: index)
+    cell.bounds.size = frame.bounds.size
+    cell.center = frame.center
     provider.update(view: cell, at: index)
     if visibleCellToIndexMap[cell] == nil {
       visibleCellToIndexMap[cell] = index
