@@ -15,7 +15,7 @@ public protocol CollectionViewReusableView: class {
 public class CollectionReuseViewManager: NSObject {
   var reusableViews: [String:[UIView]] = [:]
   var cleanupTimer: Timer?
-  public var lifeSpan: TimeInterval = 0.25
+  public var lifeSpan: TimeInterval = 0.5
 
   public func queue(view: UIView) {
     let identifier = String(describing: type(of: view))
