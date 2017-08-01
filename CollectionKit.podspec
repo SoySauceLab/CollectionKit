@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "CollectionKit"
-  s.version          = "0.0.1"
+  s.version          = "0.0.2"
   s.summary          = "Modern UICollectionView alternative. Provides data-driven reusable components for building collections."
 
   s.description      = <<-DESC
