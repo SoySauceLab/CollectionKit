@@ -9,10 +9,9 @@
 import UIKit
 
 open class CollectionLayout<Data> {
-  private let visibleIndexesManager = CollectionVisibleIndexesManager()
-
   open var insets: UIEdgeInsets = .zero
   open var frames: [CGRect] = []
+  open var visibleIndexSorter: CollectionVisibleIndexSorter?
 
   open func layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: CollectionSizeProvider<Data>) {
     frames = []
@@ -21,7 +20,6 @@ open class CollectionLayout<Data> {
   private var _contentSize: CGSize = .zero
   internal func _layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: CollectionSizeProvider<Data>) {
     layout(collectionSize: collectionSize.insets(by: insets), dataProvider: dataProvider, sizeProvider: sizeProvider)
-    visibleIndexesManager.reload(with: frames)
     _contentSize = frames.reduce(CGRect.zero) { (old, item) in
       old.union(item)
     }.size
@@ -36,7 +34,17 @@ open class CollectionLayout<Data> {
   }
 
   open func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
-    return visibleIndexesManager.visibleIndexes(for: activeFrame - CGPoint(x: insets.left, y: insets.top))
+    let visibleFrame = activeFrame - CGPoint(x: insets.left, y: insets.top)
+    if let visibleIndexSorter = visibleIndexSorter {
+      return visibleIndexSorter.visibleIndexes(for: visibleFrame)
+    }
+    var result = Set<Int>()
+    for (i, frame) in frames.enumerated() {
+      if frame.intersects(visibleFrame) {
+        result.insert(i)
+      }
+    }
+    return result
   }
 
   public init(insets: UIEdgeInsets = .zero) {
@@ -89,7 +97,7 @@ public class WaterfallLayout<Data>: CollectionLayout<Data> {
       }
       return minWidth
     }
-    
+
     if axis == .vertical {
       for i in 0..<dataProvider.numberOfItems {
         let avaliableHeight = (maxSize.width - CGFloat(columnWidth.count - 1) * padding) / CGFloat(columnWidth.count)
@@ -101,6 +109,7 @@ public class WaterfallLayout<Data>: CollectionLayout<Data> {
                                            y: offsetY), size: cellSize)
         frames.append(frame)
       }
+      visibleIndexSorter = CollectionVerticalVisibleIndexSorter(frames: frames)
     } else {
       for i in 0..<dataProvider.numberOfItems {
         let avaliableHeight = (maxSize.height - CGFloat(columnWidth.count - 1) * padding) / CGFloat(columnWidth.count)
@@ -112,6 +121,7 @@ public class WaterfallLayout<Data>: CollectionLayout<Data> {
                                            y: CGFloat(rowIndex) * (avaliableHeight + padding)), size: cellSize)
         frames.append(frame)
       }
+      visibleIndexSorter = CollectionHorizontalVisibleIndexSorter(frames: frames)
     }
   }
 }
@@ -139,9 +149,10 @@ public class FlowLayout<Data>: CollectionLayout<Data> {
       }
       currentRowMaxHeight = max(currentRowMaxHeight, size.height)
       let frame = CGRect(origin: offset, size: size)
-//      print(i, type(of: dataProvider.data(at: i)), frame)
       frames.append(frame)
       offset.x += size.width + padding
     }
+
+    visibleIndexSorter = CollectionVerticalVisibleIndexSorter(frames: frames)
   }
 }

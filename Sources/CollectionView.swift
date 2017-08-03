@@ -188,7 +188,7 @@ open class CollectionView: UIScrollView {
     for index in 0..<itemCount {
       let identifier = provider.identifier(at: index)
       if newIdentifiersToIndexMap[identifier] != nil {
-        print("[CollectionView] Duplicate Identifier: \(identifier)")
+        // print("[CollectionView] Duplicate Identifier: \(identifier)")
         var i = 2
         var newIdentifier = ""
         repeat {
