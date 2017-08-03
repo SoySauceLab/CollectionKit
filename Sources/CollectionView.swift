@@ -156,9 +156,11 @@ open class CollectionView: UIScrollView {
     }
     visibleIndexes = indexes
 
-    for (index, view) in visibleCellToIndexMap.ts {
-      if !floatingCells.contains(view) {
-        (view.collectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
+    if !needsReload {
+      for (index, view) in visibleCellToIndexMap.ts {
+        if !floatingCells.contains(view) {
+          (view.collectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
+        }
       }
     }
     loading = false
