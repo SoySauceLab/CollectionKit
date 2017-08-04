@@ -9,8 +9,13 @@
 import UIKit
 
 open class LabelCollectionProvider: ViewCollectionProvider {
-  var label: UILabel {
+  public var label: UILabel {
     return view(at: 0) as! UILabel
+  }
+  public init(insets: UIEdgeInsets = .zero) {
+    let label = UILabel()
+    label.numberOfLines = 0
+    super.init(label, sizeStrategy:.fillWidth(height: nil), insets: insets)
   }
   public init(text: String, font: UIFont, color: UIColor = .black, insets: UIEdgeInsets = .zero) {
     let label = UILabel()
