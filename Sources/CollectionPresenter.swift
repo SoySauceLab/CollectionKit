@@ -46,14 +46,18 @@ open class CollectionPresenter {
         UIView.animate(withDuration: 0.2, animations: {
           view.alpha = 0
         }) { _ in
-          view.recycleForCollectionKitReuse()
+          if collectionView.visibleCellToIndexMap[view] == nil {
+            view.recycleForCollectionKitReuse()
+          }
         }
       case .scale:
         UIView.animate(withDuration: 0.2, animations: {
           view.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
           view.alpha = 0
         }) { _ in
-          view.recycleForCollectionKitReuse()
+          if collectionView.visibleCellToIndexMap[view] == nil {
+            view.recycleForCollectionKitReuse()
+          }
         }
       }
     } else {

@@ -9,6 +9,9 @@
 import UIKit
 
 open class LabelCollectionProvider: ViewCollectionProvider {
+  var label: UILabel {
+    return view(at: 0) as! UILabel
+  }
   public init(text: String, font: UIFont, color: UIColor = .black, insets: UIEdgeInsets = .zero) {
     let label = UILabel()
     label.font = font

@@ -20,7 +20,7 @@ extension UIView {
     set { objc_setAssociatedObject(self, &AssociatedKeys.reuseManager, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
   }
 
-  internal var collectionPresenter: CollectionPresenter? {
+  public var collectionPresenter: CollectionPresenter? {
     get { return objc_getAssociatedObject(self, &AssociatedKeys.presenter) as? CollectionPresenter }
     set { objc_setAssociatedObject(self, &AssociatedKeys.presenter, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
   }
