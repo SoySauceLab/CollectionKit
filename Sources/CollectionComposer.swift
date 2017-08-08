@@ -65,8 +65,10 @@ open class CollectionComposer: BaseCollectionProvider {
   }
   open override func layout(collectionSize: CGSize) {
     layout._layout(collectionSize: collectionSize,
-                           dataProvider: ArrayDataProvider(data: sections),
-                           sizeProvider: SectionSizeProvider())
+                   dataProvider: ArrayDataProvider(data: sections, identifierMapper: {
+                    return $0.1.identifier ?? "\($0.0)"
+                   }),
+                   sizeProvider: SectionSizeProvider())
   }
   open override var contentSize: CGSize {
     return layout.contentSize

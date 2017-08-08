@@ -22,19 +22,24 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
   
   public enum ViewSizeStrategy {
     case sizeThatFits
+    case fill
     case fillWidth(height: CGFloat?)
     case fillHeight(width: CGFloat?)
     case absolute(size: CGSize)
   }
 
   public init(_ views: UIView..., sizeStrategy: ViewSizeStrategy = .sizeThatFits, insets: UIEdgeInsets = .zero) {
-    super.init(dataProvider: ArrayDataProvider(data: views),
+    super.init(dataProvider: ArrayDataProvider(data: views, identifierMapper: {
+                return "\($0.1.hash)"
+               }),
                viewProvider: ViewProvider(views: views),
                sizeProvider: ClosureSizeProvider(sizeProvider: { (_, view, size) -> CGSize in
                 let fitSize = view.sizeThatFits(size)
                 switch sizeStrategy {
                 case .sizeThatFits:
                   return fitSize
+                case .fill:
+                  return size
                 case .fillWidth(let height):
                   return CGSize(width: size.width, height: height ?? fitSize.height)
                 case .fillHeight(let width):

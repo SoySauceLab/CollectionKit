@@ -48,6 +48,7 @@ open class CollectionPresenter {
         }) { _ in
           if collectionView.visibleCellToIndexMap[view] == nil {
             view.recycleForCollectionKitReuse()
+            view.alpha = 1
           }
         }
       case .scale:
@@ -57,6 +58,8 @@ open class CollectionPresenter {
         }) { _ in
           if collectionView.visibleCellToIndexMap[view] == nil {
             view.recycleForCollectionKitReuse()
+            view.transform = CGAffineTransform.identity
+            view.alpha = 1
           }
         }
       }

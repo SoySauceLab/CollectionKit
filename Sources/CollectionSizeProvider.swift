@@ -10,7 +10,7 @@ import UIKit
 
 open class CollectionSizeProvider<Data> {
   open func size(at: Int, data: Data, collectionSize: CGSize) -> CGSize {
-    return CGSize(width: 50, height: 50)
+    return collectionSize
   }
   public init() {}
 }
