@@ -29,7 +29,11 @@ open class CollectionComposer: BaseCollectionProvider {
   fileprivate var lastSectionBeginIndex: [Int]?
   fileprivate var lastSectionForIndex: [Int]?
 
-  var layout: CollectionLayout<AnyCollectionProvider>
+  public var layout: CollectionLayout<AnyCollectionProvider> {
+    didSet {
+      setNeedsReload()
+    }
+  }
 
   public init(layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(), _ sections: [AnyCollectionProvider]) {
     self.sections = sections

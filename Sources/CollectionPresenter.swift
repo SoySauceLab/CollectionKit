@@ -18,7 +18,7 @@ open class CollectionPresenter {
 
   open var insertAnimation: CollectionPresenterAnimation?
   open var deleteAnimation: CollectionPresenterAnimation?
-  weak var collectionView: CollectionView?
+
   open func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     view.bounds.size = frame.bounds.size
     view.center = frame.center

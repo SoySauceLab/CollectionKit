@@ -18,8 +18,12 @@ open class CollectionView: UIScrollView {
 
   public var presenter: CollectionPresenter = CollectionPresenter()
 
-  public private(set) var hasReloaded = false
+  public private(set) var reloadCount = 0
   public private(set) var needsReload = true
+
+  public var hasReloaded: Bool {
+    return reloadCount > 0
+  }
 
   public var overlayView = UIView()
 
@@ -176,7 +180,6 @@ open class CollectionView: UIScrollView {
   public func reloadData(contentOffsetAdjustFn: (()->CGPoint)? = nil) {
     provider.willReload()
     reloading = true
-    needsReload = false
     lastLoadBounds = bounds
     provider.layout(collectionSize: innerSize)
 
@@ -263,8 +266,10 @@ open class CollectionView: UIScrollView {
         (view.collectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
       }
     }
+
+    needsReload = false
+    reloadCount += 1
     reloading = false
-    hasReloaded = true
     provider.didReload()
   }
   
