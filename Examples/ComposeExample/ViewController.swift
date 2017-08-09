@@ -65,7 +65,6 @@ let presenterSection: AnyCollectionProvider = {
     }),
     responder: ClosureResponder(onTap: { _, index, dataProvider in
       provider.presenter = dataProvider.data(at: index).1
-      provider.layout = WaterfallLayout<UIImage>(columns:1, insets: bodyInset, axis: .horizontal)
       dataProvider.reloadData()
     }),
     presenter: WobblePresenter()
@@ -73,8 +72,8 @@ let presenterSection: AnyCollectionProvider = {
 
   buttonsCollectionView.provider = buttonsProvider
   
-  let buttonsCollectionViewProvider = ViewCollectionProvider(buttonsCollectionView, sizeStrategy: .fillWidth(height: 64))
-  let providerCollectionViewProvider = ViewCollectionProvider(providerCollectionView, sizeStrategy: .fillWidth(height: 400))
+  let buttonsCollectionViewProvider = ViewCollectionProvider(buttonsCollectionView, sizeStrategy: (.fill, .absolute(64)))
+  let providerCollectionViewProvider = ViewCollectionProvider(providerCollectionView, sizeStrategy: (.fill, .absolute(400)))
 
   return section(title: "Presenter",
                  subtitle: "Presenter can be used customize the presentation of the child views. It is independent of the layout and have direct access to the view object. It is the perfect place to add animations to an existing provider.",
@@ -99,7 +98,7 @@ class ViewController: UIViewController {
       layout: WaterfallLayout<UIImage>(insets: bodyInset, axis: .horizontal),
       sizeProvider: ImageSizeProvider()
     )
-    let image1Section = ViewCollectionProvider(imageCollectionView, sizeStrategy: .fillWidth(height: 400))
+    let image1Section = ViewCollectionProvider(imageCollectionView, sizeStrategy: (.fill, .absolute(400)))
 
     let image2Section = CollectionProvider(
       dataProvider: ArrayDataProvider(data: testImages),
@@ -139,7 +138,7 @@ class ViewController: UIViewController {
         })
       )
       
-      return section(title: "Core Concepts", content: ViewCollectionProvider(collectionView, sizeStrategy: .fillWidth(height: 200)))
+      return section(title: "Core Concepts", content: ViewCollectionProvider(collectionView, sizeStrategy: (.fill, .absolute(200))))
     }()
     
     collectionView.provider = CollectionComposer(

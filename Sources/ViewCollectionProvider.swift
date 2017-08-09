@@ -21,32 +21,31 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
   }
   
   public enum ViewSizeStrategy {
-    case sizeThatFits
     case fill
-    case fillWidth(height: CGFloat?)
-    case fillHeight(width: CGFloat?)
-    case absolute(size: CGSize)
+    case fit
+    case absolute(CGFloat)
   }
 
-  public init(_ views: UIView..., sizeStrategy: ViewSizeStrategy = .sizeThatFits, insets: UIEdgeInsets = .zero) {
+  public init(_ views: UIView..., sizeStrategy: (ViewSizeStrategy, ViewSizeStrategy) = (.fit, .fit), insets: UIEdgeInsets = .zero) {
     super.init(dataProvider: ArrayDataProvider(data: views, identifierMapper: {
                 return "\($0.1.hash)"
                }),
                viewProvider: ViewProvider(views: views),
                sizeProvider: ClosureSizeProvider(sizeProvider: { (_, view, size) -> CGSize in
                 let fitSize = view.sizeThatFits(size)
-                switch sizeStrategy {
-                case .sizeThatFits:
-                  return fitSize
-                case .fill:
-                  return size
-                case .fillWidth(let height):
-                  return CGSize(width: size.width, height: height ?? fitSize.height)
-                case .fillHeight(let width):
-                  return CGSize(width: width ?? fitSize.width, height: size.height)
-                case .absolute(let size):
-                  return size
+                let width: CGFloat, height: CGFloat
+                switch sizeStrategy.0 {
+                case .fit: width = fitSize.width
+                case .fill: width = size.width
+                case .absolute(let value): width = value
                 }
+                switch sizeStrategy.1 {
+                case .fit: height = fitSize.height
+                case .fill: height = size.height
+                case .absolute(let value): height = value
+                }
+
+                return CGSize(width: width, height: height)
                }))
     layout.insets = insets
   }

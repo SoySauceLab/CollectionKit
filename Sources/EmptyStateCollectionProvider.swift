@@ -23,7 +23,7 @@ public class EmptyStateCollectionProvider: CollectionComposer {
       if emptyStateView == nil {
         emptyStateView = emptyStateViewGetter()
       }
-      let viewSection = ViewCollectionProvider(emptyStateView!, sizeStrategy: .fill)
+      let viewSection = ViewCollectionProvider(emptyStateView!, sizeStrategy: (.fill, .fill))
       viewSection.identifier = "emptyStateView"
       sections = [viewSection]
     } else if content.numberOfItems > 0, sections.first !== content {
