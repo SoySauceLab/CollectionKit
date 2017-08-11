@@ -191,10 +191,10 @@ extension MessagesViewController: UIScrollViewDelegate {
       delay(0.5) { // Simulate network request
         let newMessages = testMessages.map{ $0.copy() }
         self.dataProvider.data = newMessages + self.dataProvider.data
-        let bottomOffset = self.collectionView.offsetFrame.maxY - self.collectionView.contentOffset.y
+        let oldContentHeight = self.collectionView.offsetFrame.maxY - self.collectionView.contentOffset.y
         self.collectionView.reloadData() {
           return CGPoint(x: self.collectionView.contentOffset.x,
-                         y: self.collectionView.offsetFrame.maxY - bottomOffset)
+                         y: self.collectionView.offsetFrame.maxY - oldContentHeight)
         }
         self.loading = false
       }

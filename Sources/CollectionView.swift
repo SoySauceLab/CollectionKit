@@ -78,7 +78,7 @@ open class CollectionView: UIScrollView {
 
       if limit != newOffset {
         collectionView.contentOffset = limit
-        collectionView.yaal.contentOffset.stop()
+        collectionView.yaal.contentOffset.updateWithCurrentState()
       }
     }
   }

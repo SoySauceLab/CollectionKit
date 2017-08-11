@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CollectionProvider<Data, View>: BaseCollectionProvider where View: UIView
+open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
 {
   public typealias DataProvider = CollectionDataProvider<Data>
   public typealias ViewProvider = CollectionViewProvider<Data, View>
