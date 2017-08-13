@@ -26,7 +26,7 @@ func section(title: String, subtitle: String? = nil, content: AnyCollectionProvi
 }
 
 func space(_ height: CGFloat) -> AnyCollectionProvider {
-  return SpaceCollectionProvider(.fillWidth(height: height))
+  return SpaceCollectionProvider((.fill, .absolute(height)))
 }
 
 

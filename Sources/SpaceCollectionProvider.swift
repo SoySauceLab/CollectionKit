@@ -10,26 +10,27 @@ import UIKit
 
 open class SpaceCollectionProvider: BaseCollectionProvider {
   public enum SpaceSizeStrategy {
-    case fillWidth(height: CGFloat)
-    case fillHeight(width: CGFloat)
-    case absolute(size: CGSize)
+    case fill
+    case absolute(CGFloat)
   }
-  public var spaceSizeStrategy: SpaceSizeStrategy
-  public init(_ spaceSizeStrategy: SpaceSizeStrategy = .fillWidth(height: 10)) {
-    self.spaceSizeStrategy = spaceSizeStrategy
+  public var sizeStrategy: (SpaceSizeStrategy, SpaceSizeStrategy)
+  public init(_ sizeStrategy: (SpaceSizeStrategy, SpaceSizeStrategy) = (.fill, .fill)) {
+    self.sizeStrategy = sizeStrategy
   }
   var _contentSize: CGSize = .zero
   open override var contentSize: CGSize {
     return _contentSize
   }
   open override func layout(collectionSize: CGSize) {
-    switch spaceSizeStrategy {
-    case .fillWidth(let height):
-      _contentSize = CGSize(width: collectionSize.width, height: height)
-    case .fillHeight(let width):
-      _contentSize = CGSize(width: width, height: collectionSize.height)
-    case .absolute(let size):
-      _contentSize = size
+    let width: CGFloat, height: CGFloat
+    switch sizeStrategy.0 {
+    case .fill: width = collectionSize.width
+    case .absolute(let value): width = value
     }
+    switch sizeStrategy.1 {
+    case .fill: height = collectionSize.height
+    case .absolute(let value): height = value
+    }
+    _contentSize = CGSize(width: width, height: height)
   }
 }
