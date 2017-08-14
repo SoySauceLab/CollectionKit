@@ -9,21 +9,18 @@
 import UIKit
 import CollectionKit
 
-class ImageSizeProvider: CollectionSizeProvider<UIImage> {
-  override func size(at: Int, data: UIImage, collectionSize: CGSize) -> CGSize {
-    var imageSize = data.size
-    if imageSize.width > collectionSize.width {
-      imageSize.height /= imageSize.width/collectionSize.width
-      imageSize.width = collectionSize.width
-    }
-    if imageSize.height > collectionSize.height {
-      imageSize.width /= imageSize.height/collectionSize.height
-      imageSize.height = collectionSize.height
-    }
-    return imageSize
+func imageSizeProvider(at: Int, data: UIImage, collectionSize: CGSize) -> CGSize {
+  var imageSize = data.size
+  if imageSize.width > collectionSize.width {
+    imageSize.height /= imageSize.width/collectionSize.width
+    imageSize.width = collectionSize.width
   }
+  if imageSize.height > collectionSize.height {
+    imageSize.width /= imageSize.height/collectionSize.height
+    imageSize.height = collectionSize.height
+  }
+  return imageSize
 }
-
 
 class HorizontalGalleryViewController: UIViewController, UIScrollViewDelegate {
 
@@ -40,33 +37,32 @@ class HorizontalGalleryViewController: UIViewController, UIScrollViewDelegate {
       view.clipsToBounds = true
     })
     let layout = WaterfallLayout<UIImage>(axis: .horizontal)
-    let sizeProvider = ImageSizeProvider()
 
     let provider1 = CollectionProvider(
       dataProvider: dataProvider,
       viewProvider: viewProvider,
       layout: layout,
-      sizeProvider: sizeProvider
+      sizeProvider: imageSizeProvider
     )
     let provider2 = CollectionProvider(
       dataProvider: dataProvider,
       viewProvider: viewProvider,
       layout: layout,
-      sizeProvider: sizeProvider,
+      sizeProvider: imageSizeProvider,
       presenter: WobblePresenter()
     )
     let provider3 = CollectionProvider(
       dataProvider: dataProvider,
       viewProvider: viewProvider,
       layout: layout,
-      sizeProvider: sizeProvider,
+      sizeProvider: imageSizeProvider,
       presenter: ZoomPresenter()
     )
     let provider4 = CollectionProvider(
       dataProvider: dataProvider,
       viewProvider: viewProvider,
       layout: layout,
-      sizeProvider: sizeProvider,
+      sizeProvider: imageSizeProvider,
       presenter: EdgeShrinkPresenter()
     )
 

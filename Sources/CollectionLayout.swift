@@ -101,7 +101,7 @@ public class WaterfallLayout<Data>: CollectionLayout<Data> {
     if axis == .vertical {
       for i in 0..<dataProvider.numberOfItems {
         let avaliableHeight = (maxSize.width - CGFloat(columnWidth.count - 1) * padding) / CGFloat(columnWidth.count)
-        var cellSize = sizeProvider.size(at: i, data: dataProvider.data(at: i), collectionSize: CGSize(width: avaliableHeight, height: collectionSize.width))
+        var cellSize = sizeProvider(i, dataProvider.data(at: i), CGSize(width: avaliableHeight, height: collectionSize.width))
         cellSize.width = avaliableHeight
         let (columnIndex, offsetY) = getMinColomn()
         columnWidth[columnIndex] += cellSize.height + padding
@@ -113,7 +113,7 @@ public class WaterfallLayout<Data>: CollectionLayout<Data> {
     } else {
       for i in 0..<dataProvider.numberOfItems {
         let avaliableHeight = (maxSize.height - CGFloat(columnWidth.count - 1) * padding) / CGFloat(columnWidth.count)
-        var cellSize = sizeProvider.size(at: i, data: dataProvider.data(at: i), collectionSize: CGSize(width: collectionSize.width, height: avaliableHeight))
+        var cellSize = sizeProvider(i, dataProvider.data(at: i), CGSize(width: collectionSize.width, height: avaliableHeight))
         cellSize.height = avaliableHeight
         let (rowIndex, offsetX) = getMinColomn()
         columnWidth[rowIndex] += cellSize.width + padding
@@ -141,7 +141,7 @@ public class FlowLayout<Data>: CollectionLayout<Data> {
     var offset = CGPoint.zero
     var currentRowMaxHeight: CGFloat = 0
     for i in 0..<dataProvider.numberOfItems {
-      let size = sizeProvider.size(at: i, data: dataProvider.data(at: i), collectionSize: collectionSize)
+      let size = sizeProvider(i, dataProvider.data(at: i), collectionSize)
       if offset.x + size.width > collectionSize.width, offset.x != 0 {
         offset.x = 0
         offset.y += currentRowMaxHeight + padding
@@ -194,7 +194,7 @@ public class FlexLayout<Data>: CollectionLayout<Data> {
         totalHeight += flex.range.lowerBound
         totalFlex += flex.flex
       } else {
-        let size = sizeProvider.size(at: i, data: dataProvider.data(at: i), collectionSize: collectionSize)
+        let size = sizeProvider(i, dataProvider.data(at: i), collectionSize)
         totalHeight += axis == .vertical ? size.height : size.width
       }
     }
@@ -207,9 +207,9 @@ public class FlexLayout<Data>: CollectionLayout<Data> {
       if let flex = flex[dataProvider.identifier(at: i)] {
         let height = (flex.range.lowerBound + flex.flex * heightPerFlex).clamp(flex.range.lowerBound, flex.range.upperBound)
         let collectionSize = axis == .vertical ? CGSize(width: collectionSize.width, height: height) : CGSize(width: height, height: collectionSize.height)
-        size = sizeProvider.size(at: i, data: dataProvider.data(at: i), collectionSize: collectionSize)
+        size = sizeProvider(i, dataProvider.data(at: i), collectionSize)
       } else {
-        size = sizeProvider.size(at: i, data: dataProvider.data(at: i), collectionSize: collectionSize)
+        size = sizeProvider(i, dataProvider.data(at: i), collectionSize)
       }
       let frame = CGRect(origin: (axis == .vertical ? CGPoint(x: 0, y: offset) : CGPoint(x: offset, y: 0)), size: size)
       frames.append(frame)

@@ -8,6 +8,10 @@
 
 import UIKit
 
+func defaultSizeProvider<Data>(at: Int, data: Data, collectionSize: CGSize) -> CGSize {
+  return collectionSize
+}
+
 open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
 {
   public typealias DataProvider = CollectionDataProvider<Data>
@@ -28,7 +32,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
               dataProvider: DataProvider,
               viewProvider: ViewProvider,
               layout: Layout = FlowLayout<Data>(),
-              sizeProvider: SizeProvider = SizeProvider(),
+              sizeProvider: @escaping SizeProvider = defaultSizeProvider,
               responder: Responder = Responder(),
               presenter: Presenter? = nil) {
     self.dataProvider = dataProvider

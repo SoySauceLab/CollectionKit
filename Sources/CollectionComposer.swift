@@ -8,13 +8,6 @@
 
 import UIKit
 
-fileprivate class SectionSizeProvider: CollectionSizeProvider<AnyCollectionProvider> {
-  override func size(at: Int, data: AnyCollectionProvider, collectionSize: CGSize) -> CGSize {
-    data.layout(collectionSize: collectionSize)
-    return data.contentSize
-  }
-}
-
 open class CollectionComposer: BaseCollectionProvider {
   public var sections: [AnyCollectionProvider] {
     didSet{
@@ -69,11 +62,15 @@ open class CollectionComposer: BaseCollectionProvider {
     return "\(sectionIdentifier)." + sections[sectionIndex].identifier(at: item)
   }
   open override func layout(collectionSize: CGSize) {
-    layout._layout(collectionSize: collectionSize,
-                   dataProvider: ArrayDataProvider(data: sections, identifierMapper: {
-                    return $0.1.identifier ?? "\($0.0)"
-                   }),
-                   sizeProvider: SectionSizeProvider())
+    layout._layout(
+      collectionSize: collectionSize,
+      dataProvider: ArrayDataProvider(data: sections, identifierMapper: {
+       return $0.1.identifier ?? "\($0.0)"
+      }),
+      sizeProvider: { (_, data, collectionSize) in
+        data.layout(collectionSize: collectionSize)
+        return data.contentSize
+      })
   }
   open override var contentSize: CGSize {
     return layout.contentSize

@@ -46,7 +46,7 @@ let presenterSection: AnyCollectionProvider = {
       view.clipsToBounds = true
     }),
     layout: WaterfallLayout<UIImage>(columns:2, insets: bodyInset, axis: .horizontal),
-    sizeProvider: ImageSizeProvider(),
+    sizeProvider: imageSizeProvider,
     presenter: presenters[0].1
   )
   providerCollectionView.provider = provider
@@ -60,9 +60,9 @@ let presenterSection: AnyCollectionProvider = {
       view.backgroundColor = provider.presenter === data.1 ? .lightGray : .white
     }),
     layout: WaterfallLayout(columns: 1, insets: bodyInset, axis: .horizontal),
-    sizeProvider: ClosureSizeProvider(sizeProvider: { _, data, maxSize in
+    sizeProvider: { _, data, maxSize in
       return CGSize(width: data.0.width(withConstraintedHeight: maxSize.height, font: UIFont.systemFont(ofSize:18)) + 20, height: maxSize.height)
-    }),
+    },
     responder: ClosureResponder(onTap: { _, index, dataProvider in
       provider.presenter = dataProvider.data(at: index).1
       dataProvider.reloadData()
@@ -96,7 +96,7 @@ class ViewController: UIViewController {
         view.clipsToBounds = true
       }),
       layout: WaterfallLayout<UIImage>(insets: bodyInset, axis: .horizontal),
-      sizeProvider: ImageSizeProvider()
+      sizeProvider: imageSizeProvider
     )
     let image1Section = ViewCollectionProvider(imageCollectionView, sizeStrategy: (.fill, .absolute(400)))
 
@@ -108,7 +108,7 @@ class ViewController: UIViewController {
         view.clipsToBounds = true
       }),
       layout: WaterfallLayout<UIImage>(columns:2, insets: bodyInset, axis: .vertical),
-      sizeProvider: ImageSizeProvider(),
+      sizeProvider: imageSizeProvider,
       presenter: WobblePresenter()
     )
     
@@ -130,9 +130,9 @@ class ViewController: UIViewController {
           view.subtitle = data.1
         }),
         layout: WaterfallLayout(columns:1, insets: bodyInset, axis: .horizontal),
-        sizeProvider: ClosureSizeProvider(sizeProvider: { (_, _, size) -> CGSize in
+        sizeProvider: { (_, _, size) -> CGSize in
           return size
-        }),
+        },
         responder: ClosureResponder(onTap: { [weak self] _, index, dataProvider in
           self?.present(MessagesViewController(), animated: true, completion: nil)
         })
