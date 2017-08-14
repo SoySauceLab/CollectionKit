@@ -63,11 +63,11 @@ let presenterSection: AnyCollectionProvider = {
     sizeProvider: { _, data, maxSize in
       return CGSize(width: data.0.width(withConstraintedHeight: maxSize.height, font: UIFont.systemFont(ofSize:18)) + 20, height: maxSize.height)
     },
-    responder: ClosureResponder(onTap: { _, index, dataProvider in
+    presenter: WobblePresenter(),
+    tapHandler: { _, index, dataProvider in
       provider.presenter = dataProvider.data(at: index).1
       dataProvider.reloadData()
-    }),
-    presenter: WobblePresenter()
+    }
   )
 
   buttonsCollectionView.provider = buttonsProvider
@@ -133,9 +133,9 @@ class ViewController: UIViewController {
         sizeProvider: { (_, _, size) -> CGSize in
           return size
         },
-        responder: ClosureResponder(onTap: { [weak self] _, index, dataProvider in
+        tapHandler: { [weak self] _, index, dataProvider in
           self?.present(MessagesViewController(), animated: true, completion: nil)
-        })
+        }
       )
       
       return section(title: "Core Concepts", content: ViewCollectionProvider(collectionView, sizeStrategy: (.fill, .absolute(200))))

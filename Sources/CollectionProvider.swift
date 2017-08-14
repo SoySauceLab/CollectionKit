@@ -18,29 +18,44 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
   public typealias ViewProvider = CollectionViewProvider<Data, View>
   public typealias Layout = CollectionLayout<Data>
   public typealias SizeProvider = CollectionSizeProvider<Data>
-  public typealias Responder = CollectionResponder<Data>
   public typealias Presenter = CollectionPresenter
   
   public var dataProvider: DataProvider { didSet { setNeedsReload() } }
   public var viewProvider: ViewProvider { didSet { setNeedsReload() } }
   public var layout: Layout { didSet { setNeedsReload() } }
   public var sizeProvider: SizeProvider { didSet { setNeedsReload() } }
-  public var responder: Responder { didSet { setNeedsReload() } }
   public var presenter: Presenter? { didSet { setNeedsReload() } }
+
+  public var willReloadHandler: (() -> Void)?
+  public var didReloadHandler: (() -> Void)?
+  public var willDragHandler: ((UIView, Int, DataProvider) -> Bool)?
+  public var didDragHandler: ((UIView, Int, DataProvider) -> Void)?
+  public var moveHandler: ((Int, Int, DataProvider) -> Bool)?
+  public var tapHandler: ((UIView, Int, DataProvider) -> Void)?
 
   public init(identifier: String? = nil,
               dataProvider: DataProvider,
               viewProvider: ViewProvider,
               layout: Layout = FlowLayout<Data>(),
               sizeProvider: @escaping SizeProvider = defaultSizeProvider,
-              responder: Responder = Responder(),
-              presenter: Presenter? = nil) {
+              presenter: Presenter? = nil,
+              willReloadHandler: (() -> Void)? = nil,
+              didReloadHandler: (() -> Void)? = nil,
+              willDragHandler: ((UIView, Int, DataProvider) -> Bool)? = nil,
+              didDragHandler: ((UIView, Int, DataProvider) -> Void)? = nil,
+              moveHandler: ((Int, Int, DataProvider) -> Bool)? = nil,
+              tapHandler: ((UIView, Int, DataProvider) -> Void)? = nil) {
     self.dataProvider = dataProvider
     self.viewProvider = viewProvider
     self.layout = layout
     self.sizeProvider = sizeProvider
-    self.responder = responder
     self.presenter = presenter
+    self.willReloadHandler = willReloadHandler
+    self.didReloadHandler = didReloadHandler
+    self.willDragHandler = willDragHandler
+    self.didDragHandler = didDragHandler
+    self.moveHandler = moveHandler
+    self.tapHandler = tapHandler
     super.init()
     self.identifier = identifier
   }
@@ -76,25 +91,25 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
   }
 
   open override func willReload() {
-    responder.willReload()
+    willReloadHandler?()
   }
   open override func didReload() {
-    responder.didReload()
+    didReloadHandler?()
   }
   open override func willDrag(view: UIView, at:Int) -> Bool {
-    return responder.willDrag(view: view, at: at, dataProvider: dataProvider)
+    return willDragHandler?(view, at, dataProvider) ?? false
   }
   open override func didDrag(view: UIView, at:Int) {
-    responder.didDrag(view: view, at: at, dataProvider: dataProvider)
+    didDragHandler?(view, at, dataProvider)
   }
   open override func moveItem(at: Int, to: Int) -> Bool {
-    return responder.moveItem(at: at, to: to, dataProvider: dataProvider)
+    return moveHandler?(at, to, dataProvider) ?? false
   }
   open override func didTap(view: UIView, at: Int) {
-    responder.didTap(view: view, at: at, dataProvider: dataProvider)
+    tapHandler?(view, at, dataProvider)
   }
   open override func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
-    return reloadable === self || reloadable === dataProvider || reloadable === responder
+    return reloadable === self || reloadable === dataProvider
   }
 }
 
