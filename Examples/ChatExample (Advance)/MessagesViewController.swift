@@ -125,9 +125,9 @@ class MessagesViewController: UIViewController {
     presenter.dataProvider = dataProvider
     provider = CollectionProvider(
       dataProvider: dataProvider,
-      viewProvider: ClosureViewProvider(viewUpdater: { (view: MessageCell, data: Message, at: Int) in
+      viewUpdater: { (view: MessageCell, data: Message, at: Int) in
         view.message = data
-      }),
+      },
       layout: MessageLayout(),
       presenter: presenter
     )

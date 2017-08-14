@@ -39,12 +39,12 @@ let presenterSection: AnyCollectionProvider = {
     ]
   let providerCollectionView = CollectionView()
   let provider = CollectionProvider(
-    dataProvider: ArrayDataProvider(data: testImages),
-    viewProvider: ClosureViewProvider(viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
+    data: testImages,
+    viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
       view.image = data
       view.layer.cornerRadius = 5
       view.clipsToBounds = true
-    }),
+    },
     layout: WaterfallLayout<UIImage>(columns:2, insets: bodyInset, axis: .horizontal),
     sizeProvider: imageSizeProvider,
     presenter: presenters[0].1
@@ -54,11 +54,11 @@ let presenterSection: AnyCollectionProvider = {
   let buttonsCollectionView = CollectionView()
   buttonsCollectionView.showsHorizontalScrollIndicator = false
   let buttonsProvider = CollectionProvider(
-    dataProvider: ArrayDataProvider(data: presenters),
-    viewProvider: ClosureViewProvider(viewUpdater: { (view: SelectionButton, data: (String, CollectionPresenter), at: Int) in
+    data: presenters,
+    viewUpdater: { (view: SelectionButton, data: (String, CollectionPresenter), at: Int) in
       view.text = data.0
       view.backgroundColor = provider.presenter === data.1 ? .lightGray : .white
-    }),
+    },
     layout: WaterfallLayout(columns: 1, insets: bodyInset, axis: .horizontal),
     sizeProvider: { _, data, maxSize in
       return CGSize(width: data.0.width(withConstraintedHeight: maxSize.height, font: UIFont.systemFont(ofSize:18)) + 20, height: maxSize.height)
@@ -89,24 +89,24 @@ class ViewController: UIViewController {
 
     let imageCollectionView = CollectionView()
     imageCollectionView.provider = CollectionProvider(
-      dataProvider: ArrayDataProvider(data: testImages),
-      viewProvider: ClosureViewProvider(viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
+      data: testImages,
+      viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
         view.image = data
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
-      }),
+      },
       layout: WaterfallLayout<UIImage>(insets: bodyInset, axis: .horizontal),
       sizeProvider: imageSizeProvider
     )
     let image1Section = ViewCollectionProvider(imageCollectionView, sizeStrategy: (.fill, .absolute(400)))
 
     let image2Section = CollectionProvider(
-      dataProvider: ArrayDataProvider(data: testImages),
-      viewProvider: ClosureViewProvider(viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
+      data: testImages,
+      viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
         view.image = data
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
-      }),
+      },
       layout: WaterfallLayout<UIImage>(columns:2, insets: bodyInset, axis: .vertical),
       sizeProvider: imageSizeProvider,
       presenter: WobblePresenter()
@@ -124,11 +124,11 @@ class ViewController: UIViewController {
       let collectionView = CollectionView()
       collectionView.clipsToBounds = false
       collectionView.provider = CollectionProvider(
-        dataProvider: ArrayDataProvider(data: concepts),
-        viewProvider: ClosureViewProvider(viewUpdater: { (view: CardView, data: (String, String), at: Int) in
+        data: concepts,
+        viewUpdater: { (view: CardView, data: (String, String), at: Int) in
           view.title = data.0
           view.subtitle = data.1
-        }),
+        },
         layout: WaterfallLayout(columns:1, insets: bodyInset, axis: .horizontal),
         sizeProvider: { (_, _, size) -> CGSize in
           return size

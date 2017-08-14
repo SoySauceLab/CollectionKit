@@ -27,10 +27,6 @@ class GridViewController: UIViewController {
     let dataProvider = ArrayDataProvider(data: Array(1...kGridSize.width * kGridSize.height), identifierMapper: { (_, data) in
       return "\(data)"
     })
-    let viewProvider = ClosureViewProvider(viewUpdater: { (view: UILabel, data: Int, at: Int) in
-      view.backgroundColor = UIColor.lightGray
-      view.text = "\(data)"
-    })
     let layout = Closurelayout(frameProvider: { (i: Int, data: Int,  _) in
       CGRect(x: CGFloat(i % kGridSize.width) * (kGridCellSize.width + kGridCellPadding),
              y: CGFloat(i / kGridSize.width) * (kGridCellSize.height + kGridCellPadding),
@@ -40,7 +36,10 @@ class GridViewController: UIViewController {
 
     collectionView.provider = CollectionProvider(
       dataProvider: dataProvider,
-      viewProvider: viewProvider,
+      viewUpdater: { (view: UILabel, data: Int, at: Int) in
+        view.backgroundColor = UIColor.lightGray
+        view.text = "\(data)"
+      },
       layout: layout,
       presenter: WobblePresenter(),
       willDragHandler: { _, _, _ in return true },
