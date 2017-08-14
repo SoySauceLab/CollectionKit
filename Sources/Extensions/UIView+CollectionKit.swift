@@ -13,6 +13,7 @@ extension UIView {
   private struct AssociatedKeys {
     static var reuseManager = "reuseManager"
     static var presenter = "presenter"
+    static var currentPresenter = "currentPresenter"
   }
   
   internal var reuseManager: CollectionReuseViewManager? {
@@ -22,7 +23,17 @@ extension UIView {
 
   public var collectionPresenter: CollectionPresenter? {
     get { return objc_getAssociatedObject(self, &AssociatedKeys.presenter) as? CollectionPresenter }
-    set { objc_setAssociatedObject(self, &AssociatedKeys.presenter, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    set {
+      if collectionPresenter === currentCollectionPresenter {
+        currentCollectionPresenter = newValue
+      }
+      objc_setAssociatedObject(self, &AssociatedKeys.presenter, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+  }
+
+  internal var currentCollectionPresenter: CollectionPresenter? {
+    get { return objc_getAssociatedObject(self, &AssociatedKeys.currentPresenter) as? CollectionPresenter }
+    set { objc_setAssociatedObject(self, &AssociatedKeys.currentPresenter, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
   }
   
   public func recycleForCollectionKitReuse() {

@@ -33,6 +33,8 @@ public protocol AnyCollectionProvider: CollectionReloadable {
   func didDrag(view: UIView, at:Int)
   func moveItem(at: Int, to: Int) -> Bool
   func didTap(view: UIView, at: Int)
+
+  func presenter(at: Int) -> CollectionPresenter?
   
   // determines if a context belongs to current provider
   func hasReloadable(_ reloadable: CollectionReloadable) -> Bool

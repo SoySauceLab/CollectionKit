@@ -45,11 +45,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
     return dataProvider.numberOfItems
   }
   open override func view(at: Int) -> UIView {
-    let view = viewProvider.view(at: at)
-    if let presenter = presenter, view.collectionPresenter == nil {
-      view.collectionPresenter = presenter
-    }
-    return view
+    return viewProvider.view(at: at)
   }
   open override func update(view: UIView, at: Int) {
     viewProvider.update(view: view as! View, with: dataProvider.data(at: at), at: at)
@@ -69,6 +65,10 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
   }
   open override func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
     return layout.visibleIndexes(activeFrame: activeFrame)
+  }
+
+  open override func presenter(at: Int) -> CollectionPresenter? {
+    return presenter
   }
 
   open override func willReload() {
@@ -120,7 +120,11 @@ open class BaseCollectionProvider: AnyCollectionProvider {
   open func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
     return Set<Int>()
   }
-  
+
+  open func presenter(at: Int) -> CollectionPresenter? {
+    return nil
+  }
+
   open func willReload() {}
   open func didReload() {}
   open func willDrag(view: UIView, at:Int) -> Bool {

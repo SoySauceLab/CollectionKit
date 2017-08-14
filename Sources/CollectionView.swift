@@ -163,7 +163,7 @@ open class CollectionView: UIScrollView {
     if !needsReload {
       for (index, view) in visibleCellToIndexMap.ts {
         if !floatingCells.contains(view) {
-          (view.collectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
+          (view.currentCollectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
         }
       }
     }
@@ -246,7 +246,8 @@ open class CollectionView: UIScrollView {
 
       newVisibleCellToIndexMap[newIndex] = cell
       provider.update(view: cell, at: newIndex)
-      (cell.collectionPresenter ?? presenter).shift(collectionView: self, delta: contentOffsetDiff, view: cell, at: newIndex, frame: provider.frame(at: newIndex))
+      cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: newIndex)
+      (cell.currentCollectionPresenter ?? presenter).shift(collectionView: self, delta: contentOffsetDiff, view: cell, at: newIndex, frame: provider.frame(at: newIndex))
     }
 
     for identifier in deletedVisibleIdentifiers {
@@ -263,7 +264,7 @@ open class CollectionView: UIScrollView {
 
     for (index, view) in visibleCellToIndexMap.ts {
       if !floatingCells.contains(view) {
-        (view.collectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
+        (view.currentCollectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
       }
     }
 
@@ -280,7 +281,7 @@ open class CollectionView: UIScrollView {
 
   fileprivate func disappearCell(at index: Int) {
     if let cell = visibleCellToIndexMap[index] {
-      (cell.collectionPresenter ?? presenter).delete(collectionView: self, view: cell, at: index)
+      (cell.currentCollectionPresenter ?? presenter).delete(collectionView: self, view: cell, at: index)
       visibleCellToIndexMap.remove(index)
     }
   }
@@ -290,10 +291,11 @@ open class CollectionView: UIScrollView {
     cell.bounds.size = frame.bounds.size
     cell.center = frame.center
     provider.update(view: cell, at: index)
+    cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: index)
     if visibleCellToIndexMap[cell] == nil {
       visibleCellToIndexMap[cell] = index
       insert(cell: cell)
-      (cell.collectionPresenter ?? presenter).insert(collectionView: self, view: cell, at: index, frame: provider.frame(at: index))
+      (cell.currentCollectionPresenter ?? presenter).insert(collectionView: self, view: cell, at: index, frame: provider.frame(at: index))
     }
   }
   fileprivate func insert(cell: UIView) {

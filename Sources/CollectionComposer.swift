@@ -29,19 +29,20 @@ open class CollectionComposer: BaseCollectionProvider {
   fileprivate var lastSectionBeginIndex: [Int]?
   fileprivate var lastSectionForIndex: [Int]?
 
+  public var presenter: CollectionPresenter? { didSet { setNeedsReload() } }
   public var layout: CollectionLayout<AnyCollectionProvider> {
     didSet {
       setNeedsReload()
     }
   }
 
-  public init(layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(), _ sections: [AnyCollectionProvider]) {
+  public init(layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(), presenter: CollectionPresenter? = nil, _ sections: [AnyCollectionProvider]) {
     self.sections = sections
     self.layout = layout
     super.init()
   }
 
-  public convenience init(layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(), _ sections: AnyCollectionProvider...) {
+  public convenience init(layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(), presenter: CollectionPresenter? = nil, _ sections: AnyCollectionProvider...) {
     self.init(layout: layout, sections)
   }
 
@@ -95,6 +96,12 @@ open class CollectionComposer: BaseCollectionProvider {
     frame.origin = frame.origin + layout.frame(at: sectionIndex).origin
     return frame
   }
+
+  open override func presenter(at: Int) -> CollectionPresenter? {
+    let (sectionIndex, item) = indexPath(at)
+    return sections[sectionIndex].presenter(at: item) ?? presenter
+  }
+
   open override func willReload() {
     lastSectionForIndex = sectionForIndex
     lastSectionBeginIndex = sectionBeginIndex
