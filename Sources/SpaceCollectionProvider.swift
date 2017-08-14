@@ -14,7 +14,7 @@ open class SpaceCollectionProvider: BaseCollectionProvider {
     case absolute(CGFloat)
   }
   public var sizeStrategy: (SpaceSizeStrategy, SpaceSizeStrategy)
-  public init(_ sizeStrategy: (SpaceSizeStrategy, SpaceSizeStrategy) = (.fill, .fill)) {
+  public init(sizeStrategy: (SpaceSizeStrategy, SpaceSizeStrategy) = (.fill, .fill)) {
     self.sizeStrategy = sizeStrategy
   }
   var _contentSize: CGSize = .zero
