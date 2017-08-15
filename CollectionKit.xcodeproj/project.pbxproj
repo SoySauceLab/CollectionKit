@@ -34,7 +34,6 @@
 		B144CE111F437AAB0073CF4E /* ClosureViewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE101F437AAB0073CF4E /* ClosureViewProvider.swift */; };
 		B144CE131F437AB70073CF4E /* WobblePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE121F437AB70073CF4E /* WobblePresenter.swift */; };
 		B144CE151F437AC10073CF4E /* ZoomPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE141F437AC10073CF4E /* ZoomPresenter.swift */; };
-		B144CE171F437AD00073CF4E /* EdgeShrinkPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE161F437AD00073CF4E /* EdgeShrinkPresenter.swift */; };
 		B144CE1C1F437C0A0073CF4E /* CollectionDragContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE1B1F437C0A0073CF4E /* CollectionDragContext.swift */; };
 		B148237C1F1E88430007A7E2 /* CollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B148237A1F1E87F60007A7E2 /* CollectionProvider.swift */; };
 		B14B0DFD1F2679E7003E5105 /* UIView+CollectionKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0DFB1F2679E4003E5105 /* UIView+CollectionKit.swift */; };
@@ -54,6 +53,7 @@
 		B19D64C91F23DCA800D02FDB /* CollectionReuseViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19E0BCF1F22B21C00214866 /* CollectionReuseViewManager.swift */; };
 		B19D64CF1F23DE8100D02FDB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B19D64CD1F23DE8100D02FDB /* Info.plist */; };
 		B19D64D01F23DE8100D02FDB /* MCollectionViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19D64CE1F23DE8100D02FDB /* MCollectionViewTests.swift */; };
+		B1A073701F438A3500E28E23 /* EdgeShrinkPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A0736F1F438A3500E28E23 /* EdgeShrinkPresenter.swift */; };
 		B1A54FAD1EA3E0ED00A96112 /* UIScrollView+CollectionKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A54FAC1EA3E0ED00A96112 /* UIScrollView+CollectionKit.swift */; };
 		B1B7B0571E7DAD1F00F2483E /* CollectionKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* CollectionKit.framework */; };
 		B1B7B0581E7DAD1F00F2483E /* CollectionKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* CollectionKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -135,7 +135,6 @@
 		B144CE101F437AAB0073CF4E /* ClosureViewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosureViewProvider.swift; sourceTree = "<group>"; };
 		B144CE121F437AB70073CF4E /* WobblePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WobblePresenter.swift; sourceTree = "<group>"; };
 		B144CE141F437AC10073CF4E /* ZoomPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomPresenter.swift; sourceTree = "<group>"; };
-		B144CE161F437AD00073CF4E /* EdgeShrinkPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EdgeShrinkPresenter.swift; sourceTree = "<group>"; };
 		B144CE1B1F437C0A0073CF4E /* CollectionDragContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionDragContext.swift; sourceTree = "<group>"; };
 		B148237A1F1E87F60007A7E2 /* CollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionProvider.swift; sourceTree = "<group>"; };
 		B14B0DFB1F2679E4003E5105 /* UIView+CollectionKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+CollectionKit.swift"; sourceTree = "<group>"; };
@@ -154,6 +153,7 @@
 		B19D64CD1F23DE8100D02FDB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B19D64CE1F23DE8100D02FDB /* MCollectionViewTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MCollectionViewTests.swift; sourceTree = "<group>"; };
 		B19E0BCF1F22B21C00214866 /* CollectionReuseViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionReuseViewManager.swift; sourceTree = "<group>"; };
+		B1A0736F1F438A3500E28E23 /* EdgeShrinkPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EdgeShrinkPresenter.swift; sourceTree = "<group>"; };
 		B1A54FAC1EA3E0ED00A96112 /* UIScrollView+CollectionKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+CollectionKit.swift"; sourceTree = "<group>"; };
 		B1B7B0501E7DAD1E00F2483E /* CollectionKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CollectionKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1B7B0531E7DAD1F00F2483E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -273,6 +273,7 @@
 				B1688A261F25448900C229BD /* ViewController.swift */,
 				B14B0E071F27A02A003E5105 /* CardView.swift */,
 				B14B0E091F27A084003E5105 /* SelectionButton.swift */,
+				B1A0736F1F438A3500E28E23 /* EdgeShrinkPresenter.swift */,
 				A3E7918A1D11025B005D9410 /* HorizontalGalleryExample */,
 				B136E9A11D04C0D500D02FCA /* GridExample */,
 				A351C3441CE4C917005E15A7 /* ChatExample (Advance) */,
@@ -351,7 +352,6 @@
 			isa = PBXGroup;
 			children = (
 				B10A06271F20073C00069E17 /* CollectionPresenter.swift */,
-				B144CE161F437AD00073CF4E /* EdgeShrinkPresenter.swift */,
 				B144CE141F437AC10073CF4E /* ZoomPresenter.swift */,
 				B144CE121F437AB70073CF4E /* WobblePresenter.swift */,
 			);
@@ -586,6 +586,7 @@
 				B14B0E081F27A02A003E5105 /* CardView.swift in Sources */,
 				B102FC5D1D10FF5100408DD6 /* Random.swift in Sources */,
 				B1688A271F25448900C229BD /* ViewController.swift in Sources */,
+				B1A073701F438A3500E28E23 /* EdgeShrinkPresenter.swift in Sources */,
 				B100C3FC1EA55DB500868840 /* Util.swift in Sources */,
 				A3FC21CA1C6EE5AA008566BB /* MessagesViewController.swift in Sources */,
 				A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */,
@@ -622,7 +623,6 @@
 				B144CE111F437AAB0073CF4E /* ClosureViewProvider.swift in Sources */,
 				B144CE1C1F437C0A0073CF4E /* CollectionDragContext.swift in Sources */,
 				B144CE0F1F437A9E0073CF4E /* ClosureDataProvider.swift in Sources */,
-				B144CE171F437AD00073CF4E /* EdgeShrinkPresenter.swift in Sources */,
 				B1B7B05F1E7DAD2700F2483E /* CollectionView.swift in Sources */,
 				B18C6C631F33A3C900FAE077 /* CollectionVisibleIndexSorter.swift in Sources */,
 				B1E861F41F21517400621BA0 /* CollectionDataProvider.swift in Sources */,

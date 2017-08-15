@@ -7,18 +7,20 @@
 //
 
 import UIKit
+import CollectionKit
 
 open class EdgeShrinkPresenter: CollectionPresenter {
-
-  var effectiveRange: ClosedRange<CGFloat> = -200...0
-
   open override func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     super.update(collectionView: collectionView, view: view, at: at, frame: frame)
-    let collectionViewBounds = CGRect(origin: .zero, size: collectionView.bounds.size)
+    let effectiveRange: ClosedRange<CGFloat> = -500...16
     let absolutePosition = frame.origin - collectionView.contentOffset
+    if absolutePosition.x < effectiveRange.lowerBound {
+      view.transform = .identity
+      return
+    }
     let scale = (absolutePosition.x.clamp(effectiveRange.lowerBound, effectiveRange.upperBound) - effectiveRange.lowerBound) / (effectiveRange.upperBound - effectiveRange.lowerBound)
     let alpha = scale
-    let translation = absolutePosition.x < effectiveRange.upperBound ? effectiveRange.upperBound - absolutePosition.x : 0
+    let translation = absolutePosition.x < effectiveRange.upperBound ? effectiveRange.upperBound - absolutePosition.x - (1 - scale) / 2 * frame.width : 0
     view.alpha = alpha
     view.transform = CGAffineTransform.identity.translatedBy(x: translation, y: 0).scaledBy(x: scale, y: scale)
   }
