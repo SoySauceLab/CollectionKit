@@ -6,7 +6,7 @@
 //  Copyright © 2017 lkzhao. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public class WaterfallLayout<Data>: CollectionLayout<Data> {
   public var axis: UILayoutConstraintAxis

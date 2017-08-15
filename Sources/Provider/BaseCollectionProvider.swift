@@ -6,7 +6,7 @@
 //  Copyright © 2017 lkzhao. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 open class BaseCollectionProvider: AnyCollectionProvider {
   public var identifier: String?

@@ -6,7 +6,7 @@
 //  Copyright © 2017 lkzhao. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 open class ZoomPresenter: CollectionPresenter {
   open override func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {

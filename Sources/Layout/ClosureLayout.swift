@@ -6,7 +6,7 @@
 //  Copyright © 2017 lkzhao. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public class Closurelayout<Data>: CollectionLayout<Data> {
   public var frameProvider: (Int, Data, CGSize) -> CGRect

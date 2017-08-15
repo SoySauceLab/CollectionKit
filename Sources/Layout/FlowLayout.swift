@@ -6,7 +6,7 @@
 //  Copyright © 2017 lkzhao. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public class FlowLayout<Data>: CollectionLayout<Data> {
   public var padding: CGFloat

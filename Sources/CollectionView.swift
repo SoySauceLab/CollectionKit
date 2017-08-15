@@ -10,36 +10,43 @@ import UIKit
 import YetAnotherAnimationLibrary
 
 open class CollectionView: UIScrollView {
-  public var provider: AnyCollectionProvider = BaseCollectionProvider() {
-    didSet {
-      setNeedsReload()
-    }
-  }
-
+  public var provider: AnyCollectionProvider = BaseCollectionProvider() { didSet { setNeedsReload() } }
   public var presenter: CollectionPresenter = CollectionPresenter()
 
   public private(set) var reloadCount = 0
   public private(set) var needsReload = true
+  public private(set) var loading = false
+  public private(set) var reloading = false
+  public private(set) var screenDragLocation: CGPoint = .zero
+  public private(set) var scrollVelocity: CGPoint = .zero
+  public var hasReloaded: Bool { return reloadCount > 0 }
 
-  public var hasReloaded: Bool {
-    return reloadCount > 0
-  }
+  public let overlayView = UIView()
 
-  public var overlayView = UIView()
-
-  let dragManager = CollectionDragManager()
-  public var visibleIndexes: Set<Int> = []
+  public let tapGestureRecognizer = UITapGestureRecognizer()
+  public private(set) var visibleIndexes: Set<Int> = []
   public var visibleCells: [UIView] { return Array(visibleCellToIndexMap.st.keys) }
+
+  public var activeFrameInset: UIEdgeInsets? {
+    didSet {
+      if !reloading && activeFrameInset != oldValue {
+        loadCells()
+      }
+    }
+  }
+  open override var contentOffset: CGPoint{
+    didSet{
+      scrollVelocity = contentOffset - oldValue
+    }
+  }
+  var activeFrame: CGRect {
+    return UIEdgeInsetsInsetRect(visibleFrame, activeFrameInset ?? .zero)
+  }
+  let dragManager = CollectionDragManager()
   var visibleCellToIndexMap: DictionaryTwoWay<UIView, Int> = [:]
   var identifiersToIndexMap: DictionaryTwoWay<String, Int> = [:]
-
   var lastLoadBounds: CGRect?
-  // TODO: change this to private
-  public var floatingCells: Set<UIView> = []
-  public var loading = false
-  public var reloading = false
-
-  public var tapGestureRecognizer = UITapGestureRecognizer()
+  var floatingCells: Set<UIView> = []
 
   public convenience init(provider: AnyCollectionProvider) {
     self.init()
@@ -111,26 +118,16 @@ open class CollectionView: UIScrollView {
     }
   }
 
-  public var activeFrameSlop: UIEdgeInsets? {
-    didSet {
-      if !reloading && activeFrameSlop != oldValue {
-        loadCells()
-      }
-    }
+  public func setNeedsReload() {
+    needsReload = true
+    setNeedsLayout()
   }
-  var screenDragLocation: CGPoint = .zero
-  var scrollVelocity: CGPoint = .zero
-  open override var contentOffset: CGPoint{
-    didSet{
-      scrollVelocity = contentOffset - oldValue
-    }
-  }
-  var activeFrame: CGRect {
-    if let activeFrameSlop = activeFrameSlop {
-      return CGRect(x: visibleFrame.origin.x + activeFrameSlop.left, y: visibleFrame.origin.y + activeFrameSlop.top, width: visibleFrame.width - activeFrameSlop.left - activeFrameSlop.right, height: visibleFrame.height - activeFrameSlop.top - activeFrameSlop.bottom)
-    } else {
-      return visibleFrame
-    }
+
+  public func invalidateLayout() {
+    if loading || reloading || !hasReloaded { return }
+    provider.layout(collectionSize: innerSize)
+    contentSize = provider.contentSize
+    loadCells()
   }
 
   /*
@@ -169,15 +166,9 @@ open class CollectionView: UIScrollView {
     }
     loading = false
   }
-  
-  public func invalidateLayout() {
-    provider.layout(collectionSize: innerSize)
-    contentSize = provider.contentSize
-    loadCells()
-  }
 
   // reload all frames. will automatically diff insertion & deletion
-  public func reloadData(contentOffsetAdjustFn: (()->CGPoint)? = nil) {
+  public func reloadData(contentOffsetAdjustFn: (() -> CGPoint)? = nil) {
     provider.willReload()
     reloading = true
     lastLoadBounds = bounds
@@ -273,11 +264,6 @@ open class CollectionView: UIScrollView {
     reloading = false
     provider.didReload()
   }
-  
-  public func setNeedsReload() {
-    needsReload = true
-    setNeedsLayout()
-  }
 
   fileprivate func disappearCell(at index: Int) {
     if let cell = visibleCellToIndexMap[index] {
@@ -285,6 +271,7 @@ open class CollectionView: UIScrollView {
       visibleCellToIndexMap.remove(index)
     }
   }
+
   fileprivate func appearCell(at index: Int) {
     let cell = provider.view(at: index)
     let frame = provider.frame(at: index)
@@ -298,6 +285,7 @@ open class CollectionView: UIScrollView {
       (cell.currentCollectionPresenter ?? presenter).insert(collectionView: self, view: cell, at: index, frame: provider.frame(at: index))
     }
   }
+
   fileprivate func insert(cell: UIView) {
     if let index = self.index(for: cell) {
       var currentMin = Int.max

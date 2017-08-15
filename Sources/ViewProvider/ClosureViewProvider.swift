@@ -6,7 +6,7 @@
 //  Copyright © 2017 lkzhao. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public class ClosureViewProvider<Data, View>: CollectionViewProvider<Data, View> where View: UIView {
   public var viewUpdater: (View, Data, Int) -> Void
