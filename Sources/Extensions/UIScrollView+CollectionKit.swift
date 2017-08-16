@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YetAnotherAnimationLibrary
 
 extension UIScrollView {
   public var visibleFrame: CGRect {

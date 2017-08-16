@@ -12,17 +12,14 @@ import CollectionKit
 let bodyInset = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
 let headerInset = UIEdgeInsets(top: 20, left: 16, bottom: 0, right: 16)
 
-func section(title: String, subtitle: String? = nil, content: AnyCollectionProvider? = nil) -> AnyCollectionProvider {
+func section(title: String, subtitle: String? = nil) -> AnyCollectionProvider {
   let titleSection = LabelCollectionProvider(text: title, font: .boldSystemFont(ofSize: 30), insets: headerInset)
-  var sections: [AnyCollectionProvider] = [titleSection]
   if let subtitle = subtitle {
     let subtitleSection = LabelCollectionProvider(text: subtitle, font: .systemFont(ofSize: 20), insets: bodyInset)
-    sections.append(subtitleSection)
+    return CollectionComposer(titleSection, subtitleSection)
+  } else {
+    return titleSection
   }
-  if let content = content {
-    sections.append(content)
-  }
-  return CollectionComposer(sections)
 }
 
 func space(_ height: CGFloat) -> AnyCollectionProvider {
@@ -56,7 +53,8 @@ let presenterSection: AnyCollectionProvider = {
   let buttonsProvider = CollectionProvider(
     data: presenters,
     viewUpdater: { (view: SelectionButton, data: (String, CollectionPresenter), at: Int) in
-      view.text = data.0
+      view.label.text = data.0
+      view.label.textColor = provider.presenter === data.1 ? .white : .black
       view.backgroundColor = provider.presenter === data.1 ? .lightGray : .white
     },
     layout: WaterfallLayout(columns: 1, insets: bodyInset, axis: .horizontal),
@@ -73,11 +71,16 @@ let presenterSection: AnyCollectionProvider = {
   buttonsCollectionView.provider = buttonsProvider
   
   let buttonsCollectionViewProvider = ViewCollectionProvider(buttonsCollectionView, sizeStrategy: (.fill, .absolute(64)))
-  let providerCollectionViewProvider = ViewCollectionProvider(providerCollectionView, sizeStrategy: (.fill, .absolute(400)))
+  let providerCollectionViewProvider = ViewCollectionProvider(providerCollectionView, sizeStrategy: (.fill, .fill))
+  providerCollectionViewProvider.identifier = "providerContent"
 
-  return section(title: "Presenter",
-                 subtitle: "Presenter can be used customize the presentation of the child views. It is independent of the layout and have direct access to the view object. It is the perfect place to add animations to an existing provider.",
-                 content: CollectionComposer(buttonsCollectionViewProvider, providerCollectionViewProvider))
+  return CollectionComposer(
+    layout: FlexLayout(flex: ["providerContent": FlexValue(flex: 1)]),
+    section(title: "Presenter",
+            subtitle: "Presenter can be used customize the presentation of the child views. It is independent of the layout and have direct access to the view object. It is the perfect place to add animations to an existing provider."),
+    buttonsCollectionViewProvider,
+    providerCollectionViewProvider
+  )
 }()
 
 class ViewController: UIViewController {
@@ -95,7 +98,7 @@ class ViewController: UIViewController {
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
       },
-      layout: WaterfallLayout<UIImage>(insets: bodyInset, axis: .horizontal),
+      layout: WaterfallLayout<UIImage>(columns:2, insets: bodyInset, axis: .horizontal),
       sizeProvider: imageSizeProvider
     )
     let image1Section = ViewCollectionProvider(imageCollectionView, sizeStrategy: (.fill, .absolute(400)))
@@ -138,18 +141,21 @@ class ViewController: UIViewController {
         }
       )
       
-      return section(title: "Core Concepts", content: ViewCollectionProvider(collectionView, sizeStrategy: (.fill, .absolute(200))))
+      return ViewCollectionProvider(collectionView, sizeStrategy: (.fill, .absolute(200)))
     }()
     
     collectionView.provider = CollectionComposer(
       space(100),
       section(title: "CollectionKit", subtitle: "A modern swift framework for building reusable collection view components."),
       space(20),
+      section(title: "Core Concepts"),
       coreConceptSection,
       space(20),
-      section(title: "Horizontal Waterfall Layout", content: image1Section),
+      section(title: "Horizontal Waterfall Layout"),
+      image1Section,
       space(20),
-      section(title: "Vertical Waterfall Layout", content: image2Section),
+      section(title: "Vertical Waterfall Layout"),
+      image2Section,
       space(20),
       presenterSection
     )

@@ -19,7 +19,7 @@ open class WobblePresenter: CollectionPresenter {
 
   open override func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     super.insert(collectionView: collectionView, view: view, at: at, frame: frame)
-    let delta = collectionView.scrollVelocity * 4
+    let delta = collectionView.scrollVelocity * 8
     view.bounds.size = frame.bounds.size
     let cellDiff = frame.center - collectionView.contentOffset - collectionView.screenDragLocation
     let resistance = (cellDiff * sensitivity).distance(.zero) / 1000

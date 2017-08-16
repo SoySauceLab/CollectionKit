@@ -10,11 +10,6 @@ import UIKit
 
 class SelectionButton: DynamicView {
   let label = UILabel()
-  var text: String = "" {
-    didSet {
-      label.text = text
-    }
-  }
   override init(frame: CGRect) {
     super.init(frame: frame)
     label.textAlignment = .center

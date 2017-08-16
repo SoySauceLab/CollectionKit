@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YetAnotherAnimationLibrary
 
 open class CollectionView: UIScrollView {
   public var provider: AnyCollectionProvider = BaseCollectionProvider() { didSet { setNeedsReload() } }
@@ -77,11 +76,8 @@ open class CollectionView: UIScrollView {
     }
   }
 
-  func pan(gr:UIPanGestureRecognizer) {
+  func pan(gr: UIPanGestureRecognizer) {
     screenDragLocation = absoluteLocation(for: gr.location(in: self))
-    if gr.state == .began {
-      yaal.contentOffset.stop()
-    }
   }
 
   open override func layoutSubviews() {
