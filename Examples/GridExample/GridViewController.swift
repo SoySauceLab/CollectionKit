@@ -41,13 +41,7 @@ class GridViewController: UIViewController {
         view.text = "\(data)"
       },
       layout: layout,
-      presenter: WobblePresenter(),
-      willDragHandler: { _, _, _ in return true },
-      moveHandler: { from, to, dataProvider in
-        guard let dataProvider = dataProvider as? ArrayDataProvider<Int> else { return false }
-        dataProvider.data.insert(dataProvider.data.remove(at: from), at: to)
-        return true
-      }
+      presenter: WobblePresenter()
     )
   }
 

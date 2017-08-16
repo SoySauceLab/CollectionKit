@@ -28,9 +28,6 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
 
   public var willReloadHandler: (() -> Void)?
   public var didReloadHandler: (() -> Void)?
-  public var willDragHandler: ((UIView, Int, DataProvider) -> Bool)?
-  public var didDragHandler: ((UIView, Int, DataProvider) -> Void)?
-  public var moveHandler: ((Int, Int, DataProvider) -> Bool)?
   public var tapHandler: ((UIView, Int, DataProvider) -> Void)?
 
   public init(identifier: String? = nil,
@@ -41,9 +38,6 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
               presenter: Presenter? = nil,
               willReloadHandler: (() -> Void)? = nil,
               didReloadHandler: (() -> Void)? = nil,
-              willDragHandler: ((UIView, Int, DataProvider) -> Bool)? = nil,
-              didDragHandler: ((UIView, Int, DataProvider) -> Void)? = nil,
-              moveHandler: ((Int, Int, DataProvider) -> Bool)? = nil,
               tapHandler: ((UIView, Int, DataProvider) -> Void)? = nil) {
     self.dataProvider = dataProvider
     self.viewProvider = viewProvider
@@ -52,9 +46,6 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
     self.presenter = presenter
     self.willReloadHandler = willReloadHandler
     self.didReloadHandler = didReloadHandler
-    self.willDragHandler = willDragHandler
-    self.didDragHandler = didDragHandler
-    self.moveHandler = moveHandler
     self.tapHandler = tapHandler
     super.init()
     self.identifier = identifier
@@ -68,9 +59,6 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
               presenter: Presenter? = nil,
               willReloadHandler: (() -> Void)? = nil,
               didReloadHandler: (() -> Void)? = nil,
-              willDragHandler: ((UIView, Int, DataProvider) -> Bool)? = nil,
-              didDragHandler: ((UIView, Int, DataProvider) -> Void)? = nil,
-              moveHandler: ((Int, Int, DataProvider) -> Bool)? = nil,
               tapHandler: ((UIView, Int, DataProvider) -> Void)? = nil) {
     self.dataProvider = dataProvider
     self.viewProvider = ClosureViewProvider(viewUpdater: viewUpdater)
@@ -79,9 +67,6 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
     self.presenter = presenter
     self.willReloadHandler = willReloadHandler
     self.didReloadHandler = didReloadHandler
-    self.willDragHandler = willDragHandler
-    self.didDragHandler = didDragHandler
-    self.moveHandler = moveHandler
     self.tapHandler = tapHandler
     super.init()
     self.identifier = identifier
@@ -95,9 +80,6 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
               presenter: Presenter? = nil,
               willReloadHandler: (() -> Void)? = nil,
               didReloadHandler: (() -> Void)? = nil,
-              willDragHandler: ((UIView, Int, DataProvider) -> Bool)? = nil,
-              didDragHandler: ((UIView, Int, DataProvider) -> Void)? = nil,
-              moveHandler: ((Int, Int, DataProvider) -> Bool)? = nil,
               tapHandler: ((UIView, Int, DataProvider) -> Void)? = nil) {
     self.dataProvider = ArrayDataProvider(data: data)
     self.viewProvider = ClosureViewProvider(viewUpdater: viewUpdater)
@@ -106,9 +88,6 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
     self.presenter = presenter
     self.willReloadHandler = willReloadHandler
     self.didReloadHandler = didReloadHandler
-    self.willDragHandler = willDragHandler
-    self.didDragHandler = didDragHandler
-    self.moveHandler = moveHandler
     self.tapHandler = tapHandler
     super.init()
     self.identifier = identifier
@@ -148,15 +127,6 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
   }
   open override func didReload() {
     didReloadHandler?()
-  }
-  open override func willDrag(view: UIView, at:Int) -> Bool {
-    return willDragHandler?(view, at, dataProvider) ?? false
-  }
-  open override func didDrag(view: UIView, at:Int) {
-    didDragHandler?(view, at, dataProvider)
-  }
-  open override func moveItem(at: Int, to: Int) -> Bool {
-    return moveHandler?(at, to, dataProvider) ?? false
   }
   open override func didTap(view: UIView, at: Int) {
     tapHandler?(view, at, dataProvider)

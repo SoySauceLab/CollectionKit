@@ -124,22 +124,6 @@ open class CollectionComposer: BaseCollectionProvider {
     lastSectionForIndex = nil
     lastSectionBeginIndex = nil
   }
-  open override func willDrag(view: UIView, at index:Int) -> Bool {
-    let (sectionIndex, item) = indexPath(index)
-    return sections[sectionIndex].willDrag(view: view, at: item)
-  }
-  open override func didDrag(view: UIView, at index:Int) {
-    let (sectionIndex, item) = indexPath(index)
-    sections[sectionIndex].didDrag(view: view, at: item)
-  }
-  open override func moveItem(at index: Int, to: Int) -> Bool {
-    let (fromSection, fromItem) = indexPath(index)
-    let (toSection, toItem) = indexPath(to)
-    if fromSection == toSection {
-      return sections[fromSection].moveItem(at: fromItem, to: toItem)
-    }
-    return false
-  }
   open override func didTap(view: UIView, at: Int) {
     let (sectionIndex, item) = indexPath(at)
     sections[sectionIndex].didTap(view: view, at: item)

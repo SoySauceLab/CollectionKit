@@ -41,13 +41,6 @@ open class BaseCollectionProvider: AnyCollectionProvider {
 
   open func willReload() {}
   open func didReload() {}
-  open func willDrag(view: UIView, at:Int) -> Bool {
-    return false
-  }
-  open func didDrag(view: UIView, at:Int) {}
-  open func moveItem(at: Int, to: Int) -> Bool {
-    return false
-  }
   open func didTap(view: UIView, at: Int) {}
 
   open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {

@@ -31,24 +31,19 @@ extension UIScrollView {
     return point - contentOffset
   }
   public func scrollTo(edge: UIRectEdge, animated: Bool) {
-    let target:CGPoint
+    let target: CGRect
     switch edge {
     case UIRectEdge.top:
-      target = CGPoint(x: contentOffset.x, y: offsetFrame.minY)
+      target = CGRect(x: contentOffset.x, y: offsetFrame.minY, width: 1, height: 1)
     case UIRectEdge.bottom:
-      target = CGPoint(x: contentOffset.x, y: offsetFrame.maxY)
+      target = CGRect(x: contentOffset.x, y: offsetFrame.maxY - 1, width: 1, height: 1)
     case UIRectEdge.left:
-      target = CGPoint(x: offsetFrame.minX, y: contentOffset.y)
+      target = CGRect(x: offsetFrame.minX, y: contentOffset.y, width: 1, height: 1)
     case UIRectEdge.right:
-      target = CGPoint(x: offsetFrame.maxY, y: contentOffset.y)
+      target = CGRect(x: offsetFrame.maxX - 1, y: contentOffset.y, width: 1, height: 1)
     default:
       return
     }
-    if animated {
-      yaal.contentOffset.animateTo(target)
-    } else {
-      contentOffset = target
-      yaal.contentOffset.updateWithCurrentState()
-    }
+    scrollRectToVisible(target, animated: animated)
   }
 }

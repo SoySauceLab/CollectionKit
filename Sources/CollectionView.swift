@@ -21,8 +21,6 @@ open class CollectionView: UIScrollView {
   public private(set) var scrollVelocity: CGPoint = .zero
   public var hasReloaded: Bool { return reloadCount > 0 }
 
-  public let overlayView = UIView()
-
   public let tapGestureRecognizer = UITapGestureRecognizer()
   public private(set) var visibleIndexes: Set<Int> = []
   public var visibleCells: [UIView] { return Array(visibleCellToIndexMap.st.keys) }
@@ -42,11 +40,9 @@ open class CollectionView: UIScrollView {
   var activeFrame: CGRect {
     return UIEdgeInsetsInsetRect(visibleFrame, activeFrameInset ?? .zero)
   }
-  let dragManager = CollectionDragManager()
   var visibleCellToIndexMap: DictionaryTwoWay<UIView, Int> = [:]
   var identifiersToIndexMap: DictionaryTwoWay<String, Int> = [:]
   var lastLoadBounds: CGRect?
-  var floatingCells: Set<UIView> = []
 
   public convenience init(provider: AnyCollectionProvider) {
     self.init()
@@ -69,25 +65,7 @@ open class CollectionView: UIScrollView {
     tapGestureRecognizer.addTarget(self, action: #selector(tap(gr:)))
     addGestureRecognizer(tapGestureRecognizer)
 
-    overlayView.isUserInteractionEnabled = false
-    overlayView.layer.zPosition = 1000
-    addSubview(overlayView)
-
     panGestureRecognizer.addTarget(self, action: #selector(pan(gr:)))
-    dragManager.collectionView = self
-
-    yaal.contentOffset.value.changes.addListener { [weak self] _, newOffset in
-      guard let collectionView = self else { return }
-      let limit = CGPoint(x: newOffset.x.clamp(collectionView.offsetFrame.minX,
-                                               collectionView.offsetFrame.maxX),
-                          y: newOffset.y.clamp(collectionView.offsetFrame.minY,
-                                               collectionView.offsetFrame.maxY))
-
-      if limit != newOffset {
-        collectionView.contentOffset = limit
-        collectionView.yaal.contentOffset.updateWithCurrentState()
-      }
-    }
   }
 
   @objc func tap(gr: UITapGestureRecognizer) {
@@ -108,7 +86,6 @@ open class CollectionView: UIScrollView {
 
   open override func layoutSubviews() {
     super.layoutSubviews()
-    overlayView.frame = CGRect(origin: contentOffset, size: bounds.size)
     if needsReload {
       reloadData()
     } else if bounds.size != lastLoadBounds?.size {
@@ -140,7 +117,7 @@ open class CollectionView: UIScrollView {
     loading = true
     lastLoadBounds = bounds
 
-    var indexes = provider.visibleIndexes(activeFrame: activeFrame).union(floatingCells.map({ return visibleCellToIndexMap[$0]! }))
+    var indexes = provider.visibleIndexes(activeFrame: activeFrame)
     let deletedIndexes = visibleIndexes.subtracting(indexes)
     let newIndexes = indexes.subtracting(visibleIndexes)
     for i in deletedIndexes {
@@ -159,9 +136,7 @@ open class CollectionView: UIScrollView {
 
     if !needsReload {
       for (index, view) in visibleCellToIndexMap.ts {
-        if !floatingCells.contains(view) {
-          (view.currentCollectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
-        }
+        (view.currentCollectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
       }
     }
     loading = false
@@ -204,15 +179,7 @@ open class CollectionView: UIScrollView {
     }
     let contentOffsetDiff = contentOffset - oldContentOffset
 
-    var newVisibleIndexes = provider.visibleIndexes(activeFrame: activeFrame)
-    for cell in floatingCells {
-      let cellIdentifier = identifiersToIndexMap[visibleCellToIndexMap[cell]!]!
-      if let index = newIdentifiersToIndexMap[cellIdentifier] {
-        newVisibleIndexes.insert(index)
-      } else {
-        unfloat(cell: cell)
-      }
-    }
+    let newVisibleIndexes = provider.visibleIndexes(activeFrame: activeFrame)
 
     let newVisibleIdentifiers = Set(newVisibleIndexes.map { index in
       return newIdentifiersToIndexMap[index]!
@@ -230,10 +197,6 @@ open class CollectionView: UIScrollView {
       let oldIndex = identifiersToIndexMap[identifier]!
       let newIndex = newIdentifiersToIndexMap[identifier]!
       let cell = visibleCellToIndexMap[oldIndex]!
-
-      if !floatingCells.contains(cell) {
-        insert(cell: cell)
-      }
 
       newVisibleCellToIndexMap[newIndex] = cell
       provider.update(view: cell, at: newIndex)
@@ -254,9 +217,7 @@ open class CollectionView: UIScrollView {
     }
 
     for (index, view) in visibleCellToIndexMap.ts {
-      if !floatingCells.contains(view) {
-        (view.currentCollectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
-      }
+      (view.currentCollectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
     }
 
     needsReload = false
@@ -295,46 +256,13 @@ open class CollectionView: UIScrollView {
         }
       }
       if currentMin == Int.max {
-        insertSubview(cell, belowSubview: overlayView)
+        addSubview(cell)
       } else {
         insertSubview(cell, belowSubview: visibleCellToIndexMap[currentMin]!)
       }
     } else {
-      insertSubview(cell, belowSubview: overlayView)
+      addSubview(cell)
     }
-  }
-}
-
-extension CollectionView {
-  public func isFloating(cell: UIView) -> Bool {
-    return floatingCells.contains(cell)
-  }
-
-  public func float(cell: UIView) {
-    if visibleCellToIndexMap[cell] == nil {
-      fatalError("Unable to float a cell that is not on screen")
-    }
-    floatingCells.insert(cell)
-    cell.center = overlayView.convert(cell.center, from: cell.superview)
-    cell.yaal.center.updateWithCurrentState()
-    cell.yaal.center.animateTo(cell.center, stiffness: 300, damping: 25)
-    overlayView.addSubview(cell)
-  }
-
-  public func unfloat(cell: UIView) {
-    guard isFloating(cell: cell) else {
-      return
-    }
-
-    floatingCells.remove(cell)
-    cell.center = self.convert(cell.center, from: cell.superview)
-    cell.yaal.center.updateWithCurrentState()
-    insert(cell: cell)
-
-    // index & frame should be always avaliable because floating cell is always visible. Otherwise we have a bug
-    let index = self.index(for: cell)!
-    let frame = provider.frame(at: index)
-    cell.yaal.center.animateTo(frame.center, stiffness: 300, damping: 25)
   }
 }
 

@@ -29,9 +29,6 @@ public protocol AnyCollectionProvider: CollectionReloadable {
   // event
   func willReload()
   func didReload()
-  func willDrag(view: UIView, at:Int) -> Bool
-  func didDrag(view: UIView, at:Int)
-  func moveItem(at: Int, to: Int) -> Bool
   func didTap(view: UIView, at: Int)
 
   func presenter(at: Int) -> CollectionPresenter?
