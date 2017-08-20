@@ -185,14 +185,13 @@ open class CollectionView: UIScrollView {
     }
     let contentOffsetDiff = contentOffset - oldContentOffset
 
-    // TODO(simon/luke): should return an array.
     let newVisibleIndexesSet = provider.visibleIndexes(activeFrame: activeFrame)
-    let newVisibleIndexes = Array(newVisibleIndexesSet).sorted { $0 < $1 }
+    let newVisibleIndexes = Array(newVisibleIndexesSet)
 
     let newVisibleIdentifiers = newVisibleIndexes.map { index in
       return newIdentifiers[index]
     }
-    let oldVisibleIndexes = Array(visibleIndexes).sorted { $0 < $1 }
+    let oldVisibleIndexes = Array(visibleIndexes)
     let oldVisibleIdentifiers = oldVisibleIndexes.map { index in
       return identifiers[index]
     }
