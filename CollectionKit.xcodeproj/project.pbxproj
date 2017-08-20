@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E6DDF851F4A253D00C0678F /* HashableTuple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6DDF841F4A253D00C0678F /* HashableTuple.swift */; };
 		A372A3691C79567A0023C797 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A3681C79567A0023C797 /* MessageCell.swift */; };
 		A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDEECE1C7D88430053BFAE /* Messages.swift */; };
 		A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */; };
@@ -103,6 +104,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0E6DDF841F4A253D00C0678F /* HashableTuple.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HashableTuple.swift; sourceTree = "<group>"; };
 		A351C3451CE4CCD2005E15A7 /* CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		A351C3461CE4CCD2005E15A7 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		A372A3681C79567A0023C797 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
@@ -281,10 +283,11 @@
 		B12A1C001F22B3CC00D5C1C1 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				B100C3F91EA55B3200868840 /* DictionaryTwoWay.swift */,
+				0E6DDF841F4A253D00C0678F /* HashableTuple.swift */,
 				B1A54FAC1EA3E0ED00A96112 /* UIScrollView+CollectionKit.swift */,
 				B14B0DFB1F2679E4003E5105 /* UIView+CollectionKit.swift */,
 				A351C3461CE4CCD2005E15A7 /* Util.swift */,
-				B100C3F91EA55B3200868840 /* DictionaryTwoWay.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -583,6 +586,7 @@
 				B1A073701F438A3500E28E23 /* EdgeShrinkPresenter.swift in Sources */,
 				B100C3FC1EA55DB500868840 /* Util.swift in Sources */,
 				A3FC21CA1C6EE5AA008566BB /* MessagesViewController.swift in Sources */,
+				0E6DDF851F4A253D00C0678F /* HashableTuple.swift in Sources */,
 				A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
