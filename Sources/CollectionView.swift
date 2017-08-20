@@ -44,7 +44,7 @@ open class CollectionView: UIScrollView {
   }
   var visibleCellToIndexMap: DictionaryTwoWay<UIView, Int> = [:]
   var lastLoadBounds: CGRect?
-  
+
   public convenience init(provider: AnyCollectionProvider) {
     self.init()
     self.provider = provider
@@ -62,10 +62,10 @@ open class CollectionView: UIScrollView {
 
   func commonInit() {
     CollectionViewManager.shared.register(collectionView: self)
-    
+
     tapGestureRecognizer.addTarget(self, action: #selector(tap(gr:)))
     addGestureRecognizer(tapGestureRecognizer)
-    
+
     panGestureRecognizer.addTarget(self, action: #selector(pan(gr:)))
   }
 
@@ -117,7 +117,7 @@ open class CollectionView: UIScrollView {
     if loading || reloading || !hasReloaded { return }
     loading = true
     lastLoadBounds = bounds
-    
+
     var indexes = provider.visibleIndexes(activeFrame: activeFrame)
     let deletedIndexes = visibleIndexes.subtracting(indexes)
     let newIndexes = indexes.subtracting(visibleIndexes)
@@ -137,7 +137,7 @@ open class CollectionView: UIScrollView {
       identifiers[i].info = (newCell, i)
     }
     visibleIndexes = indexes
-    
+
     if !needsReload {
       for (index, view) in visibleCellToIndexMap.ts {
         (view.currentCollectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
