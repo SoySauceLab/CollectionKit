@@ -116,7 +116,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
   open override func frame(at: Int) -> CGRect {
     return layout.frame(at: at)
   }
-  open override func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
+  open override func visibleIndexes(activeFrame: CGRect) -> [Int] {
     return layout.visibleIndexes(activeFrame: activeFrame)
   }
   open override func presenter(at: Int) -> CollectionPresenter? {

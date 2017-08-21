@@ -45,7 +45,7 @@ open class CollectionPresenter {
         UIView.animate(withDuration: 0.2, animations: {
           view.alpha = 0
         }) { _ in
-          if collectionView.visibleCellToIndexMap[view] == nil {
+          if !collectionView.visibleCells.contains(HashableTuple(source: view, info: 0)) {
             view.recycleForCollectionKitReuse()
             view.alpha = 1
           }
@@ -55,7 +55,7 @@ open class CollectionPresenter {
           view.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
           view.alpha = 0
         }) { _ in
-          if collectionView.visibleCellToIndexMap[view] == nil {
+          if !collectionView.visibleCells.contains(HashableTuple(source: view, info: 0)) {
             view.recycleForCollectionKitReuse()
             view.transform = CGAffineTransform.identity
             view.alpha = 1

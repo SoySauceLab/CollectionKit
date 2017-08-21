@@ -23,8 +23,8 @@ open class CollectionView: UIScrollView {
   public var hasReloaded: Bool { return reloadCount > 0 }
 
   public let tapGestureRecognizer = UITapGestureRecognizer()
-  public private(set) var visibleIndexes: Set<Int> = []
-  public var visibleCells: [UIView] { return Array(visibleCellToIndexMap.st.keys) }
+  public private(set) var visibleIndexes: [Int] = []
+  public var visibleCells: [HashableTuple<UIView, Int>] = []
   var identifiers: [HashableTuple<String, (UIView?, Int)>] = []
 
   public var activeFrameInset: UIEdgeInsets? {
@@ -42,7 +42,6 @@ open class CollectionView: UIScrollView {
   var activeFrame: CGRect {
     return UIEdgeInsetsInsetRect(visibleFrame, activeFrameInset ?? .zero)
   }
-  var visibleCellToIndexMap: DictionaryTwoWay<UIView, Int> = [:]
   var lastLoadBounds: CGRect?
 
   public convenience init(provider: AnyCollectionProvider) {
@@ -70,10 +69,10 @@ open class CollectionView: UIScrollView {
   }
 
   @objc func tap(gr: UITapGestureRecognizer) {
-    for cell in visibleCells {
+    for cellInfo in visibleCells {
+      let (cell, index) = (cellInfo.source, cellInfo.info)
       if cell.point(inside: gr.location(in: cell), with: nil) {
-        provider.didTap(view: cell, at: visibleCellToIndexMap[cell]!)
-        return
+        provider.didTap(view: cell, at: index)
       }
     }
   }
@@ -119,28 +118,39 @@ open class CollectionView: UIScrollView {
     lastLoadBounds = bounds
 
     var indexes = provider.visibleIndexes(activeFrame: activeFrame)
-    let deletedIndexes = visibleIndexes.subtracting(indexes)
-    let newIndexes = indexes.subtracting(visibleIndexes)
-    for i in deletedIndexes {
-      if let cell = visibleCellToIndexMap[i], bounds.intersects(cell.frame) {
-        // Dont remove cell if it is still on screen. this is probably because the presenter is doing some animation with the cell
-        // which resulted the cell being at a different position. We will remove this cell later.
-        indexes.insert(i)
-      } else {
-        let info = identifiers[i].info
-        disappearCell(info: info)
-        identifiers[i].info = (nil, info.1)
+    let visibleCellsCopy = visibleCells
+    if let deleteEndIndex = visibleIndexes.index(of: indexes[0]) {
+      for i in 0..<deleteEndIndex {
+        let cell = visibleCellsCopy[i].source
+        let index = visibleCellsCopy[i].info
+        if bounds.intersects(cell.frame) {
+          // TODO(luke): Handle this case
+          // Dont remove cell if it is still on screen. this is probably because the presenter is doing some animation with the cell
+          // which resulted the cell being at a different position. We will remove this cell later.
+        } else {
+          disappearCell(info: (cell, index))
+          identifiers[index].info = (nil, index)
+          visibleCells.remove(at: i)
+        }
       }
     }
-    for i in newIndexes {
-      let newCell = appearCell(at: i)
-      identifiers[i].info = (newCell, i)
-    }
-    visibleIndexes = indexes
 
+    if let lastIndex = indexes.index(of: visibleIndexes.last!) {
+      for i in (lastIndex + 1)..<indexes.endIndex {
+        let newCellIndex = indexes[i]
+        let newCell = appearCell(at: newCellIndex)
+        identifiers[newCellIndex].info = (newCell, newCellIndex)
+        visibleCells.insert(HashableTuple(source: newCell, info: newCellIndex), at: i)
+        self.insertSubview(newCell, at: i)
+      }
+    }
+
+    visibleIndexes = indexes
+    
     if !needsReload {
-      for (index, view) in visibleCellToIndexMap.ts {
-        (view.currentCollectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
+      for cellInfo in visibleCells {
+        let (cell, index) = (cellInfo.source, cellInfo.info)
+        (cell.currentCollectionPresenter ?? presenter).update(collectionView:self, view: cell, at: index, frame: provider.frame(at: index))
       }
     }
     loading = false
@@ -185,44 +195,52 @@ open class CollectionView: UIScrollView {
     }
     let contentOffsetDiff = contentOffset - oldContentOffset
 
-    let newVisibleIndexesSet = provider.visibleIndexes(activeFrame: activeFrame)
-    let newVisibleIndexes = Array(newVisibleIndexesSet)
-
+    let newVisibleIndexes = provider.visibleIndexes(activeFrame: activeFrame)
     let newVisibleIdentifiers = newVisibleIndexes.map { index in
       return newIdentifiers[index]
     }
-    let oldVisibleIndexes = Array(visibleIndexes)
+    let oldVisibleIndexes = visibleIndexes
     let oldVisibleIdentifiers = oldVisibleIndexes.map { index in
       return identifiers[index]
     }
 
-    let diff = oldVisibleIdentifiers.extendedDiff(newVisibleIdentifiers)
-
-    diff.forEach { element in
+    var oldVisibleIdentifiersCopy = oldVisibleIdentifiers
+    let patch = extendedPatch(from: oldVisibleIdentifiers, to: newVisibleIdentifiers)
+    patch.forEach { element in
       switch element {
-      case .delete(let at):
-        let info = oldVisibleIdentifiers[at].info
+      case let .insertion(index, e):
+        oldVisibleIdentifiersCopy.insert(e, at: index)
+        let appearIndex = e.info.1
+        let newCell = appearCell(at: appearIndex)
+        newIdentifiers[appearIndex].info = (newCell, appearIndex)
+        visibleCells.insert(HashableTuple(source: newCell, info: appearIndex), at: index)
+        self.insertSubview(newCell, at: index)
+      case .deletion(let index):
+        let toRemove = oldVisibleIdentifiersCopy.remove(at: index)
+        let info = toRemove.info
         disappearCell(info: info)
-      case .insert(let at):
-        let index = newVisibleIdentifiers[at].info.1
-        let newCell = appearCell(at: index)
-        newIdentifiers[index].info = (newCell, index)
+        visibleCells.remove(at: index)
       case let .move(from, to):
-        let oldInfo = oldVisibleIdentifiers[from].info
+        let toMove = oldVisibleIdentifiersCopy.remove(at: from)
+        oldVisibleIdentifiersCopy.insert(toMove, at: to)
         let newInfo = newVisibleIdentifiers[to].info
-        if let cell = oldInfo.0 {
+        if let cell = toMove.info.0 {
           let toIndex = newInfo.1
           provider.update(view: cell, at: toIndex)
           cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: toIndex)
           (cell.currentCollectionPresenter ?? presenter).shift(collectionView: self, delta: contentOffsetDiff, view: cell, at: toIndex, frame: provider.frame(at: toIndex))
           newIdentifiers[toIndex].info = (cell, toIndex)
-          visibleCellToIndexMap[cell] = toIndex
+          visibleCells.remove(at: from)
+          visibleCells.insert(HashableTuple(source: cell, info: toIndex), at: to)
+          cell.removeFromSuperview()
+          self.insertSubview(cell, at: to)
         }
       }
     }
 
+    // TODO(simon): Fix this, this is not correct.
     // Even if there is no difference based on identifier, update cell as well.
-    if diff.count == 0 {
+    if patch.count == 0 {
       oldVisibleIdentifiers.forEach { info in
         if let cell = info.info.0 {
           let index = info.info.1
@@ -233,14 +251,15 @@ open class CollectionView: UIScrollView {
         }
       }
     }
-
+    
     identifiers = newIdentifiers
-    visibleIndexes = Set(newVisibleIndexes)
-
-    for (index, view) in visibleCellToIndexMap.ts {
-      (view.currentCollectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
+    visibleIndexes = newVisibleIndexes
+    
+    for cellInfo in visibleCells {
+      let (cell, index) = (cellInfo.source, cellInfo.info)
+      (cell.currentCollectionPresenter ?? presenter).update(collectionView:self, view: cell, at: index, frame: provider.frame(at: index))
     }
-
+    
     needsReload = false
     reloadCount += 1
     reloading = false
@@ -250,7 +269,6 @@ open class CollectionView: UIScrollView {
   fileprivate func disappearCell(info: (UIView?, Int)) {
     if let cell = info.0 {
       (cell.currentCollectionPresenter ?? presenter).delete(collectionView: self, view: cell, at: info.1)
-      visibleCellToIndexMap.remove(cell)
     }
   }
 
@@ -261,30 +279,8 @@ open class CollectionView: UIScrollView {
     cell.center = frame.center
     provider.update(view: cell, at: index)
     cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: index)
-    if visibleCellToIndexMap[cell] == nil {
-      visibleCellToIndexMap[cell] = index
-      insert(cell: cell)
-      (cell.currentCollectionPresenter ?? presenter).insert(collectionView: self, view: cell, at: index, frame: provider.frame(at: index))
-    }
+    (cell.currentCollectionPresenter ?? presenter).insert(collectionView: self, view: cell, at: index, frame: provider.frame(at: index))
     return cell
-  }
-
-  fileprivate func insert(cell: UIView) {
-    if let index = self.index(for: cell) {
-      var currentMin = Int.max
-      for cell in subviews {
-        if let visibleIndex = visibleCellToIndexMap[cell], visibleIndex > index, visibleIndex < currentMin {
-          currentMin = visibleIndex
-        }
-      }
-      if currentMin == Int.max {
-        addSubview(cell)
-      } else {
-        insertSubview(cell, belowSubview: visibleCellToIndexMap[currentMin]!)
-      }
-    } else {
-      addSubview(cell)
-    }
   }
 }
 
@@ -297,13 +293,5 @@ extension CollectionView {
       }
     }
     return nil
-  }
-
-  public func index(for cell: UIView) -> Int? {
-    return visibleCellToIndexMap[cell]
-  }
-
-  public func cell(at index: Int) -> UIView? {
-    return visibleCellToIndexMap[index]
   }
 }

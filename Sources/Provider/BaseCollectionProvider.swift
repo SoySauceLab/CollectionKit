@@ -31,8 +31,8 @@ open class BaseCollectionProvider: AnyCollectionProvider {
   open func frame(at: Int) -> CGRect {
     return .zero
   }
-  open func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
-    return Set<Int>()
+  open func visibleIndexes(activeFrame: CGRect) -> [Int] {
+    return [Int]()
   }
 
   open func presenter(at: Int) -> CollectionPresenter? {

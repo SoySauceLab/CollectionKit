@@ -29,7 +29,7 @@ extension Collection {
 }
 
 public protocol CollectionVisibleIndexSorter {
-  func visibleIndexes(for rect:CGRect) -> Set<Int>
+  func visibleIndexes(for rect:CGRect) -> [Int]
 }
 
 public class CollectionVerticalVisibleIndexSorter: CollectionVisibleIndexSorter {
@@ -41,16 +41,16 @@ public class CollectionVerticalVisibleIndexSorter: CollectionVisibleIndexSorter 
     maxFrameLength = frames.max{ $0.0.height < $0.1.height }?.height ?? 0
   }
 
-  public func visibleIndexes(for rect:CGRect) -> Set<Int> {
+  public func visibleIndexes(for rect:CGRect) -> [Int] {
     var index = frames.binarySearch { $0.minY < rect.minY - maxFrameLength }
-    var visibleIndexes = Set<Int>()
+    var visibleIndexes = [Int]()
     while index < frames.count {
       let frame = frames[index]
       if frame.minY > rect.maxY {
         break
       }
       if frame.maxY >= rect.minY {
-        visibleIndexes.insert(index)
+        visibleIndexes.append(index)
       }
       index += 1
     }
@@ -67,16 +67,16 @@ public class CollectionHorizontalVisibleIndexSorter: CollectionVisibleIndexSorte
     maxFrameLength = frames.max{ $0.0.width < $0.1.width }?.width ?? 0
   }
 
-  public func visibleIndexes(for rect:CGRect) -> Set<Int> {
+  public func visibleIndexes(for rect:CGRect) -> [Int] {
     var index = frames.binarySearch { $0.minX < rect.minX - maxFrameLength }
-    var visibleIndexes = Set<Int>()
+    var visibleIndexes = [Int]()
     while index < frames.count {
       let frame = frames[index]
       if frame.minX > rect.maxX {
         break
       }
       if frame.maxX >= rect.minX {
-        visibleIndexes.insert(index)
+        visibleIndexes.append(index)
       }
       index += 1
     }
