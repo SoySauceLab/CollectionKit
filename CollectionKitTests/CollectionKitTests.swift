@@ -24,27 +24,6 @@ class CollectionKitTests: XCTestCase {
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
-      let manager = CollectionLinearVisibleIndexesManager()
-
-      let testData:[ClosedRange<CGFloat>] = [0...100, 0...0.5, 0...0.5]
-
-      var minToIndexes = [(CGFloat, Int)]()
-      var maxToIndexes = [(CGFloat, Int)]()
-      for (index, data) in testData.enumerated() {
-        minToIndexes.append((data.lowerBound, index))
-        maxToIndexes.append((data.upperBound, index))
-      }
-
-      minToIndexes.sort { left, right in
-        return left.0 < right.0
-      }
-
-      maxToIndexes.sort { left, right in
-        return left.0 < right.0
-      }
-
-      manager.reload(minToIndexes: minToIndexes, maxToIndexes: maxToIndexes)
-      print(manager.visibleIndexes(min: 20, max: 100))
     }
     
 }

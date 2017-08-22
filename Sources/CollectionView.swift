@@ -189,7 +189,6 @@ open class CollectionView: UIScrollView {
   public func reloadData(contentOffsetAdjustFn: (() -> CGPoint)? = nil) {
     provider.willReload()
     reloading = true
-    lastLoadBounds = bounds
     provider.layout(collectionSize: innerSize)
 
     // ask the delegate for all cell's identifier & frames
