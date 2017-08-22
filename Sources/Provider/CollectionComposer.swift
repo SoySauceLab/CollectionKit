@@ -75,14 +75,14 @@ open class CollectionComposer: BaseCollectionProvider {
   open override var contentSize: CGSize {
     return layout.contentSize
   }
-  open override func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
-    var visible = Set<Int>()
+  open override func visibleIndexes(activeFrame: CGRect) -> [Int] {
+    var visible = [Int]()
     for sectionIndex in layout.visibleIndexes(activeFrame: activeFrame) {
       let sectionOrigin = layout.frame(at: sectionIndex).origin
       let sectionVisible = sections[sectionIndex].visibleIndexes(activeFrame: CGRect(origin: activeFrame.origin - sectionOrigin, size: activeFrame.size))
       let beginIndex = sectionBeginIndex[sectionIndex]
       for item in sectionVisible {
-        visible.insert(item + beginIndex)
+        visible.append(item + beginIndex)
       }
     }
     return visible

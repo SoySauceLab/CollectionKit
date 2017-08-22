@@ -6,6 +6,7 @@
 //  Copyright © 2016 lkzhao. All rights reserved.
 //
 
+import Diff
 import UIKit
 
 open class CollectionView: UIScrollView {
@@ -21,8 +22,11 @@ open class CollectionView: UIScrollView {
   public var hasReloaded: Bool { return reloadCount > 0 }
 
   public let tapGestureRecognizer = UITapGestureRecognizer()
-  public private(set) var visibleIndexes: Set<Int> = []
-  public var visibleCells: [UIView] { return Array(visibleCellToIndexMap.st.keys) }
+  public private(set) var visibleIndexes: [Int] = []
+  var identifiers: [String] = []
+  var visibleIdentifiers: [String] = []
+  var identifierToView: [String: UIView] = [:]
+  var identifierToIndex: [String: Int] = [:]
 
   public var activeFrameInset: UIEdgeInsets? {
     didSet {
@@ -39,15 +43,13 @@ open class CollectionView: UIScrollView {
   var activeFrame: CGRect {
     return UIEdgeInsetsInsetRect(visibleFrame, activeFrameInset ?? .zero)
   }
-  var visibleCellToIndexMap: DictionaryTwoWay<UIView, Int> = [:]
-  var identifiersToIndexMap: DictionaryTwoWay<String, Int> = [:]
   var lastLoadBounds: CGRect?
 
   public convenience init(provider: AnyCollectionProvider) {
     self.init()
     self.provider = provider
   }
-  
+
   public override init(frame: CGRect) {
     super.init(frame: frame)
     commonInit()
@@ -68,10 +70,11 @@ open class CollectionView: UIScrollView {
   }
 
   @objc func tap(gr: UITapGestureRecognizer) {
-    for cell in visibleCells {
+    for identifier in visibleIdentifiers {
+      let cell = identifierToView[identifier]!
+      let index = identifierToIndex[identifier]!
       if cell.point(inside: gr.location(in: cell), with: nil) {
-        provider.didTap(view: cell, at: visibleCellToIndexMap[cell]!)
-        return
+        provider.didTap(view: cell, at: index)
       }
     }
   }
@@ -111,31 +114,75 @@ open class CollectionView: UIScrollView {
   func loadCells() {
     if loading || reloading || !hasReloaded { return }
     loading = true
+
+    _loadCells()
+
+    for identifier in visibleIdentifiers {
+      let cell = identifierToView[identifier]!
+      let index = identifierToIndex[identifier]!
+      (cell.currentCollectionPresenter ?? presenter).update(collectionView:self, view: cell, at: index, frame: provider.frame(at: index))
+    }
+
+    loading = false
+  }
+
+  private func _loadCells() {
     lastLoadBounds = bounds
 
-    var indexes = provider.visibleIndexes(activeFrame: activeFrame)
-    let deletedIndexes = visibleIndexes.subtracting(indexes)
-    let newIndexes = indexes.subtracting(visibleIndexes)
-    for i in deletedIndexes {
-      if let cell = visibleCellToIndexMap[i], bounds.intersects(cell.frame) {
-        // Dont remove cell if it is still on screen. this is probably because the presenter is doing some animation with the cell
-        // which resulted the cell being at a different position. We will remove this cell later.
-        indexes.insert(i)
-      } else {
-        disappearCell(at: i)
-      }
-    }
-    for i in newIndexes {
-      appearCell(at: i)
-    }
-    visibleIndexes = indexes
+    let indexes = provider.visibleIndexes(activeFrame: activeFrame)
 
-    if !needsReload {
-      for (index, view) in visibleCellToIndexMap.ts {
-        (view.currentCollectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
+    var tempVisibleIdentifiers = visibleIdentifiers
+    let newVisibleIdentifiers = indexes.map { identifiers[$0] }
+    //    let diff = visibleIdentifiers.extendedDiff(newVisibleIdentifiers)
+    //    diff.forEach { element in
+    //      switch element {
+    //      case let .insert(index):
+    //        let identifier = newVisibleIdentifiers[index]
+    //        let cell = appearCell(identifier: identifier)
+    //        visi
+    //        //insertSubview(cell, at: viewIndex)
+    //      case let .delete(index):
+    //        let identifier = visibleIdentifiers[index]
+    //        disappearCell(identifier: identifier)
+    //      case let .move(from, to):
+    //        let toMoveIdentifier = visibleIdentifiers[from]
+    //        let cell = identifierToView[toMoveIdentifier]
+    //        insertSubview(cell, at: toViewIndex)
+    //      }
+    //    }
+
+    let patch = extendedPatch(from: visibleIdentifiers, to: newVisibleIdentifiers)
+    patch.forEach { element in
+      switch element {
+      case let .insertion(viewIndex, identifier):
+        let previousCell = viewIndex > 0 ? identifierToView[tempVisibleIdentifiers[viewIndex - 1]] : nil
+        tempVisibleIdentifiers.insert(identifier, at: viewIndex)
+        let cell = appearCell(identifier: identifier)
+        if let previousCell = previousCell {
+          let previousCellIndex = subviews.index(of: previousCell)!
+          insertSubview(cell, at: previousCellIndex + 1)
+        } else {
+          insertSubview(cell, at: 0)
+        }
+      case let .deletion(viewIndex):
+        let identifier = tempVisibleIdentifiers.remove(at: viewIndex)
+        disappearCell(identifier: identifier)
+      case let .move(fromViewIndex, toViewIndex):
+        let previousCell = toViewIndex > 0 ? identifierToView[tempVisibleIdentifiers[toViewIndex - 1]] : nil
+        let toMove = tempVisibleIdentifiers.remove(at: fromViewIndex)
+        tempVisibleIdentifiers.insert(toMove, at: toViewIndex)
+        let cell = identifierToView[toMove]!
+        if let previousCell = previousCell {
+          let previousCellIndex = subviews.index(of: previousCell)!
+          insertSubview(cell, at: previousCellIndex + 1)
+        } else {
+          insertSubview(cell, at: 0)
+        }
       }
     }
-    loading = false
+
+    visibleIndexes = indexes
+    visibleIdentifiers = newVisibleIdentifiers
   }
 
   // reload all frames. will automatically diff insertion & deletion
@@ -146,23 +193,28 @@ open class CollectionView: UIScrollView {
     provider.layout(collectionSize: innerSize)
 
     // ask the delegate for all cell's identifier & frames
-    var newIdentifiersToIndexMap: DictionaryTwoWay<String, Int> = [:]
-    var newVisibleCellToIndexMap: DictionaryTwoWay<UIView, Int> = [:]
+    var newIdentifiers: [String] = []
+    var newIdentifierToIndex: [String: Int] = [:]
+    var newIdentifiersSet: Set<String> = []
     let itemCount = provider.numberOfItems
 
     for index in 0..<itemCount {
       let identifier = provider.identifier(at: index)
-      if newIdentifiersToIndexMap[identifier] != nil {
+      if newIdentifiersSet.contains(identifier) {
         // print("[CollectionView] Duplicate Identifier: \(identifier)")
         var i = 2
         var newIdentifier = ""
         repeat {
           newIdentifier = identifier + "\(i)"
           i += 1
-        } while newIdentifiersToIndexMap[newIdentifier] != nil
-        newIdentifiersToIndexMap[newIdentifier] = index
+        } while newIdentifiersSet.contains(newIdentifier)
+        newIdentifiersSet.insert(newIdentifier)
+        newIdentifiers.append(newIdentifier)
+        newIdentifierToIndex[newIdentifier] = index
       } else {
-        newIdentifiersToIndexMap[identifier] = index
+        newIdentifiersSet.insert(identifier)
+        newIdentifiers.append(identifier)
+        newIdentifierToIndex[identifier] = index
       }
     }
 
@@ -175,45 +227,18 @@ open class CollectionView: UIScrollView {
     }
     let contentOffsetDiff = contentOffset - oldContentOffset
 
-    let newVisibleIndexes = provider.visibleIndexes(activeFrame: activeFrame)
+    identifiers = newIdentifiers
+    identifierToIndex = newIdentifierToIndex
 
-    let newVisibleIdentifiers = Set(newVisibleIndexes.map { index in
-      return newIdentifiersToIndexMap[index]!
-    })
-    let oldVisibleIdentifiers = Set(visibleIndexes.map { index in
-      return identifiersToIndexMap[index]!
-    })
+    _loadCells()
 
-    let deletedVisibleIdentifiers = oldVisibleIdentifiers.subtracting(newVisibleIdentifiers)
-    let insertedVisibleIdentifiers = newVisibleIdentifiers.subtracting(oldVisibleIdentifiers)
-    let existingVisibleIdentifiers = newVisibleIdentifiers.intersection(oldVisibleIdentifiers)
-
-    for identifier in existingVisibleIdentifiers {
-      // move the cell to a different index
-      let oldIndex = identifiersToIndexMap[identifier]!
-      let newIndex = newIdentifiersToIndexMap[identifier]!
-      let cell = visibleCellToIndexMap[oldIndex]!
-
-      newVisibleCellToIndexMap[newIndex] = cell
-      provider.update(view: cell, at: newIndex)
-      cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: newIndex)
-      (cell.currentCollectionPresenter ?? presenter).shift(collectionView: self, delta: contentOffsetDiff, view: cell, at: newIndex, frame: provider.frame(at: newIndex))
-    }
-
-    for identifier in deletedVisibleIdentifiers {
-      disappearCell(at: identifiersToIndexMap[identifier]!)
-    }
-
-    visibleIndexes = newVisibleIndexes
-    visibleCellToIndexMap = newVisibleCellToIndexMap
-    identifiersToIndexMap = newIdentifiersToIndexMap
-
-    for identifier in insertedVisibleIdentifiers {
-      appearCell(at: identifiersToIndexMap[identifier]!)
-    }
-
-    for (index, view) in visibleCellToIndexMap.ts {
-      (view.currentCollectionPresenter ?? presenter).update(collectionView:self, view: view, at: index, frame: provider.frame(at: index))
+    for identifier in visibleIdentifiers {
+      let cell = identifierToView[identifier]!
+      let index = identifierToIndex[identifier]!
+      provider.update(view: cell, at: index)
+      cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: index)
+      (cell.currentCollectionPresenter ?? presenter).shift(collectionView: self, delta: contentOffsetDiff, view: cell, at: index, frame: provider.frame(at: index))
+      (cell.currentCollectionPresenter ?? presenter).update(collectionView:self, view: cell, at: index, frame: provider.frame(at: index))
     }
 
     needsReload = false
@@ -222,47 +247,32 @@ open class CollectionView: UIScrollView {
     provider.didReload()
   }
 
-  fileprivate func disappearCell(at index: Int) {
-    if let cell = visibleCellToIndexMap[index] {
-      (cell.currentCollectionPresenter ?? presenter).delete(collectionView: self, view: cell, at: index)
-      visibleCellToIndexMap.remove(index)
-    }
+  fileprivate func disappearCell(identifier: String) {
+    let cell = identifierToView[identifier]!
+    let index = identifierToIndex[identifier]!
+    identifierToView[identifier] = nil
+    (cell.currentCollectionPresenter ?? presenter).delete(collectionView: self, view: cell, at: index)
   }
 
-  fileprivate func appearCell(at index: Int) {
+  fileprivate func appearCell(identifier: String) -> UIView {
+    let index = identifierToIndex[identifier]!
     let cell = provider.view(at: index)
     let frame = provider.frame(at: index)
     cell.bounds.size = frame.bounds.size
     cell.center = frame.center
     provider.update(view: cell, at: index)
     cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: index)
-    if visibleCellToIndexMap[cell] == nil {
-      visibleCellToIndexMap[cell] = index
-      insert(cell: cell)
-      (cell.currentCollectionPresenter ?? presenter).insert(collectionView: self, view: cell, at: index, frame: provider.frame(at: index))
-    }
-  }
+    (cell.currentCollectionPresenter ?? presenter).insert(collectionView: self, view: cell, at: index, frame: provider.frame(at: index))
 
-  fileprivate func insert(cell: UIView) {
-    if let index = self.index(for: cell) {
-      var currentMin = Int.max
-      for cell in subviews {
-        if let visibleIndex = visibleCellToIndexMap[cell], visibleIndex > index, visibleIndex < currentMin {
-          currentMin = visibleIndex
-        }
-      }
-      if currentMin == Int.max {
-        addSubview(cell)
-      } else {
-        insertSubview(cell, belowSubview: visibleCellToIndexMap[currentMin]!)
-      }
-    } else {
-      addSubview(cell)
-    }
+    identifierToView[identifier] = cell
+    return cell
   }
 }
 
 extension CollectionView {
+  public var visibleCells: [UIView] {
+    return visibleIdentifiers.map { identifierToView[$0]! }
+  }
   public func indexForCell(at point: CGPoint) -> Int? {
     for index in 0..<provider.numberOfItems {
       let frame = provider.frame(at: index)
@@ -271,13 +281,5 @@ extension CollectionView {
       }
     }
     return nil
-  }
-
-  public func index(for cell: UIView) -> Int? {
-    return visibleCellToIndexMap[cell]
-  }
-
-  public func cell(at index: Int) -> UIView? {
-    return visibleCellToIndexMap[index]
   }
 }

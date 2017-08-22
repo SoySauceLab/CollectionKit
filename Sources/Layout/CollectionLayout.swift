@@ -33,15 +33,15 @@ open class CollectionLayout<Data> {
     return frames[at] + CGPoint(x: insets.left, y: insets.top)
   }
 
-  open func visibleIndexes(activeFrame: CGRect) -> Set<Int> {
+  open func visibleIndexes(activeFrame: CGRect) -> [Int] {
     let visibleFrame = activeFrame - CGPoint(x: insets.left, y: insets.top)
     if let visibleIndexSorter = visibleIndexSorter {
       return visibleIndexSorter.visibleIndexes(for: visibleFrame)
     }
-    var result = Set<Int>()
+    var result = [Int]()
     for (i, frame) in frames.enumerated() {
       if frame.intersects(visibleFrame) {
-        result.insert(i)
+        result.append(i)
       }
     }
     return result
