@@ -38,7 +38,7 @@ open class CollectionPresenter {
       }
     }
   }
-  open func delete(collectionView: CollectionView, view: UIView, at: Int) {
+  open func delete(collectionView: CollectionView, view: UIView) {
     if collectionView.reloading, collectionView.bounds.intersects(view.frame), let deleteAnimation = deleteAnimation {
       switch deleteAnimation {
       case .fade:

@@ -30,19 +30,19 @@ extension UIScrollView {
     return point - contentOffset
   }
   public func scrollTo(edge: UIRectEdge, animated: Bool) {
-    let target: CGRect
+    let target:CGPoint
     switch edge {
     case UIRectEdge.top:
-      target = CGRect(x: contentOffset.x, y: offsetFrame.minY, width: 1, height: 1)
+      target = CGPoint(x: contentOffset.x, y: offsetFrame.minY)
     case UIRectEdge.bottom:
-      target = CGRect(x: contentOffset.x, y: offsetFrame.maxY - 1, width: 1, height: 1)
+      target = CGPoint(x: contentOffset.x, y: offsetFrame.maxY)
     case UIRectEdge.left:
-      target = CGRect(x: offsetFrame.minX, y: contentOffset.y, width: 1, height: 1)
+      target = CGPoint(x: offsetFrame.minX, y: contentOffset.y)
     case UIRectEdge.right:
-      target = CGRect(x: offsetFrame.maxX - 1, y: contentOffset.y, width: 1, height: 1)
+      target = CGPoint(x: offsetFrame.maxY, y: contentOffset.y)
     default:
       return
     }
-    scrollRectToVisible(target, animated: animated)
+    setContentOffset(target, animated: true)
   }
 }

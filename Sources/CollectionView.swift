@@ -230,9 +230,8 @@ open class CollectionView: UIScrollView {
   private func _deleteCell(at: Int) {
     let identifier = visibleIdentifiers.remove(at: at)
     let cell = identifierToView[identifier]!
-    let index = identifierToIndex[identifier]!
     identifierToView[identifier] = nil
-    (cell.currentCollectionPresenter ?? presenter).delete(collectionView: self, view: cell, at: index)
+    (cell.currentCollectionPresenter ?? presenter).delete(collectionView: self, view: cell)
   }
 
   private func _moveCell(from: Int, to: Int) {
