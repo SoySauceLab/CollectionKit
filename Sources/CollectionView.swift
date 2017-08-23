@@ -266,4 +266,18 @@ extension CollectionView {
     }
     return nil
   }
+
+  public func index(for cell: UIView) -> Int? {
+    if let index = visibleCells.index(of: cell) {
+      return identifierToIndex[visibleIdentifiers[index]]
+    }
+    return nil
+  }
+
+  public func cell(at index: Int) -> UIView? {
+    if let identifier = visibleIdentifiers.lazy.filter({ self.identifierToIndex[$0] == index }).first {
+      return identifierToView[identifier]
+    }
+    return nil
+  }
 }
