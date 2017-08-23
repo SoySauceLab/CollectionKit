@@ -275,10 +275,8 @@ extension CollectionView {
   }
 
   public func cell(at index: Int) -> UIView? {
-    for visibleIdentifier in visibleIdentifiers {
-      if identifierToIndex[visibleIdentifier] == index {
-        return identifierToView[visibleIdentifier]
-      }
+    if let identifier = visibleIdentifiers.lazy.filter({ self.identifierToIndex[$0] == index }).first {
+      return identifierToView[identifier]
     }
     return nil
   }
