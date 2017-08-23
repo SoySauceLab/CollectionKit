@@ -266,4 +266,20 @@ extension CollectionView {
     }
     return nil
   }
+
+  public func index(for cell: UIView) -> Int? {
+    if let index = visibleCells.index(of: cell) {
+      return identifierToIndex[visibleIdentifiers[index]]
+    }
+    return nil
+  }
+
+  public func cell(at index: Int) -> UIView? {
+    for visibleIdentifier in visibleIdentifiers {
+      if identifierToIndex[visibleIdentifier] == index {
+        return identifierToView[visibleIdentifier]
+      }
+    }
+    return nil
+  }
 }
