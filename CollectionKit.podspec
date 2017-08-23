@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "CollectionKit"
-  s.version          = "0.0.4"
+  s.version          = "0.0.5"
   s.summary          = "Modern UICollectionView alternative. Provides data-driven reusable components for building collections."
 
   s.description      = <<-DESC
@@ -12,13 +12,15 @@ Pod::Spec.new do |s|
   s.license          = 'MIT'
   s.author           = { "Luke" => "lzhaoyilun@gmail.com" }
   s.source           = { :git => "https://github.com/lkzhao/CollectionKit.git", :tag => s.version.to_s }
-  
+
   s.ios.deployment_target  = '8.0'
   s.ios.frameworks         = 'UIKit', 'Foundation'
 
   s.requires_arc = true
+  s.static_framework = true
 
   s.source_files = 'Sources/**/*.swift'
 
   s.dependency 'YetAnotherAnimationLibrary', '~> 1.1.0'
+  s.dependency 'Diff', '~> 0.5.3'
 end
