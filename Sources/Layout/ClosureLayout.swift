@@ -15,11 +15,14 @@ public class Closurelayout<Data>: CollectionLayout<Data> {
     self.frameProvider = frameProvider
   }
 
-  public override func layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: CollectionSizeProvider<Data>) {
-    super.layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
+  public override func layout(collectionSize: CGSize,
+                              dataProvider: CollectionDataProvider<Data>,
+                              sizeProvider: CollectionSizeProvider<Data>) -> [CGRect] {
+    var frames: [CGRect] = []
     for i in 0..<dataProvider.numberOfItems {
       let frame = frameProvider(i, dataProvider.data(at: i), collectionSize)
       frames.append(frame)
     }
+    return frames
   }
 }
