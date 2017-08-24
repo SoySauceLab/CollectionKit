@@ -35,14 +35,12 @@ public class FlexLayout<Data>: AxisDependentLayout<Data> {
   public var alignItems: FlexAlignItem
   public var justifyContent: FlexJustifyContent
 
-  public init(
-    flex: [String: FlexValue] = [:],
-    insets: UIEdgeInsets = .zero,
-    padding: CGFloat = 0,
-    axis: Axis = .vertical,
-    justifyContent: FlexJustifyContent = .start,
-    alignItems: FlexAlignItem = .start
-  ) {
+  public init(flex: [String: FlexValue] = [:],
+              insets: UIEdgeInsets = .zero,
+              padding: CGFloat = 0,
+              axis: Axis = .vertical,
+              justifyContent: FlexJustifyContent = .start,
+              alignItems: FlexAlignItem = .start) {
     self.padding = padding
     self.flex = flex
     self.justifyContent = justifyContent
