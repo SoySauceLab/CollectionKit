@@ -10,19 +10,27 @@ import UIKit
 
 open class CollectionLayout<Data> {
   open var insets: UIEdgeInsets = .zero
-  open var frames: [CGRect] = []
   open var visibleIndexSorter: CollectionVisibleIndexSorter?
+  open private(set) var frames: [CGRect] = []
 
-  open func layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: CollectionSizeProvider<Data>) {
-    frames = []
+  // override point for subclass
+  open func layout(collectionSize: CGSize,
+                   dataProvider: CollectionDataProvider<Data>,
+                   sizeProvider: CollectionSizeProvider<Data>) -> [CGRect] {
+    fatalError("Subclass should provide its own layout")
+  }
+
+  open func doneLayout() {
+
   }
   
   private var _contentSize: CGSize = .zero
   internal func _layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: CollectionSizeProvider<Data>) {
-    layout(collectionSize: collectionSize.insets(by: insets), dataProvider: dataProvider, sizeProvider: sizeProvider)
+    frames = layout(collectionSize: collectionSize.insets(by: insets), dataProvider: dataProvider, sizeProvider: sizeProvider)
     _contentSize = frames.reduce(CGRect.zero) { (old, item) in
       old.union(item)
     }.size
+    doneLayout()
   }
 
   open var contentSize: CGSize {

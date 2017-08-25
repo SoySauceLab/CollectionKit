@@ -8,60 +8,46 @@
 
 import UIKit
 
-public class WaterfallLayout<Data>: CollectionLayout<Data> {
-  public var axis: UILayoutConstraintAxis
+public class WaterfallLayout<Data>: AxisDependentLayout<Data> {
   public var columns: Int
   public var padding: CGFloat
   private var columnWidth: [CGFloat] = [0, 0]
   private var maxSize = CGSize.zero
 
-  public init(columns: Int = 1, insets: UIEdgeInsets = .zero, padding: CGFloat = 10, axis: UILayoutConstraintAxis = .vertical) {
+  public init(columns: Int = 1, insets: UIEdgeInsets = .zero, padding: CGFloat = 10, axis: Axis = .vertical) {
     self.columns = columns
-    self.axis = axis
     self.padding = padding
     super.init(insets: insets)
+    self.axis = axis
   }
 
-  public override func layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: CollectionSizeProvider<Data>) {
-    super.layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
+  public override func layout(collectionSize: CGSize,
+                       dataProvider: CollectionDataProvider<Data>,
+                       sizeProvider: CollectionSizeProvider<Data>) -> [CGRect] {
+    var frames: [CGRect] = []
 
-    let maxSize = collectionSize
-    var columnWidth = Array<CGFloat>(repeating: 0, count: columns)
+    let columnWidth = (secondary(collectionSize) - CGFloat(columns - 1) * padding) / CGFloat(columns)
+    var columnHeight = Array<CGFloat>(repeating: 0, count: columns)
 
     func getMinColomn() -> (Int, CGFloat) {
-      var minWidth: (Int, CGFloat) = (0, columnWidth[0])
-      for (index, width) in columnWidth.enumerated() {
-        if width < minWidth.1 {
-          minWidth = (index, width)
+      var minHeight: (Int, CGFloat) = (0, columnHeight[0])
+      for (index, height) in columnHeight.enumerated() {
+        if height < minHeight.1 {
+          minHeight = (index, height)
         }
       }
-      return minWidth
+      return minHeight
     }
 
-    if axis == .vertical {
-      for i in 0..<dataProvider.numberOfItems {
-        let avaliableHeight = (maxSize.width - CGFloat(columnWidth.count - 1) * padding) / CGFloat(columnWidth.count)
-        var cellSize = sizeProvider(i, dataProvider.data(at: i), CGSize(width: avaliableHeight, height: collectionSize.width))
-        cellSize.width = avaliableHeight
-        let (columnIndex, offsetY) = getMinColomn()
-        columnWidth[columnIndex] += cellSize.height + padding
-        let frame = CGRect(origin: CGPoint(x: CGFloat(columnIndex) * (avaliableHeight + padding),
-                                           y: offsetY), size: cellSize)
-        frames.append(frame)
-      }
-      visibleIndexSorter = CollectionVerticalVisibleIndexSorter(frames: frames)
-    } else {
-      for i in 0..<dataProvider.numberOfItems {
-        let avaliableHeight = (maxSize.height - CGFloat(columnWidth.count - 1) * padding) / CGFloat(columnWidth.count)
-        var cellSize = sizeProvider(i, dataProvider.data(at: i), CGSize(width: collectionSize.width, height: avaliableHeight))
-        cellSize.height = avaliableHeight
-        let (rowIndex, offsetX) = getMinColomn()
-        columnWidth[rowIndex] += cellSize.width + padding
-        let frame = CGRect(origin: CGPoint(x: offsetX,
-                                           y: CGFloat(rowIndex) * (avaliableHeight + padding)), size: cellSize)
-        frames.append(frame)
-      }
-      visibleIndexSorter = CollectionHorizontalVisibleIndexSorter(frames: frames)
+    for i in 0..<dataProvider.numberOfItems {
+      var cellSize = sizeProvider(i, dataProvider.data(at: i), size(primary: primary(collectionSize), secondary: columnWidth))
+      cellSize = size(primary: primary(cellSize), secondary: columnWidth)
+      let (columnIndex, offsetY) = getMinColomn()
+      columnHeight[columnIndex] += primary(cellSize) + padding
+      let frame = CGRect(origin: point(primary: offsetY, secondary: CGFloat(columnIndex) * (columnWidth + padding)), size: cellSize)
+      frames.append(frame)
     }
+
+    return frames
   }
 }

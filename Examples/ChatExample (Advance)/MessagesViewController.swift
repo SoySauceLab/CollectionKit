@@ -18,8 +18,10 @@ class MessageDataProvider: ArrayDataProvider<Message> {
 }
 
 class MessageLayout: CollectionLayout<Message> {
-  override func layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Message>, sizeProvider: CollectionSizeProvider<Message>) {
-    super.layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
+  override func layout(collectionSize: CGSize,
+                       dataProvider: CollectionDataProvider<Message>,
+                       sizeProvider: CollectionSizeProvider<Message>) -> [CGRect] {
+    var frames: [CGRect] = []
     var lastMessage: Message?
     var lastFrame: CGRect?
     let maxWidth: CGFloat = collectionSize.width
@@ -54,6 +56,8 @@ class MessageLayout: CollectionLayout<Message> {
       
       frames.append(cellFrame)
     }
+
+    return frames
   }
 }
 

@@ -58,6 +58,7 @@
 		B1B7B0581E7DAD1F00F2483E /* CollectionKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* CollectionKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B1B7B05F1E7DAD2700F2483E /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3451CE4CCD2005E15A7 /* CollectionView.swift */; };
 		B1B7B0611E7DAD2700F2483E /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3461CE4CCD2005E15A7 /* Util.swift */; };
+		B1B9C1971F4F72B300A3EFA9 /* AxisDependentLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B9C1961F4F72B300A3EFA9 /* AxisDependentLayout.swift */; };
 		B1CCA0AF1F3A691B00632B19 /* EmptyStateCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CCA0AE1F3A691B00632B19 /* EmptyStateCollectionProvider.swift */; };
 		B1E861F11F21515F00621BA0 /* CollectionViewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1E861EF1F21514E00621BA0 /* CollectionViewProvider.swift */; };
 		B1E861F41F21517400621BA0 /* CollectionDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1E861F21F21516E00621BA0 /* CollectionDataProvider.swift */; };
@@ -154,6 +155,7 @@
 		B1A54FAC1EA3E0ED00A96112 /* UIScrollView+CollectionKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+CollectionKit.swift"; sourceTree = "<group>"; };
 		B1B7B0501E7DAD1E00F2483E /* CollectionKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CollectionKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1B7B0531E7DAD1F00F2483E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B1B9C1961F4F72B300A3EFA9 /* AxisDependentLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AxisDependentLayout.swift; sourceTree = "<group>"; };
 		B1CCA0AE1F3A691B00632B19 /* EmptyStateCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyStateCollectionProvider.swift; sourceTree = "<group>"; };
 		B1E861EF1F21514E00621BA0 /* CollectionViewProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewProvider.swift; sourceTree = "<group>"; };
 		B1E861F21F21516E00621BA0 /* CollectionDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDataProvider.swift; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 			isa = PBXGroup;
 			children = (
 				B1E861F51F21518700621BA0 /* CollectionLayout.swift */,
+				B1B9C1961F4F72B300A3EFA9 /* AxisDependentLayout.swift */,
 				B144CE051F437A1D0073CF4E /* FlexLayout.swift */,
 				B144CE031F437A100073CF4E /* FlowLayout.swift */,
 				B144CE011F4379F20073CF4E /* WaterfallLayout.swift */,
@@ -623,6 +626,7 @@
 				B144CE0F1F437A9E0073CF4E /* ClosureDataProvider.swift in Sources */,
 				B1B7B05F1E7DAD2700F2483E /* CollectionView.swift in Sources */,
 				B18C6C631F33A3C900FAE077 /* CollectionVisibleIndexSorter.swift in Sources */,
+				B1B9C1971F4F72B300A3EFA9 /* AxisDependentLayout.swift in Sources */,
 				B1E861F41F21517400621BA0 /* CollectionDataProvider.swift in Sources */,
 				B1688A291F2562AC00C229BD /* ViewCollectionProvider.swift in Sources */,
 				B1E861F91F21520200621BA0 /* CollectionComposer.swift in Sources */,
