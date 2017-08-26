@@ -26,7 +26,6 @@ func space(_ height: CGFloat) -> AnyCollectionProvider {
   return SpaceCollectionProvider(sizeStrategy: (.fill, .absolute(height)))
 }
 
-
 let presenterSection: AnyCollectionProvider = {
   let presenters = [
     ("Default", CollectionPresenter()),
@@ -77,9 +76,10 @@ let presenterSection: AnyCollectionProvider = {
   return CollectionComposer(
     layout: FlexLayout(flex: ["providerContent": FlexValue(flex: 1)]),
     section(title: "Presenter",
-            subtitle: "Presenter can be used customize the presentation of the child views. It is independent of the layout and have direct access to the view object. It is the perfect place to add animations to an existing provider."),
+            subtitle: "Presenter can be used customize the presentation of the child views. It is independent of the layout and have direct access to the view object. It is the perfect place to add animations."),
     buttonsCollectionViewProvider,
-    providerCollectionViewProvider
+    providerCollectionViewProvider,
+    section(title: "Testing")
   )
 }()
 
@@ -114,50 +114,25 @@ class ViewController: UIViewController {
       sizeProvider: imageSizeProvider,
       presenter: WobblePresenter()
     )
+
     
-    let coreConceptSection: AnyCollectionProvider = {
-      let concepts: [(String, String)] = [
-        ("Data Provider", "The data source for the collection. It provides a homogenious set of data. The data will be passed to view provider, layout provider, and responder."),
-        ("View Provider", "Provides corresponding UIView object for each of the data provided by the data source."),
-        ("Layout Provider", "Provides layout information for the collection view."),
-        ("Size Provider", "Provides size information to the layout provider."),
-        ("Responder", "Provides event handler to the collection view events like tap, drag, & reload."),
-        ("Presenter", "Can be used to customize the presentation of the child views. It is independent of the layout and have direct access to the view object. It is the perfect place to add animations to an existing provider.")
-      ]
-      let collectionView = CollectionView()
-      collectionView.clipsToBounds = false
-      collectionView.provider = CollectionProvider(
-        data: concepts,
-        viewUpdater: { (view: CardView, data: (String, String), at: Int) in
-          view.title = data.0
-          view.subtitle = data.1
-        },
-        layout: WaterfallLayout(columns:1, insets: bodyInset, axis: .horizontal),
-        sizeProvider: { (_, _, size) -> CGSize in
-          return size
-        },
-        tapHandler: { [weak self] _, index, dataProvider in
-          self?.present(MessagesViewController(), animated: true, completion: nil)
-        }
-      )
-      
-      return ViewCollectionProvider(collectionView, sizeStrategy: (.fill, .absolute(200)))
-    }()
-    
+//    collectionView.provider = CollectionComposer(
+//      space(100),
+//      section(title: "CollectionKit", subtitle: "A modern swift framework for building reusable collection view components."),
+//      space(20),
+//      section(title: "Horizontal Waterfall Layout"),
+//      image1Section,
+//      space(20),
+//      section(title: "Vertical Waterfall Layout"),
+//      image2Section,
+//      space(20),
+//      presenterSection
+//    )
+
+
     collectionView.provider = CollectionComposer(
-      space(100),
-      section(title: "CollectionKit", subtitle: "A modern swift framework for building reusable collection view components."),
-      space(20),
-      section(title: "Core Concepts"),
-      coreConceptSection,
-      space(20),
-      section(title: "Horizontal Waterfall Layout"),
-      image1Section,
-      space(20),
-      section(title: "Vertical Waterfall Layout"),
-      image2Section,
-      space(20),
-      presenterSection
+      layout: FlexLayout(flex: ["0": FlexValue(flex: 1, max: 100), "1": FlexValue(flex: 1)]),
+      (0...3).map{ section(title: "Section \($0)") }
     )
   }
   
