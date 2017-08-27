@@ -39,10 +39,10 @@ extension UIScrollView {
     case UIRectEdge.left:
       target = CGPoint(x: offsetFrame.minX, y: contentOffset.y)
     case UIRectEdge.right:
-      target = CGPoint(x: offsetFrame.maxY, y: contentOffset.y)
+      target = CGPoint(x: offsetFrame.maxX, y: contentOffset.y)
     default:
       return
     }
-    setContentOffset(target, animated: true)
+    setContentOffset(target, animated: animated)
   }
 }
