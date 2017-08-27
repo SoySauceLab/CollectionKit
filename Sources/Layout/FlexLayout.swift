@@ -17,15 +17,17 @@ public enum FlexAlignItem {
 }
 
 public struct FlexValue {
-  var flex: CGFloat
+  var flexGrow: CGFloat
+  var flexShrink: CGFloat
   var range: ClosedRange<CGFloat>
 
-  public init(flex: CGFloat, range: ClosedRange<CGFloat>) {
-    self.flex = flex
+  public init(flexGrow: CGFloat, flexShrink: CGFloat = 0, range: ClosedRange<CGFloat>) {
+    self.flexGrow = flexGrow
+    self.flexShrink = flexShrink
     self.range = range
   }
-  public init(flex: CGFloat, min: CGFloat = 0, max: CGFloat = .infinity) {
-    self.init(flex: flex, range: min...max)
+  public init(flexGrow: CGFloat = 0, flexShrink: CGFloat = 0, min: CGFloat = 0, max: CGFloat = .infinity) {
+    self.init(flexGrow: flexGrow, flexShrink: flexShrink, range: min...max)
   }
 }
 
@@ -50,123 +52,103 @@ public class FlexLayout<Data>: AxisDependentLayout<Data> {
     self.insets = insets
   }
 
-  private enum ItemState {
-    case freezed(CGSize)
-    case flex(FlexValue, CGFloat)
-
-    var size: CGSize {
-      switch self {
-      case .flex:
-        fatalError()
-      case .freezed(let size):
-        return size
-      }
-    }
-  }
-
-  private func totalPrimaryAndFlex(itemStates: [ItemState]) -> (height: CGFloat, flex: CGFloat) {
-    var totalPrimary: CGFloat = 0
-    var totalFlex: CGFloat = 0
-
-    for state in itemStates {
-      switch state {
-      case .flex(let flex, let primary):
-        totalFlex += flex.flex
-        totalPrimary += primary
-      case .freezed(let size):
-        totalPrimary += primary(size)
-      }
-    }
-
-    return (totalPrimary, totalFlex)
-  }
-
   public override func layout(collectionSize: CGSize,
                               dataProvider: CollectionDataProvider<Data>,
                               sizeProvider: CollectionSizeProvider<Data>) -> [CGRect] {
     var frames: [CGRect] = []
 
-    var itemStates: [ItemState] = []
-
-    var allItemFreezed: Bool = true
+    var freezedPrimary = padding * CGFloat(dataProvider.numberOfItems - 1)
+    var sizes: [CGSize] = []
+    var flexValues: [Int: (FlexValue, CGFloat)] = [:]
 
     for i in 0..<dataProvider.numberOfItems {
+      let size = sizeProvider(i, dataProvider.data(at: i), collectionSize)
+      sizes.append(size)
       if let flex = flex[dataProvider.identifier(at: i)] {
-        itemStates.append(.flex(flex, flex.range.lowerBound))
-        allItemFreezed = false
+        flexValues[i] = (flex, primary(size))
       } else {
-        let size = sizeProvider(i, dataProvider.data(at: i), collectionSize)
-        itemStates.append(.freezed(size))
+        freezedPrimary += primary(size)
       }
     }
 
-    while !allItemFreezed {
-      allItemFreezed = true
+    while !flexValues.isEmpty {
+      var totalPrimary = freezedPrimary
+      for (_, primary) in flexValues.values {
+        totalPrimary += primary
+      }
 
-      var (totalPrimary, totalFlex) = self.totalPrimaryAndFlex(itemStates: itemStates)
-      totalPrimary += padding * CGFloat(dataProvider.numberOfItems - 1)
-
-      let primaryPerFlex: CGFloat = totalFlex > 0 ? (primary(collectionSize) - totalPrimary) / totalFlex : 0
       var clampDiff: CGFloat = 0
 
-      for i in 0..<itemStates.count {
-        if case let .flex(flex, primary) = itemStates[i] {
-          let currentPrimary = (primary + flex.flex * primaryPerFlex)
+      // distribute remaining space
+      if totalPrimary < primary(collectionSize) {
+        // use flexGrow
+        let totalFlex = flexValues.values.reduce(0) { $0.0 + $0.1.0.flexGrow }
+        let primaryPerFlex: CGFloat = totalFlex > 0 ? (primary(collectionSize) - totalPrimary) / totalFlex : 0
+        for (i, (flex, primary)) in flexValues {
+          let currentPrimary = (primary + flex.flexGrow * primaryPerFlex)
           let clamped = currentPrimary.clamp(flex.range.lowerBound, flex.range.upperBound)
           clampDiff += clamped - currentPrimary
-          itemStates[i] = .flex(flex, currentPrimary)
+          flexValues[i] = (flex, currentPrimary)
+        }
+      } else {
+        // use flexShrink
+        let totalFlex = flexValues.values.reduce(0) { $0.0 + $0.1.0.flexShrink }
+        let primaryPerFlex: CGFloat = totalFlex > 0 ? (primary(collectionSize) - totalPrimary) / totalFlex : 0
+        for (i, (flex, primary)) in flexValues {
+          let currentPrimary = (primary + flex.flexShrink * primaryPerFlex)
+          let clamped = currentPrimary.clamp(flex.range.lowerBound, flex.range.upperBound)
+          clampDiff += clamped - currentPrimary
+          flexValues[i] = (flex, currentPrimary)
         }
       }
 
+      // freeze flex size
       if clampDiff == 0 {
-        for i in 0..<itemStates.count {
-          if case let .flex(_, primary) = itemStates[i] {
-            let freezedSize = sizeProvider(i, dataProvider.data(at: i), self.size(primary: primary, secondary: secondary(collectionSize)))
-            itemStates[i] = .freezed(self.size(primary: primary, secondary: secondary(freezedSize)))
-          }
+        // No min/max violation. Freeze all flex values
+        for (i, (_, primary)) in flexValues {
+          guard primary != self.primary(sizes[i]) else { continue }
+          let freezedSize = sizeProvider(i, dataProvider.data(at: i), self.size(primary: primary, secondary: secondary(collectionSize)))
+          sizes[i] = self.size(primary: primary, secondary: secondary(freezedSize))
+          freezedPrimary += primary
         }
+        flexValues.removeAll()
       } else if clampDiff > 0 {
-        for i in 0..<itemStates.count {
-          if case let .flex(flex, primary) = itemStates[i] {
-            if primary < flex.range.lowerBound {
-              let primary = flex.range.lowerBound
-              let freezedSize = sizeProvider(i, dataProvider.data(at: i), self.size(primary: primary, secondary: secondary(collectionSize)))
-              itemStates[i] = .freezed(self.size(primary: primary, secondary: secondary(freezedSize)))
-            } else {
-              allItemFreezed = false
-            }
-          }
+        // Freeze all min violation
+        for (i, (flex, primary)) in flexValues where primary <= flex.range.lowerBound {
+          let primary = flex.range.lowerBound
+          flexValues[i] = nil
+          guard primary != self.primary(sizes[i]) else { continue }
+          let freezedSize = sizeProvider(i, dataProvider.data(at: i), self.size(primary: primary, secondary: secondary(collectionSize)))
+          sizes[i] = self.size(primary: primary, secondary: secondary(freezedSize))
+          freezedPrimary += primary
         }
       } else {
-        for i in 0..<itemStates.count {
-          if case let .flex(flex, primary) = itemStates[i] {
-            if primary > flex.range.upperBound {
-              let primary = flex.range.upperBound
-              let freezedSize = sizeProvider(i, dataProvider.data(at: i), self.size(primary: primary, secondary: secondary(collectionSize)))
-              itemStates[i] = .freezed(self.size(primary: primary, secondary: secondary(freezedSize)))
-            } else {
-              allItemFreezed = false
-            }
-          }
+        // Freeze all max violation
+        for (i, (flex, primary)) in flexValues where primary >= flex.range.upperBound {
+          let primary = flex.range.upperBound
+          flexValues[i] = nil
+          guard primary != self.primary(sizes[i]) else { continue }
+          let freezedSize = sizeProvider(i, dataProvider.data(at: i), self.size(primary: primary, secondary: secondary(collectionSize)))
+          sizes[i] = self.size(primary: primary, secondary: secondary(freezedSize))
+          freezedPrimary += primary
         }
       }
     }
 
 
     var offset: CGFloat = 0
-    //    if totalPrimary < primary(collectionSize), totalFlex == 0 {
-    //      switch justifyContent {
-    //      case .center:
-    //        offset += (primary(collectionSize) - totalPrimary) / 2
-    //      case .end:
-    //        offset += primary(collectionSize) - totalPrimary
-    //      default:
-    //        break
-    //      }
-    //    }
+    if totalPrimary < primary(collectionSize), totalFlex == 0 {
+      switch justifyContent {
+      case .center:
+        offset += (primary(collectionSize) - totalPrimary) / 2
+      case .end:
+        offset += primary(collectionSize) - totalPrimary
+      default:
+        break
+      }
+    }
 
-    for state in itemStates {
-      let cellSize: CGSize = state.size
+    for cellSize in sizes {
       let cellFrame: CGRect
       switch alignItems {
       case .start:
