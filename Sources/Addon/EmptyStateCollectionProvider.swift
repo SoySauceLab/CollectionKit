@@ -15,7 +15,7 @@ public class EmptyStateCollectionProvider: CollectionComposer {
   public init(emptyStateView: @autoclosure @escaping () -> UIView, content: AnyCollectionProvider) {
     self.emptyStateViewGetter = emptyStateView
     self.content = content
-    super.init(layout: FlexLayout(flex: ["emptyStateView": FlexValue(flexGrow: 1)]), [content])
+    super.init(layout: FlexLayout(flex: ["emptyStateView": FlexValue(flex: 1)]), [content])
   }
 
   public override func willReload() {
