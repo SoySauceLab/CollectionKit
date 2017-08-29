@@ -13,13 +13,13 @@ A modern Swift framework for building reusable data-driven collection components
 
 ### Features
 
-* Declaritive API for building collection view content.
-* Automatic UI update when data changes
+* Declaritive API for building collection view components
+* Automatically update UI when data changes
 * Composable & hot swappable sections, layouts, & animations
-* Strong type checking done by Swift Generics
+* Strong type checking powered by Swift Generics
 * Reuse everything!
 
-We think that populating collection view content should be as simple as building custom UIViews. Sections should be reusable and composable into one another. They should define their own layout be easily animatable as well. CollectionKit is our attempt in solving these problem. UICollectionView has been around for 10 years. It is time that we come up with something better **using Swift**.
+We think that populating collection view content should be as simple as building custom UIViews. Sections should be reusable and composable into one another. They should define their own layout be easily animatable as well. CollectionKit is our attempt in solving these problems. UICollectionView has been around for 10 years. It is time that we come up with something better **with Swift**.
 
 Unlike traditional UICollectionView's `datasource`/`delegate` methods, CollectionKit uses a single **Provider** object that tells `CollectionView` exactly how to display & handle a collection.
 
