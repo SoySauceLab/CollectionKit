@@ -1,6 +1,6 @@
 # CollectionKit
 
-A modern swift framework for building data-driven reusable collection view components.
+A modern Swift framework for building reusable data-driven collection components.
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-Compatible-brightgreen.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Version](https://img.shields.io/cocoapods/v/CollectionKit.svg?style=flat)](http://cocoapods.org/pods/CollectionKit)
@@ -11,23 +11,21 @@ A modern swift framework for building data-driven reusable collection view compo
 
 #### Note: CollectionKit is still being developed. Majority of the components are there, but API might change in the future.
 
-* Declaritive API for constructing collection view content.
-* Automatic diff and update
-* Composable sections
-* Composable layout
-* Powerful animation API
-* Built in pure Swift with generics
+### Features
+
+* Declaritive API for building collection view content.
+* Automatic UI update when data changes
+* Composable & hot swappable sections, layouts, & animations
+* Strong type checking done by Swift Generics
 * Reuse everything!
 
-Unlike traditional UICollectionView's `datasource`/`delegate` methods, CollectionKit uses a single **Provider** object that tells CollectionView exactly how to display a collection.
+We think that populating collection view content should be as simple as building custom UIViews. Sections should be reusable and composable into one another. They should define their own layout be easily animatable as well. CollectionKit is our attempt in solving these problem. UICollectionView has been around for 10 years. It is time that we come up with something better **using Swift**.
 
-These Providers are composable, meaning that you can easily combine multiple Providers into a single Provider.
-Providers are also reusable, if you assign the Provider object to another CollectionView, it will display the same content.
-Providers also has its own layout information. Meaning that you can now have different sections each with its own layout.
-Whats more exciting is that Providers can be combined with any layout as well!
-As an extra bonus, Providers can include an animation object called **Presenter** that handles animations and presentation of your view. 
+Unlike traditional UICollectionView's `datasource`/`delegate` methods, CollectionKit uses a single **Provider** object that tells `CollectionView` exactly how to display & handle a collection.
 
-CollectionKit already provides many of the commonly used Providers out of the box. But you can still easily create reuseable Provider classes that generalizes on different types on data and reuse them through out your app. Building collection view has never been this simple and flexible!
+These Providers are easy to construct, and infinitely composable. Providers also have their own animation and layout objects. You can have sections that layouts and behave differently with in a single `CollectionView`.
+
+CollectionKit already provides many of the commonly used Providers out of the box. But you can still easily create reuseable Provider classes that generalizes on different types on data. Checkout the examples down below or 
 
 ## Install
 
@@ -39,21 +37,21 @@ To build a basic provider, here is what you need:
 
 ```swift
 let provider1 = CollectionProvider(
-    data: [1，2，3, 4], // provide an array of data
+    data: [1，2，3, 4], // provide an array of data, data can be any type
     viewUpdater: { (label: UILabel, index: Int, data: Int) in
-        // update your view according to your data
+        // update your view according to your data, view can be any subclass of UIView
         label.backgroundColor = .pink
         label.layer.cornerRadius = 8
         label.textAlignment = .center
         label.text = "\(data)"
     },
     sizeProvider: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
-        return CGSize(width: 50, height: 50) // return your view size
+        return CGSize(width: 50, height: 50) // return your cell size
     }
 )
 ```
 
-To display the content, just assign this provider to any instance of CollectionView.
+To display the content, just assign this provider to any instance of `CollectionView`.
 
 ```swift
 collectionView.provider = provider1
