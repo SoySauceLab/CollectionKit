@@ -6,15 +6,15 @@ A modern swift framework for building data-driven reusable collection view compo
 
 * Declaritive API for constructing collection view content.
 * Automatic diff and update
-* Composible sections
-* Composible layout
+* Composable sections
+* Composable layout
 * Powerful animations API
 * Built in pure Swift with generics
 * Reuse everything!
 
 Unlink the traditional UICollectionVIew `datasource`/`delegate` methods, CollectionKit uses a single Provider object that tells CollectionView exactly how to display and handle a collection.
 
-* These Providers are composible. meaning that you can easily combine multiple Providers into a single Provider.
+* These Providers are Composable. meaning that you can easily combine multiple Providers into a single Provider.
 * Providers are also reusable. meaning that if you assign the Provider object to another CollectionView, it will display the same content.
 * Providers also has its own layout information. Meaning that you can now have different sections each with its own layout.
 Whats more exciting is that Providers can be combined with any layout as well!
