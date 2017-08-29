@@ -20,7 +20,7 @@ class MessageDataProvider: ArrayDataProvider<Message> {
 class MessageLayout: CollectionLayout<Message> {
   override func layout(collectionSize: CGSize,
                        dataProvider: CollectionDataProvider<Message>,
-                       sizeProvider: CollectionSizeProvider<Message>) -> [CGRect] {
+                       sizeProvider: @escaping CollectionSizeProvider<Message>) -> [CGRect] {
     var frames: [CGRect] = []
     var lastMessage: Message?
     var lastFrame: CGRect?

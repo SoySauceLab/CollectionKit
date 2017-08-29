@@ -16,7 +16,7 @@ open class CollectionLayout<Data> {
   // override point for subclass
   open func layout(collectionSize: CGSize,
                    dataProvider: CollectionDataProvider<Data>,
-                   sizeProvider: CollectionSizeProvider<Data>) -> [CGRect] {
+                   sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
     fatalError("Subclass should provide its own layout")
   }
 
@@ -25,7 +25,7 @@ open class CollectionLayout<Data> {
   }
   
   private var _contentSize: CGSize = .zero
-  internal func _layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: CollectionSizeProvider<Data>) {
+  internal func _layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: @escaping CollectionSizeProvider<Data>) {
     frames = layout(collectionSize: collectionSize.insets(by: insets), dataProvider: dataProvider, sizeProvider: sizeProvider)
     _contentSize = frames.reduce(CGRect.zero) { (old, item) in
       old.union(item)

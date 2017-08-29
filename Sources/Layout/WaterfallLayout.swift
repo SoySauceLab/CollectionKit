@@ -23,7 +23,7 @@ public class WaterfallLayout<Data>: AxisDependentLayout<Data> {
 
   public override func layout(collectionSize: CGSize,
                        dataProvider: CollectionDataProvider<Data>,
-                       sizeProvider: CollectionSizeProvider<Data>) -> [CGRect] {
+                       sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
     var frames: [CGRect] = []
 
     let columnWidth = (secondary(collectionSize) - CGFloat(columns - 1) * padding) / CGFloat(columns)

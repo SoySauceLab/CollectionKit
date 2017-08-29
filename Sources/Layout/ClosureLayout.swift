@@ -17,7 +17,7 @@ public class Closurelayout<Data>: CollectionLayout<Data> {
 
   public override func layout(collectionSize: CGSize,
                               dataProvider: CollectionDataProvider<Data>,
-                              sizeProvider: CollectionSizeProvider<Data>) -> [CGRect] {
+                              sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
     var frames: [CGRect] = []
     for i in 0..<dataProvider.numberOfItems {
       let frame = frameProvider(i, dataProvider.data(at: i), collectionSize)

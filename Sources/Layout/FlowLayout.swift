@@ -20,7 +20,7 @@ public class FlowLayout<Data>: AxisDependentLayout<Data> {
 
   public override func layout(collectionSize: CGSize,
                               dataProvider: CollectionDataProvider<Data>,
-                              sizeProvider: CollectionSizeProvider<Data>) -> [CGRect] {
+                              sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
     var frames: [CGRect] = []
     var primaryOffset: CGFloat = 0
     var secondaryOffset: CGFloat = 0
