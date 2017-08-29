@@ -51,7 +51,7 @@ To display the content, just assign this provider to any instance of CollectionV
 collectionView.provider = provider1
 ```
 
-<IMAGE>
+<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/478c049/Resources/example1.svg" />
 
 ### Composing
 
@@ -81,7 +81,7 @@ collectionView.provider = CollectionComposer(
 )
 ```
 
-<IMAGE>
+<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/478c049/Resources/example2.svg" />
 
 
 See the [Getting Started Guide]() for a in-depth tutorial on how to use CollectionKit.
