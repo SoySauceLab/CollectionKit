@@ -32,17 +32,17 @@ To build a basic provider here is what you need:
 
 ```swift
 let provider1 = CollectionProvider(
-	data: [1，2，3, 4], // provide an array of data
-	viewUpdater: { (label: UILabel, index: Int, data: Int) in
-		// update your view according to your data
-		label.backgroundColor = .pink
-		label.layer.cornerRadius = 8
-		label.textAlignment = .center
-		label.text = "\(data)"
+    data: [1，2，3, 4], // provide an array of data
+    viewUpdater: { (label: UILabel, index: Int, data: Int) in
+        // update your view according to your data
+        label.backgroundColor = .pink
+        label.layer.cornerRadius = 8
+        label.textAlignment = .center
+        label.text = "\(data)"
     },
     sizeProvider: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
-    	return CGSize(width: 50, height: 50) // return your view size
-	}
+        return CGSize(width: 50, height: 50) // return your view size
+    }
 )
 ```
 
@@ -61,23 +61,23 @@ Use `CollectionComposer` to combine multiple provider into one. You can also sup
 provider1.layout = FlowLayout(padding: 10)
 
 let provider2 = CollectionProvider(
-	data: ["a", "b", "c", "d"],
-	viewUpdater: { (label: UILabel, index: Int, data: String) in
-		label.backgroundColor = .blue
-		label.layer.cornerRadius = 8
-		label.textAlignment = .center
-		label.text = data
+    data: ["A", "B"],
+    viewUpdater: { (label: UILabel, index: Int, data: String) in
+        label.backgroundColor = .blue
+        label.layer.cornerRadius = 8
+        label.textAlignment = .center
+        label.text = data
     },
     layout: FlowLayout(padding: 10),
     sizeProvider: { (index: Int, data: String, collectionSize: CGSize) -> CGSize in
-    	return CGSize(width: 230, height: 50)
-	}
+        return CGSize(width: 230, height: 50)
+    }
 )
 
 collectionView.provider = CollectionComposer(
-	layout: FlexLayout(padding: 20, justifyContent: .center, alignItems: .center),
-	provider1,
-	provider2
+    layout: FlexLayout(padding: 20, justifyContent: .center, alignItems: .center),
+    provider1,
+    provider2
 )
 ```
 
