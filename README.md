@@ -22,30 +22,71 @@ Whats more exciting is that Providers can be combined with any layout as well!
 
 CollectionKit already provides many of the commonly used Providers out of the box. But you can still easily create reuseable Provider classes that generalizes on different types on data and reuse them through out your app. Building collection view has never been this simple and flexible!
 
-## Getting Started
+## Install
+
+via **CocoaPods** or **Carthage**.
+
+## Usage
 
 To build a basic provider here is what you need:
 
 ```swift
-let provider = CollectionProvider(
-	data: [5, 4, 3, 2, 1] // provide an array of data
+let provider1 = CollectionProvider(
+	data: [1，2，3, 4], // provide an array of data
 	viewUpdater: { (label: UILabel, index: Int, data: Int) in
 		// update your view according to your data
 		label.backgroundColor = .pink
 		label.layer.cornerRadius = 8
+		label.textAlignment = .center
 		label.text = "\(data)"
     },
     sizeProvider: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
-    	return CGSize(width: 100, height: 50) // return your view size
+    	return CGSize(width: 50, height: 50) // return your view size
 	}
 )
 ```
 
 To display the content, just assign this provider to any instance of CollectionView.
 ```swift
-collectionView.provider = provider
+collectionView.provider = provider1
 ```
 
-This provider display the following content:
+<IMAGE>
+
+### Composing
+
+Use `CollectionComposer` to combine multiple provider into one. You can also supply layout objects to Provider & Composer.
+
+```swift
+provider1.layout = FlowLayout(padding: 10)
+
+let provider2 = CollectionProvider(
+	data: ["a", "b", "c", "d"],
+	viewUpdater: { (label: UILabel, index: Int, data: String) in
+		label.backgroundColor = .blue
+		label.layer.cornerRadius = 8
+		label.textAlignment = .center
+		label.text = data
+    },
+    layout: FlowLayout(padding: 10),
+    sizeProvider: { (index: Int, data: String, collectionSize: CGSize) -> CGSize in
+    	return CGSize(width: 230, height: 50)
+	}
+)
+
+collectionView.provider = CollectionComposer(
+	layout: FlexLayout(padding: 20, justifyContent: .center, alignItems: .center),
+	provider1,
+	provider2
+)
+```
+
+<IMAGE>
 
 
+See the [Getting Started Guide]() for a in-depth tutorial on how to use CollectionKit.
+
+
+## Questions? Or want to contribute?
+
+Join our public Discord channel!
