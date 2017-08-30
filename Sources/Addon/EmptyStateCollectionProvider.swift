@@ -12,10 +12,11 @@ public class EmptyStateCollectionProvider: CollectionComposer {
   var emptyStateView: UIView?
   var emptyStateViewGetter: () -> UIView
   var content: AnyCollectionProvider
-  public init(emptyStateView: @autoclosure @escaping () -> UIView, content: AnyCollectionProvider) {
+
+  public init(identifier: String? = nil, emptyStateView: @autoclosure @escaping () -> UIView, content: AnyCollectionProvider) {
     self.emptyStateViewGetter = emptyStateView
     self.content = content
-    super.init(layout: FlexLayout(flex: ["emptyStateView": FlexValue(flex: 1)]), [content])
+    super.init(identifier: identifier, layout: FlexLayout(flex: ["emptyStateView": FlexValue(flex: 1)]), [content])
   }
 
   public override func willReload() {

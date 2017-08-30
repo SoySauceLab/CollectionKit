@@ -26,8 +26,12 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
     case absolute(CGFloat)
   }
 
-  public init(_ views: UIView..., sizeStrategy: (ViewSizeStrategy, ViewSizeStrategy) = (.fit, .fit), insets: UIEdgeInsets = .zero) {
-    super.init(dataProvider: ArrayDataProvider(data: views, identifierMapper: {
+  public init(identifier: String? = nil,
+              _ views: UIView...,
+              sizeStrategy: (ViewSizeStrategy, ViewSizeStrategy) = (.fit, .fit),
+              insets: UIEdgeInsets = .zero) {
+    super.init(identifier: identifier,
+               dataProvider: ArrayDataProvider(data: views, identifierMapper: {
                 return "\($0.1.hash)"
                }),
                viewProvider: ViewProvider(views: views),
