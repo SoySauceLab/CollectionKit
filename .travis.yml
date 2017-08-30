@@ -2,8 +2,8 @@ os: osx
 language: swift
 osx_image: xcode9
 
-xcode_project: CollectionKit.xcodeproj
-xcode_scheme: CollectionKitTests
+script:
+  - xcodebuild -scheme CollectionKit -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 7,OS=10.3.1' build test
 
 cache:
   directories:
