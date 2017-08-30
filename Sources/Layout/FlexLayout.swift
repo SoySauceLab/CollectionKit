@@ -18,14 +18,16 @@ public enum FlexAlignItem {
 
 public struct FlexValue {
   var flex: CGFloat
+  var flexBasis: CGFloat
   var range: ClosedRange<CGFloat>
 
-  public init(flex: CGFloat, range: ClosedRange<CGFloat>) {
+  public init(flex: CGFloat, flexBasis: CGFloat, range: ClosedRange<CGFloat>) {
     self.flex = flex
+    self.flexBasis = flexBasis
     self.range = range
   }
-  public init(flex: CGFloat = 0, min: CGFloat = 0, max: CGFloat = .infinity) {
-    self.init(flex: flex, range: min...max)
+  public init(flex: CGFloat = 0, flexBasis: CGFloat = 0, min: CGFloat = 0, max: CGFloat = .infinity) {
+    self.init(flex: flex, flexBasis: flexBasis, range: min...max)
   }
 }
 
@@ -112,7 +114,7 @@ extension FlexLayout {
 
     for i in 0..<dataProvider.numberOfItems {
       if let flex = flex[dataProvider.identifier(at: i)] {
-        flexValues[i] = (flex, flex.range.lowerBound)
+        flexValues[i] = (flex, flex.flexBasis)
         sizes.append(.zero)
       } else {
         let size = sizeProvider(i, dataProvider.data(at: i), collectionSize)
@@ -130,7 +132,7 @@ extension FlexLayout {
       var clampDiff: CGFloat = 0
 
       // distribute remaining space
-      if totalPrimary < primary(collectionSize) {
+      if totalPrimary.rounded() != primary(collectionSize).rounded() {
         // use flexGrow
         let totalFlex = flexValues.values.reduce(0) { $0.0 + $0.1.0.flex }
         let primaryPerFlex: CGFloat = totalFlex > 0 ? (primary(collectionSize) - totalPrimary) / totalFlex : 0

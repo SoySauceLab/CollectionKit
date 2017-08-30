@@ -13,3 +13,6 @@ before_install:
   - brew update
   - brew outdated carthage || brew upgrade carthage
   - carthage bootstrap --verbose --no-use-binaries --platform iOS --cache-builds
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
