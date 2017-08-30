@@ -2,11 +2,11 @@
 
 A modern Swift framework for building reusable data-driven collection components.
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/180876d603bf4b47a32cce5384526395)](https://www.codacy.com/app/lkzhao/CollectionKit?utm_source=github.com&utm_medium=referral&utm_content=SoySauceLab/CollectionKit&utm_campaign=badger)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-Compatible-brightgreen.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Version](https://img.shields.io/cocoapods/v/CollectionKit.svg?style=flat)](http://cocoapods.org/pods/CollectionKit)
 [![License](https://img.shields.io/cocoapods/l/CollectionKit.svg?style=flat)](https://github.com/SoySauceLab/CollectionKit/blob/master/LICENSE?raw=true)
 [![Build Status](https://travis-ci.org/SoySauceLab/CollectionKit.svg?branch=master)](https://travis-ci.org/SoySauceLab/CollectionKit)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/180876d603bf4b47a32cce5384526395)](https://www.codacy.com/app/lkzhao/CollectionKit?utm_source=github.com&utm_medium=referral&utm_content=SoySauceLab/CollectionKit&utm_campaign=badger)
 ![Xcode 8.2+](https://img.shields.io/badge/Xcode-8.2%2B-blue.svg)
 ![iOS 8.0+](https://img.shields.io/badge/iOS-8.0%2B-blue.svg)
 ![Swift 3.0+](https://img.shields.io/badge/Swift-3.0%2B-orange.svg)
