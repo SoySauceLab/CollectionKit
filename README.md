@@ -25,7 +25,7 @@ Unlike traditional UICollectionView's `datasource`/`delegate` methods, Collectio
 
 These Providers are easy to construct, and infinitely composable. Providers also have their own animation and layout objects. You can have sections that layouts and behave differently with in a single `CollectionView`.
 
-CollectionKit already provides many of the commonly used Providers out of the box. But you can still easily create reuseable Provider classes that generalizes on different types on data. Checkout the examples down below or 
+CollectionKit already provides many of the commonly used Providers out of the box. But you can still easily create reuseable Provider classes that generalizes on different types on data. Checkout examples down below!
 
 ## Install
 
