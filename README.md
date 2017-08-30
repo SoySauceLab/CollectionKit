@@ -40,7 +40,7 @@ let provider1 = CollectionProvider(
     data: [1，2，3, 4], // provide an array of data, data can be any type
     viewUpdater: { (label: UILabel, index: Int, data: Int) in
         // update your view according to your data, view can be any subclass of UIView
-        label.backgroundColor = .pink
+        label.backgroundColor = .red
         label.layer.cornerRadius = 8
         label.textAlignment = .center
         label.text = "\(data)"
@@ -57,7 +57,7 @@ To display the content, just assign this provider to any instance of `Collection
 collectionView.provider = provider1
 ```
 
-<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/478c049/Resources/example1.svg" />
+<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/c36d783/Resources/example1.svg" />
 
 ### Composing
 
@@ -87,7 +87,7 @@ collectionView.provider = CollectionComposer(
 )
 ```
 
-<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/478c049/Resources/example2.svg" />
+<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/c36d783/Resources/example2.svg" />
 
 
 See the [Getting Started Guide]() for a in-depth tutorial on how to use CollectionKit.
