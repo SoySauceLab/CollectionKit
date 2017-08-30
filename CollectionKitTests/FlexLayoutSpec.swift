@@ -76,5 +76,5 @@ class FlexLayoutSpec: QuickSpec {
       }
     }
   }
-  
+
 }
