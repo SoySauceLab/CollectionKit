@@ -10,6 +10,7 @@ import UIKit
 import CollectionKit
 
 extension CollectionLayout where Data == CGSize {
+
   func mockLayout(parentSize: (CGFloat, CGFloat) = (300, 300), _ childSizes: (CGFloat, CGFloat)...) {
     _layout(collectionSize: CGSize(width: parentSize.0, height: parentSize.1),
             dataProvider: ArrayDataProvider(data: sizes(childSizes)),
@@ -17,10 +18,11 @@ extension CollectionLayout where Data == CGSize {
               return data
     })
   }
+
 }
 
 func sizes(_ s: [(CGFloat, CGFloat)]) -> [CGSize] {
-  return s.map{ CGSize(width: $0.0, height: $0.1) }
+  return s.map { CGSize(width: $0.0, height: $0.1) }
 }
 
 func sizes(_ s: (CGFloat, CGFloat)...) -> [CGSize] {
@@ -28,7 +30,7 @@ func sizes(_ s: (CGFloat, CGFloat)...) -> [CGSize] {
 }
 
 func frames(_ f: [(CGFloat, CGFloat, CGFloat, CGFloat)]) -> [CGRect] {
-  return f.map{ CGRect(x: $0.0, y: $0.1, width: $0.2, height: $0.3) }
+  return f.map { CGRect(x: $0.0, y: $0.1, width: $0.2, height: $0.3) }
 }
 
 func frames(_ f: (CGFloat, CGFloat, CGFloat, CGFloat)...) -> [CGRect] {
