@@ -10,7 +10,7 @@ cache:
   - Carthage
 
 before_install:
-  - carthage bootstrap --verbose --no-use-binaries --platform iOS --cache-builds
+  - carthage bootstrap --no-use-binaries --platform iOS --cache-builds
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
