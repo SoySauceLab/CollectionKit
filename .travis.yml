@@ -2,14 +2,15 @@ os: osx
 language: swift
 osx_image: xcode9
 
-xcode_project: CollectionKit.xcodeproj
-xcode_scheme: CollectionKitTests
+script:
+  - xcodebuild -scheme CollectionKit -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 7,OS=11.0' build test
 
 cache:
   directories:
   - Carthage
 
 before_install:
-  - brew update
-  - brew outdated carthage || brew upgrade carthage
   - carthage bootstrap --verbose --no-use-binaries --platform iOS --cache-builds
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
