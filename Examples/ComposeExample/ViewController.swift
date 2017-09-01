@@ -145,7 +145,7 @@ class ViewController: UIViewController {
     }()
     
     collectionView.provider = CollectionComposer(
-      space(100),
+      layout: FlowLayout(insets:UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0), padding: 100),
       section(title: "CollectionKit", subtitle: "A modern swift framework for building reusable collection view components."),
       space(20),
       section(title: "Core Concepts"),
@@ -159,6 +159,17 @@ class ViewController: UIViewController {
       space(20),
       presenterSection
     )
+//    collectionView.provider = CollectionProvider(
+//      data: Array(0...10),
+//      viewUpdater: { (view: UILabel, _, data) in
+//        view.text = "\(data)"
+//        view.backgroundColor = .red
+//      },
+//      layout: FloatLayout(rootLayout: FlowLayout(insets:UIEdgeInsets(top: 100, left: 0, bottom: 0, right: 0), padding: 100)),
+//      sizeProvider: { _, _, _ in
+//        return CGSize(width: 200, height: 50)
+//      }
+//    )
   }
   
   override var prefersStatusBarHidden: Bool {

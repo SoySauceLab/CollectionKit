@@ -64,6 +64,7 @@
 		B1E861F41F21517400621BA0 /* CollectionDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1E861F21F21516E00621BA0 /* CollectionDataProvider.swift */; };
 		B1E861F71F21519900621BA0 /* CollectionLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1E861F51F21518700621BA0 /* CollectionLayout.swift */; };
 		B1E861F91F21520200621BA0 /* CollectionComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1E861F81F21520200621BA0 /* CollectionComposer.swift */; };
+		B1ED75B51F58C95200CB772A /* FloatLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1ED75B41F58C95200CB772A /* FloatLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -161,6 +162,7 @@
 		B1E861F21F21516E00621BA0 /* CollectionDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDataProvider.swift; sourceTree = "<group>"; };
 		B1E861F51F21518700621BA0 /* CollectionLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionLayout.swift; sourceTree = "<group>"; };
 		B1E861F81F21520200621BA0 /* CollectionComposer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionComposer.swift; sourceTree = "<group>"; };
+		B1ED75B41F58C95200CB772A /* FloatLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -319,6 +321,7 @@
 				B1B9C1961F4F72B300A3EFA9 /* AxisDependentLayout.swift */,
 				B144CE051F437A1D0073CF4E /* FlexLayout.swift */,
 				B144CE031F437A100073CF4E /* FlowLayout.swift */,
+				B1ED75B41F58C95200CB772A /* FloatLayout.swift */,
 				B144CE011F4379F20073CF4E /* WaterfallLayout.swift */,
 				B144CDFF1F4379DA0073CF4E /* ClosureLayout.swift */,
 			);
@@ -620,6 +623,7 @@
 				B1E861F11F21515F00621BA0 /* CollectionViewProvider.swift in Sources */,
 				B144CE0D1F437A960073CF4E /* ArrayDataProvider.swift in Sources */,
 				B14B0E021F2682EA003E5105 /* CollectionSizeProvider.swift in Sources */,
+				B1ED75B51F58C95200CB772A /* FloatLayout.swift in Sources */,
 				B14B0DFD1F2679E7003E5105 /* UIView+CollectionKit.swift in Sources */,
 				B1A54FAD1EA3E0ED00A96112 /* UIScrollView+CollectionKit.swift in Sources */,
 				B144CE111F437AAB0073CF4E /* ClosureViewProvider.swift in Sources */,
