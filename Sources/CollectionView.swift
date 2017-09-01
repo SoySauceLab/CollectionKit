@@ -32,6 +32,8 @@ open class CollectionView: UIScrollView {
   // view for identifiers that are on screen
   var identifierToView: [String: UIView] = [:]
 
+  var currentlyInsertedIdentifiers: Set<String>?
+
   var lastLoadBounds: CGRect?
 
   public var activeFrameInset: UIEdgeInsets? {
@@ -147,6 +149,7 @@ open class CollectionView: UIScrollView {
     }
     let contentOffsetDiff = contentOffset - oldContentOffset
 
+    currentlyInsertedIdentifiers = Set<String>()
     _reloadIdentifiers()
     _loadCells()
 
@@ -155,9 +158,12 @@ open class CollectionView: UIScrollView {
       let index = identifierToIndex[identifier]!
       provider.update(view: cell, at: index)
       cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: index)
-      (cell.currentCollectionPresenter ?? presenter).shift(collectionView: self, delta: contentOffsetDiff, view: cell, at: index, frame: provider.frame(at: index))
+      if !currentlyInsertedIdentifiers!.contains(identifier) {
+        (cell.currentCollectionPresenter ?? presenter).shift(collectionView: self, delta: contentOffsetDiff, view: cell, at: index, frame: provider.frame(at: index))
+      }
       (cell.currentCollectionPresenter ?? presenter).update(collectionView:self, view: cell, at: index, frame: provider.frame(at: index))
     }
+    currentlyInsertedIdentifiers = nil
 
     needsReload = false
     reloadCount += 1
@@ -207,6 +213,7 @@ open class CollectionView: UIScrollView {
   private func _insertCell(identifier: String, at: Int) {
     let previousCell = at > 0 ? identifierToView[visibleIdentifiers[at - 1]] : nil
     visibleIdentifiers.insert(identifier, at: at)
+    currentlyInsertedIdentifiers?.insert(identifier)
 
     let index = identifierToIndex[identifier]!
     let cell = provider.view(at: index)

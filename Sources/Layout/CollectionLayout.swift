@@ -11,7 +11,7 @@ import UIKit
 open class CollectionLayout<Data> {
   open var insets: UIEdgeInsets = .zero
   open var visibleIndexSorter: CollectionVisibleIndexSorter?
-  open private(set) var frames: [CGRect] = []
+  open internal(set) var frames: [CGRect] = []
 
   // override point for subclass
   open func layout(collectionSize: CGSize,
