@@ -13,7 +13,7 @@ open class WobblePresenter: CollectionPresenter {
   public var sensitivity: CGPoint = CGPoint(x: 1, y: 1)
 
   open override func shift(collectionView: CollectionView, delta: CGPoint, view: UIView, at: Int, frame: CGRect) {
-    view.center = view.center + delta
+    view.center += delta
     view.yaal.center.updateWithCurrentState()
   }
 
@@ -26,7 +26,7 @@ open class WobblePresenter: CollectionPresenter {
     let newCenterDiff = delta * resistance
     let constrainted = CGPoint(x: delta.x > 0 ? min(delta.x, newCenterDiff.x) : max(delta.x, newCenterDiff.x),
                                y: delta.y > 0 ? min(delta.y, newCenterDiff.y) : max(delta.y, newCenterDiff.y))
-    view.center = view.center + constrainted
+    view.center += constrainted
     view.yaal.center.updateWithCurrentState()
     view.yaal.center.animateTo(frame.center, stiffness: 250, damping: 30, threshold:0.5)
   }
@@ -39,7 +39,7 @@ open class WobblePresenter: CollectionPresenter {
     let newCenterDiff = delta * resistance
     let constrainted = CGPoint(x: delta.x > 0 ? min(delta.x, newCenterDiff.x) : max(delta.x, newCenterDiff.x),
                                y: delta.y > 0 ? min(delta.y, newCenterDiff.y) : max(delta.y, newCenterDiff.y))
-    view.center = view.center + constrainted
+    view.center += constrainted
     view.yaal.center.updateWithCurrentState()
     view.yaal.center.animateTo(frame.center, stiffness: 250, damping: 30, threshold:0.5)
   }

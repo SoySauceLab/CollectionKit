@@ -10,8 +10,8 @@ extension Array {
 }
 
 extension CGFloat {
-  func clamp(_ a: CGFloat, _ b: CGFloat) -> CGFloat {
-    return self < a ? a : (self > b ? b : self)
+  func clamp(_ minValue: CGFloat, _ maxValue: CGFloat) -> CGFloat {
+    return self < minValue ? minValue : (self > maxValue ? maxValue : self)
   }
 }
 
@@ -20,12 +20,12 @@ extension CGPoint {
     return CGPoint(x: self.x+dx, y: self.y+dy)
   }
 
-  func transform(_ t: CGAffineTransform) -> CGPoint {
-    return self.applying(t)
+  func transform(_ trans: CGAffineTransform) -> CGPoint {
+    return self.applying(trans)
   }
 
-  func distance(_ b: CGPoint) -> CGFloat {
-    return sqrt(pow(self.x-b.x, 2)+pow(self.y-b.y, 2))
+  func distance(_ point: CGPoint) -> CGFloat {
+    return sqrt(pow(self.x - point.x, 2)+pow(self.y - point.y, 2))
   }
 
   var inverted: CGPoint {
@@ -34,8 +34,8 @@ extension CGPoint {
 }
 
 extension CGSize {
-  func insets(by: UIEdgeInsets) -> CGSize {
-    return CGSize(width: width - by.left - by.right, height: height - by.top - by.bottom)
+  func insets(by insets: UIEdgeInsets) -> CGSize {
+    return CGSize(width: width - insets.left - insets.right, height: height - insets.top - insets.bottom)
   }
   var inverted: CGSize {
     return CGSize(width: height, height: width)
@@ -50,6 +50,10 @@ func min(_ left: CGPoint, _ right: CGPoint) -> CGPoint {
 }
 func +(left: CGPoint, right: CGPoint) -> CGPoint {
   return CGPoint(x: left.x + right.x, y: left.y + right.y)
+}
+func +=(left: inout CGPoint, right: CGPoint) {
+  left.x += right.x
+  left.y += right.y
 }
 func +(left: CGRect, right: CGPoint) -> CGRect {
   return CGRect(origin: left.origin + right, size: left.size)

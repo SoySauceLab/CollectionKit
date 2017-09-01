@@ -68,7 +68,7 @@ open class CollectionComposer: BaseCollectionProvider {
     return "\(sectionIdentifier)." + sections[sectionIndex].identifier(at: item)
   }
   open override func layout(collectionSize: CGSize) {
-    layout._layout(
+    layout.doLayout(
       collectionSize: collectionSize,
       dataProvider: ArrayDataProvider(data: sections, identifierMapper: {
        return $0.1.identifier ?? "\($0.0)"
@@ -96,7 +96,7 @@ open class CollectionComposer: BaseCollectionProvider {
   open override func frame(at: Int) -> CGRect {
     let (sectionIndex, item) = indexPath(at)
     var frame = sections[sectionIndex].frame(at: item)
-    frame.origin = frame.origin + layout.frame(at: sectionIndex).origin
+    frame.origin += layout.frame(at: sectionIndex).origin
     return frame
   }
 

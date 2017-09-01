@@ -8,7 +8,6 @@
 
 import UIKit
 
-let defaultCollectionPresenter = CollectionPresenter()
 extension UIView {
   private struct AssociatedKeys {
     static var reuseManager = "reuseManager"

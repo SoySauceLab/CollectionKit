@@ -57,35 +57,35 @@ open class CollectionView: UIScrollView {
 
   public override init(frame: CGRect) {
     super.init(frame: frame)
-    _commonInit()
+    commonInit()
   }
 
   public required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    _commonInit()
+    commonInit()
   }
 
-  func _commonInit() {
+  func commonInit() {
     CollectionViewManager.shared.register(collectionView: self)
 
-    tapGestureRecognizer.addTarget(self, action: #selector(tap(gr:)))
+    tapGestureRecognizer.addTarget(self, action: #selector(tap(gesture:)))
     addGestureRecognizer(tapGestureRecognizer)
 
-    panGestureRecognizer.addTarget(self, action: #selector(pan(gr:)))
+    panGestureRecognizer.addTarget(self, action: #selector(pan(gesture:)))
   }
 
-  @objc func tap(gr: UITapGestureRecognizer) {
+  @objc func tap(gesture: UITapGestureRecognizer) {
     for identifier in visibleIdentifiers {
       let cell = identifierToView[identifier]!
       let index = identifierToIndex[identifier]!
-      if cell.point(inside: gr.location(in: cell), with: nil) {
+      if cell.point(inside: gesture.location(in: cell), with: nil) {
         provider.didTap(view: cell, at: index)
       }
     }
   }
 
-  func pan(gr: UIPanGestureRecognizer) {
-    screenDragLocation = absoluteLocation(for: gr.location(in: self))
+  func pan(gesture: UIPanGestureRecognizer) {
+    screenDragLocation = absoluteLocation(for: gesture.location(in: self))
   }
 
   open override func layoutSubviews() {
