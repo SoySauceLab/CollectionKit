@@ -6,7 +6,7 @@
 //  Copyright © 2017 lkzhao. All rights reserved.
 //
 
-import CollectionKit
+@testable import CollectionKit
 import Quick
 import Nimble
 
@@ -200,16 +200,8 @@ class CollectionViewSpec: QuickSpec {
         expect((collectionView.cell(at: 1) as! UILabel).text) == "0"
       }
 
-      it("can move cells") {
-        provider = CollectionProvider(
-          dataProvider: ArrayDataProvider(data: [0, 1, 2, 3, 4, 5], identifierMapper: { return "\($0.1)" }),
-          viewUpdater: { (label: UILabel, data: Int, index: Int) in
-            label.text = "\(data)"
-          },
-          sizeProvider: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
-            return CGSize(width: 50, height: 50)
-          }
-        )
+      it("can shift cells") {
+        provider = SimpleTestProvider(data: [0, 1, 2, 3, 4, 5])
         collectionView.provider = provider
         collectionView.frame = CGRect(x: 0, y: 0, width: 500, height: 50)
         collectionView.layoutIfNeeded()
@@ -217,20 +209,39 @@ class CollectionViewSpec: QuickSpec {
         let cell0 = collectionView.cell(at: 0)
         let cell1 = collectionView.cell(at: 1)
 
-        provider = CollectionProvider(
-          dataProvider: ArrayDataProvider(data: [5, 4, 3, 2, 1, 0], identifierMapper: { return "\($0.1)" }),
-          viewUpdater: { (label: UILabel, data: Int, index: Int) in
-            label.text = "\(data)"
-          },
-          sizeProvider: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
-            return CGSize(width: 50, height: 50)
-          }
-        )
+        provider = SimpleTestProvider(data: [5, 4, 3, 2, 1, 0])
         collectionView.provider = provider
         collectionView.layoutIfNeeded()
 
         expect(collectionView.cell(at: 5)) == cell0
         expect(collectionView.cell(at: 4)) == cell1
+      }
+
+      it("handles tap") {
+        var lastTappedIndex: Int = -1
+        provider = CollectionProvider(
+          data: [0, 1, 2, 3],
+          viewUpdater: { (label: UILabel, data: Int, index: Int) in
+            label.text = "\(data)"
+          },
+          sizeProvider: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+            return CGSize(width: 50, height: 50)
+          },
+          tapHandler: { view, index, dataProvider in
+            lastTappedIndex = index
+          }
+        )
+        collectionView.provider = provider
+        collectionView.frame = CGRect(x: 0, y: 0, width: 500, height: 50)
+        collectionView.layoutIfNeeded()
+        UITapGestureRecognizer.testLocation = CGPoint(x: 10, y: 10)
+        collectionView.tap(gr: collectionView.tapGestureRecognizer)
+        UITapGestureRecognizer.testLocation = nil
+        expect(lastTappedIndex) == 0
+        UITapGestureRecognizer.testLocation = CGPoint(x: 110, y: 10)
+        collectionView.tap(gr: collectionView.tapGestureRecognizer)
+        UITapGestureRecognizer.testLocation = nil
+        expect(lastTappedIndex) == 2
       }
     }
   }

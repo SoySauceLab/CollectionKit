@@ -37,6 +37,7 @@
 		B144CE111F437AAB0073CF4E /* ClosureViewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE101F437AAB0073CF4E /* ClosureViewProvider.swift */; };
 		B144CE131F437AB70073CF4E /* WobblePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE121F437AB70073CF4E /* WobblePresenter.swift */; };
 		B144CE151F437AC10073CF4E /* ZoomPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE141F437AC10073CF4E /* ZoomPresenter.swift */; };
+		B145FFA01F5BB4D700A4F318 /* CollectionComposerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B145FF9F1F5BB4D700A4F318 /* CollectionComposerSpec.swift */; };
 		B148237C1F1E88430007A7E2 /* CollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B148237A1F1E87F60007A7E2 /* CollectionProvider.swift */; };
 		B14B0DFD1F2679E7003E5105 /* UIView+CollectionKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0DFB1F2679E4003E5105 /* UIView+CollectionKit.swift */; };
 		B14B0E001F267FE9003E5105 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0DFE1F267FE0003E5105 /* TestData.swift */; };
@@ -141,6 +142,7 @@
 		B144CE101F437AAB0073CF4E /* ClosureViewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosureViewProvider.swift; sourceTree = "<group>"; };
 		B144CE121F437AB70073CF4E /* WobblePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WobblePresenter.swift; sourceTree = "<group>"; };
 		B144CE141F437AC10073CF4E /* ZoomPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomPresenter.swift; sourceTree = "<group>"; };
+		B145FF9F1F5BB4D700A4F318 /* CollectionComposerSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionComposerSpec.swift; sourceTree = "<group>"; };
 		B148237A1F1E87F60007A7E2 /* CollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionProvider.swift; sourceTree = "<group>"; };
 		B14B0DFB1F2679E4003E5105 /* UIView+CollectionKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+CollectionKit.swift"; sourceTree = "<group>"; };
 		B14B0DFE1F267FE0003E5105 /* TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
@@ -404,6 +406,7 @@
 				B12F9F8B1F5770410082791D /* TestUils.swift */,
 				B19D64CE1F23DE8100D02FDB /* FlexLayoutSpec.swift */,
 				B1A8E2DC1F59E99500172387 /* CollectionViewSpec.swift */,
+				B145FF9F1F5BB4D700A4F318 /* CollectionComposerSpec.swift */,
 			);
 			path = CollectionKitTests;
 			sourceTree = SOURCE_ROOT;
@@ -629,6 +632,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B19D64D01F23DE8100D02FDB /* FlexLayoutSpec.swift in Sources */,
+				B145FFA01F5BB4D700A4F318 /* CollectionComposerSpec.swift in Sources */,
 				B1A8E2DD1F59E99500172387 /* CollectionViewSpec.swift in Sources */,
 				B12F9F8D1F5770690082791D /* TestUils.swift in Sources */,
 				B18C6C641F33A81800FAE077 /* CollectionVisibleIndexSorter.swift in Sources */,
