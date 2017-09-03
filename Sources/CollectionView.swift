@@ -257,10 +257,9 @@ extension CollectionView {
   }
 
   public func indexForCell(at point: CGPoint) -> Int? {
-    for index in 0..<provider.numberOfItems {
-      let frame = provider.frame(at: index)
-      if frame.contains(point) {
-        return index
+    for (index, cell) in visibleCells.enumerated() {
+      if cell.point(inside: cell.convert(point, from: self), with: nil) {
+        return identifierToIndex[visibleIdentifiers[index]]
       }
     }
     return nil
