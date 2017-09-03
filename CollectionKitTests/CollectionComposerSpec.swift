@@ -13,14 +13,12 @@ import Nimble
 class CollectionComposerSpec: QuickSpec {
 
   override func spec() {
-    let provider1 = SimpleTestProvider(data: [1, 2, 3, 4])
-    let provider2 = SimpleTestProvider(data: ["a", "b"])
-    let provider3 = SimpleTestProvider(data: ["hello", "collectionKit"])
-    let provider4 = SimpleTestProvider(data: [])
-    let provider5 = SimpleTestProvider(data: [5.0])
 
     describe("CollectionComposer") {
-      it("provider all cells") {
+      it("combines multiple provider") {
+        let provider1 = SimpleTestProvider(data: [1, 2, 3, 4])
+        let provider2 = SimpleTestProvider(data: ["a", "b"])
+        let provider3 = SimpleTestProvider(data: ["hello", "collectionKit"])
         let composer = CollectionComposer(provider1, provider2, provider3)
         let collectionView = CollectionView(provider: composer)
         collectionView.frame = CGRect(x: 0, y: 0, width: 300, height: 500)
@@ -33,6 +31,11 @@ class CollectionComposerSpec: QuickSpec {
       }
 
       it("supports nesting") {
+        let provider1 = SimpleTestProvider(data: [1, 2, 3, 4])
+        let provider2 = SimpleTestProvider(data: ["a", "b"])
+        let provider3 = SimpleTestProvider(data: ["hello", "collectionKit"])
+        let provider4 = SimpleTestProvider(data: [])
+        let provider5 = SimpleTestProvider(data: [5.0])
         let composer = CollectionComposer(
           CollectionComposer(
             CollectionComposer(provider1,
@@ -92,6 +95,11 @@ class CollectionComposerSpec: QuickSpec {
       }
 
       it("supports nested update") {
+        let provider1 = SimpleTestProvider(data: [1, 2, 3, 4])
+        let provider2 = SimpleTestProvider(data: ["a", "b"])
+        let provider3 = SimpleTestProvider(data: ["hello", "collectionKit"])
+        let provider4 = SimpleTestProvider(data: [])
+        let provider5 = SimpleTestProvider(data: [5.0])
         let composer = CollectionComposer(
           CollectionComposer(
             CollectionComposer(provider1,
@@ -117,6 +125,8 @@ class CollectionComposerSpec: QuickSpec {
 
       it("support tap") {
         var lastTappedText: String?
+        let provider1 = SimpleTestProvider(data: [1, 2, 3, 4])
+        let provider2 = SimpleTestProvider(data: ["a", "b"])
         let tapProvider = CollectionProvider(
           data: [11, 12],
           viewUpdater: { (label: UILabel, data: Int, index: Int) in
@@ -130,14 +140,9 @@ class CollectionComposerSpec: QuickSpec {
           }
         )
         let composer = CollectionComposer(
-          CollectionComposer(
-            CollectionComposer(provider1,
-                               provider2),
-            tapProvider,
-            provider3),
-            CollectionComposer(),
-            CollectionComposer(provider4,
-                               provider5)
+          CollectionComposer(provider1,
+                             provider2),
+          tapProvider
         )
         let collectionView = CollectionView(provider: composer)
         collectionView.frame = CGRect(x: 0, y: 0, width: 200, height: 500)
