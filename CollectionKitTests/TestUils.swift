@@ -12,7 +12,7 @@ import CollectionKit
 extension CollectionLayout where Data == CGSize {
 
   func mockLayout(parentSize: (CGFloat, CGFloat) = (300, 300), _ childSizes: (CGFloat, CGFloat)...) {
-    _layout(collectionSize: CGSize(width: parentSize.0, height: parentSize.1),
+    doLayout(collectionSize: CGSize(width: parentSize.0, height: parentSize.1),
             dataProvider: ArrayDataProvider(data: sizes(childSizes)),
             sizeProvider: { (index, data, collectionSize) -> CGSize in
               return data
