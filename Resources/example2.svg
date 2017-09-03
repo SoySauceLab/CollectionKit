@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300px" height="250px" viewBox="0 0 300 250" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
+    <title>example2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="example2">
+            <g id="Background" fill="#F6F8FA">
+                <rect id="Rectangle-2" x="0" y="0" width="300" height="250" rx="8"></rect>
+            </g>
+            <g id="Group-3" transform="translate(35.000000, 35.000000)">
+                <g id="Group" transform="translate(1.000000, 0.000000)">
+                    <g id="Square" transform="translate(180.000000, 0.000000)">
+                        <g>
+                            <rect id="Rectangle-2" fill="#FFD8DC" fill-rule="nonzero" x="0" y="0" width="50" height="50" rx="8"></rect>
+                            <text id="4" font-family='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"' font-size="24" font-weight="normal" fill="#D73A49">
+                                <tspan x="18" y="33">4</tspan>
+                            </text>
+                        </g>
+                    </g>
+                    <g id="Square" transform="translate(120.000000, 0.000000)">
+                        <g>
+                            <rect id="Rectangle-2" fill="#FFD8DC" fill-rule="nonzero" x="0" y="0" width="50" height="50" rx="8"></rect>
+                            <text id="4" font-family='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"' font-size="24" font-weight="normal" fill="#D73A49">
+                                <tspan x="18" y="33">3</tspan>
+                            </text>
+                        </g>
+                    </g>
+                    <g id="Square" transform="translate(60.000000, 0.000000)">
+                        <g>
+                            <rect id="Rectangle-2" fill="#FFD8DC" fill-rule="nonzero" x="0" y="0" width="50" height="50" rx="8"></rect>
+                            <text id="4" font-family='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"' font-size="24" font-weight="normal" fill="#D73A49">
+                                <tspan x="18" y="33">2</tspan>
+                            </text>
+                        </g>
+                    </g>
+                    <g id="Square">
+                        <g>
+                            <rect id="Rectangle-2" fill="#FFD8DC" fill-rule="nonzero" x="0" y="0" width="50" height="50" rx="8"></rect>
+                            <text id="4" font-family='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"' font-size="24" font-weight="normal" fill="#D73A49">
+                                <tspan x="18" y="33">1</tspan>
+                            </text>
+                        </g>
+                    </g>
+                </g>
+                <g id="Group-2" transform="translate(0.000000, 70.000000)">
+                    <g id="Rectangle">
+                        <g id="Square">
+                            <rect id="Rectangle-2" fill="#D8EBFF" fill-rule="nonzero" x="0" y="0" width="230" height="50" rx="8"></rect>
+                            <text id="4" font-family='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"' font-size="24" font-weight="normal" fill="#005CC5">
+                                <tspan x="106.996094" y="33">A</tspan>
+                            </text>
+                        </g>
+                    </g>
+                    <g id="Rectangle" transform="translate(1.000000, 60.000000)">
+                        <g id="Square">
+                            <rect id="Rectangle-2" fill="#D8EBFF" fill-rule="nonzero" x="0" y="0" width="230" height="50" rx="8"></rect>
+                            <text id="4" font-family='-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"' font-size="24" font-weight="normal" fill="#005CC5">
+                                <tspan x="106.996094" y="33">B</tspan>
+                            </text>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

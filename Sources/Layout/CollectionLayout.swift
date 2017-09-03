@@ -25,7 +25,7 @@ open class CollectionLayout<Data> {
   }
   
   private var _contentSize: CGSize = .zero
-  internal func _layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: @escaping CollectionSizeProvider<Data>) {
+  public func _layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: @escaping CollectionSizeProvider<Data>) {
     frames = layout(collectionSize: collectionSize.insets(by: insets), dataProvider: dataProvider, sizeProvider: sizeProvider)
     _contentSize = frames.reduce(CGRect.zero) { (old, item) in
       old.union(item)

@@ -47,8 +47,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
     self.willReloadHandler = willReloadHandler
     self.didReloadHandler = didReloadHandler
     self.tapHandler = tapHandler
-    super.init()
-    self.identifier = identifier
+    super.init(identifier: identifier)
   }
 
   public init(identifier: String? = nil,
@@ -68,8 +67,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
     self.willReloadHandler = willReloadHandler
     self.didReloadHandler = didReloadHandler
     self.tapHandler = tapHandler
-    super.init()
-    self.identifier = identifier
+    super.init(identifier: identifier)
   }
 
   public init(identifier: String? = nil,
@@ -89,8 +87,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
     self.willReloadHandler = willReloadHandler
     self.didReloadHandler = didReloadHandler
     self.tapHandler = tapHandler
-    super.init()
-    self.identifier = identifier
+    super.init(identifier: identifier)
   }
 
 

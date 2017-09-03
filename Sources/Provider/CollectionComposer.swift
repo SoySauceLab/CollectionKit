@@ -29,13 +29,19 @@ open class CollectionComposer: BaseCollectionProvider {
     }
   }
 
-  public init(layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(), presenter: CollectionPresenter? = nil, _ sections: [AnyCollectionProvider]) {
+  public init(identifier: String? = nil,
+              layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(),
+              presenter: CollectionPresenter? = nil,
+              _ sections: [AnyCollectionProvider]) {
     self.sections = sections
     self.layout = layout
-    super.init()
+    super.init(identifier: identifier)
   }
 
-  public convenience init(layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(), presenter: CollectionPresenter? = nil, _ sections: AnyCollectionProvider...) {
+  public convenience init(identifier: String? = nil,
+                          layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(),
+                          presenter: CollectionPresenter? = nil,
+                          _ sections: AnyCollectionProvider...) {
     self.init(layout: layout, sections)
   }
 

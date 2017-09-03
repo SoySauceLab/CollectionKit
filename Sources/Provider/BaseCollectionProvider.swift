@@ -11,7 +11,9 @@ import UIKit
 open class BaseCollectionProvider: AnyCollectionProvider {
   public var identifier: String?
 
-  public init() {}
+  public init(identifier: String? = nil) {
+    self.identifier = identifier
+  }
 
   open var numberOfItems: Int {
     return 0
