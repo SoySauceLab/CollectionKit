@@ -28,7 +28,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
 
   public var willReloadHandler: (() -> Void)?
   public var didReloadHandler: (() -> Void)?
-  public var tapHandler: ((UIView, Int, DataProvider) -> Void)?
+  public var tapHandler: ((View, Int, DataProvider) -> Void)?
 
   public init(identifier: String? = nil,
               dataProvider: DataProvider,
@@ -38,7 +38,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
               presenter: Presenter? = nil,
               willReloadHandler: (() -> Void)? = nil,
               didReloadHandler: (() -> Void)? = nil,
-              tapHandler: ((UIView, Int, DataProvider) -> Void)? = nil) {
+              tapHandler: ((View, Int, DataProvider) -> Void)? = nil) {
     self.dataProvider = dataProvider
     self.viewProvider = viewProvider
     self.layout = layout
@@ -58,7 +58,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
               presenter: Presenter? = nil,
               willReloadHandler: (() -> Void)? = nil,
               didReloadHandler: (() -> Void)? = nil,
-              tapHandler: ((UIView, Int, DataProvider) -> Void)? = nil) {
+              tapHandler: ((View, Int, DataProvider) -> Void)? = nil) {
     self.dataProvider = dataProvider
     self.viewProvider = ClosureViewProvider(viewUpdater: viewUpdater)
     self.layout = layout
@@ -78,7 +78,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
               presenter: Presenter? = nil,
               willReloadHandler: (() -> Void)? = nil,
               didReloadHandler: (() -> Void)? = nil,
-              tapHandler: ((UIView, Int, DataProvider) -> Void)? = nil) {
+              tapHandler: ((View, Int, DataProvider) -> Void)? = nil) {
     self.dataProvider = ArrayDataProvider(data: data)
     self.viewProvider = ClosureViewProvider(viewUpdater: viewUpdater)
     self.layout = layout
@@ -126,7 +126,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
     didReloadHandler?()
   }
   open override func didTap(view: UIView, at: Int) {
-    tapHandler?(view, at, dataProvider)
+    tapHandler?(view as! View, at, dataProvider)
   }
   open override func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     return reloadable === self || reloadable === dataProvider
