@@ -19,7 +19,7 @@ class CollectionViewSpec: QuickSpec {
       beforeEach {
         provider = CollectionProvider(
           data: [1, 2, 3, 4],
-          viewUpdater: { (label: UILabel, index: Int, data: Int) in
+          viewUpdater: { (label: UILabel, data: Int, index: Int) in
             label.backgroundColor = .red
             label.layer.cornerRadius = 8
             label.textAlignment = .center
@@ -29,10 +29,9 @@ class CollectionViewSpec: QuickSpec {
             return CGSize(width: 50, height: 50)
           }
         )
-        collectionView = CollectionView()
+        collectionView = CollectionView(provider: provider)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.provider = provider
       }
 
       it("can display basic provider") {
@@ -49,7 +48,7 @@ class CollectionViewSpec: QuickSpec {
         expect(collectionView.subviews.count) == 4
         expect(collectionView.subviews[0]).to(beAKindOf(UILabel.self))
         expect(collectionView.subviews[0].backgroundColor) == .red
-        expect((collectionView.subviews[0] as! UILabel).text) == "0"
+        expect((collectionView.subviews[0] as! UILabel).text) == "1"
         expect((collectionView.subviews[0] as! UILabel).textAlignment) == NSTextAlignment.center
 
         expect(provider.layout).to(beAKindOf(FlowLayout<Int>.self))
@@ -82,8 +81,8 @@ class CollectionViewSpec: QuickSpec {
         expect(collectionView.subviews.count) == 2
         expect(collectionView.subviews[0].frame) == CGRect(x: 0, y: 0, width: 50, height: 50)
         expect(collectionView.subviews[1].frame) == CGRect(x: 50, y: 0, width: 50, height: 50)
-        expect((collectionView.subviews[0] as! UILabel).text) == "0"
-        expect((collectionView.subviews[1] as! UILabel).text) == "1"
+        expect((collectionView.subviews[0] as! UILabel).text) == "1"
+        expect((collectionView.subviews[1] as! UILabel).text) == "2"
         expect(collectionView.contentSize) == CGSize(width: 100, height: 100)
 
         collectionView.contentOffset = CGPoint(x: 0, y: 51)
@@ -93,8 +92,8 @@ class CollectionViewSpec: QuickSpec {
         expect(collectionView.subviews.count) == 2
         expect(collectionView.subviews[0].frame) == CGRect(x: 0, y: 50, width: 50, height: 50)
         expect(collectionView.subviews[1].frame) == CGRect(x: 50, y: 50, width: 50, height: 50)
-        expect((collectionView.subviews[0] as! UILabel).text) == "2"
-        expect((collectionView.subviews[1] as! UILabel).text) == "3"
+        expect((collectionView.subviews[0] as! UILabel).text) == "3"
+        expect((collectionView.subviews[1] as! UILabel).text) == "4"
         expect(collectionView.contentSize) == CGSize(width: 100, height: 100)
 
         collectionView.frame = CGRect(x: 0, y: 0, width: 50, height: 149)
@@ -106,10 +105,98 @@ class CollectionViewSpec: QuickSpec {
         expect(collectionView.subviews[0].frame) == CGRect(x: 0, y: 0, width: 50, height: 50)
         expect(collectionView.subviews[1].frame) == CGRect(x: 0, y: 50, width: 50, height: 50)
         expect(collectionView.subviews[2].frame) == CGRect(x: 0, y: 100, width: 50, height: 50)
-        expect((collectionView.subviews[0] as! UILabel).text) == "0"
-        expect((collectionView.subviews[1] as! UILabel).text) == "1"
-        expect((collectionView.subviews[2] as! UILabel).text) == "2"
+        expect((collectionView.subviews[0] as! UILabel).text) == "1"
+        expect((collectionView.subviews[1] as! UILabel).text) == "2"
+        expect((collectionView.subviews[2] as! UILabel).text) == "3"
         expect(collectionView.contentSize) == CGSize(width: 50, height: 200)
+      }
+
+      it("displays correct cells after reload") {
+        collectionView.frame = CGRect(x: 0, y: 0, width: 100, height: 49)
+        collectionView.layoutIfNeeded()
+        expect(collectionView.reloadCount) == 1
+
+        expect(collectionView.subviews.count) == 2
+        expect(collectionView.subviews[0].frame) == CGRect(x: 0, y: 0, width: 50, height: 50)
+        expect(collectionView.subviews[1].frame) == CGRect(x: 50, y: 0, width: 50, height: 50)
+        expect((collectionView.subviews[0] as! UILabel).text) == "1"
+        expect((collectionView.subviews[1] as! UILabel).text) == "2"
+        expect(collectionView.contentSize) == CGSize(width: 100, height: 100)
+
+        provider.dataProvider = ArrayDataProvider(data:[9, 8, 5, 6, 7])
+        collectionView.layoutIfNeeded()
+        expect(collectionView.reloadCount) == 2
+
+        expect(collectionView.subviews.count) == 2
+        expect(collectionView.subviews[0].frame) == CGRect(x: 0, y: 0, width: 50, height: 50)
+        expect(collectionView.subviews[1].frame) == CGRect(x: 50, y: 0, width: 50, height: 50)
+        expect((collectionView.subviews[0] as! UILabel).text) == "9"
+        expect((collectionView.subviews[1] as! UILabel).text) == "8"
+        expect(collectionView.contentSize) == CGSize(width: 100, height: 150)
+
+        provider.dataProvider = ArrayDataProvider(data:[8, 5, 6, 7])
+        collectionView.layoutIfNeeded()
+        expect(collectionView.reloadCount) == 3
+
+        expect(collectionView.subviews.count) == 2
+        expect(collectionView.subviews[0].frame) == CGRect(x: 0, y: 0, width: 50, height: 50)
+        expect(collectionView.subviews[1].frame) == CGRect(x: 50, y: 0, width: 50, height: 50)
+        expect((collectionView.subviews[0] as! UILabel).text) == "8"
+        expect((collectionView.subviews[1] as! UILabel).text) == "5"
+        expect(collectionView.contentSize) == CGSize(width: 100, height: 100)
+      }
+
+      it("has correct visible cells") {
+        collectionView.frame = CGRect(x: 0, y: 0, width: 100, height: 49)
+        collectionView.layoutIfNeeded()
+        expect(collectionView.reloadCount) == 1
+
+        expect(collectionView.visibleCells.count) == 2
+        expect((collectionView.visibleCells[0] as! UILabel).text) == "1"
+        expect((collectionView.visibleCells[1] as! UILabel).text) == "2"
+      }
+
+      it("has knows correct indexes") {
+        collectionView.frame = CGRect(x: 0, y: 0, width: 100, height: 49)
+        collectionView.layoutIfNeeded()
+        expect(collectionView.reloadCount) == 1
+        expect(collectionView.visibleCells.count) == 2
+
+        expect(collectionView.indexForCell(at: CGPoint(x: 10, y: 10))) == 0
+        expect(collectionView.indexForCell(at: CGPoint(x: 60, y: 10))) == 1
+        expect(collectionView.indexForCell(at: CGPoint(x: 10, y: 60))).to(beNil())
+
+        expect((collectionView.cell(at: 0) as! UILabel).text) == "1"
+        expect((collectionView.cell(at: 1) as! UILabel).text) == "2"
+        expect(collectionView.cell(at: 2)).to(beNil())
+        expect(collectionView.cell(at: 3)).to(beNil())
+        expect(collectionView.index(for: collectionView.cell(at: 0)!)) == 0
+        expect(collectionView.index(for: collectionView.cell(at: 1)!)) == 1
+      }
+
+      it("can switch provider and handle duplicate identifiers") {
+        collectionView.frame = CGRect(x: 0, y: 0, width: 100, height: 49)
+        collectionView.layoutIfNeeded()
+
+        expect(collectionView.reloadCount) == 1
+        expect((collectionView.cell(at: 0) as! UILabel).text) == "1"
+        expect((collectionView.cell(at: 1) as! UILabel).text) == "2"
+
+        provider = CollectionProvider(
+          dataProvider: ArrayDataProvider(data: [0,0,0,0], identifierMapper: { return "\($0.1)" }),
+          viewUpdater: { (label: UILabel, data: Int, index: Int) in
+            label.text = "\(data)"
+          },
+          sizeProvider: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+            return CGSize(width: 50, height: 50)
+          }
+        )
+        collectionView.provider = provider
+        collectionView.layoutIfNeeded()
+
+        expect(collectionView.reloadCount) == 2
+        expect((collectionView.cell(at: 0) as! UILabel).text) == "0"
+        expect((collectionView.cell(at: 1) as! UILabel).text) == "0"
       }
     }
   }
