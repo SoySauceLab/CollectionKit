@@ -70,7 +70,8 @@ class MessagePresenter: WobblePresenter {
     super.insert(collectionView: collectionView, view: view, at: index, frame: frame)
     guard let messages = dataProvider?.data,
       let sourceView = sourceView,
-      collectionView.hasReloaded else { return }
+      collectionView.hasReloaded,
+      collectionView.reloading else { return }
     if sendingMessage && index == messages.count - 1 {
       // we just sent this message, lets animate it from inputToolbarView to it's position
       view.frame = collectionView.convert(sourceView.bounds, from: sourceView)
