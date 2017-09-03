@@ -11,13 +11,13 @@ import UIKit
 open class CollectionComposer: BaseCollectionProvider {
 
   public var sections: [AnyCollectionProvider] {
-    didSet{
+    didSet {
       setNeedsReload()
     }
   }
 
-  fileprivate var sectionBeginIndex:[Int] = []
-  fileprivate var sectionForIndex:[Int] = []
+  fileprivate var sectionBeginIndex: [Int] = []
+  fileprivate var sectionForIndex: [Int] = []
 
   fileprivate var currentSections: [AnyCollectionProvider] = []
 
@@ -91,8 +91,9 @@ open class CollectionComposer: BaseCollectionProvider {
     var visible = [Int]()
     for sectionIndex in layout.visibleIndexes(activeFrame: activeFrame) {
       let sectionFrame = layout.frame(at: sectionIndex)
-      let intersectedFrame = activeFrame.intersection(sectionFrame)
-      let sectionVisible = currentSections[sectionIndex].visibleIndexes(activeFrame: CGRect(origin: intersectedFrame.origin - sectionFrame.origin, size: intersectedFrame.size))
+      let intersectFrame = activeFrame.intersection(sectionFrame)
+      let activeFrameForCell = CGRect(origin: intersectFrame.origin - sectionFrame.origin, size: intersectFrame.size)
+      let sectionVisible = currentSections[sectionIndex].visibleIndexes(activeFrame: activeFrameForCell)
       let beginIndex = sectionBeginIndex[sectionIndex]
       for item in sectionVisible {
         visible.append(item + beginIndex)
@@ -140,7 +141,7 @@ open class CollectionComposer: BaseCollectionProvider {
     let (sectionIndex, item) = indexPath(at)
     currentSections[sectionIndex].didTap(view: view, at: item)
   }
-  
+
   open override func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     if reloadable === self { return true }
     for section in currentSections {

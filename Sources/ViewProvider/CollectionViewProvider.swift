@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CollectionViewProvider<Data, View: UIView>  {
+open class CollectionViewProvider<Data, View: UIView> {
   lazy var reuseManager = CollectionReuseViewManager()
   open func view(at: Int) -> View {
     return reuseManager.dequeue(View())

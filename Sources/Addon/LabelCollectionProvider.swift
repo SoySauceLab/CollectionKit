@@ -17,7 +17,11 @@ open class LabelCollectionProvider: ViewCollectionProvider {
     label.numberOfLines = 0
     super.init(identifier: identifier, label, sizeStrategy:(.fill, .fit), insets: insets)
   }
-  public init(identifier: String? = nil, text: String, font: UIFont, color: UIColor = .black, insets: UIEdgeInsets = .zero) {
+  public init(identifier: String? = nil,
+              text: String,
+              font: UIFont,
+              color: UIColor = .black,
+              insets: UIEdgeInsets = .zero) {
     let label = UILabel()
     label.font = font
     label.textColor = color

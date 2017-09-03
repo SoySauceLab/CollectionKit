@@ -19,7 +19,7 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
       return views[at]
     }
   }
-  
+
   public enum ViewSizeStrategy {
     case fill
     case fit

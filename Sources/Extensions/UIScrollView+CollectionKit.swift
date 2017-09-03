@@ -30,7 +30,7 @@ extension UIScrollView {
     return point - contentOffset
   }
   public func scrollTo(edge: UIRectEdge, animated: Bool) {
-    let target:CGPoint
+    let target: CGPoint
     switch edge {
     case UIRectEdge.top:
       target = CGPoint(x: contentOffset.x, y: offsetFrame.minY)
