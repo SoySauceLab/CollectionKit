@@ -8,6 +8,7 @@
 
 import UIKit
 import CollectionKit
+import UIKit.UIGestureRecognizerSubclass
 
 extension CollectionLayout where Data == CGSize {
 
@@ -17,6 +18,30 @@ extension CollectionLayout where Data == CGSize {
             sizeProvider: { (index, data, collectionSize) -> CGSize in
               return data
     })
+  }
+
+}
+
+class SimpleTestProvider<Data>: CollectionProvider<Data, UILabel> {
+
+  var data: [Data] {
+    get { return (dataProvider as! ArrayDataProvider<Data>).data }
+    set { (dataProvider as! ArrayDataProvider<Data>).data = newValue }
+  }
+
+  init(data: [Data]) {
+    super.init(
+      dataProvider: ArrayDataProvider(data: data, identifierMapper: { return "\($0.1)" }),
+      viewUpdater: { (label: UILabel, data: Data, index: Int) in
+        label.backgroundColor = .red
+        label.layer.cornerRadius = 8
+        label.textAlignment = .center
+        label.text = "\(data)"
+      },
+      sizeProvider: { (index: Int, data: Data, collectionSize: CGSize) -> CGSize in
+        return CGSize(width: 50, height: 50)
+      }
+    )
   }
 
 }
@@ -35,4 +60,25 @@ func frames(_ f: [(CGFloat, CGFloat, CGFloat, CGFloat)]) -> [CGRect] {
 
 func frames(_ f: (CGFloat, CGFloat, CGFloat, CGFloat)...) -> [CGRect] {
   return frames(f)
+}
+
+
+extension UITapGestureRecognizer {
+  static var testLocation: CGPoint? = {
+    let swizzling: (AnyClass, Selector, Selector) -> Void = { forClass, originalSelector, swizzledSelector in
+      let originalMethod = class_getInstanceMethod(forClass, originalSelector)
+      let swizzledMethod = class_getInstanceMethod(forClass, swizzledSelector)
+      method_exchangeImplementations(originalMethod, swizzledMethod)
+    }
+    let originalSelector = #selector(location(in:))
+    let swizzledSelector = #selector(test_location(in:))
+    swizzling(UITapGestureRecognizer.self, originalSelector, swizzledSelector)
+    return nil
+  }()
+
+
+  @objc dynamic func test_location(in view: UIView?) -> CGPoint {
+    guard let testLocation = UITapGestureRecognizer.testLocation, let parent = self.view else { return test_location(in: view) }
+    return (view ?? parent).convert(testLocation, from: parent)
+  }
 }
