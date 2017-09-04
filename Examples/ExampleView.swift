@@ -10,26 +10,33 @@ import UIKit
 import CollectionKit
 
 class ExampleView: UIView {
-  let titleLabel = UILabel()
-  let card = UIView()
+  let titleLabel: UILabel = {
+    let titleLabel = UILabel()
+    titleLabel.numberOfLines = 0
+    titleLabel.font = .boldSystemFont(ofSize: 20)
+    return titleLabel
+  }()
+
+  let cardView: UIView = {
+    let cardView = UIView()
+    cardView.backgroundColor = .white
+    cardView.layer.cornerRadius = 8
+    cardView.layer.shadowColor = UIColor.black.cgColor
+    cardView.layer.shadowOffset = CGSize(width: 0, height: 12)
+    cardView.layer.shadowRadius = 10
+    cardView.layer.shadowOpacity = 0.1
+    cardView.layer.borderColor = UIColor(white: 0, alpha: 0.1).cgColor
+    cardView.layer.borderWidth = 0.5
+    return cardView
+  }()
 
   private var contentVC: UIViewController?
 
   override init(frame: CGRect) {
     super.init(frame: frame)
-    card.backgroundColor = .white
-    card.layer.cornerRadius = 8
-    card.layer.shadowColor = UIColor.black.cgColor
-    card.layer.shadowOffset = CGSize(width: 0, height: 12)
-    card.layer.shadowRadius = 10
-    card.layer.shadowOpacity = 0.1
-    card.layer.borderColor = UIColor(white: 0, alpha: 0.1).cgColor
-    card.layer.borderWidth = 0.5
-
-    titleLabel.font = .boldSystemFont(ofSize: 22)
 
     addSubview(titleLabel)
-    addSubview(card)
+    addSubview(cardView)
   }
 
   public required init?(coder aDecoder: NSCoder) {
@@ -41,8 +48,8 @@ class ExampleView: UIView {
     let size = titleLabel.sizeThatFits(bounds.insetBy(dx: 16, dy: 10).size)
     titleLabel.frame = CGRect(origin: CGPoint(x: 0, y: 10), size: size)
     let labelHeight = titleLabel.frame.maxY + 10
-    card.frame = CGRect(x: 0, y: labelHeight, width: bounds.width, height: bounds.height - labelHeight)
-    contentVC?.view.frame = card.bounds
+    cardView.frame = CGRect(x: 0, y: labelHeight, width: bounds.width, height: bounds.height - labelHeight)
+    contentVC?.view.frame = cardView.bounds
   }
 
   func populate(title: String,
@@ -53,7 +60,7 @@ class ExampleView: UIView {
     let contentView = contentVC!.view!
     contentView.clipsToBounds = true
     contentView.layer.cornerRadius = 8
-    card.addSubview(contentView)
+    cardView.addSubview(contentView)
     setNeedsLayout()
   }
 }
