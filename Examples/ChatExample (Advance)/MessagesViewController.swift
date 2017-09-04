@@ -96,15 +96,12 @@ class MessagePresenter: WobblePresenter {
   }
 }
 
-class MessagesViewController: UIViewController {
-
-  var collectionView: CollectionView!
+class MessagesViewController: CollectionViewController {
 
   var loading = false
 
   let dataProvider = MessageDataProvider()
   let presenter = MessagePresenter()
-  var provider: CollectionProvider<Message, MessageCell>!
   
   let newMessageButton = UIButton(type: .system)
 
@@ -116,15 +113,17 @@ class MessagesViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = UIColor(white: 0.97, alpha: 1.0)
     view.clipsToBounds = true
-    collectionView = CollectionView(frame:view.bounds)
-    collectionView.delegate = self
-    view.addSubview(collectionView)
 
     newMessageButton.setImage(UIImage(named:"ic_send")!, for: .normal)
     newMessageButton.addTarget(self, action: #selector(send), for: .touchUpInside)
     newMessageButton.sizeToFit()
-    newMessageButton.tintColor = .lightBlue
+    newMessageButton.backgroundColor = .lightBlue
+    newMessageButton.tintColor = .white
     view.addSubview(newMessageButton)
+
+    collectionView.delegate = self
+    collectionView.contentInset = UIEdgeInsetsMake(30, 10, 54, 10)
+    collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(30, 0, 54, 0)
     
     presenter.sourceView = newMessageButton
     presenter.dataProvider = dataProvider
@@ -136,18 +135,14 @@ class MessagesViewController: UIViewController {
       layout: MessageLayout(),
       presenter: presenter
     )
-    collectionView.provider = provider
   }
 
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
     
-    newMessageButton.frame = CGRect(x: 10, y: view.bounds.height - 44, width: view.bounds.width - 20 , height: 44)
+    newMessageButton.frame = CGRect(x: 0, y: view.bounds.height - 44, width: view.bounds.width, height: 44)
     
     let isAtBottom = collectionView.contentOffset.y >= collectionView.offsetFrame.maxY - 10
-    collectionView.frame = view.bounds
-    collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 30, 10, 54, 10)
-    collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(topLayoutGuide.length + 30, 10, 54, 10)
     if !collectionView.hasReloaded {
       collectionView.reloadData() {
         return CGPoint(x: self.collectionView.contentOffset.x,
@@ -156,11 +151,11 @@ class MessagesViewController: UIViewController {
     }
     if isAtBottom {
       if collectionView.hasReloaded {
-        collectionView.yaal.contentOffset.animateTo(CGPoint(x: collectionView.contentOffset.x,
-                                                            y: collectionView.offsetFrame.maxY))
+        collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x,
+                                                y: collectionView.offsetFrame.maxY), animated: true)
       } else {
-        collectionView.yaal.contentOffset.setTo(CGPoint(x: collectionView.contentOffset.x,
-                                                        y: collectionView.offsetFrame.maxY))
+        collectionView.setContentOffset(CGPoint(x: collectionView.contentOffset.x,
+                                                y: collectionView.offsetFrame.maxY), animated: true)
       }
     }
   }
