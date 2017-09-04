@@ -50,9 +50,5 @@ class ViewController: CollectionViewController {
       space(30)
     )
   }
-  
-  override var prefersStatusBarHidden: Bool {
-    return true
-  }
-}
 
+}
