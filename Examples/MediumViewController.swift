@@ -24,9 +24,9 @@ class MediumViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     let provider = CollectionProvider(
-      data: testArticles,
+      data: articles(count: 8),
       viewUpdater: { (view: ArticleView, data: ArticleData, at: Int) in
-        view.populateWithArticle(data)
+        view.populate(article: data)
       },
       layout: FlowLayout(insets: UIEdgeInsets(top: 20, left: 16, bottom: 16, right: 20), padding: 30),
       sizeProvider: { (_, view, size) -> CGSize in
@@ -37,5 +37,17 @@ class MediumViewController: UIViewController {
 
   override var prefersStatusBarHidden: Bool {
     return true
+  }
+
+  private func articles(count: Int) -> [ArticleData] {
+    var articles: [ArticleData] = []
+    for i in 0..<count {
+      articles.append(
+        ArticleData(hueValue: CGFloat(i) / CGFloat(count),
+                    title: "Article \(i)",
+                    subTitle: "This is the subtitle for article \(i)")
+      )
+    }
+    return articles
   }
 }

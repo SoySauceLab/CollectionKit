@@ -6,10 +6,10 @@
 //  Copyright © 2017 lkzhao. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct ArticleData {
-  let imageName: String
+  let hueValue: CGFloat
   let title: String
   let subTitle: String
 }

@@ -50,33 +50,3 @@ let testImages: [UIImage] = [
   UIImage(named: "5")!,
   UIImage(named: "6")!
 ]
-
-let testArticles =
-  [ArticleData(imageName: "1",
-               title: "Fear and the Venture Capitalist",
-               subTitle:"There are many pathologies that venture capitalists can develop and bring into the lab."),
-   ArticleData(imageName: "2",
-               title: "Your Brain is Your Phone",
-               subTitle:"Smartphones are changing how we think—because they’re a part of how we think"),
-   ArticleData(imageName: "3",
-               title: "The Decline and Fall of America (In Numbers)",
-               subTitle:"In numbers, a lot about the United States appears to be on the decline."),
-   ArticleData(imageName: "4",
-               title: "In Defence of The Emperor’s New Clothes",
-               subTitle:"Once upon a time, there was an Emperor so fond of new clothes that he spent all his money"),
-   ArticleData(imageName: "1",
-               title: "Don’t let Silicon Valley tell you how to think",
-               subTitle:"If we don’t have the courage to stand up to powerful people, we’re going to get steamrolled"),
-   ArticleData(imageName: "2",
-               title: "Kevin Kelly Writes To Find Out What He Doesn’t Know",
-               subTitle:"Steven Johnson talks with the Wired co-founder and bestselling technology theorist about writing in public"),
-   ArticleData(imageName: "3",
-               title: "Why your API may be a better investment than your App",
-               subTitle:"It seems like just yesterday when the mobile app became the most important way in which humans interact with"),
-   ArticleData(imageName: "4",
-               title: "Manly Man Things: The Jock Strap",
-               subTitle:"What used to protect your balls from harm is now meant to show them off"),
-   ArticleData(imageName: "1",
-               title: "How the Jazz Age Lives on in NYC",
-               subTitle:"The bygone era of flappers, jazz and speakeasies can still be found in New York City if you know where to look.")
-]

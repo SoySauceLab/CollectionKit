@@ -9,13 +9,7 @@
 import UIKit
 
 class ArticleView: UIView {
-  let imageView: UIImageView = {
-    let imageView = UIImageView()
-    imageView.contentMode = .scaleAspectFill
-    imageView.clipsToBounds = true
-    imageView.layer.cornerRadius = 3.0
-    return imageView
-  }()
+  let colorView = UIView()
 
   let titleLabel: UILabel = {
     let titleLabel = UILabel()
@@ -33,25 +27,31 @@ class ArticleView: UIView {
 
   override init(frame: CGRect) {
     super.init(frame: frame)
-    self.addSubview(imageView)
-    self.addSubview(titleLabel)
-    self.addSubview(subTitleLabel)
+    self.backgroundColor = .white
+    layer.shadowColor = UIColor.black.cgColor
+    layer.shadowOffset = CGSize(width: 0, height: 12)
+    layer.shadowRadius = 10
+    layer.shadowOpacity = 0.1
+    addSubview(colorView)
+    addSubview(titleLabel)
+    addSubview(subTitleLabel)
   }
   
   required init?(coder aDecoder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
-  func populateWithArticle(_ data: ArticleData) {
-    imageView.image = UIImage(named: data.imageName)
+  func populate(article data: ArticleData) {
+    colorView.backgroundColor =
+        UIColor(hue: data.hueValue, saturation: 0.68, brightness: 0.98, alpha: 1)
     titleLabel.text = data.title
     subTitleLabel.text = data.subTitle
   }
 
   override func layoutSubviews() {
     super.layoutSubviews()
-    imageView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 120)
-    titleLabel.frame = CGRect(x: 0, y: 130, width: bounds.width, height: 30)
-    subTitleLabel.frame = CGRect(x: 0, y: 160, width: bounds.width, height: 40)
+    colorView.frame = CGRect(x: 0, y: 0, width: bounds.width, height: 120)
+    titleLabel.frame = CGRect(x: 10, y: 130, width: bounds.width - 20, height: 30)
+    subTitleLabel.frame = CGRect(x: 10, y: 160, width: bounds.width - 20, height: 30)
   }
 }
