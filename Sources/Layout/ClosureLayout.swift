@@ -11,8 +11,9 @@ import UIKit
 public class Closurelayout<Data>: CollectionLayout<Data> {
   public var frameProvider: (Int, Data, CGSize) -> CGRect
 
-  public init(frameProvider: @escaping (Int, Data, CGSize) -> CGRect) {
+  public init(insets: UIEdgeInsets = .zero, frameProvider: @escaping (Int, Data, CGSize) -> CGRect) {
     self.frameProvider = frameProvider
+    super.init(insets: insets)
   }
 
   public override func layout(collectionSize: CGSize,
