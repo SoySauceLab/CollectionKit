@@ -9,7 +9,7 @@
 import CollectionKit
 import UIKit
 
-class MediumViewController: UIViewController {
+class ArticleExampleViewController: UIViewController {
   
   var collectionView: CollectionView = {
     let collectionView = CollectionView()
