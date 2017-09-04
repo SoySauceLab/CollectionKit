@@ -10,13 +10,8 @@ import UIKit
 
 open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
   private class ViewProvider: CollectionViewProvider<UIView, UIView> {
-    var views: [UIView]
-    init(views: [UIView]) {
-      self.views = views
-      super.init()
-    }
-    override func view(at: Int) -> UIView {
-      return views[at]
+    override func view(data: UIView, index: Int) -> UIView {
+      return data
     }
   }
   
@@ -34,7 +29,7 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
                dataProvider: ArrayDataProvider(data: views, identifierMapper: {
                 return "\($0.1.hash)"
                }),
-               viewProvider: ViewProvider(views: views),
+               viewProvider: ViewProvider(),
                sizeProvider: { (_, view, size) -> CGSize in
                 let fitSize = view.sizeThatFits(size)
                 let width: CGFloat, height: CGFloat
