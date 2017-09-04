@@ -10,10 +10,17 @@ import UIKit
 
 open class CollectionViewProvider<Data, View: UIView> {
   lazy var reuseManager = CollectionReuseViewManager()
-  open func view(at: Int) -> View {
-    return reuseManager.dequeue(View())
+
+  /// Should return a new view for the given data and index
+  open func view(data:Data, index: Int) -> View {
+    let view = reuseManager.dequeue(View())
+    update(view: view, data: data, index: index)
+    return view
   }
-  open func update(view: View, with data: Data, at: Int) {
+
+  /// Should update the given view with the provided data and index
+  open func update(view: View, data: Data, index: Int) {
   }
+
   public init() {}
 }

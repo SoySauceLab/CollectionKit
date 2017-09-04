@@ -157,10 +157,11 @@ open class CollectionView: UIScrollView {
     for identifier in visibleIdentifiers {
       let cell = identifierToView[identifier]!
       let index = identifierToIndex[identifier]!
-      provider.update(view: cell, at: index)
       cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: index)
       let presenter = cell.currentCollectionPresenter ?? self.presenter
       if !currentlyInsertedIdentifiers!.contains(identifier) {
+        // cell was on screen before reload, need to update the view.
+        provider.update(view: cell, at: index)
         presenter.shift(collectionView: self, delta: contentOffsetDiff, view: cell,
                         at: index, frame: provider.frame(at: index))
       }

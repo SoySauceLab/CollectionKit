@@ -94,10 +94,10 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
     return dataProvider.numberOfItems
   }
   open override func view(at: Int) -> UIView {
-    return viewProvider.view(at: at)
+    return viewProvider.view(data: dataProvider.data(at: at), index: at)
   }
   open override func update(view: UIView, at: Int) {
-    viewProvider.update(view: view as! View, with: dataProvider.data(at: at), at: at)
+    viewProvider.update(view: view as! View, data: dataProvider.data(at: at), index: at)
   }
   open override func identifier(at: Int) -> String {
     return dataProvider.identifier(at: at)
