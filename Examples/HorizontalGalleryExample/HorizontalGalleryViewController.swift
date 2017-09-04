@@ -22,56 +22,22 @@ func imageSizeProvider(at: Int, data: UIImage, collectionSize: CGSize) -> CGSize
   return imageSize
 }
 
-class HorizontalGalleryViewController: UIViewController, UIScrollViewDelegate {
-
-  var collectionView = CollectionView()
-  let images = testImages
-
+class HorizontalGalleryViewController: CollectionViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    func imageViewUpdater(view: UIImageView, data: UIImage, at: Int) {
-      view.image = data
-      view.layer.cornerRadius = 5
-      view.clipsToBounds = true
-    }
-    let layout = WaterfallLayout<UIImage>(axis: .horizontal)
-
-    let provider1 = CollectionProvider(
-      data: images,
-      viewUpdater: imageViewUpdater,
-      layout: layout,
-      sizeProvider: imageSizeProvider
-    )
-    let provider2 = CollectionProvider(
-      data: images,
-      viewUpdater: imageViewUpdater,
-      layout: layout,
+    collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10)
+    provider = CollectionProvider(
+      data: testImages,
+      viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
+        view.image = data
+        view.layer.cornerRadius = 5
+        view.clipsToBounds = true
+      },
+      layout: WaterfallLayout<UIImage>(columns: 2, axis: .horizontal),
       sizeProvider: imageSizeProvider,
       presenter: WobblePresenter()
     )
-    let provider3 = CollectionProvider(
-      data: images,
-      viewUpdater: imageViewUpdater,
-      layout: layout,
-      sizeProvider: imageSizeProvider,
-      presenter: ZoomPresenter()
-    )
-    let provider4 = CollectionProvider(
-      data: images,
-      viewUpdater: imageViewUpdater,
-      layout: layout,
-      sizeProvider: imageSizeProvider,
-      presenter: EdgeShrinkPresenter()
-    )
-
-    collectionView.provider = CollectionComposer(layout: WaterfallLayout(axis: .horizontal), provider1, provider2, provider3, provider4)
-    view.addSubview(collectionView)
   }
 
-  override func viewDidLayoutSubviews() {
-    super.viewDidLayoutSubviews()
-    collectionView.frame = view.bounds
-    collectionView.contentInset = UIEdgeInsetsMake(topLayoutGuide.length + 10, 10, 10, 10)
-  }
 }

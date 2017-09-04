@@ -32,7 +32,7 @@ public class FlowLayout<Data>: AxisDependentLayout<Data> {
         primaryOffset += currentRowMaxHeight + padding
         currentRowMaxHeight = 0
       }
-      currentRowMaxHeight = max(currentRowMaxHeight, size.height)
+      currentRowMaxHeight = max(currentRowMaxHeight, primary(size))
       let frame = CGRect(origin: point(primary: primaryOffset, secondary: secondaryOffset), size: size)
       frames.append(frame)
       secondaryOffset += secondary(size) + padding
