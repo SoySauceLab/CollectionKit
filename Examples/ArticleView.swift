@@ -27,7 +27,7 @@ class ArticleView: UIView {
 
   override init(frame: CGRect) {
     super.init(frame: frame)
-    self.backgroundColor = .white
+    backgroundColor = .white
     layer.shadowColor = UIColor.black.cgColor
     layer.shadowOffset = CGSize(width: 0, height: 12)
     layer.shadowRadius = 10
