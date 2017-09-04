@@ -17,6 +17,15 @@ class ArticleExampleViewController: UIViewController {
     return collectionView
   }()
 
+  let articles: [ArticleData] = {
+    let count = 20
+    return (1...count).map {
+      ArticleData(hueValue: CGFloat($0) / CGFloat(count),
+                  title: "Article \($0)",
+                  subTitle: "This is the subtitle for article \($0)")
+    }
+  }()
+
   override func loadView() {
     self.view = collectionView
   }
@@ -24,11 +33,11 @@ class ArticleExampleViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     let provider = CollectionProvider(
-      data: articles(count: 8),
+      data: articles,
       viewUpdater: { (view: ArticleView, data: ArticleData, at: Int) in
         view.populate(article: data)
       },
-      layout: FlowLayout(insets: UIEdgeInsets(top: 20, left: 16, bottom: 16, right: 20), padding: 30),
+      layout: FlowLayout(insets: UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16), padding: 30),
       sizeProvider: { (_, view, size) -> CGSize in
         return CGSize(width: size.width, height: 200)
       })
@@ -37,17 +46,5 @@ class ArticleExampleViewController: UIViewController {
 
   override var prefersStatusBarHidden: Bool {
     return true
-  }
-
-  private func articles(count: Int) -> [ArticleData] {
-    var articles: [ArticleData] = []
-    for i in 0..<count {
-      articles.append(
-        ArticleData(hueValue: CGFloat(i) / CGFloat(count),
-                    title: "Article \(i)",
-                    subTitle: "This is the subtitle for article \(i)")
-      )
-    }
-    return articles
   }
 }
