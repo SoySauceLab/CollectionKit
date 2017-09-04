@@ -16,35 +16,31 @@ func space(_ height: CGFloat) -> AnyCollectionProvider {
   return SpaceCollectionProvider(sizeStrategy: (.fill, .absolute(height)))
 }
 
-class ViewController: UIViewController {
-  
-  @IBOutlet var collectionView: CollectionView!
-  
+class ViewController: CollectionViewController {
+
+  let examples: [(String, UIViewController.Type)] = [
+    ("Horizontal Gallery", HorizontalGalleryViewController.self),
+    ("Grid", GridViewController.self),
+    ("Articles", ArticleExampleViewController.self),
+    ("Chat", MessagesViewController.self),
+    ("Presenters", PresenterExampleViewController.self)
+  ]
+
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    let examplesSection: AnyCollectionProvider = {
-      let examples: [(String, UIViewController.Type)] = [
-        ("Horizontal Gallery", HorizontalGalleryViewController.self),
-        ("Grid", GridViewController.self),
-        ("Articles", ArticleExampleViewController.self),
-        ("Chat", MessagesViewController.self),
-        ("Presenters", PresenterExampleViewController.self)
-      ]
-      
-      return CollectionProvider(
-        data: examples,
-        viewUpdater: { (view: ExampleView, data: (String, UIViewController.Type), at: Int) in
-          view.populate(title: data.0, contentViewControllerType: data.1)
-        },
-        layout: FlowLayout(insets: bodyInset, padding: 30),
-        sizeProvider: { (_, _, size) -> CGSize in
-          return CGSize(width: size.width, height: 360)
-        }
-      )
-    }()
+    let examplesSection = CollectionProvider(
+      data: examples,
+      viewUpdater: { (view: ExampleView, data: (String, UIViewController.Type), at: Int) in
+        view.populate(title: data.0, contentViewControllerType: data.1)
+      },
+      layout: FlowLayout(insets: bodyInset, padding: 30),
+      sizeProvider: { (_, _, size) -> CGSize in
+        return CGSize(width: size.width, height: 360)
+      }
+    )
 
-    collectionView.provider = CollectionComposer(
+    provider = CollectionComposer(
       space(100),
       LabelCollectionProvider(text: "CollectionKit", font: .boldSystemFont(ofSize: 38), insets: headerInset),
       LabelCollectionProvider(text: "A modern swift framework for building reusable collection view components.", font: .systemFont(ofSize: 20), insets: bodyInset),

@@ -9,13 +9,7 @@
 import CollectionKit
 import UIKit
 
-class ArticleExampleViewController: UIViewController {
-  
-  var collectionView: CollectionView = {
-    let collectionView = CollectionView()
-    collectionView.backgroundColor = .white
-    return collectionView
-  }()
+class ArticleExampleViewController: CollectionViewController {
 
   let articles: [ArticleData] = {
     let count = 20
@@ -26,13 +20,10 @@ class ArticleExampleViewController: UIViewController {
     }
   }()
 
-  override func loadView() {
-    self.view = collectionView
-  }
-
   override func viewDidLoad() {
     super.viewDidLoad()
-    let provider = CollectionProvider(
+
+    provider = CollectionProvider(
       data: articles,
       viewUpdater: { (view: ArticleView, data: ArticleData, at: Int) in
         view.populate(article: data)
@@ -40,11 +31,8 @@ class ArticleExampleViewController: UIViewController {
       layout: FlowLayout(insets: UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16), padding: 30),
       sizeProvider: { (_, view, size) -> CGSize in
         return CGSize(width: size.width, height: 200)
-      })
-    collectionView.provider = provider
+      }
+    )
   }
 
-  override var prefersStatusBarHidden: Bool {
-    return true
-  }
 }
