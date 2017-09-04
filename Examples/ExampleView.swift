@@ -12,7 +12,6 @@ import CollectionKit
 class ExampleView: UIView {
   let titleLabel: UILabel = {
     let titleLabel = UILabel()
-    titleLabel.numberOfLines = 0
     titleLabel.font = .boldSystemFont(ofSize: 24)
     return titleLabel
   }()
@@ -45,7 +44,7 @@ class ExampleView: UIView {
 
   override func layoutSubviews() {
     super.layoutSubviews()
-    let size = titleLabel.sizeThatFits(bounds.insetBy(dx: 16, dy: 10).size)
+    let size = titleLabel.sizeThatFits(bounds.size)
     titleLabel.frame = CGRect(origin: CGPoint(x: 0, y: 10), size: size)
     let labelHeight = titleLabel.frame.maxY + 10
     cardView.frame = CGRect(x: 0, y: labelHeight, width: bounds.width, height: bounds.height - labelHeight)
