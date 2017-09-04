@@ -13,7 +13,7 @@ class ExampleView: UIView {
   let titleLabel: UILabel = {
     let titleLabel = UILabel()
     titleLabel.numberOfLines = 0
-    titleLabel.font = .boldSystemFont(ofSize: 20)
+    titleLabel.font = .boldSystemFont(ofSize: 24)
     return titleLabel
   }()
 

@@ -36,7 +36,7 @@ class ViewController: CollectionViewController {
       },
       layout: FlowLayout(insets: bodyInset, padding: 30),
       sizeProvider: { (_, _, size) -> CGSize in
-        return CGSize(width: size.width, height: 360)
+        return CGSize(width: size.width, height: max(360, UIScreen.main.bounds.height * 0.7))
       }
     )
 
