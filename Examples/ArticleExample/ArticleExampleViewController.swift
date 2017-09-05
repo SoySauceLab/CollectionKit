@@ -28,7 +28,7 @@ class ArticleExampleViewController: CollectionViewController {
       viewUpdater: { (view: ArticleView, data: ArticleData, at: Int) in
         view.populate(article: data)
       },
-      layout: FlowLayout(insets: UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16), padding: 30),
+      layout: FlowLayout(insets: UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16), lineSpacing: 30),
       sizeProvider: { (_, view, size) -> CGSize in
         return CGSize(width: size.width, height: 200)
       }

@@ -9,10 +9,15 @@
 import UIKit
 
 public class FlowLayout<Data>: AxisDependentLayout<Data> {
-  public var padding: CGFloat
+  public var lineSpacing: CGFloat
+  public var interitemSpacing: CGFloat
 
-  public init(insets: UIEdgeInsets = .zero, padding: CGFloat = 0, axis: Axis = .vertical) {
-    self.padding = padding
+  public init(insets: UIEdgeInsets = .zero,
+              lineSpacing: CGFloat = 0,
+              interitemSpacing: CGFloat = 0,
+              axis: Axis = .vertical) {
+    self.lineSpacing = lineSpacing
+    self.interitemSpacing = interitemSpacing
     super.init()
     self.axis = axis
     self.insets = insets
@@ -24,18 +29,18 @@ public class FlowLayout<Data>: AxisDependentLayout<Data> {
     var frames: [CGRect] = []
     var primaryOffset: CGFloat = 0
     var secondaryOffset: CGFloat = 0
-    var currentRowMaxHeight: CGFloat = 0
+    var currentMaxPrimary: CGFloat = 0
     for i in 0..<dataProvider.numberOfItems {
       let size = sizeProvider(i, dataProvider.data(at: i), collectionSize)
       if secondaryOffset + secondary(size) > secondary(collectionSize), secondaryOffset != 0 {
         secondaryOffset = 0
-        primaryOffset += currentRowMaxHeight + padding
-        currentRowMaxHeight = 0
+        primaryOffset += currentMaxPrimary + lineSpacing
+        currentMaxPrimary = 0
       }
-      currentRowMaxHeight = max(currentRowMaxHeight, primary(size))
+      currentMaxPrimary = max(currentMaxPrimary, primary(size))
       let frame = CGRect(origin: point(primary: primaryOffset, secondary: secondaryOffset), size: size)
       frames.append(frame)
-      secondaryOffset += secondary(size) + padding
+      secondaryOffset += secondary(size) + interitemSpacing
     }
     return frames
   }

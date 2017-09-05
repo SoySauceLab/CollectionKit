@@ -42,7 +42,7 @@ class PresenterExampleViewController: CollectionViewController {
         view.label.textColor = imageProvider.presenter === data.1 ? .white : .black
         view.backgroundColor = imageProvider.presenter === data.1 ? .lightGray : .white
       },
-      layout: FlowLayout(insets: UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16), padding: 10, axis: .horizontal),
+      layout: FlowLayout(insets: UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16), lineSpacing: 10, axis: .horizontal),
       sizeProvider: { _, data, maxSize in
         return CGSize(width: data.0.width(withConstraintedHeight: maxSize.height, font: UIFont.systemFont(ofSize:18)) + 20, height: maxSize.height)
       },
