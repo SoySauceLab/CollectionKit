@@ -34,7 +34,7 @@ class ViewController: CollectionViewController {
       viewUpdater: { (view: ExampleView, data: (String, UIViewController.Type), at: Int) in
         view.populate(title: data.0, contentViewControllerType: data.1)
       },
-      layout: FlowLayout(insets: bodyInset, padding: 30),
+      layout: FlowLayout(insets: bodyInset, lineSpacing: 30),
       sizeProvider: { (_, _, size) -> CGSize in
         return CGSize(width: size.width, height: max(360, UIScreen.main.bounds.height * 0.7))
       }
