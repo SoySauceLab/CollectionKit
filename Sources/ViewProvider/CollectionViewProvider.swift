@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CollectionViewProvider<Data, View: UIView>  {
+open class CollectionViewProvider<Data, View: UIView> {
   lazy var reuseManager = CollectionReuseViewManager()
 
   /// Should return a new view for the given data and index

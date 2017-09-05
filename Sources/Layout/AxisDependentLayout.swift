@@ -8,7 +8,7 @@
 
 import UIKit
 
-public enum Axis{
+public enum Axis {
   case vertical, horizontal
 }
 
@@ -16,9 +16,13 @@ public class AxisDependentLayout<Data>: CollectionLayout<Data> {
   public var axis: Axis = .vertical
 
   public override func doneLayout() {
-    visibleIndexSorter = axis == .vertical ? CollectionVerticalVisibleIndexSorter(frames: frames) : CollectionHorizontalVisibleIndexSorter(frames: frames)
+    if axis == .vertical {
+      visibleIndexSorter = CollectionVerticalVisibleIndexSorter(frames: frames)
+    } else {
+      visibleIndexSorter = CollectionHorizontalVisibleIndexSorter(frames: frames)
+    }
   }
-  
+
   func primary(_ size: CGSize) -> CGFloat {
     return axis == .vertical ? size.height : size.width
   }

@@ -1,0 +1,25 @@
+disabled_rules:
+  - trailing_comma
+  - force_cast
+
+opt_in_rules:
+  - closure_spacing
+  - empty_count
+
+included:
+  - Sources
+
+identifier_name:
+  allowed_symbols:
+    - _
+  validates_start_lowercase: false
+  min_length:
+    error: 3
+  excluded:
+    - id
+    - at
+    - to
+    - x
+    - y
+    - dx
+    - dy

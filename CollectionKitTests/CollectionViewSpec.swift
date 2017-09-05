@@ -235,11 +235,11 @@ class CollectionViewSpec: QuickSpec {
         collectionView.frame = CGRect(x: 0, y: 0, width: 500, height: 50)
         collectionView.layoutIfNeeded()
         UITapGestureRecognizer.testLocation = CGPoint(x: 10, y: 10)
-        collectionView.tap(gr: collectionView.tapGestureRecognizer)
+        collectionView.tap(gesture: collectionView.tapGestureRecognizer)
         UITapGestureRecognizer.testLocation = nil
         expect(lastTappedIndex) == 0
         UITapGestureRecognizer.testLocation = CGPoint(x: 110, y: 10)
-        collectionView.tap(gr: collectionView.tapGestureRecognizer)
+        collectionView.tap(gesture: collectionView.tapGestureRecognizer)
         UITapGestureRecognizer.testLocation = nil
         expect(lastTappedIndex) == 2
       }

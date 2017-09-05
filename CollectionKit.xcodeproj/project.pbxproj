@@ -460,7 +460,7 @@
 				A3FC21C11C6EE5AA008566BB /* Frameworks */,
 				A3FC21C21C6EE5AA008566BB /* Resources */,
 				B1B7B05C1E7DAD1F00F2483E /* Embed Frameworks */,
-				B19D64D11F23E3BF00D02FDB /* ShellScript */,
+				B19D64D11F23E3BF00D02FDB /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -479,7 +479,7 @@
 				B12F9B1D1E804C370085F37D /* Sources */,
 				B12F9B1E1E804C370085F37D /* Frameworks */,
 				B12F9B1F1E804C370085F37D /* Resources */,
-				B12F9F8A1F575F360082791D /* ShellScript */,
+				B12F9F8A1F575F360082791D /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -500,7 +500,8 @@
 				B1B7B04C1E7DAD1E00F2483E /* Frameworks */,
 				B1B7B04D1E7DAD1E00F2483E /* Headers */,
 				B1B7B04E1E7DAD1E00F2483E /* Resources */,
-				B12A1C021F23DC2700D5C1C1 /* ShellScript */,
+				B12A1C021F23DC2700D5C1C1 /* Carthage */,
+				B1A8E2DE1F59FE5500172387 /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -585,7 +586,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		B12A1C021F23DC2700D5C1C1 /* ShellScript */ = {
+		B12A1C021F23DC2700D5C1C1 /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -594,13 +595,14 @@
 				"$(SRCROOT)/Carthage/Build/iOS/YetAnotherAnimationLibrary.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Diff.framework",
 			);
+			name = Carthage;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
-		B12F9F8A1F575F360082791D /* ShellScript */ = {
+		B12F9F8A1F575F360082791D /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -609,13 +611,14 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Nimble.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Quick.framework",
 			);
+			name = Carthage;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
-		B19D64D11F23E3BF00D02FDB /* ShellScript */ = {
+		B19D64D11F23E3BF00D02FDB /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -624,11 +627,26 @@
 				"$(SRCROOT)/Carthage/Build/iOS/YetAnotherAnimationLibrary.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Diff.framework",
 			);
+			name = Carthage;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+		B1A8E2DE1F59FE5500172387 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 

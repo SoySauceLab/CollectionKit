@@ -12,14 +12,13 @@ func defaultSizeProvider<Data>(at: Int, data: Data, collectionSize: CGSize) -> C
   return collectionSize
 }
 
-open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
-{
+open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
   public typealias DataProvider = CollectionDataProvider<Data>
   public typealias ViewProvider = CollectionViewProvider<Data, View>
   public typealias Layout = CollectionLayout<Data>
   public typealias SizeProvider = CollectionSizeProvider<Data>
   public typealias Presenter = CollectionPresenter
-  
+
   public var dataProvider: DataProvider { didSet { setNeedsReload() } }
   public var viewProvider: ViewProvider { didSet { setNeedsReload() } }
   public var layout: Layout { didSet { setNeedsReload() } }
@@ -90,7 +89,6 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
     super.init(identifier: identifier)
   }
 
-
   // MARK: - Override Methods
   open override var numberOfItems: Int {
     return dataProvider.numberOfItems
@@ -105,7 +103,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider
     return dataProvider.identifier(at: at)
   }
   open override func layout(collectionSize: CGSize) {
-    layout._layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
+    layout.doLayout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
   }
   open override var contentSize: CGSize {
     return layout.contentSize

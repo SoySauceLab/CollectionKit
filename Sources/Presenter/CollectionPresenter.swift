@@ -21,7 +21,8 @@ open class CollectionPresenter {
   open func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     view.bounds.size = frame.bounds.size
     view.center = frame.center
-    if collectionView.reloading, collectionView.hasReloaded, collectionView.bounds.intersects(frame), let insertAnimation = insertAnimation {
+    if collectionView.reloading, collectionView.hasReloaded, collectionView.bounds.intersects(frame),
+      let insertAnimation = insertAnimation {
       switch insertAnimation {
       case .fade:
         view.alpha = 0
@@ -44,23 +45,23 @@ open class CollectionPresenter {
       case .fade:
         UIView.animate(withDuration: 0.2, animations: {
           view.alpha = 0
-        }) { _ in
+        }, completion: { _ in
           if !collectionView.visibleCells.contains(view) {
             view.recycleForCollectionKitReuse()
             view.alpha = 1
           }
-        }
+        })
       case .scale:
         UIView.animate(withDuration: 0.2, animations: {
           view.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
           view.alpha = 0
-        }) { _ in
+        }, completion: { _ in
           if !collectionView.visibleCells.contains(view) {
             view.recycleForCollectionKitReuse()
             view.transform = CGAffineTransform.identity
             view.alpha = 1
           }
-        }
+        })
       }
     } else {
       view.recycleForCollectionKitReuse()

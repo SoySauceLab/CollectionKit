@@ -23,10 +23,13 @@ open class CollectionLayout<Data> {
   open func doneLayout() {
 
   }
-  
+
   private var _contentSize: CGSize = .zero
-  public func _layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: @escaping CollectionSizeProvider<Data>) {
-    frames = layout(collectionSize: collectionSize.insets(by: insets), dataProvider: dataProvider, sizeProvider: sizeProvider)
+  public func doLayout(collectionSize: CGSize,
+                       dataProvider: CollectionDataProvider<Data>,
+                       sizeProvider: @escaping CollectionSizeProvider<Data>) {
+    frames = layout(collectionSize: collectionSize.insets(by: insets),
+                    dataProvider: dataProvider, sizeProvider: sizeProvider)
     _contentSize = frames.reduce(CGRect.zero) { (old, item) in
       old.union(item)
     }.size

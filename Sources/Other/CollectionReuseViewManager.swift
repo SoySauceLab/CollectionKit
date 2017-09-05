@@ -26,9 +26,10 @@ public class CollectionReuseViewManager: NSObject {
       reusableViews[identifier] = [view]
     }
     cleanupTimer?.invalidate()
-    cleanupTimer = Timer.scheduledTimer(timeInterval: lifeSpan, target: self, selector: #selector(cleanup), userInfo: nil, repeats: false)
+    cleanupTimer = Timer.scheduledTimer(timeInterval: lifeSpan, target: self,
+                                        selector: #selector(cleanup), userInfo: nil, repeats: false)
   }
-  
+
   public func dequeue<T: UIView> (_ defaultView: @autoclosure () -> T) -> T {
     let queuedView = reusableViews[String(describing: T.self)]?.popLast() as? T
     let view = queuedView ?? defaultView()
@@ -38,7 +39,7 @@ public class CollectionReuseViewManager: NSObject {
     view.reuseManager = self
     return view
   }
-  
+
   @objc func cleanup() {
     reusableViews.removeAll()
   }

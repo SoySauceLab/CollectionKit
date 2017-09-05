@@ -43,8 +43,8 @@ open class CollectionView: UIScrollView {
       }
     }
   }
-  open override var contentOffset: CGPoint{
-    didSet{
+  open override var contentOffset: CGPoint {
+    didSet {
       scrollVelocity = contentOffset - oldValue
     }
   }
@@ -59,35 +59,35 @@ open class CollectionView: UIScrollView {
 
   public override init(frame: CGRect) {
     super.init(frame: frame)
-    _commonInit()
+    commonInit()
   }
 
   public required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    _commonInit()
+    commonInit()
   }
 
-  func _commonInit() {
+  func commonInit() {
     CollectionViewManager.shared.register(collectionView: self)
 
-    tapGestureRecognizer.addTarget(self, action: #selector(tap(gr:)))
+    tapGestureRecognizer.addTarget(self, action: #selector(tap(gesture:)))
     addGestureRecognizer(tapGestureRecognizer)
 
-    panGestureRecognizer.addTarget(self, action: #selector(pan(gr:)))
+    panGestureRecognizer.addTarget(self, action: #selector(pan(gesture:)))
   }
 
-  @objc func tap(gr: UITapGestureRecognizer) {
+  @objc func tap(gesture: UITapGestureRecognizer) {
     for identifier in visibleIdentifiers {
       let cell = identifierToView[identifier]!
       let index = identifierToIndex[identifier]!
-      if cell.point(inside: gr.location(in: cell), with: nil) {
+      if cell.point(inside: gesture.location(in: cell), with: nil) {
         provider.didTap(view: cell, at: index)
       }
     }
   }
 
-  func pan(gr: UIPanGestureRecognizer) {
-    screenDragLocation = absoluteLocation(for: gr.location(in: self))
+  func pan(gesture: UIPanGestureRecognizer) {
+    screenDragLocation = absoluteLocation(for: gesture.location(in: self))
   }
 
   open override func layoutSubviews() {
@@ -127,7 +127,8 @@ open class CollectionView: UIScrollView {
     for identifier in visibleIdentifiers {
       let cell = identifierToView[identifier]!
       let index = identifierToIndex[identifier]!
-      (cell.currentCollectionPresenter ?? presenter).update(collectionView:self, view: cell, at: index, frame: provider.frame(at: index))
+      let presenter = cell.currentCollectionPresenter ?? self.presenter
+      presenter.update(collectionView:self, view: cell, at: index, frame: provider.frame(at: index))
     }
 
     loading = false
@@ -157,12 +158,15 @@ open class CollectionView: UIScrollView {
       let cell = identifierToView[identifier]!
       let index = identifierToIndex[identifier]!
       cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: index)
+      let presenter = cell.currentCollectionPresenter ?? self.presenter
       if !currentlyInsertedIdentifiers!.contains(identifier) {
         // cell was on screen before reload, need to update the view.
         provider.update(view: cell, at: index)
-        (cell.currentCollectionPresenter ?? presenter).shift(collectionView: self, delta: contentOffsetDiff, view: cell, at: index, frame: provider.frame(at: index))
+        presenter.shift(collectionView: self, delta: contentOffsetDiff, view: cell,
+                        at: index, frame: provider.frame(at: index))
       }
-      (cell.currentCollectionPresenter ?? presenter).update(collectionView:self, view: cell, at: index, frame: provider.frame(at: index))
+      presenter.update(collectionView:self, view: cell,
+                       at: index, frame: provider.frame(at: index))
     }
     currentlyInsertedIdentifiers = nil
 
@@ -223,7 +227,8 @@ open class CollectionView: UIScrollView {
     cell.center = frame.center
     provider.update(view: cell, at: index)
     cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: index)
-    (cell.currentCollectionPresenter ?? presenter).insert(collectionView: self, view: cell, at: index, frame: provider.frame(at: index))
+    let presenter = cell.currentCollectionPresenter ?? self.presenter
+    presenter.insert(collectionView: self, view: cell, at: index, frame: provider.frame(at: index))
 
     identifierToView[identifier] = cell
 

@@ -148,7 +148,7 @@ class CollectionComposerSpec: QuickSpec {
         collectionView.frame = CGRect(x: 0, y: 0, width: 200, height: 500)
         collectionView.layoutIfNeeded()
         UITapGestureRecognizer.testLocation = CGPoint(x: 10, y: 110)
-        collectionView.tap(gr: collectionView.tapGestureRecognizer)
+        collectionView.tap(gesture: collectionView.tapGestureRecognizer)
         UITapGestureRecognizer.testLocation = nil
         expect(lastTappedText) == "11"
       }

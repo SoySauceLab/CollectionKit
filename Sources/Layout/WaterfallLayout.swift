@@ -22,29 +22,30 @@ public class WaterfallLayout<Data>: AxisDependentLayout<Data> {
   }
 
   public override func layout(collectionSize: CGSize,
-                       dataProvider: CollectionDataProvider<Data>,
-                       sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
+                              dataProvider: CollectionDataProvider<Data>,
+                              sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
     var frames: [CGRect] = []
 
     let columnWidth = (secondary(collectionSize) - CGFloat(columns - 1) * padding) / CGFloat(columns)
-    var columnHeight = Array<CGFloat>(repeating: 0, count: columns)
+    var columnHeight = [CGFloat](repeating: 0, count: columns)
 
     func getMinColomn() -> (Int, CGFloat) {
       var minHeight: (Int, CGFloat) = (0, columnHeight[0])
-      for (index, height) in columnHeight.enumerated() {
-        if height < minHeight.1 {
-          minHeight = (index, height)
-        }
+      for (index, height) in columnHeight.enumerated() where height < minHeight.1 {
+        minHeight = (index, height)
       }
       return minHeight
     }
 
     for i in 0..<dataProvider.numberOfItems {
-      var cellSize = sizeProvider(i, dataProvider.data(at: i), size(primary: primary(collectionSize), secondary: columnWidth))
+      var cellSize = sizeProvider(i, dataProvider.data(at: i),
+                                  size(primary: primary(collectionSize), secondary: columnWidth))
       cellSize = size(primary: primary(cellSize), secondary: columnWidth)
       let (columnIndex, offsetY) = getMinColomn()
       columnHeight[columnIndex] += primary(cellSize) + padding
-      let frame = CGRect(origin: point(primary: offsetY, secondary: CGFloat(columnIndex) * (columnWidth + padding)), size: cellSize)
+      let frame = CGRect(origin: point(primary: offsetY,
+                                       secondary: CGFloat(columnIndex) * (columnWidth + padding)),
+                         size: cellSize)
       frames.append(frame)
     }
 
