@@ -56,8 +56,7 @@ class ReloadDataViewController: CollectionViewController {
       layout: layout,
       sizeProvider: { (_, _, size: CGSize) in
         let columns = max(1, Int(size.width / 60))
-        let totalWidth = size.width - CGFloat(columns - 1) * 15
-        let cellWidth = totalWidth / CGFloat(columns)
+        let cellWidth = (size.width - CGFloat(columns - 1) * 15) / CGFloat(columns)
         return CGSize(width: cellWidth, height: 60)
       },
       presenter: presenter,
