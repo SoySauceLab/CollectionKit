@@ -92,7 +92,7 @@ collectionView.provider = CollectionComposer(
 <img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/c36d783/Resources/example2.svg" />
 
 
-See the [Getting Started Guide]() for a in-depth tutorial on how to use CollectionKit.
+See the [Getting Started Guide](https://soysaucelab.gitbooks.io/collectionkit-documentation/content/) for a in-depth tutorial on how to use CollectionKit.
 
 
 ## Questions? Want to contribute?
