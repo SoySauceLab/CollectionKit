@@ -22,6 +22,7 @@ class ViewController: CollectionViewController {
     ("Horizontal Gallery", HorizontalGalleryViewController.self),
     ("Grid", GridViewController.self),
     ("Articles", ArticleExampleViewController.self),
+    ("Reload", ReloadDataViewController.self),
     ("Chat", MessagesViewController.self),
     ("Presenters", PresenterExampleViewController.self)
   ]
