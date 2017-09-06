@@ -15,8 +15,13 @@ open class CollectionPresenter {
     case scale
   }
 
+  public enum CollectionPresenterUpdateAnimation {
+    case normal
+  }
+
   open var insertAnimation: CollectionPresenterAnimation?
   open var deleteAnimation: CollectionPresenterAnimation?
+  open var updateAnimation: CollectionPresenterUpdateAnimation?
 
   open func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     view.bounds.size = frame.bounds.size
@@ -71,7 +76,16 @@ open class CollectionPresenter {
     if view.bounds.size != frame.bounds.size {
       view.bounds.size = frame.bounds.size
     }
-    view.center = frame.center
+    if let updateAnimation = updateAnimation {
+      switch updateAnimation {
+      case .normal:
+        UIView.animate(withDuration: 0.2) {
+          view.center = frame.center
+        }
+      }
+    } else {
+      view.center = frame.center
+    }
   }
   open func shift(collectionView: CollectionView, delta: CGPoint, view: UIView, at: Int, frame: CGRect) {}
   public init() {}

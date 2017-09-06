@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E0D65421F5F9CEF00C3CA5D /* MutableArrayDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E0D65411F5F9CEF00C3CA5D /* MutableArrayDataProvider.swift */; };
 		0E32583F1F5DC8B400D455F8 /* ArticleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E32583C1F5DC8B400D455F8 /* ArticleData.swift */; };
 		0E3258401F5DC8B400D455F8 /* ArticleExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E32583D1F5DC8B400D455F8 /* ArticleExampleViewController.swift */; };
 		0E3258411F5DC8B400D455F8 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E32583E1F5DC8B400D455F8 /* ArticleView.swift */; };
@@ -117,7 +116,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0E0D65411F5F9CEF00C3CA5D /* MutableArrayDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MutableArrayDataProvider.swift; sourceTree = "<group>"; };
 		0E32583C1F5DC8B400D455F8 /* ArticleData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleData.swift; sourceTree = "<group>"; };
 		0E32583D1F5DC8B400D455F8 /* ArticleExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleExampleViewController.swift; sourceTree = "<group>"; };
 		0E32583E1F5DC8B400D455F8 /* ArticleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
@@ -233,7 +231,6 @@
 		0E3258461F5E32DB00D455F8 /* ReloadDataExample */ = {
 			isa = PBXGroup;
 			children = (
-				0E0D65411F5F9CEF00C3CA5D /* MutableArrayDataProvider.swift */,
 				0E3258471F5E334C00D455F8 /* ReloadDataViewController.swift */,
 			);
 			path = ReloadDataExample;
@@ -678,7 +675,6 @@
 				B102FC591D10FE0100408DD6 /* HorizontalGalleryViewController.swift in Sources */,
 				B145FFA41F5DF5C300A4F318 /* PresenterExampleViewController.swift in Sources */,
 				0E3258481F5E334C00D455F8 /* ReloadDataViewController.swift in Sources */,
-				0E0D65421F5F9CEF00C3CA5D /* MutableArrayDataProvider.swift in Sources */,
 				B14B0E0A1F27A084003E5105 /* SelectionButton.swift in Sources */,
 				0E3258411F5DC8B400D455F8 /* ArticleView.swift in Sources */,
 				A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */,

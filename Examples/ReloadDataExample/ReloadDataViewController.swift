@@ -11,7 +11,7 @@ import CollectionKit
 
 class ReloadDataViewController: CollectionViewController {
 
-  let dataProvider = MutableArrayDataProvider<Int>(data: []) { (_, data) in
+  let dataProvider = ArrayDataProvider<Int>(data: []) { (_, data) in
     return "\(data)"
   }
 
@@ -19,7 +19,11 @@ class ReloadDataViewController: CollectionViewController {
     let button = UIButton()
     button.setTitle("+", for: .normal)
     button.titleLabel?.font = .boldSystemFont(ofSize: 20)
-    button.backgroundColor = UIColor(hue: 0.16, saturation: 0.68, brightness: 0.98, alpha: 1)
+    button.backgroundColor = UIColor(hue: 0.6, saturation: 0.68, brightness: 0.98, alpha: 1)
+    button.layer.shadowColor = UIColor.black.cgColor
+    button.layer.shadowOffset = CGSize(width: 0, height: -12)
+    button.layer.shadowRadius = 10
+    button.layer.shadowOpacity = 0.1
     return button
   }()
 
@@ -37,11 +41,11 @@ class ReloadDataViewController: CollectionViewController {
     let presenter = CollectionPresenter()
     presenter.insertAnimation = .scale
     presenter.deleteAnimation = .scale
+    presenter.updateAnimation = .normal
     provider = CollectionProvider(
       dataProvider: dataProvider,
       viewUpdater: { (view: UILabel, data: Int, index: Int) in
-        let total = self.currentMax > 0 ? self.currentMax : 0
-        view.backgroundColor = UIColor(hue: CGFloat(data) / CGFloat(total),
+        view.backgroundColor = UIColor(hue: CGFloat(data) / 30,
                                        saturation: 0.68,
                                        brightness: 0.98,
                                        alpha: 1)
@@ -50,12 +54,15 @@ class ReloadDataViewController: CollectionViewController {
         view.text = "\(data)"
       },
       layout: layout,
-      sizeProvider: { _, _, _ in
-        return CGSize(width: 60, height: 60)
+      sizeProvider: { (_, _, size: CGSize) in
+        let columns = max(1, Int(size.width / 60))
+        let totalWidth = size.width - CGFloat(columns - 1) * 15
+        let cellWidth = totalWidth / CGFloat(columns)
+        return CGSize(width: cellWidth, height: 60)
       },
       presenter: presenter,
       tapHandler: { (view: UILabel, at: Int, _: CollectionDataProvider<Int>) in
-        self.dataProvider.remove(at: at)
+        self.dataProvider.data.remove(at: at)
       })
   }
 
@@ -66,12 +73,9 @@ class ReloadDataViewController: CollectionViewController {
     addButton.frame = CGRect(x: 0, y: viewHeight - 44, width: viewWidth, height: 44)
     collectionView.frame = CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight - 44)
   }
-}
-
-extension ReloadDataViewController {
 
   func add() {
-    dataProvider.append(data: currentMax)
+    dataProvider.data.append(currentMax)
     currentMax += 1
     // NOTE: Call reloadData() directly will make collectionView update immediately, so that contentSize
     // of collectionView will be updated.
@@ -79,3 +83,4 @@ extension ReloadDataViewController {
     collectionView.scrollTo(edge: .bottom, animated:true)
   }
 }
+
