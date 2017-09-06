@@ -31,7 +31,6 @@ class ReloadDataViewController: CollectionViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .white
     addButton.addTarget(self, action: #selector(add), for: .touchUpInside)
     view.addSubview(addButton)
 
