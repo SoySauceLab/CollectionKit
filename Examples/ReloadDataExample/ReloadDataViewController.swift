@@ -11,7 +11,7 @@ import CollectionKit
 
 class ReloadDataViewController: CollectionViewController {
 
-  let dataProvider = ArrayDataProvider<Int>(data: []) { (_, data) in
+  let dataProvider = ArrayDataProvider<Int>(data: Array(0..<5)) { (_, data) in
     return "\(data)"
   }
 
@@ -27,16 +27,19 @@ class ReloadDataViewController: CollectionViewController {
     return button
   }()
 
-  var currentMax: Int = 0
+  var currentMax: Int = 5
 
   override func viewDidLoad() {
     super.viewDidLoad()
     addButton.addTarget(self, action: #selector(add), for: .touchUpInside)
     view.addSubview(addButton)
 
-    let layout = FlowLayout<Int>(insets: UIEdgeInsetsMake(15, 15, 15, 15),
-                                 lineSpacing: 15,
-                                 interitemSpacing: 15)
+    let layout = FlowLayout<Int>(insets: UIEdgeInsetsMake(10, 10, 10, 10),
+                                 lineSpacing: 10,
+                                 interitemSpacing: 10,
+                                 justifyContent: .spaceAround,
+                                 alignItems: .center,
+                                 alignContent: .center)
     let presenter = CollectionPresenter()
     presenter.insertAnimation = .scale
     presenter.deleteAnimation = .scale
@@ -50,13 +53,12 @@ class ReloadDataViewController: CollectionViewController {
                                        alpha: 1)
         view.textColor = .white
         view.textAlignment = .center
+        view.layer.cornerRadius = 4
         view.text = "\(data)"
       },
       layout: layout,
-      sizeProvider: { (_, _, size: CGSize) in
-        let columns = max(1, Int(size.width / 60))
-        let cellWidth = (size.width - CGFloat(columns - 1) * 15) / CGFloat(columns)
-        return CGSize(width: cellWidth, height: 60)
+      sizeProvider: { (index, data, _) in
+        return CGSize(width: 80, height: data % 3 == 0 ? 120 : 80)
       },
       presenter: presenter,
       tapHandler: { (view: UILabel, at: Int, _: CollectionDataProvider<Int>) in
