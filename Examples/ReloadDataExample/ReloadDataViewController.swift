@@ -36,7 +36,7 @@ class ReloadDataViewController: CollectionViewController {
 
     let layout = FlowLayout<Int>(insets: UIEdgeInsetsMake(15, 15, 15, 15),
                                  lineSpacing: 15,
-                                 interitemSpacing: 15)
+                                 minimuminteritemSpacing: 15)
     let presenter = CollectionPresenter()
     presenter.insertAnimation = .scale
     presenter.deleteAnimation = .scale

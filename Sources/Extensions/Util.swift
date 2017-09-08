@@ -13,6 +13,21 @@ extension CGFloat {
   func clamp(_ minValue: CGFloat, _ maxValue: CGFloat) -> CGFloat {
     return self < minValue ? minValue : (self > maxValue ? maxValue : self)
   }
+
+  static func screenScale() -> CGFloat {
+    return 1.0 / UIScreen.main.scale
+  }
+
+  static func floorToScale(_ value: CGFloat) -> CGFloat {
+    var remainder = fmod(value, 1.0)
+    var newValue = floor(value)
+    let scale = CGFloat.screenScale()
+    while remainder >= scale {
+      newValue += scale
+      remainder -= scale
+    }
+    return newValue
+  }
 }
 
 extension CGPoint {

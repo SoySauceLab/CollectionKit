@@ -31,7 +31,7 @@ class FlowLayoutSpec: QuickSpec {
         expect(layout.frames).to(equal(frames((0, 0, 50, 50), (0, 50, 50, 50), (50, 0, 50, 50))))
       }
 
-      it("should work with both axis with linespacing") {
+      it("should work with both axis with lineSpacing") {
         let layout = FlowLayout<CGSize>(lineSpacing: 10)
         layout.mockLayout(parentSize: (100, 300), (100, 100), (100, 100), (100, 100))
         expect(layout.frames).to(equal(frames((0, 0, 100, 100), (0, 110, 100, 100), (0, 220, 100, 100))))
@@ -40,22 +40,22 @@ class FlowLayoutSpec: QuickSpec {
         expect(layout.frames).to(equal(frames((0, 0, 100, 100), (110, 0, 100, 100), (220, 0, 100, 100))))
       }
 
-      it("should work with both axis with interitemspacing") {
-        let layout = FlowLayout<CGSize>(interitemSpacing: 10)
+      it("should work with both axis with minimuminteritemSpacing") {
+        let layout = FlowLayout<CGSize>(minimuminteritemSpacing: 10)
         layout.mockLayout(parentSize: (130, 100), (50, 50), (50, 50), (50, 50))
-        expect(layout.frames).to(equal(frames((0, 0, 50, 50), (60, 0, 50, 50), (0, 50, 50, 50))))
+        expect(layout.frames).to(equal(frames((0, 0, 50, 50), (80, 0, 50, 50), (0, 50, 50, 50))))
         layout.axis = .horizontal
         layout.mockLayout(parentSize: (100, 130), (50, 50), (50, 50), (50, 50))
-        expect(layout.frames).to(equal(frames((0, 0, 50, 50), (0, 60, 50, 50), (50, 0, 50, 50))))
+        expect(layout.frames).to(equal(frames((0, 0, 50, 50), (0, 80, 50, 50), (50, 0, 50, 50))))
       }
 
-      it("should work with both axis with interitemspacing and linespacing") {
-        let layout = FlowLayout<CGSize>(lineSpacing: 10, interitemSpacing: 10)
+      it("should work with both axis with minimuminteritemSpacing and lineSpacing") {
+        let layout = FlowLayout<CGSize>(lineSpacing: 10, minimuminteritemSpacing: 10)
         layout.mockLayout(parentSize: (130, 130), (50, 50), (50, 50), (50, 50))
-        expect(layout.frames).to(equal(frames((0, 0, 50, 50), (60, 0, 50, 50), (0, 60, 50, 50))))
+        expect(layout.frames).to(equal(frames((0, 0, 50, 50), (80, 0, 50, 50), (0, 80, 50, 50))))
         layout.axis = .horizontal
         layout.mockLayout(parentSize: (130, 130), (50, 50), (50, 50), (50, 50))
-        expect(layout.frames).to(equal(frames((0, 0, 50, 50), (0, 60, 50, 50), (60, 0, 50, 50))))
+        expect(layout.frames).to(equal(frames((0, 0, 50, 50), (0, 80, 50, 50), (80, 0, 50, 50))))
       }
     }
   }
