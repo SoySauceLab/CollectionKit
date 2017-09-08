@@ -14,10 +14,10 @@ public class WaterfallLayout<Data>: AxisDependentLayout<Data> {
   private var columnWidth: [CGFloat] = [0, 0]
   private var maxSize = CGSize.zero
 
-  public init(columns: Int = 1, insets: UIEdgeInsets = .zero, padding: CGFloat = 10, axis: Axis = .vertical) {
+  public init(columns: Int = 1, padding: CGFloat = 10, axis: Axis = .vertical) {
     self.columns = columns
     self.padding = padding
-    super.init(insets: insets)
+    super.init()
     self.axis = axis
   }
 

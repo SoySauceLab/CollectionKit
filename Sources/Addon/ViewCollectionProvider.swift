@@ -30,6 +30,7 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
                 return "\($0.1.hash)"
                }),
                viewProvider: ViewProvider(),
+               layout: insets == .zero ? FlowLayout() : InsetLayout(FlowLayout(), insets: insets),
                sizeProvider: { (_, view, size) -> CGSize in
                 let fitSize = view.sizeThatFits(size)
                 let width: CGFloat, height: CGFloat
@@ -46,6 +47,5 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
 
                 return CGSize(width: width, height: height)
                })
-    layout.insets = insets
   }
 }

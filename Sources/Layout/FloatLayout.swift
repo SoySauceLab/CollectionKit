@@ -34,8 +34,7 @@ public class FloatLayout<Data>: CollectionLayout<Data> {
   var topFrameIndex: Int = 0
   public override func visibleIndexes(activeFrame: CGRect) -> [Int] {
     self.activeFrame = activeFrame
-    let visibleFrame = activeFrame - CGPoint(x: rootLayout.insets.left, y: rootLayout.insets.top)
-    topFrameIndex = floatingFrames.binarySearch { $0.element.minY < visibleFrame.minY } - 1
+    topFrameIndex = floatingFrames.binarySearch { $0.element.minY < activeFrame.minY } - 1
     if let index = floatingFrames.get(topFrameIndex)?.offset, index >= 0 {
       var oldVisible = rootLayout.visibleIndexes(activeFrame: activeFrame)
       if let index = oldVisible.index(of: index) {

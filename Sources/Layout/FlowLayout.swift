@@ -12,15 +12,13 @@ public class FlowLayout<Data>: AxisDependentLayout<Data> {
   public var lineSpacing: CGFloat
   public var interitemSpacing: CGFloat
 
-  public init(insets: UIEdgeInsets = .zero,
-              lineSpacing: CGFloat = 0,
+  public init(lineSpacing: CGFloat = 0,
               interitemSpacing: CGFloat = 0,
               axis: Axis = .vertical) {
     self.lineSpacing = lineSpacing
     self.interitemSpacing = interitemSpacing
     super.init()
     self.axis = axis
-    self.insets = insets
   }
 
   public override func layout(collectionSize: CGSize,
