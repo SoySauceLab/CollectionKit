@@ -58,6 +58,8 @@
 		B1688A2D1F25632900C229BD /* SpaceCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A2C1F25632900C229BD /* SpaceCollectionProvider.swift */; };
 		B1688A2F1F2563A200C229BD /* AnyCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A2E1F2563A200C229BD /* AnyCollectionProvider.swift */; };
 		B183C1201F6349B800CEAAE1 /* InsetLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183C11F1F6349B800CEAAE1 /* InsetLayout.swift */; };
+		B183C1221F634A3200CEAAE1 /* InverseLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183C1211F634A3200CEAAE1 /* InverseLayout.swift */; };
+		B183C1241F634CBD00CEAAE1 /* AxisDependentLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183C1231F634CBD00CEAAE1 /* AxisDependentLayout.swift */; };
 		B18C6C631F33A3C900FAE077 /* CollectionVisibleIndexSorter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18C6C621F33A3C900FAE077 /* CollectionVisibleIndexSorter.swift */; };
 		B18C6C641F33A81800FAE077 /* CollectionVisibleIndexSorter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B18C6C621F33A3C900FAE077 /* CollectionVisibleIndexSorter.swift */; };
 		B19D64C91F23DCA800D02FDB /* CollectionReuseViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19E0BCF1F22B21C00214866 /* CollectionReuseViewManager.swift */; };
@@ -70,7 +72,6 @@
 		B1B7B0581E7DAD1F00F2483E /* CollectionKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* CollectionKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B1B7B05F1E7DAD2700F2483E /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3451CE4CCD2005E15A7 /* CollectionView.swift */; };
 		B1B7B0611E7DAD2700F2483E /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = A351C3461CE4CCD2005E15A7 /* Util.swift */; };
-		B1B9C1971F4F72B300A3EFA9 /* AxisDependentLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1B9C1961F4F72B300A3EFA9 /* AxisDependentLayout.swift */; };
 		B1CCA0AF1F3A691B00632B19 /* EmptyStateCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1CCA0AE1F3A691B00632B19 /* EmptyStateCollectionProvider.swift */; };
 		B1E861F11F21515F00621BA0 /* CollectionViewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1E861EF1F21514E00621BA0 /* CollectionViewProvider.swift */; };
 		B1E861F41F21517400621BA0 /* CollectionDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1E861F21F21516E00621BA0 /* CollectionDataProvider.swift */; };
@@ -171,6 +172,8 @@
 		B1688A2C1F25632900C229BD /* SpaceCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpaceCollectionProvider.swift; sourceTree = "<group>"; };
 		B1688A2E1F2563A200C229BD /* AnyCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCollectionProvider.swift; sourceTree = "<group>"; };
 		B183C11F1F6349B800CEAAE1 /* InsetLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLayout.swift; sourceTree = "<group>"; };
+		B183C1211F634A3200CEAAE1 /* InverseLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InverseLayout.swift; sourceTree = "<group>"; };
+		B183C1231F634CBD00CEAAE1 /* AxisDependentLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AxisDependentLayout.swift; sourceTree = "<group>"; };
 		B18C6C621F33A3C900FAE077 /* CollectionVisibleIndexSorter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionVisibleIndexSorter.swift; sourceTree = "<group>"; };
 		B19D64CD1F23DE8100D02FDB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B19D64CE1F23DE8100D02FDB /* FlexLayoutSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlexLayoutSpec.swift; sourceTree = "<group>"; };
@@ -180,7 +183,6 @@
 		B1A8E2DC1F59E99500172387 /* CollectionViewSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewSpec.swift; sourceTree = "<group>"; };
 		B1B7B0501E7DAD1E00F2483E /* CollectionKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CollectionKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1B7B0531E7DAD1F00F2483E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B1B9C1961F4F72B300A3EFA9 /* AxisDependentLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AxisDependentLayout.swift; sourceTree = "<group>"; };
 		B1CCA0AE1F3A691B00632B19 /* EmptyStateCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyStateCollectionProvider.swift; sourceTree = "<group>"; };
 		B1E861EF1F21514E00621BA0 /* CollectionViewProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewProvider.swift; sourceTree = "<group>"; };
 		B1E861F21F21516E00621BA0 /* CollectionDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionDataProvider.swift; sourceTree = "<group>"; };
@@ -363,9 +365,10 @@
 			isa = PBXGroup;
 			children = (
 				B1E861F51F21518700621BA0 /* CollectionLayout.swift */,
+				B183C1231F634CBD00CEAAE1 /* AxisDependentLayout.swift */,
 				B183C11F1F6349B800CEAAE1 /* InsetLayout.swift */,
-				B1B9C1961F4F72B300A3EFA9 /* AxisDependentLayout.swift */,
 				B144CE051F437A1D0073CF4E /* FlexLayout.swift */,
+				B183C1211F634A3200CEAAE1 /* InverseLayout.swift */,
 				B144CE031F437A100073CF4E /* FlowLayout.swift */,
 				B1ED75B41F58C95200CB772A /* FloatLayout.swift */,
 				B144CE011F4379F20073CF4E /* WaterfallLayout.swift */,
@@ -715,7 +718,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B183C1241F634CBD00CEAAE1 /* AxisDependentLayout.swift in Sources */,
 				B1CCA0AF1F3A691B00632B19 /* EmptyStateCollectionProvider.swift in Sources */,
+				B183C1221F634A3200CEAAE1 /* InverseLayout.swift in Sources */,
 				B144CE041F437A100073CF4E /* FlowLayout.swift in Sources */,
 				B10A06281F20073C00069E17 /* CollectionPresenter.swift in Sources */,
 				B1688A2D1F25632900C229BD /* SpaceCollectionProvider.swift in Sources */,
@@ -735,7 +740,6 @@
 				B144CE0F1F437A9E0073CF4E /* ClosureDataProvider.swift in Sources */,
 				B1B7B05F1E7DAD2700F2483E /* CollectionView.swift in Sources */,
 				B18C6C631F33A3C900FAE077 /* CollectionVisibleIndexSorter.swift in Sources */,
-				B1B9C1971F4F72B300A3EFA9 /* AxisDependentLayout.swift in Sources */,
 				B1E861F41F21517400621BA0 /* CollectionDataProvider.swift in Sources */,
 				B1688A291F2562AC00C229BD /* ViewCollectionProvider.swift in Sources */,
 				B1E861F91F21520200621BA0 /* CollectionComposer.swift in Sources */,
