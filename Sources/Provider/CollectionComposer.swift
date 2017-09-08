@@ -9,33 +9,39 @@
 import UIKit
 
 open class CollectionComposer: BaseCollectionProvider {
+
   public var sections: [AnyCollectionProvider] {
-    didSet{
+    didSet {
       setNeedsReload()
     }
   }
 
-  fileprivate var sectionBeginIndex:[Int] = []
-  fileprivate var sectionForIndex:[Int] = []
+  fileprivate var sectionBeginIndex: [Int] = []
+  fileprivate var sectionForIndex: [Int] = []
 
-  fileprivate var lastReloadSections: [AnyCollectionProvider]?
-  fileprivate var lastSectionBeginIndex: [Int]?
-  fileprivate var lastSectionForIndex: [Int]?
+  fileprivate var currentSections: [AnyCollectionProvider] = []
 
   public var presenter: CollectionPresenter? { didSet { setNeedsReload() } }
+
   public var layout: CollectionLayout<AnyCollectionProvider> {
     didSet {
       setNeedsReload()
     }
   }
 
-  public init(layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(), presenter: CollectionPresenter? = nil, _ sections: [AnyCollectionProvider]) {
+  public init(identifier: String? = nil,
+              layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(),
+              presenter: CollectionPresenter? = nil,
+              _ sections: [AnyCollectionProvider]) {
     self.sections = sections
     self.layout = layout
-    super.init()
+    super.init(identifier: identifier)
   }
 
-  public convenience init(layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(), presenter: CollectionPresenter? = nil, _ sections: AnyCollectionProvider...) {
+  public convenience init(identifier: String? = nil,
+                          layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(),
+                          presenter: CollectionPresenter? = nil,
+                          _ sections: AnyCollectionProvider...) {
     self.init(layout: layout, sections)
   }
 
@@ -48,23 +54,27 @@ open class CollectionComposer: BaseCollectionProvider {
   open override var numberOfItems: Int {
     return sectionForIndex.count
   }
+
   open override func view(at: Int) -> UIView {
     let (sectionIndex, item) = indexPath(at)
-    return sections[sectionIndex].view(at: item)
+    return currentSections[sectionIndex].view(at: item)
   }
+
   open override func update(view: UIView, at: Int) {
     let (sectionIndex, item) = indexPath(at)
-    sections[sectionIndex].update(view: view, at: item)
+    currentSections[sectionIndex].update(view: view, at: item)
   }
+
   open override func identifier(at: Int) -> String {
     let (sectionIndex, item) = indexPath(at)
-    let sectionIdentifier = sections[sectionIndex].identifier ?? "\(sectionIndex)"
-    return "\(sectionIdentifier)." + sections[sectionIndex].identifier(at: item)
+    let sectionIdentifier = currentSections[sectionIndex].identifier ?? "\(sectionIndex)"
+    return "\(sectionIdentifier)." + currentSections[sectionIndex].identifier(at: item)
   }
+
   open override func layout(collectionSize: CGSize) {
-    layout._layout(
+    layout.doLayout(
       collectionSize: collectionSize,
-      dataProvider: ArrayDataProvider(data: sections, identifierMapper: {
+      dataProvider: ArrayDataProvider(data: currentSections, identifierMapper: {
        return $0.1.identifier ?? "\($0.0)"
       }),
       sizeProvider: { (_, data, collectionSize) in
@@ -72,14 +82,18 @@ open class CollectionComposer: BaseCollectionProvider {
         return data.contentSize
       })
   }
+
   open override var contentSize: CGSize {
     return layout.contentSize
   }
+
   open override func visibleIndexes(activeFrame: CGRect) -> [Int] {
     var visible = [Int]()
     for sectionIndex in layout.visibleIndexes(activeFrame: activeFrame) {
-      let sectionOrigin = layout.frame(at: sectionIndex).origin
-      let sectionVisible = sections[sectionIndex].visibleIndexes(activeFrame: CGRect(origin: activeFrame.origin - sectionOrigin, size: activeFrame.size))
+      let sectionFrame = layout.frame(at: sectionIndex)
+      let intersectFrame = activeFrame.intersection(sectionFrame)
+      let activeFrameForCell = CGRect(origin: intersectFrame.origin - sectionFrame.origin, size: intersectFrame.size)
+      let sectionVisible = currentSections[sectionIndex].visibleIndexes(activeFrame: activeFrameForCell)
       let beginIndex = sectionBeginIndex[sectionIndex]
       for item in sectionVisible {
         visible.append(item + beginIndex)
@@ -87,29 +101,28 @@ open class CollectionComposer: BaseCollectionProvider {
     }
     return visible
   }
+
   open override func frame(at: Int) -> CGRect {
     let (sectionIndex, item) = indexPath(at)
-    var frame = sections[sectionIndex].frame(at: item)
-    frame.origin = frame.origin + layout.frame(at: sectionIndex).origin
+    var frame = currentSections[sectionIndex].frame(at: item)
+    frame.origin += layout.frame(at: sectionIndex).origin
     return frame
   }
 
   open override func presenter(at: Int) -> CollectionPresenter? {
     let (sectionIndex, item) = indexPath(at)
-    return sections[sectionIndex].presenter(at: item) ?? presenter
+    return currentSections[sectionIndex].presenter(at: item) ?? presenter
   }
 
   open override func willReload() {
-    lastSectionForIndex = sectionForIndex
-    lastSectionBeginIndex = sectionBeginIndex
-    lastReloadSections = sections
-    for section in sections {
+    currentSections = sections
+    for section in currentSections {
       section.willReload()
     }
     sectionBeginIndex = []
     sectionForIndex = []
-    sectionBeginIndex.reserveCapacity(sections.count)
-    for (sectionIndex, section) in sections.enumerated() {
+    sectionBeginIndex.reserveCapacity(currentSections.count)
+    for (sectionIndex, section) in currentSections.enumerated() {
       let itemCount = section.numberOfItems
       sectionBeginIndex.append(sectionForIndex.count)
       for _ in 0..<itemCount {
@@ -117,25 +130,26 @@ open class CollectionComposer: BaseCollectionProvider {
       }
     }
   }
+
   open override func didReload() {
-    for section in sections {
+    for section in currentSections {
       section.didReload()
     }
-    lastSectionForIndex = nil
-    lastSectionBeginIndex = nil
   }
+
   open override func didTap(view: UIView, at: Int) {
     let (sectionIndex, item) = indexPath(at)
-    sections[sectionIndex].didTap(view: view, at: item)
+    currentSections[sectionIndex].didTap(view: view, at: item)
   }
-  
+
   open override func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     if reloadable === self { return true }
-    for section in sections {
+    for section in currentSections {
       if section.hasReloadable(reloadable) {
         return true
       }
     }
     return false
   }
+
 }

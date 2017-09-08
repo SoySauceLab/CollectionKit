@@ -8,14 +8,13 @@
 
 import UIKit
 
-let defaultCollectionPresenter = CollectionPresenter()
 extension UIView {
   private struct AssociatedKeys {
     static var reuseManager = "reuseManager"
     static var presenter = "presenter"
     static var currentPresenter = "currentPresenter"
   }
-  
+
   internal var reuseManager: CollectionReuseViewManager? {
     get { return objc_getAssociatedObject(self, &AssociatedKeys.reuseManager) as? CollectionReuseViewManager }
     set { objc_setAssociatedObject(self, &AssociatedKeys.reuseManager, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
@@ -33,9 +32,10 @@ extension UIView {
 
   internal var currentCollectionPresenter: CollectionPresenter? {
     get { return objc_getAssociatedObject(self, &AssociatedKeys.currentPresenter) as? CollectionPresenter }
-    set { objc_setAssociatedObject(self, &AssociatedKeys.currentPresenter, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    set { objc_setAssociatedObject(self, &AssociatedKeys.currentPresenter,
+                                   newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
   }
-  
+
   public func recycleForCollectionKitReuse() {
     removeFromSuperview()
     reuseManager?.queue(view: self)

@@ -11,7 +11,7 @@ import UIKit
 open class CollectionLayout<Data> {
   open var insets: UIEdgeInsets = .zero
   open var visibleIndexSorter: CollectionVisibleIndexSorter?
-  open private(set) var frames: [CGRect] = []
+  open internal(set) var frames: [CGRect] = []
 
   // override point for subclass
   open func layout(collectionSize: CGSize,
@@ -23,10 +23,13 @@ open class CollectionLayout<Data> {
   open func doneLayout() {
 
   }
-  
+
   private var _contentSize: CGSize = .zero
-  internal func _layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: @escaping CollectionSizeProvider<Data>) {
-    frames = layout(collectionSize: collectionSize.insets(by: insets), dataProvider: dataProvider, sizeProvider: sizeProvider)
+  public func doLayout(collectionSize: CGSize,
+                       dataProvider: CollectionDataProvider<Data>,
+                       sizeProvider: @escaping CollectionSizeProvider<Data>) {
+    frames = layout(collectionSize: collectionSize.insets(by: insets),
+                    dataProvider: dataProvider, sizeProvider: sizeProvider)
     _contentSize = frames.reduce(CGRect.zero) { (old, item) in
       old.union(item)
     }.size

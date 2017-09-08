@@ -18,14 +18,16 @@ public enum FlexAlignItem {
 
 public struct FlexValue {
   var flex: CGFloat
+  var flexBasis: CGFloat
   var range: ClosedRange<CGFloat>
 
-  public init(flex: CGFloat, range: ClosedRange<CGFloat>) {
+  public init(flex: CGFloat, flexBasis: CGFloat, range: ClosedRange<CGFloat>) {
     self.flex = flex
+    self.flexBasis = flexBasis
     self.range = range
   }
-  public init(flex: CGFloat = 0, min: CGFloat = 0, max: CGFloat = .infinity) {
-    self.init(flex: flex, range: min...max)
+  public init(flex: CGFloat = 0, flexBasis: CGFloat = 0, min: CGFloat = 0, max: CGFloat = .infinity) {
+    self.init(flex: flex, flexBasis: flexBasis, range: min...max)
   }
 }
 
@@ -55,32 +57,13 @@ public class FlexLayout<Data>: AxisDependentLayout<Data> {
                               sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
     var frames: [CGRect] = []
 
-    let (sizes, totalPrimary) = getSizes(collectionSize: collectionSize,
-                                         dataProvider: dataProvider,
-                                         sizeProvider: sizeProvider)
+    let (sizes, totalPrimary) = getCellSizes(collectionSize: collectionSize,
+                                             dataProvider: dataProvider,
+                                             sizeProvider: sizeProvider)
 
-    var offset: CGFloat = 0
-    var padding = self.padding
-    if totalPrimary < primary(collectionSize) {
-      let leftOverPrimaryWithPadding = primary(collectionSize) - totalPrimary
-      let leftOverPrimary = leftOverPrimaryWithPadding + self.padding * CGFloat(dataProvider.numberOfItems - 1)
-      switch justifyContent {
-      case .start:
-        break
-      case .center:
-        offset += leftOverPrimaryWithPadding / 2
-      case .end:
-        offset += leftOverPrimaryWithPadding
-      case .spaceBetween:
-        padding = leftOverPrimary / CGFloat(dataProvider.numberOfItems - 1)
-      case .spaceAround:
-        padding = leftOverPrimary / CGFloat(dataProvider.numberOfItems)
-        offset = padding / 2
-      case .spaceEvenly:
-        padding = leftOverPrimary / CGFloat(dataProvider.numberOfItems + 1)
-        offset = padding
-      }
-    }
+    var (offset, padding) = getOffsetAndPadding(collectionSize: collectionSize,
+                                                totalPrimary: totalPrimary,
+                                                numberOfItems: dataProvider.numberOfItems)
 
     for cellSize in sizes {
       let cellFrame: CGRect
@@ -90,9 +73,12 @@ public class FlexLayout<Data>: AxisDependentLayout<Data> {
       case .end:
         cellFrame = CGRect(origin: self.point(primary: offset, secondary: secondary(collectionSize)), size: cellSize)
       case .center:
-        cellFrame = CGRect(origin: self.point(primary: offset, secondary: (secondary(collectionSize) - secondary(cellSize)) / 2), size: cellSize)
+        cellFrame = CGRect(origin: self.point(primary: offset,
+                                              secondary: (secondary(collectionSize) - secondary(cellSize)) / 2),
+                           size: cellSize)
       case .stretch:
-        cellFrame = CGRect(origin: self.point(primary: offset, secondary: 0), size: size(primary: primary(cellSize), secondary: secondary(collectionSize)))
+        cellFrame = CGRect(origin: self.point(primary: offset, secondary: 0),
+                           size: size(primary: primary(cellSize), secondary: secondary(collectionSize)))
       }
       frames.append(cellFrame)
       offset += primary(cellSize) + padding
@@ -101,18 +87,46 @@ public class FlexLayout<Data>: AxisDependentLayout<Data> {
   }
 }
 
-
 extension FlexLayout {
-  func getSizes(collectionSize: CGSize,
-                dataProvider: CollectionDataProvider<Data>,
-                sizeProvider: @escaping CollectionSizeProvider<Data>) -> (sizes: [CGSize], totalPrimary: CGFloat) {
+  func getOffsetAndPadding(collectionSize: CGSize,
+                           totalPrimary: CGFloat,
+                           numberOfItems: Int) -> (offset: CGFloat, padding: CGFloat) {
+    var offset: CGFloat = 0
+    var padding = self.padding
+    if totalPrimary < primary(collectionSize) {
+      let leftOverPrimaryWithPadding = primary(collectionSize) - totalPrimary
+      let leftOverPrimary = leftOverPrimaryWithPadding + self.padding * CGFloat(numberOfItems - 1)
+      switch justifyContent {
+      case .start:
+        break
+      case .center:
+        offset += leftOverPrimaryWithPadding / 2
+      case .end:
+        offset += leftOverPrimaryWithPadding
+      case .spaceBetween:
+        padding = leftOverPrimary / CGFloat(numberOfItems - 1)
+      case .spaceAround:
+        padding = leftOverPrimary / CGFloat(numberOfItems)
+        offset = padding / 2
+      case .spaceEvenly:
+        padding = leftOverPrimary / CGFloat(numberOfItems + 1)
+        offset = padding
+      }
+    }
+    return (offset, padding)
+  }
+
+  //swiftlint:disable:next function_body_length cyclomatic_complexity
+  func getCellSizes(collectionSize: CGSize,
+                    dataProvider: CollectionDataProvider<Data>,
+                    sizeProvider: @escaping CollectionSizeProvider<Data>) -> (sizes: [CGSize], totalPrimary: CGFloat) {
     var sizes: [CGSize] = []
     var freezedPrimary = padding * CGFloat(dataProvider.numberOfItems - 1)
     var flexValues: [Int: (FlexValue, CGFloat)] = [:]
 
     for i in 0..<dataProvider.numberOfItems {
       if let flex = flex[dataProvider.identifier(at: i)] {
-        flexValues[i] = (flex, flex.range.lowerBound)
+        flexValues[i] = (flex, flex.flexBasis)
         sizes.append(.zero)
       } else {
         let size = sizeProvider(i, dataProvider.data(at: i), collectionSize)
@@ -130,7 +144,7 @@ extension FlexLayout {
       var clampDiff: CGFloat = 0
 
       // distribute remaining space
-      if totalPrimary < primary(collectionSize) {
+      if totalPrimary.rounded() != primary(collectionSize).rounded() {
         // use flexGrow
         let totalFlex = flexValues.values.reduce(0) { $0.0 + $0.1.0.flex }
         let primaryPerFlex: CGFloat = totalFlex > 0 ? (primary(collectionSize) - totalPrimary) / totalFlex : 0
@@ -143,7 +157,8 @@ extension FlexLayout {
       }
 
       func freeze(index: Int, primary: CGFloat) {
-        let freezedSize = sizeProvider(index, dataProvider.data(at: index), self.size(primary: primary, secondary: secondary(collectionSize)))
+        let freezedSize = sizeProvider(index, dataProvider.data(at: index),
+                                       self.size(primary: primary, secondary: secondary(collectionSize)))
         sizes[index] = self.size(primary: primary, secondary: secondary(freezedSize))
         freezedPrimary += primary
         flexValues[index] = nil

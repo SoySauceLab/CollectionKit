@@ -13,7 +13,7 @@ public class FloatLayout<Data>: CollectionLayout<Data> {
   var floatingFrames: [(offset: Int, element: CGRect)] = []
   var isFloated: (Int, CGRect) -> Bool
 
-  public init(rootLayout: CollectionLayout<Data>, isFloated: @escaping (Int, CGRect) -> Bool = { i, _ in i % 2 == 0 }) {
+  public init(rootLayout: CollectionLayout<Data>, isFloated: @escaping (Int, CGRect) -> Bool = { $0.0 % 2 == 0 }) {
     self.rootLayout = rootLayout
     self.isFloated = isFloated
     super.init()
@@ -23,8 +23,10 @@ public class FloatLayout<Data>: CollectionLayout<Data> {
     return rootLayout.contentSize
   }
 
-  override func _layout(collectionSize: CGSize, dataProvider: CollectionDataProvider<Data>, sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
-    rootLayout._layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
+  override public func doLayout(collectionSize: CGSize,
+                                dataProvider: CollectionDataProvider<Data>,
+                                sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
+    rootLayout.doLayout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
     floatingFrames = rootLayout.frames.enumerated().filter { isFloated($0.offset, $0.element) }
   }
 
@@ -47,7 +49,12 @@ public class FloatLayout<Data>: CollectionLayout<Data> {
   public override func frame(at: Int) -> CGRect {
     let superFrame = rootLayout.frame(at: at)
     if superFrame.minY < activeFrame.minY, let index = floatingFrames.get(topFrameIndex)?.offset, index == at {
-      let pushedY = topFrameIndex < floatingFrames.count - 1 ? rootLayout.frame(at: floatingFrames[topFrameIndex + 1].offset).minY - superFrame.height : activeFrame.maxY - superFrame.height
+      let pushedY: CGFloat
+      if topFrameIndex < floatingFrames.count - 1 {
+        pushedY = rootLayout.frame(at: floatingFrames[topFrameIndex + 1].offset).minY - superFrame.height
+      } else {
+        pushedY = activeFrame.maxY - superFrame.height
+      }
       return CGRect(origin: CGPoint(x: superFrame.minX, y: min(activeFrame.minY, pushedY)), size: superFrame.size)
     }
     return superFrame

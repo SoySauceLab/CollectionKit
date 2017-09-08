@@ -10,27 +10,26 @@ import UIKit
 
 open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
   private class ViewProvider: CollectionViewProvider<UIView, UIView> {
-    var views: [UIView]
-    init(views: [UIView]) {
-      self.views = views
-      super.init()
-    }
-    override func view(at: Int) -> UIView {
-      return views[at]
+    override func view(data: UIView, index: Int) -> UIView {
+      return data
     }
   }
-  
+
   public enum ViewSizeStrategy {
     case fill
     case fit
     case absolute(CGFloat)
   }
 
-  public init(_ views: UIView..., sizeStrategy: (ViewSizeStrategy, ViewSizeStrategy) = (.fit, .fit), insets: UIEdgeInsets = .zero) {
-    super.init(dataProvider: ArrayDataProvider(data: views, identifierMapper: {
+  public init(identifier: String? = nil,
+              _ views: UIView...,
+              sizeStrategy: (ViewSizeStrategy, ViewSizeStrategy) = (.fit, .fit),
+              insets: UIEdgeInsets = .zero) {
+    super.init(identifier: identifier,
+               dataProvider: ArrayDataProvider(data: views, identifierMapper: {
                 return "\($0.1.hash)"
                }),
-               viewProvider: ViewProvider(views: views),
+               viewProvider: ViewProvider(),
                sizeProvider: { (_, view, size) -> CGSize in
                 let fitSize = view.sizeThatFits(size)
                 let width: CGFloat, height: CGFloat

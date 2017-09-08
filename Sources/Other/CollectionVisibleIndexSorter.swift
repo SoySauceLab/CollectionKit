@@ -29,7 +29,7 @@ extension Collection {
 }
 
 public protocol CollectionVisibleIndexSorter {
-  func visibleIndexes(for rect:CGRect) -> [Int]
+  func visibleIndexes(for rect: CGRect) -> [Int]
 }
 
 public class CollectionVerticalVisibleIndexSorter: CollectionVisibleIndexSorter {
@@ -38,10 +38,10 @@ public class CollectionVerticalVisibleIndexSorter: CollectionVisibleIndexSorter 
 
   public init(frames: [CGRect]) {
     self.frames = frames
-    maxFrameLength = frames.max{ $0.0.height < $0.1.height }?.height ?? 0
+    maxFrameLength = frames.max { $0.0.height < $0.1.height }?.height ?? 0
   }
 
-  public func visibleIndexes(for rect:CGRect) -> [Int] {
+  public func visibleIndexes(for rect: CGRect) -> [Int] {
     var index = frames.binarySearch { $0.minY < rect.minY - maxFrameLength }
     var visibleIndexes = [Int]()
     while index < frames.count {
@@ -64,10 +64,10 @@ public class CollectionHorizontalVisibleIndexSorter: CollectionVisibleIndexSorte
 
   public init(frames: [CGRect]) {
     self.frames = frames
-    maxFrameLength = frames.max{ $0.0.width < $0.1.width }?.width ?? 0
+    maxFrameLength = frames.max { $0.0.width < $0.1.width }?.width ?? 0
   }
 
-  public func visibleIndexes(for rect:CGRect) -> [Int] {
+  public func visibleIndexes(for rect: CGRect) -> [Int] {
     var index = frames.binarySearch { $0.minX < rect.minX - maxFrameLength }
     var visibleIndexes = [Int]()
     while index < frames.count {
