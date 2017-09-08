@@ -34,7 +34,7 @@ class HorizontalGalleryViewController: CollectionViewController {
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
       },
-      layout: WaterfallLayout<UIImage>(columns: 2, axis: .horizontal),
+      layout: InverseLayout(WaterfallLayout<UIImage>(columns: 2)),
       sizeProvider: imageSizeProvider,
       presenter: WobblePresenter()
     )

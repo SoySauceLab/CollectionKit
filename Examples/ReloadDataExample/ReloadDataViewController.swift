@@ -34,8 +34,8 @@ class ReloadDataViewController: CollectionViewController {
     addButton.addTarget(self, action: #selector(add), for: .touchUpInside)
     view.addSubview(addButton)
 
-    let layout = FlowLayout<Int>(insets: UIEdgeInsetsMake(15, 15, 15, 15),
-                                 lineSpacing: 15,
+    collectionView.contentInset = UIEdgeInsetsMake(15, 15, 15, 15)
+    let layout = FlowLayout<Int>(lineSpacing: 15,
                                  interitemSpacing: 15)
     let presenter = CollectionPresenter()
     presenter.insertAnimation = .scale

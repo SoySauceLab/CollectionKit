@@ -38,7 +38,6 @@ public class FlexLayout<Data>: AxisDependentLayout<Data> {
   public var justifyContent: FlexJustifyContent
 
   public init(flex: [String: FlexValue] = [:],
-              insets: UIEdgeInsets = .zero,
               padding: CGFloat = 0,
               axis: Axis = .vertical,
               justifyContent: FlexJustifyContent = .start,
@@ -49,7 +48,6 @@ public class FlexLayout<Data>: AxisDependentLayout<Data> {
     self.alignItems = alignItems
     super.init()
     self.axis = axis
-    self.insets = insets
   }
 
   public override func layout(collectionSize: CGSize,

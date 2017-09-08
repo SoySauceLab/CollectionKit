@@ -22,7 +22,7 @@ public class ClosureViewProvider<Data, View>: CollectionViewProvider<Data, View>
     viewUpdater(view, data, index)
   }
 
-  public override func view(data:Data, index: Int) -> View {
+  public override func view(data: Data, index: Int) -> View {
     if let viewGenerator = viewGenerator {
       let view = reuseManager.dequeue(viewGenerator())
       update(view: view, data: data, index: index)

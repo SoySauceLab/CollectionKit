@@ -104,6 +104,9 @@ extension CGRect {
   var inverted: CGRect {
     return CGRect(origin: origin.inverted, size: size.inverted)
   }
+  func insets(by insets: UIEdgeInsets) -> CGRect {
+    return UIEdgeInsetsInsetRect(self, insets)
+  }
 }
 
 func delay(_ delay: Double, closure:@escaping () -> Void) {

@@ -9,7 +9,6 @@
 import UIKit
 
 open class CollectionLayout<Data> {
-  open var insets: UIEdgeInsets = .zero
   open var visibleIndexSorter: CollectionVisibleIndexSorter?
   open internal(set) var frames: [CGRect] = []
 
@@ -28,7 +27,7 @@ open class CollectionLayout<Data> {
   public func doLayout(collectionSize: CGSize,
                        dataProvider: CollectionDataProvider<Data>,
                        sizeProvider: @escaping CollectionSizeProvider<Data>) {
-    frames = layout(collectionSize: collectionSize.insets(by: insets),
+    frames = layout(collectionSize: collectionSize,
                     dataProvider: dataProvider, sizeProvider: sizeProvider)
     _contentSize = frames.reduce(CGRect.zero) { (old, item) in
       old.union(item)
@@ -37,28 +36,25 @@ open class CollectionLayout<Data> {
   }
 
   open var contentSize: CGSize {
-    return _contentSize.insets(by: -insets)
+    return _contentSize
   }
 
   open func frame(at: Int) -> CGRect {
-    return frames[at] + CGPoint(x: insets.left, y: insets.top)
+    return frames[at]
   }
 
   open func visibleIndexes(activeFrame: CGRect) -> [Int] {
-    let visibleFrame = activeFrame - CGPoint(x: insets.left, y: insets.top)
     if let visibleIndexSorter = visibleIndexSorter {
-      return visibleIndexSorter.visibleIndexes(for: visibleFrame)
+      return visibleIndexSorter.visibleIndexes(for: activeFrame)
     }
     var result = [Int]()
     for (i, frame) in frames.enumerated() {
-      if frame.intersects(visibleFrame) {
+      if frame.intersects(activeFrame) {
         result.append(i)
       }
     }
     return result
   }
 
-  public init(insets: UIEdgeInsets = .zero) {
-    self.insets = insets
-  }
+  public init() {}
 }
