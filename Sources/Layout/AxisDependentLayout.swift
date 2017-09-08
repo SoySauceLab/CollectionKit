@@ -10,6 +10,9 @@ import UIKit
 
 public enum Axis {
   case vertical, horizontal
+  var inverse: Axis {
+    return self == .vertical ? .horizontal : .vertical
+  }
 }
 
 public class AxisDependentLayout<Data>: CollectionLayout<Data> {
