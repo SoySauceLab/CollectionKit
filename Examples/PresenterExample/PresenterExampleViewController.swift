@@ -27,7 +27,7 @@ class PresenterExampleViewController: CollectionViewController {
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
       },
-      layout: InsetLayout(WaterfallLayout<UIImage>(columns:2, axis: .horizontal), insets: bodyInset),
+      layout: InsetLayout(InverseLayout(WaterfallLayout(columns:2)), insets: bodyInset),
       sizeProvider: imageSizeProvider,
       presenter: presenters[0].1
     )

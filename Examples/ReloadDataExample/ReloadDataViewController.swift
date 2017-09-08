@@ -36,7 +36,7 @@ class ReloadDataViewController: CollectionViewController {
 
     collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10)
     let layout = FlowLayout<Int>(lineSpacing: 15,
-                                 interitemSpacing: 15)
+                                 interitemSpacing: 15,
                                  justifyContent: .spaceAround,
                                  alignItems: .center,
                                  alignContent: .center)
