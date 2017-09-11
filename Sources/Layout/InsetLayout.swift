@@ -10,19 +10,29 @@ import UIKit
 
 public class InsetLayout<Data>: WrapperLayout<Data> {
   var insets: UIEdgeInsets
+  var insetProvider: ((CGSize) -> UIEdgeInsets)?
 
   public init(_ rootLayout: CollectionLayout<Data>, insets: UIEdgeInsets = .zero) {
     self.insets = insets
     super.init(rootLayout)
   }
 
-  open override var contentSize: CGSize {
+  public init(_ rootLayout: CollectionLayout<Data>, insetProvider: @escaping ((CGSize) -> UIEdgeInsets)) {
+    self.insets = .zero
+    self.insetProvider = insetProvider
+    super.init(rootLayout)
+  }
+
+  public override var contentSize: CGSize {
     return rootLayout.contentSize.insets(by: -insets)
   }
 
-  override public func layout(collectionSize: CGSize,
-                                dataProvider: CollectionDataProvider<Data>,
-                                sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
+  public override func layout(collectionSize: CGSize,
+                            dataProvider: CollectionDataProvider<Data>,
+                            sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
+    if let insetProvider = insetProvider {
+      insets = insetProvider(collectionSize)
+    }
     rootLayout.layout(collectionSize: collectionSize.insets(by: insets),
                       dataProvider: dataProvider, sizeProvider: sizeProvider)
   }

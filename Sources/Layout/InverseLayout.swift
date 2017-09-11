@@ -10,13 +10,13 @@ import UIKit
 
 public class InverseLayout<Data>: WrapperLayout<Data> {
 
-  open override var contentSize: CGSize {
+  public override var contentSize: CGSize {
     return rootLayout.contentSize.inverted
   }
 
-  override public func layout(collectionSize: CGSize,
-                              dataProvider: CollectionDataProvider<Data>,
-                              sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
+  public override func layout(collectionSize: CGSize,
+                            dataProvider: CollectionDataProvider<Data>,
+                            sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
     rootLayout.layout(collectionSize: collectionSize.inverted,
                       dataProvider: dataProvider) {
                         return sizeProvider($0, $1, $2.inverted).inverted

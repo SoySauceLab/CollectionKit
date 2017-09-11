@@ -17,7 +17,7 @@ public class FloatLayout<Data>: WrapperLayout<Data> {
     super.init(rootLayout)
   }
 
-  open override var contentSize: CGSize {
+  public override var contentSize: CGSize {
     return rootLayout.contentSize
   }
 

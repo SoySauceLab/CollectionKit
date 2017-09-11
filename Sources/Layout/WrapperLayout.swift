@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class WrapperLayout<Data>: CollectionLayout<Data> {
+open class WrapperLayout<Data>: CollectionLayout<Data> {
   var rootLayout: CollectionLayout<Data>
 
   public init(_ rootLayout: CollectionLayout<Data>) {
@@ -19,17 +19,17 @@ public class WrapperLayout<Data>: CollectionLayout<Data> {
     return rootLayout.contentSize
   }
 
-  override public func layout(collectionSize: CGSize,
-                              dataProvider: CollectionDataProvider<Data>,
-                              sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
+  open override func layout(collectionSize: CGSize,
+                            dataProvider: CollectionDataProvider<Data>,
+                            sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
     rootLayout.layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
   }
 
-  public override func visibleIndexes(activeFrame: CGRect) -> [Int] {
+  open override func visibleIndexes(activeFrame: CGRect) -> [Int] {
     return rootLayout.visibleIndexes(activeFrame: activeFrame)
   }
 
-  public override func frame(at: Int) -> CGRect {
+  open override func frame(at: Int) -> CGRect {
     return rootLayout.frame(at: at)
   }
 }
