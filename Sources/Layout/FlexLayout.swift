@@ -23,7 +23,7 @@ public struct FlexValue {
   }
 }
 
-public class FlexLayout<Data>: AxisDependentLayout<Data> {
+public class FlexLayout<Data>: CollectionLayout<Data> {
   public var padding: CGFloat
   public var flex: [String: FlexValue]
   public var alignItems: AlignItem
@@ -31,7 +31,6 @@ public class FlexLayout<Data>: AxisDependentLayout<Data> {
 
   public init(flex: [String: FlexValue] = [:],
               padding: CGFloat = 0,
-              axis: Axis = .vertical,
               justifyContent: JustifyContent = .start,
               alignItems: AlignItem = .start) {
     self.padding = padding
@@ -39,7 +38,6 @@ public class FlexLayout<Data>: AxisDependentLayout<Data> {
     self.justifyContent = justifyContent
     self.alignItems = alignItems
     super.init()
-    self.axis = axis
   }
 
   public override func layout(collectionSize: CGSize,
@@ -50,16 +48,15 @@ public class FlexLayout<Data>: AxisDependentLayout<Data> {
                                              dataProvider: dataProvider,
                                              sizeProvider: sizeProvider)
 
-    let layoutHelper = LayoutHelper(axis: axis)
-    let (offset, spacing) = layoutHelper.distribute(justifyContent: justifyContent,
-                                                    maxPrimary: primary(collectionSize),
+    let (offset, spacing) = LayoutHelper.distribute(justifyContent: justifyContent,
+                                                    maxPrimary: collectionSize.width,
                                                     totalPrimary: totalPrimary,
                                                     minimunSpacing: padding,
                                                     numberOfItems: dataProvider.numberOfItems)
 
-    let frames = layoutHelper.alignItem(alignItems: alignItems,
+    let frames = LayoutHelper.alignItem(alignItems: alignItems,
                                         startingPrimaryOffset: offset, spacing: spacing,
-                                        sizes: sizes, secondaryRange: 0...secondary(collectionSize))
+                                        sizes: sizes, secondaryRange: 0...collectionSize.height)
 
     return frames
   }
@@ -83,7 +80,7 @@ extension FlexLayout {
       } else {
         let size = sizeProvider(i, dataProvider.data(at: i), collectionSize)
         sizes.append(size)
-        freezedPrimary += primary(size)
+        freezedPrimary += size.width
       }
     }
 
@@ -96,10 +93,10 @@ extension FlexLayout {
       var clampDiff: CGFloat = 0
 
       // distribute remaining space
-      if totalPrimary.rounded() != primary(collectionSize).rounded() {
+      if totalPrimary.rounded() != collectionSize.width.rounded() {
         // use flexGrow
         let totalFlex = flexValues.values.reduce(0) { $0.0 + $0.1.0.flex }
-        let primaryPerFlex: CGFloat = totalFlex > 0 ? (primary(collectionSize) - totalPrimary) / totalFlex : 0
+        let primaryPerFlex: CGFloat = totalFlex > 0 ? (collectionSize.width - totalPrimary) / totalFlex : 0
         for (i, (flex, primary)) in flexValues {
           let currentPrimary = (primary + flex.flex * primaryPerFlex)
           let clamped = currentPrimary.clamp(flex.range.lowerBound, flex.range.upperBound)
@@ -110,8 +107,8 @@ extension FlexLayout {
 
       func freeze(index: Int, primary: CGFloat) {
         let freezedSize = sizeProvider(index, dataProvider.data(at: index),
-                                       self.size(primary: primary, secondary: secondary(collectionSize)))
-        sizes[index] = self.size(primary: primary, secondary: secondary(freezedSize))
+                                       CGSize(width: primary, height: collectionSize.height))
+        sizes[index] = CGSize(width: primary, height: freezedSize.height)
         freezedPrimary += primary
         flexValues[index] = nil
       }

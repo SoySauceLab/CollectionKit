@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class FlowLayout<Data>: AxisDependentLayout<Data> {
+public class FlowLayout<Data>: CollectionLayout<Data> {
   public var lineSpacing: CGFloat
   public var interitemSpacing: CGFloat
 
@@ -20,15 +20,13 @@ public class FlowLayout<Data>: AxisDependentLayout<Data> {
               interitemSpacing: CGFloat = 0,
               justifyContent: JustifyContent = .start,
               alignItems: AlignItem = .start,
-              alignContent: AlignContent = .start,
-              axis: Axis = .vertical) {
+              alignContent: AlignContent = .start) {
     self.lineSpacing = lineSpacing
     self.interitemSpacing = interitemSpacing
     self.justifyContent = justifyContent
     self.alignItems = alignItems
     self.alignContent = alignContent
     super.init()
-    self.axis = axis
   }
 
   public override func layout(collectionSize: CGSize,
@@ -37,30 +35,28 @@ public class FlowLayout<Data>: AxisDependentLayout<Data> {
     var frames: [CGRect] = []
 
     let sizes = (0..<dataProvider.numberOfItems).map { sizeProvider($0, dataProvider.data(at: $0), collectionSize) }
-    let (totalPrimary, lineData) = distributeLines(sizes: sizes, maxSecondary: secondary(collectionSize))
+    let (totalPrimary, lineData) = distributeLines(sizes: sizes, maxSecondary: collectionSize.width)
 
-    let lineLayoutHelper = LayoutHelper(axis: axis.inverse)
-    var (offset, spacing) =
-      LayoutHelper(axis: axis).distribute(justifyContent: alignContent,
-                                          maxPrimary: primary(collectionSize),
-                                          totalPrimary: totalPrimary,
-                                          minimunSpacing: lineSpacing,
-                                          numberOfItems: lineData.count)
+    var (offset, spacing) = LayoutHelper.distribute(justifyContent: alignContent,
+                                                    maxPrimary: collectionSize.height,
+                                                    totalPrimary: totalPrimary,
+                                                    minimunSpacing: lineSpacing,
+                                                    numberOfItems: lineData.count)
 
     var index = 0
     for (lineSize, count) in lineData {
       let (linePrimaryOffset, lineInteritemSpacing) =
-        lineLayoutHelper.distribute(justifyContent: justifyContent,
-                                    maxPrimary: secondary(collectionSize),
+        LayoutHelper.distribute(justifyContent: justifyContent,
+                                    maxPrimary: collectionSize.width,
                                     totalPrimary: lineSize.primary,
                                     minimunSpacing: interitemSpacing,
                                     numberOfItems: count)
 
-      let lineFrames = lineLayoutHelper.alignItem(alignItems: alignItems,
-                                                  startingPrimaryOffset: linePrimaryOffset,
-                                                  spacing: lineInteritemSpacing,
-                                                  sizes: sizes[index..<(index+count)],
-                                                  secondaryRange: offset...(offset + lineSize.secondary))
+      let lineFrames = LayoutHelper.alignItem(alignItems: alignItems,
+                                              startingPrimaryOffset: linePrimaryOffset,
+                                              spacing: lineInteritemSpacing,
+                                              sizes: sizes[index..<(index+count)],
+                                              secondaryRange: offset...(offset + lineSize.secondary))
 
       frames.append(contentsOf: lineFrames)
 
@@ -79,7 +75,7 @@ public class FlowLayout<Data>: AxisDependentLayout<Data> {
     var currentLineMaxSecondary: CGFloat = 0
     var totalPrimary: CGFloat = 0
     for size in sizes {
-      if currentLineTotalPrimary + secondary(size) > maxSecondary, currentLineItemCount != 0 {
+      if currentLineTotalPrimary + size.width > maxSecondary, currentLineItemCount != 0 {
         lineData.append((lineSize: (primary: currentLineTotalPrimary - CGFloat(currentLineItemCount) * interitemSpacing,
                                     secondary: currentLineMaxSecondary),
                          count: currentLineItemCount))
@@ -88,8 +84,8 @@ public class FlowLayout<Data>: AxisDependentLayout<Data> {
         currentLineTotalPrimary = 0
         currentLineItemCount = 0
       }
-      currentLineMaxSecondary = max(currentLineMaxSecondary, primary(size))
-      currentLineTotalPrimary += secondary(size) + interitemSpacing
+      currentLineMaxSecondary = max(currentLineMaxSecondary, size.height)
+      currentLineTotalPrimary += size.width + interitemSpacing
       currentLineItemCount += 1
     }
     if currentLineItemCount > 0 {

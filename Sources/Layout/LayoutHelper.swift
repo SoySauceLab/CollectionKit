@@ -19,32 +19,8 @@ public enum AlignItem {
 }
 
 struct LayoutHelper {
-  let axis: Axis
 
-  init(axis: Axis) {
-    self.axis = axis
-  }
-
-  func primary(_ size: CGSize) -> CGFloat {
-    return axis == .vertical ? size.height : size.width
-  }
-  func secondary(_ size: CGSize) -> CGFloat {
-    return axis != .vertical ? size.height : size.width
-  }
-  func primary(_ point: CGPoint) -> CGFloat {
-    return axis == .vertical ? point.y : point.x
-  }
-  func secondary(_ point: CGPoint) -> CGFloat {
-    return axis != .vertical ? point.y : point.x
-  }
-  func size(primary: CGFloat, secondary: CGFloat) -> CGSize {
-    return axis == .vertical ? CGSize(width: secondary, height: primary) : CGSize(width: primary, height: secondary)
-  }
-  func point(primary: CGFloat, secondary: CGFloat) -> CGPoint {
-    return axis == .vertical ? CGPoint(x: secondary, y: primary) : CGPoint(x: primary, y: secondary)
-  }
-
-  func alignItem<SizeArray: Sequence>(alignItems: AlignItem,
+  static func alignItem<SizeArray: Sequence>(alignItems: AlignItem,
                                       startingPrimaryOffset: CGFloat,
                                       spacing: CGFloat,
                                       sizes: SizeArray,
@@ -56,26 +32,26 @@ struct LayoutHelper {
       let cellFrame: CGRect
       switch alignItems {
       case .start:
-        cellFrame = CGRect(origin: point(primary: offset, secondary: secondaryRange.lowerBound), size: cellSize)
+        cellFrame = CGRect(origin: CGPoint(x: offset, y: secondaryRange.lowerBound), size: cellSize)
       case .end:
-        cellFrame = CGRect(origin: point(primary: offset,
-                                         secondary: secondaryRange.upperBound - secondary(cellSize)),
+        cellFrame = CGRect(origin: CGPoint(x: offset,
+                                           y: secondaryRange.upperBound - cellSize.height),
                            size: cellSize)
       case .center:
-        let secondaryOffset = secondaryRange.lowerBound + (secondaryRange.upperBound - secondaryRange.lowerBound - secondary(cellSize)) / 2
-        cellFrame = CGRect(origin: point(primary: offset, secondary: secondaryOffset),
+        let secondaryOffset = secondaryRange.lowerBound + (secondaryRange.upperBound - secondaryRange.lowerBound - cellSize.height) / 2
+        cellFrame = CGRect(origin: CGPoint(x: offset, y: secondaryOffset),
                            size: cellSize)
       case .stretch:
-        cellFrame = CGRect(origin: point(primary: offset, secondary: secondaryRange.lowerBound),
-                           size: size(primary: primary(cellSize), secondary: secondaryRange.upperBound - secondaryRange.lowerBound))
+        cellFrame = CGRect(origin: CGPoint(x: offset, y: secondaryRange.lowerBound),
+                           size: CGSize(width: cellSize.width, height: secondaryRange.upperBound - secondaryRange.lowerBound))
       }
       frames.append(cellFrame)
-      offset += primary(cellSize) + spacing
+      offset += cellSize.width + spacing
     }
     return frames
   }
 
-  func distribute(justifyContent: JustifyContent,
+  static func distribute(justifyContent: JustifyContent,
                   maxPrimary: CGFloat,
                   totalPrimary: CGFloat,
                   minimunSpacing: CGFloat,
