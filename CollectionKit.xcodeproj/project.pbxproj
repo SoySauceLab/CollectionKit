@@ -52,6 +52,7 @@
 		B14B0E061F2790E6003E5105 /* CollectionReloadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0E051F2790E6003E5105 /* CollectionReloadable.swift */; };
 		B14B0E0A1F27A084003E5105 /* SelectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0E091F27A084003E5105 /* SelectionButton.swift */; };
 		B15029151EA671E600F89915 /* YetAnotherAnimationLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */; };
+		B157E5181F66FEE5008AEF83 /* OverlayLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B157E5171F66FEE5008AEF83 /* OverlayLayout.swift */; };
 		B1688A271F25448900C229BD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A261F25448900C229BD /* ViewController.swift */; };
 		B1688A291F2562AC00C229BD /* ViewCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A281F2562AC00C229BD /* ViewCollectionProvider.swift */; };
 		B1688A2B1F25631200C229BD /* LabelCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A2A1F25631200C229BD /* LabelCollectionProvider.swift */; };
@@ -166,6 +167,7 @@
 		B14B0E051F2790E6003E5105 /* CollectionReloadable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionReloadable.swift; sourceTree = "<group>"; };
 		B14B0E091F27A084003E5105 /* SelectionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionButton.swift; sourceTree = "<group>"; };
 		B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = YetAnotherAnimationLibrary.framework; path = Carthage/Build/iOS/YetAnotherAnimationLibrary.framework; sourceTree = "<group>"; };
+		B157E5171F66FEE5008AEF83 /* OverlayLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayLayout.swift; sourceTree = "<group>"; };
 		B1688A261F25448900C229BD /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Examples/ComposeExample/ViewController.swift; sourceTree = SOURCE_ROOT; };
 		B1688A281F2562AC00C229BD /* ViewCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewCollectionProvider.swift; sourceTree = "<group>"; };
 		B1688A2A1F25631200C229BD /* LabelCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelCollectionProvider.swift; sourceTree = "<group>"; };
@@ -365,14 +367,15 @@
 			isa = PBXGroup;
 			children = (
 				B1E861F51F21518700621BA0 /* CollectionLayout.swift */,
-				B183C11F1F6349B800CEAAE1 /* InsetLayout.swift */,
-				B144CE051F437A1D0073CF4E /* FlexLayout.swift */,
-				B183C1211F634A3200CEAAE1 /* InverseLayout.swift */,
-				B183C11D1F63218E00CEAAE1 /* LayoutHelper.swift */,
-				B144CE031F437A100073CF4E /* FlowLayout.swift */,
-				B1ED75B41F58C95200CB772A /* FloatLayout.swift */,
-				B144CE011F4379F20073CF4E /* WaterfallLayout.swift */,
 				B144CDFF1F4379DA0073CF4E /* ClosureLayout.swift */,
+				B183C11D1F63218E00CEAAE1 /* LayoutHelper.swift */,
+				B183C11F1F6349B800CEAAE1 /* InsetLayout.swift */,
+				B183C1211F634A3200CEAAE1 /* InverseLayout.swift */,
+				B157E5171F66FEE5008AEF83 /* OverlayLayout.swift */,
+				B1ED75B41F58C95200CB772A /* FloatLayout.swift */,
+				B144CE031F437A100073CF4E /* FlowLayout.swift */,
+				B144CE011F4379F20073CF4E /* WaterfallLayout.swift */,
+				B144CE051F437A1D0073CF4E /* FlexLayout.swift */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -740,6 +743,7 @@
 				B1B7B05F1E7DAD2700F2483E /* CollectionView.swift in Sources */,
 				B18C6C631F33A3C900FAE077 /* CollectionVisibleIndexSorter.swift in Sources */,
 				B1E861F41F21517400621BA0 /* CollectionDataProvider.swift in Sources */,
+				B157E5181F66FEE5008AEF83 /* OverlayLayout.swift in Sources */,
 				B1688A291F2562AC00C229BD /* ViewCollectionProvider.swift in Sources */,
 				B1E861F91F21520200621BA0 /* CollectionComposer.swift in Sources */,
 				B1688A2F1F2563A200C229BD /* AnyCollectionProvider.swift in Sources */,

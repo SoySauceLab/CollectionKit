@@ -37,7 +37,8 @@ public class WaterfallLayout<Data>: CollectionLayout<Data> {
     }
 
     for i in 0..<dataProvider.numberOfItems {
-      var cellSize = sizeProvider(i, dataProvider.data(at: i), CGSize(width: columnWidth, height: collectionSize.height))
+      var cellSize = sizeProvider(i, dataProvider.data(at: i),
+                                  CGSize(width: columnWidth, height: collectionSize.height))
       cellSize = CGSize(width: columnWidth, height: cellSize.height)
       let (columnIndex, offsetY) = getMinColomn()
       columnHeight[columnIndex] += cellSize.height + padding

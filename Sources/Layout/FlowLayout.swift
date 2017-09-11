@@ -35,65 +35,65 @@ public class FlowLayout<Data>: CollectionLayout<Data> {
     var frames: [CGRect] = []
 
     let sizes = (0..<dataProvider.numberOfItems).map { sizeProvider($0, dataProvider.data(at: $0), collectionSize) }
-    let (totalPrimary, lineData) = distributeLines(sizes: sizes, maxSecondary: collectionSize.width)
+    let (totalHeight, lineData) = distributeLines(sizes: sizes, maxWidth: collectionSize.width)
 
-    var (offset, spacing) = LayoutHelper.distribute(justifyContent: alignContent,
-                                                    maxPrimary: collectionSize.height,
-                                                    totalPrimary: totalPrimary,
-                                                    minimunSpacing: lineSpacing,
-                                                    numberOfItems: lineData.count)
+    var (yOffset, spacing) = LayoutHelper.distribute(justifyContent: alignContent,
+                                                     maxPrimary: collectionSize.height,
+                                                     totalPrimary: totalHeight,
+                                                     minimunSpacing: lineSpacing,
+                                                     numberOfItems: lineData.count)
 
     var index = 0
     for (lineSize, count) in lineData {
-      let (linePrimaryOffset, lineInteritemSpacing) =
+      let (xOffset, lineInteritemSpacing) =
         LayoutHelper.distribute(justifyContent: justifyContent,
-                                    maxPrimary: collectionSize.width,
-                                    totalPrimary: lineSize.primary,
-                                    minimunSpacing: interitemSpacing,
-                                    numberOfItems: count)
+                                maxPrimary: collectionSize.width,
+                                totalPrimary: lineSize.width,
+                                minimunSpacing: interitemSpacing,
+                                numberOfItems: count)
 
       let lineFrames = LayoutHelper.alignItem(alignItems: alignItems,
-                                              startingPrimaryOffset: linePrimaryOffset,
+                                              startingPrimaryOffset: xOffset,
                                               spacing: lineInteritemSpacing,
                                               sizes: sizes[index..<(index+count)],
-                                              secondaryRange: offset...(offset + lineSize.secondary))
+                                              secondaryRange: yOffset...(yOffset + lineSize.height))
 
       frames.append(contentsOf: lineFrames)
 
-      offset += lineSize.secondary + spacing
+      yOffset += lineSize.height + spacing
       index += count
     }
 
     return frames
   }
 
-  func distributeLines(sizes: [CGSize], maxSecondary: CGFloat) ->
-    (totalPrimary: CGFloat, lineData: [(lineSize: (primary: CGFloat, secondary: CGFloat), count: Int)]) {
-    var lineData: [(lineSize: (primary: CGFloat, secondary: CGFloat), count: Int)] = []
+  func distributeLines(sizes: [CGSize], maxWidth: CGFloat) ->
+    (totalHeight: CGFloat, lineData: [(lineSize: CGSize, count: Int)]) {
+    var lineData: [(lineSize: CGSize, count: Int)] = []
     var currentLineItemCount = 0
-    var currentLineTotalPrimary: CGFloat = 0
-    var currentLineMaxSecondary: CGFloat = 0
-    var totalPrimary: CGFloat = 0
+    var currentLineWidth: CGFloat = 0
+    var currentLineMaxHeight: CGFloat = 0
+    var totalHeight: CGFloat = 0
     for size in sizes {
-      if currentLineTotalPrimary + size.width > maxSecondary, currentLineItemCount != 0 {
-        lineData.append((lineSize: (primary: currentLineTotalPrimary - CGFloat(currentLineItemCount) * interitemSpacing,
-                                    secondary: currentLineMaxSecondary),
+      if currentLineWidth + size.width > maxWidth, currentLineItemCount != 0 {
+        lineData.append((lineSize: CGSize(width: currentLineWidth - CGFloat(currentLineItemCount) * interitemSpacing,
+                                          height: currentLineMaxHeight),
                          count: currentLineItemCount))
-        totalPrimary += currentLineMaxSecondary
-        currentLineMaxSecondary = 0
-        currentLineTotalPrimary = 0
+        totalHeight += currentLineMaxHeight
+        currentLineMaxHeight = 0
+        currentLineWidth = 0
         currentLineItemCount = 0
       }
-      currentLineMaxSecondary = max(currentLineMaxSecondary, size.height)
-      currentLineTotalPrimary += size.width + interitemSpacing
+      currentLineMaxHeight = max(currentLineMaxHeight, size.height)
+      currentLineWidth += size.width + interitemSpacing
       currentLineItemCount += 1
     }
     if currentLineItemCount > 0 {
-      lineData.append((lineSize: (primary: currentLineTotalPrimary - CGFloat(currentLineItemCount) * interitemSpacing,
-                                  secondary: currentLineMaxSecondary),
+      lineData.append((lineSize: CGSize(width: currentLineWidth - CGFloat(currentLineItemCount) * interitemSpacing,
+                                        height: currentLineMaxHeight),
                        count: currentLineItemCount))
-      totalPrimary += currentLineMaxSecondary
+      totalHeight += currentLineMaxHeight
     }
-    return (totalPrimary, lineData)
+    return (totalHeight, lineData)
   }
 }

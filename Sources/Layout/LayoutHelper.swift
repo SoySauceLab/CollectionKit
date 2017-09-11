@@ -21,10 +21,10 @@ public enum AlignItem {
 struct LayoutHelper {
 
   static func alignItem<SizeArray: Sequence>(alignItems: AlignItem,
-                                      startingPrimaryOffset: CGFloat,
-                                      spacing: CGFloat,
-                                      sizes: SizeArray,
-                                      secondaryRange: ClosedRange<CGFloat>)
+                                             startingPrimaryOffset: CGFloat,
+                                             spacing: CGFloat,
+                                             sizes: SizeArray,
+                                             secondaryRange: ClosedRange<CGFloat>)
     -> [CGRect] where SizeArray.Iterator.Element == CGSize {
     var frames: [CGRect] = []
     var offset = startingPrimaryOffset
@@ -38,12 +38,14 @@ struct LayoutHelper {
                                            y: secondaryRange.upperBound - cellSize.height),
                            size: cellSize)
       case .center:
-        let secondaryOffset = secondaryRange.lowerBound + (secondaryRange.upperBound - secondaryRange.lowerBound - cellSize.height) / 2
+        let secondaryOffset = secondaryRange.lowerBound +
+          (secondaryRange.upperBound - secondaryRange.lowerBound - cellSize.height) / 2
         cellFrame = CGRect(origin: CGPoint(x: offset, y: secondaryOffset),
                            size: cellSize)
       case .stretch:
         cellFrame = CGRect(origin: CGPoint(x: offset, y: secondaryRange.lowerBound),
-                           size: CGSize(width: cellSize.width, height: secondaryRange.upperBound - secondaryRange.lowerBound))
+                           size: CGSize(width: cellSize.width,
+                                        height: secondaryRange.upperBound - secondaryRange.lowerBound))
       }
       frames.append(cellFrame)
       offset += cellSize.width + spacing
@@ -52,10 +54,10 @@ struct LayoutHelper {
   }
 
   static func distribute(justifyContent: JustifyContent,
-                  maxPrimary: CGFloat,
-                  totalPrimary: CGFloat,
-                  minimunSpacing: CGFloat,
-                  numberOfItems: Int) -> (offset: CGFloat, spacing: CGFloat) {
+                         maxPrimary: CGFloat,
+                         totalPrimary: CGFloat,
+                         minimunSpacing: CGFloat,
+                         numberOfItems: Int) -> (offset: CGFloat, spacing: CGFloat) {
     var offset: CGFloat = 0
     var spacing = minimunSpacing
     if totalPrimary + CGFloat(numberOfItems - 1) * minimunSpacing < maxPrimary {

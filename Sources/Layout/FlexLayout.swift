@@ -44,13 +44,13 @@ public class FlexLayout<Data>: CollectionLayout<Data> {
                               dataProvider: CollectionDataProvider<Data>,
                               sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
 
-    let (sizes, totalPrimary) = getCellSizes(collectionSize: collectionSize,
-                                             dataProvider: dataProvider,
-                                             sizeProvider: sizeProvider)
+    let (sizes, totalWidth) = getCellSizes(collectionSize: collectionSize,
+                                           dataProvider: dataProvider,
+                                           sizeProvider: sizeProvider)
 
     let (offset, spacing) = LayoutHelper.distribute(justifyContent: justifyContent,
                                                     maxPrimary: collectionSize.width,
-                                                    totalPrimary: totalPrimary,
+                                                    totalPrimary: totalWidth,
                                                     minimunSpacing: padding,
                                                     numberOfItems: dataProvider.numberOfItems)
 
@@ -67,10 +67,10 @@ extension FlexLayout {
   //swiftlint:disable:next function_body_length cyclomatic_complexity
   func getCellSizes(collectionSize: CGSize,
                     dataProvider: CollectionDataProvider<Data>,
-                    sizeProvider: @escaping CollectionSizeProvider<Data>) -> (sizes: [CGSize], totalPrimary: CGFloat) {
+                    sizeProvider: @escaping CollectionSizeProvider<Data>) -> (sizes: [CGSize], totalWidth: CGFloat) {
     var sizes: [CGSize] = []
     let paddings = padding * CGFloat(dataProvider.numberOfItems - 1)
-    var freezedPrimary = paddings
+    var freezedWidth = paddings
     var flexValues: [Int: (FlexValue, CGFloat)] = [:]
 
     for i in 0..<dataProvider.numberOfItems {
@@ -80,66 +80,66 @@ extension FlexLayout {
       } else {
         let size = sizeProvider(i, dataProvider.data(at: i), collectionSize)
         sizes.append(size)
-        freezedPrimary += size.width
+        freezedWidth += size.width
       }
     }
 
     while !flexValues.isEmpty {
-      var totalPrimary = freezedPrimary
-      for (_, primary) in flexValues.values {
-        totalPrimary += primary
+      var totalWidth = freezedWidth
+      for (_, width) in flexValues.values {
+        totalWidth += width
       }
 
       var clampDiff: CGFloat = 0
 
       // distribute remaining space
-      if totalPrimary.rounded() != collectionSize.width.rounded() {
+      if totalWidth.rounded() != collectionSize.width.rounded() {
         // use flexGrow
         let totalFlex = flexValues.values.reduce(0) { $0.0 + $0.1.0.flex }
-        let primaryPerFlex: CGFloat = totalFlex > 0 ? (collectionSize.width - totalPrimary) / totalFlex : 0
-        for (i, (flex, primary)) in flexValues {
-          let currentPrimary = (primary + flex.flex * primaryPerFlex)
-          let clamped = currentPrimary.clamp(flex.range.lowerBound, flex.range.upperBound)
-          clampDiff += clamped - currentPrimary
-          flexValues[i] = (flex, currentPrimary)
+        let widthPerFlex: CGFloat = totalFlex > 0 ? (collectionSize.width - totalWidth) / totalFlex : 0
+        for (i, (flex, width)) in flexValues {
+          let currentWidth = (width + flex.flex * widthPerFlex)
+          let clamped = currentWidth.clamp(flex.range.lowerBound, flex.range.upperBound)
+          clampDiff += clamped - currentWidth
+          flexValues[i] = (flex, currentWidth)
         }
       }
 
-      func freeze(index: Int, primary: CGFloat) {
+      func freeze(index: Int, width: CGFloat) {
         let freezedSize = sizeProvider(index, dataProvider.data(at: index),
-                                       CGSize(width: primary, height: collectionSize.height))
-        sizes[index] = CGSize(width: primary, height: freezedSize.height)
-        freezedPrimary += primary
+                                       CGSize(width: width, height: collectionSize.height))
+        sizes[index] = CGSize(width: width, height: freezedSize.height)
+        freezedWidth += width
         flexValues[index] = nil
       }
 
       // freeze flex size
       if clampDiff == 0 {
         // No min/max violation. Freeze all flex values
-        for (i, (flex, primary)) in flexValues {
-          freeze(index: i, primary: primary.clamp(flex.range.lowerBound, flex.range.upperBound))
+        for (i, (flex, width)) in flexValues {
+          freeze(index: i, width: width.clamp(flex.range.lowerBound, flex.range.upperBound))
         }
       } else if clampDiff > 0 {
         // Freeze all min violation
-        for (i, (flex, primary)) in flexValues {
-          if primary <= flex.range.lowerBound {
-            freeze(index: i, primary: flex.range.lowerBound)
-          } else if primary > flex.range.upperBound {
+        for (i, (flex, width)) in flexValues {
+          if width <= flex.range.lowerBound {
+            freeze(index: i, width: flex.range.lowerBound)
+          } else if width > flex.range.upperBound {
             flexValues[i]!.1 = flex.range.upperBound
           }
         }
       } else {
         // Freeze all max violation
-        for (i, (flex, primary)) in flexValues {
-          if primary >= flex.range.upperBound {
-            freeze(index: i, primary: flex.range.upperBound)
-          } else if primary < flex.range.lowerBound {
+        for (i, (flex, width)) in flexValues {
+          if width >= flex.range.upperBound {
+            freeze(index: i, width: flex.range.upperBound)
+          } else if width < flex.range.lowerBound {
             flexValues[i]!.1 = flex.range.lowerBound
           }
         }
       }
     }
 
-    return (sizes, freezedPrimary - paddings)
+    return (sizes, freezedWidth - paddings)
   }
 }
