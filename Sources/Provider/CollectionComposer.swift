@@ -72,7 +72,7 @@ open class CollectionComposer: BaseCollectionProvider {
   }
 
   open override func layout(collectionSize: CGSize) {
-    layout.doLayout(
+    layout.layout(
       collectionSize: collectionSize,
       dataProvider: ArrayDataProvider(data: currentSections, identifierMapper: {
        return $0.1.identifier ?? "\($0.0)"

@@ -9,51 +9,22 @@
 import UIKit
 
 open class CollectionLayout<Data> {
-  open var visibleIndexSorter: CollectionVisibleIndexSorter?
-  open internal(set) var frames: [CGRect] = []
-
-  // override point for subclass
   open func layout(collectionSize: CGSize,
                    dataProvider: CollectionDataProvider<Data>,
-                   sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
+                   sizeProvider: @escaping CollectionSizeProvider<Data>) {
     fatalError("Subclass should provide its own layout")
   }
 
-  open func doneLayout() {
-
-  }
-
-  private var _contentSize: CGSize = .zero
-  public func doLayout(collectionSize: CGSize,
-                       dataProvider: CollectionDataProvider<Data>,
-                       sizeProvider: @escaping CollectionSizeProvider<Data>) {
-    frames = layout(collectionSize: collectionSize,
-                    dataProvider: dataProvider, sizeProvider: sizeProvider)
-    _contentSize = frames.reduce(CGRect.zero) { (old, item) in
-      old.union(item)
-    }.size
-    doneLayout()
-  }
-
   open var contentSize: CGSize {
-    return _contentSize
+    fatalError("Subclass should provide its own layout")
   }
 
   open func frame(at: Int) -> CGRect {
-    return frames[at]
+    fatalError("Subclass should provide its own layout")
   }
 
   open func visibleIndexes(activeFrame: CGRect) -> [Int] {
-    if let visibleIndexSorter = visibleIndexSorter {
-      return visibleIndexSorter.visibleIndexes(for: activeFrame)
-    }
-    var result = [Int]()
-    for (i, frame) in frames.enumerated() {
-      if frame.intersects(activeFrame) {
-        result.append(i)
-      }
-    }
-    return result
+    fatalError("Subclass should provide its own layout")
   }
 
   public init() {}

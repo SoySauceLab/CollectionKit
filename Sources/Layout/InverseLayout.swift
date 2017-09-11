@@ -8,26 +8,19 @@
 
 import UIKit
 
-public class InverseLayout<Data>: CollectionLayout<Data> {
-  var rootLayout: CollectionLayout<Data>
-
-  public init(_ rootLayout: CollectionLayout<Data>) {
-    self.rootLayout = rootLayout
-    super.init()
-  }
+public class InverseLayout<Data>: WrapperLayout<Data> {
 
   open override var contentSize: CGSize {
     return rootLayout.contentSize.inverted
   }
 
-  override public func doLayout(collectionSize: CGSize,
-                                dataProvider: CollectionDataProvider<Data>,
-                                sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
-    rootLayout.doLayout(collectionSize: collectionSize.inverted,
-                        dataProvider: dataProvider) {
-                          return sizeProvider($0, $1, $2.inverted).inverted
+  override public func layout(collectionSize: CGSize,
+                              dataProvider: CollectionDataProvider<Data>,
+                              sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
+    rootLayout.layout(collectionSize: collectionSize.inverted,
+                      dataProvider: dataProvider) {
+                        return sizeProvider($0, $1, $2.inverted).inverted
     }
-    doneLayout()
   }
 
   public override func visibleIndexes(activeFrame: CGRect) -> [Int] {

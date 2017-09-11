@@ -103,7 +103,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
     return dataProvider.identifier(at: at)
   }
   open override func layout(collectionSize: CGSize) {
-    layout.doLayout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
+    layout.layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
   }
   open override var contentSize: CGSize {
     return layout.contentSize

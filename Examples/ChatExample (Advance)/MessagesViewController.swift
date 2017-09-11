@@ -17,7 +17,7 @@ class MessageDataProvider: ArrayDataProvider<Message> {
   }
 }
 
-class MessageLayout: CollectionLayout<Message> {
+class MessageLayout: SimpleLayout<Message> {
   override func layout(collectionSize: CGSize,
                        dataProvider: CollectionDataProvider<Message>,
                        sizeProvider: @escaping CollectionSizeProvider<Message>) -> [CGRect] {

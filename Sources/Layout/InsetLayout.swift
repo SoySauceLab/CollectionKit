@@ -8,26 +8,23 @@
 
 import UIKit
 
-public class InsetLayout<Data>: CollectionLayout<Data> {
-  var rootLayout: CollectionLayout<Data>
-  var insets: UIEdgeInsets = .zero
+public class InsetLayout<Data>: WrapperLayout<Data> {
+  var insets: UIEdgeInsets
 
   public init(_ rootLayout: CollectionLayout<Data>, insets: UIEdgeInsets = .zero) {
     self.insets = insets
-    self.rootLayout = rootLayout
-    super.init()
+    super.init(rootLayout)
   }
 
   open override var contentSize: CGSize {
     return rootLayout.contentSize.insets(by: -insets)
   }
 
-  override public func doLayout(collectionSize: CGSize,
+  override public func layout(collectionSize: CGSize,
                                 dataProvider: CollectionDataProvider<Data>,
                                 sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
-    rootLayout.doLayout(collectionSize: collectionSize.insets(by: insets),
-                        dataProvider: dataProvider, sizeProvider: sizeProvider)
-    doneLayout()
+    rootLayout.layout(collectionSize: collectionSize.insets(by: insets),
+                      dataProvider: dataProvider, sizeProvider: sizeProvider)
   }
 
   public override func visibleIndexes(activeFrame: CGRect) -> [Int] {

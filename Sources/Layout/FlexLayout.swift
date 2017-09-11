@@ -23,7 +23,7 @@ public struct FlexValue {
   }
 }
 
-public class FlexLayout<Data>: CollectionLayout<Data> {
+public class FlexLayout<Data>: HorizontalSimpleLayout<Data> {
   public var padding: CGFloat
   public var flex: [String: FlexValue]
   public var alignItems: AlignItem
@@ -40,9 +40,9 @@ public class FlexLayout<Data>: CollectionLayout<Data> {
     super.init()
   }
 
-  public override func layout(collectionSize: CGSize,
-                              dataProvider: CollectionDataProvider<Data>,
-                              sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
+  public override func simpleLayout(collectionSize: CGSize,
+                                    dataProvider: CollectionDataProvider<Data>,
+                                    sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
 
     let (sizes, totalWidth) = getCellSizes(collectionSize: collectionSize,
                                            dataProvider: dataProvider,

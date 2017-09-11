@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class WaterfallLayout<Data>: CollectionLayout<Data> {
+public class WaterfallLayout<Data>: VerticalSimpleLayout<Data> {
   public var columns: Int
   public var padding: CGFloat
   private var columnWidth: [CGFloat] = [0, 0]
@@ -20,9 +20,9 @@ public class WaterfallLayout<Data>: CollectionLayout<Data> {
     super.init()
   }
 
-  public override func layout(collectionSize: CGSize,
-                              dataProvider: CollectionDataProvider<Data>,
-                              sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
+  public override func simpleLayout(collectionSize: CGSize,
+                                    dataProvider: CollectionDataProvider<Data>,
+                                    sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
     var frames: [CGRect] = []
 
     let columnWidth = (collectionSize.width - CGFloat(columns - 1) * padding) / CGFloat(columns)
