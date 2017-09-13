@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class BaseSimpleLayout<Data>: CollectionLayout<Data> {
+open class SimpleLayout<Data>: CollectionLayout<Data> {
   var _contentSize: CGSize = .zero
   var frames: [CGRect] = []
 
@@ -18,7 +18,7 @@ open class BaseSimpleLayout<Data>: CollectionLayout<Data> {
     fatalError("Subclass should provide its own layout")
   }
 
-  public func doneLayout() {
+  open func doneLayout() {
 
   }
 
@@ -40,10 +40,8 @@ open class BaseSimpleLayout<Data>: CollectionLayout<Data> {
   public final override func frame(at: Int) -> CGRect {
     return frames[at]
   }
-}
 
-open class SimpleLayout<Data>: BaseSimpleLayout<Data> {
-  public final override func visibleIndexes(activeFrame: CGRect) -> [Int] {
+  open override func visibleIndexes(activeFrame: CGRect) -> [Int] {
     var result = [Int]()
     for (i, frame) in frames.enumerated() {
       if frame.intersects(activeFrame) {
@@ -54,14 +52,14 @@ open class SimpleLayout<Data>: BaseSimpleLayout<Data> {
   }
 }
 
-open class VerticalSimpleLayout<Data>: BaseSimpleLayout<Data> {
+open class VerticalSimpleLayout<Data>: SimpleLayout<Data> {
   private var maxFrameLength: CGFloat = 0
 
-  public override func doneLayout() {
+  open override func doneLayout() {
     maxFrameLength = frames.max { $0.0.height < $0.1.height }?.height ?? 0
   }
 
-  public final override func visibleIndexes(activeFrame: CGRect) -> [Int] {
+  open override func visibleIndexes(activeFrame: CGRect) -> [Int] {
     var index = frames.binarySearch { $0.minY < activeFrame.minY - maxFrameLength }
     var visibleIndexes = [Int]()
     while index < frames.count {
@@ -78,14 +76,14 @@ open class VerticalSimpleLayout<Data>: BaseSimpleLayout<Data> {
   }
 }
 
-open class HorizontalSimpleLayout<Data>: BaseSimpleLayout<Data> {
+open class HorizontalSimpleLayout<Data>: SimpleLayout<Data> {
   private var maxFrameLength: CGFloat = 0
 
-  public override func doneLayout() {
+  open override func doneLayout() {
     maxFrameLength = frames.max { $0.0.width < $0.1.width }?.width ?? 0
   }
 
-  public final override func visibleIndexes(activeFrame: CGRect) -> [Int] {
+  open override func visibleIndexes(activeFrame: CGRect) -> [Int] {
     var index = frames.binarySearch { $0.minX < activeFrame.minX - maxFrameLength }
     var visibleIndexes = [Int]()
     while index < frames.count {
