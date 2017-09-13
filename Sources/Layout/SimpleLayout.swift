@@ -10,7 +10,7 @@ import UIKit
 
 open class SimpleLayout<Data>: CollectionLayout<Data> {
   var _contentSize: CGSize = .zero
-  var frames: [CGRect] = []
+  public private(set) var frames: [CGRect] = []
 
   open func simpleLayout(collectionSize: CGSize,
                          dataProvider: CollectionDataProvider<Data>,
