@@ -29,6 +29,17 @@ public class FlowLayout<Data>: VerticalSimpleLayout<Data> {
     super.init()
   }
 
+  public convenience init(spacing: CGFloat,
+                          justifyContent: JustifyContent = .start,
+                          alignItems: AlignItem = .start,
+                          alignContent: AlignContent = .start) {
+    self.init(lineSpacing: spacing,
+              interitemSpacing: spacing,
+              justifyContent: justifyContent,
+              alignItems: alignItems,
+              alignContent: alignContent)
+  }
+
   public override func simpleLayout(collectionSize: CGSize,
                                     dataProvider: CollectionDataProvider<Data>,
                                     sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
