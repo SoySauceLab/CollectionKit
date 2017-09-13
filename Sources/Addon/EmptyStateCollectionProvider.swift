@@ -18,7 +18,9 @@ public class EmptyStateCollectionProvider: CollectionComposer {
               content: AnyCollectionProvider) {
     self.emptyStateViewGetter = emptyStateView
     self.content = content
-    super.init(identifier: identifier, layout: FlexLayout(flex: ["emptyStateView": FlexValue(flex: 1)]), [content])
+    super.init(identifier: identifier,
+               layout: FlexLayout(flex: ["emptyStateView": FlexValue(flex: 1)]),
+               sections: [content])
   }
 
   public override func willReload() {

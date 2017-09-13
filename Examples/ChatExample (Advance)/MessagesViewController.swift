@@ -18,7 +18,7 @@ class MessageDataProvider: ArrayDataProvider<Message> {
 }
 
 class MessageLayout: SimpleLayout<Message> {
-  override func layout(collectionSize: CGSize,
+  override func simpleLayout(collectionSize: CGSize,
                        dataProvider: CollectionDataProvider<Message>,
                        sizeProvider: @escaping CollectionSizeProvider<Message>) -> [CGRect] {
     var frames: [CGRect] = []
