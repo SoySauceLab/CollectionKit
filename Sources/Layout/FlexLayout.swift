@@ -24,16 +24,16 @@ public struct FlexValue {
 }
 
 public class FlexLayout<Data>: HorizontalSimpleLayout<Data> {
-  public var padding: CGFloat
+  public var spacing: CGFloat
   public var flex: [String: FlexValue]
   public var alignItems: AlignItem
   public var justifyContent: JustifyContent
 
   public init(flex: [String: FlexValue] = [:],
-              padding: CGFloat = 0,
+              spacing: CGFloat = 0,
               justifyContent: JustifyContent = .start,
               alignItems: AlignItem = .start) {
-    self.padding = padding
+    self.spacing = spacing
     self.flex = flex
     self.justifyContent = justifyContent
     self.alignItems = alignItems
@@ -48,14 +48,14 @@ public class FlexLayout<Data>: HorizontalSimpleLayout<Data> {
                                            dataProvider: dataProvider,
                                            sizeProvider: sizeProvider)
 
-    let (offset, spacing) = LayoutHelper.distribute(justifyContent: justifyContent,
-                                                    maxPrimary: collectionSize.width,
-                                                    totalPrimary: totalWidth,
-                                                    minimunSpacing: padding,
-                                                    numberOfItems: dataProvider.numberOfItems)
+    let (offset, distributedSpacing) = LayoutHelper.distribute(justifyContent: justifyContent,
+                                                               maxPrimary: collectionSize.width,
+                                                               totalPrimary: totalWidth,
+                                                               minimunSpacing: spacing,
+                                                               numberOfItems: dataProvider.numberOfItems)
 
     let frames = LayoutHelper.alignItem(alignItems: alignItems,
-                                        startingPrimaryOffset: offset, spacing: spacing,
+                                        startingPrimaryOffset: offset, spacing: distributedSpacing,
                                         sizes: sizes, secondaryRange: 0...collectionSize.height)
 
     return frames
@@ -69,8 +69,8 @@ extension FlexLayout {
                     dataProvider: CollectionDataProvider<Data>,
                     sizeProvider: @escaping CollectionSizeProvider<Data>) -> (sizes: [CGSize], totalWidth: CGFloat) {
     var sizes: [CGSize] = []
-    let paddings = padding * CGFloat(dataProvider.numberOfItems - 1)
-    var freezedWidth = paddings
+    let spacings = spacing * CGFloat(dataProvider.numberOfItems - 1)
+    var freezedWidth = spacings
     var flexValues: [Int: (FlexValue, CGFloat)] = [:]
 
     for i in 0..<dataProvider.numberOfItems {
@@ -140,6 +140,6 @@ extension FlexLayout {
       }
     }
 
-    return (sizes, freezedWidth - paddings)
+    return (sizes, freezedWidth - spacings)
   }
 }

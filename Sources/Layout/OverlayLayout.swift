@@ -20,4 +20,3 @@ public class OverlayLayout<Data>: SimpleLayout<Data> {
     return frames
   }
 }
-

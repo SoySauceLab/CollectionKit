@@ -101,4 +101,3 @@ open class HorizontalSimpleLayout<Data>: BaseSimpleLayout<Data> {
     return visibleIndexes
   }
 }
-

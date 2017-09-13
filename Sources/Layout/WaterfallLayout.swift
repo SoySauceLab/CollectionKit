@@ -10,13 +10,13 @@ import UIKit
 
 public class WaterfallLayout<Data>: VerticalSimpleLayout<Data> {
   public var columns: Int
-  public var padding: CGFloat
+  public var spacing: CGFloat
   private var columnWidth: [CGFloat] = [0, 0]
   private var maxSize = CGSize.zero
 
-  public init(columns: Int = 1, padding: CGFloat = 10) {
+  public init(columns: Int = 1, spacing: CGFloat = 10) {
     self.columns = columns
-    self.padding = padding
+    self.spacing = spacing
     super.init()
   }
 
@@ -25,7 +25,7 @@ public class WaterfallLayout<Data>: VerticalSimpleLayout<Data> {
                                     sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
     var frames: [CGRect] = []
 
-    let columnWidth = (collectionSize.width - CGFloat(columns - 1) * padding) / CGFloat(columns)
+    let columnWidth = (collectionSize.width - CGFloat(columns - 1) * spacing) / CGFloat(columns)
     var columnHeight = [CGFloat](repeating: 0, count: columns)
 
     func getMinColomn() -> (Int, CGFloat) {
@@ -41,8 +41,8 @@ public class WaterfallLayout<Data>: VerticalSimpleLayout<Data> {
                                   CGSize(width: columnWidth, height: collectionSize.height))
       cellSize = CGSize(width: columnWidth, height: cellSize.height)
       let (columnIndex, offsetY) = getMinColomn()
-      columnHeight[columnIndex] += cellSize.height + padding
-      let frame = CGRect(origin: CGPoint(x: CGFloat(columnIndex) * (columnWidth + padding),
+      columnHeight[columnIndex] += cellSize.height + spacing
+      let frame = CGRect(origin: CGPoint(x: CGFloat(columnIndex) * (columnWidth + spacing),
                                          y: offsetY),
                          size: cellSize)
       frames.append(frame)

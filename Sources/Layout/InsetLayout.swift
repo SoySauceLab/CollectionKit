@@ -28,8 +28,8 @@ public class InsetLayout<Data>: WrapperLayout<Data> {
   }
 
   public override func layout(collectionSize: CGSize,
-                            dataProvider: CollectionDataProvider<Data>,
-                            sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
+                              dataProvider: CollectionDataProvider<Data>,
+                              sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
     if let insetProvider = insetProvider {
       insets = insetProvider(collectionSize)
     }
