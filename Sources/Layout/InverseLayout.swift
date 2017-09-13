@@ -8,26 +8,26 @@
 
 import UIKit
 
-public class InverseLayout<Data>: WrapperLayout<Data> {
+open class InverseLayout<Data>: WrapperLayout<Data> {
 
-  public override var contentSize: CGSize {
+  open override var contentSize: CGSize {
     return rootLayout.contentSize.inverted
   }
 
-  public override func layout(collectionSize: CGSize,
-                              dataProvider: CollectionDataProvider<Data>,
-                              sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
+  open override func layout(collectionSize: CGSize,
+                            dataProvider: CollectionDataProvider<Data>,
+                            sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
     rootLayout.layout(collectionSize: collectionSize.inverted,
                       dataProvider: dataProvider) {
                         return sizeProvider($0, $1, $2.inverted).inverted
     }
   }
 
-  public override func visibleIndexes(activeFrame: CGRect) -> [Int] {
+  open override func visibleIndexes(activeFrame: CGRect) -> [Int] {
     return rootLayout.visibleIndexes(activeFrame: activeFrame.inverted)
   }
 
-  public override func frame(at: Int) -> CGRect {
+  open override func frame(at: Int) -> CGRect {
     return rootLayout.frame(at: at).inverted
   }
 }

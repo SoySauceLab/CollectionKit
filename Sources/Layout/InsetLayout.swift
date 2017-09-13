@@ -8,9 +8,9 @@
 
 import UIKit
 
-public class InsetLayout<Data>: WrapperLayout<Data> {
-  var insets: UIEdgeInsets
-  var insetProvider: ((CGSize) -> UIEdgeInsets)?
+open class InsetLayout<Data>: WrapperLayout<Data> {
+  public var insets: UIEdgeInsets
+  public var insetProvider: ((CGSize) -> UIEdgeInsets)?
 
   public init(_ rootLayout: CollectionLayout<Data>, insets: UIEdgeInsets = .zero) {
     self.insets = insets
@@ -23,13 +23,13 @@ public class InsetLayout<Data>: WrapperLayout<Data> {
     super.init(rootLayout)
   }
 
-  public override var contentSize: CGSize {
+  open override var contentSize: CGSize {
     return rootLayout.contentSize.insets(by: -insets)
   }
 
-  public override func layout(collectionSize: CGSize,
-                              dataProvider: CollectionDataProvider<Data>,
-                              sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
+  open override func layout(collectionSize: CGSize,
+                            dataProvider: CollectionDataProvider<Data>,
+                            sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
     if let insetProvider = insetProvider {
       insets = insetProvider(collectionSize)
     }
@@ -37,11 +37,11 @@ public class InsetLayout<Data>: WrapperLayout<Data> {
                       dataProvider: dataProvider, sizeProvider: sizeProvider)
   }
 
-  public override func visibleIndexes(activeFrame: CGRect) -> [Int] {
+  open override func visibleIndexes(activeFrame: CGRect) -> [Int] {
     return rootLayout.visibleIndexes(activeFrame: activeFrame.insets(by: -insets))
   }
 
-  public override func frame(at: Int) -> CGRect {
+  open override func frame(at: Int) -> CGRect {
     return rootLayout.frame(at: at) + CGPoint(x: insets.left, y: insets.top)
   }
 }
