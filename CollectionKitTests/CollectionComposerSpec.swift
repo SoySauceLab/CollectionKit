@@ -74,7 +74,7 @@ class CollectionComposerSpec: QuickSpec {
         expect((collectionView.subviews[1] as! UILabel).text) == "b"
 
         expect(collectionView.subviews[0].frame.origin) == CGPoint.zero
-        composer.layout = FlexLayout(justifyContent: .center)
+        composer.layout = RowLayout(justifyContent: .center)
         collectionView.layoutIfNeeded()
         expect(collectionView.reloadCount) == 3
         expect(collectionView.subviews[0].frame.origin) != CGPoint.zero

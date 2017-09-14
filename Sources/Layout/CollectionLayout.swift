@@ -9,6 +9,7 @@
 import UIKit
 
 open class CollectionLayout<Data> {
+
   open func layout(collectionSize: CGSize,
                    dataProvider: CollectionDataProvider<Data>,
                    sizeProvider: @escaping CollectionSizeProvider<Data>) {

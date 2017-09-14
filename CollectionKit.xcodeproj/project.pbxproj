@@ -34,7 +34,7 @@
 		B144CE001F4379DA0073CF4E /* ClosureLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CDFF1F4379DA0073CF4E /* ClosureLayout.swift */; };
 		B144CE021F4379F20073CF4E /* WaterfallLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE011F4379F20073CF4E /* WaterfallLayout.swift */; };
 		B144CE041F437A100073CF4E /* FlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE031F437A100073CF4E /* FlowLayout.swift */; };
-		B144CE061F437A1D0073CF4E /* FlexLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE051F437A1D0073CF4E /* FlexLayout.swift */; };
+		B144CE061F437A1D0073CF4E /* RowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE051F437A1D0073CF4E /* RowLayout.swift */; };
 		B144CE0A1F437A6B0073CF4E /* BaseCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE091F437A6B0073CF4E /* BaseCollectionProvider.swift */; };
 		B144CE0D1F437A960073CF4E /* ArrayDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE0C1F437A960073CF4E /* ArrayDataProvider.swift */; };
 		B144CE0F1F437A9E0073CF4E /* ClosureDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE0E1F437A9E0073CF4E /* ClosureDataProvider.swift */; };
@@ -64,7 +64,7 @@
 		B183C1221F634A3200CEAAE1 /* InverseLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183C1211F634A3200CEAAE1 /* InverseLayout.swift */; };
 		B19D64C91F23DCA800D02FDB /* CollectionReuseViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19E0BCF1F22B21C00214866 /* CollectionReuseViewManager.swift */; };
 		B19D64CF1F23DE8100D02FDB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B19D64CD1F23DE8100D02FDB /* Info.plist */; };
-		B19D64D01F23DE8100D02FDB /* FlexLayoutSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19D64CE1F23DE8100D02FDB /* FlexLayoutSpec.swift */; };
+		B19D64D01F23DE8100D02FDB /* RowLayoutSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19D64CE1F23DE8100D02FDB /* RowLayoutSpec.swift */; };
 		B1A073701F438A3500E28E23 /* EdgeShrinkPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A0736F1F438A3500E28E23 /* EdgeShrinkPresenter.swift */; };
 		B1A54FAD1EA3E0ED00A96112 /* UIScrollView+CollectionKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A54FAC1EA3E0ED00A96112 /* UIScrollView+CollectionKit.swift */; };
 		B1A8E2DD1F59E99500172387 /* CollectionViewSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A8E2DC1F59E99500172387 /* CollectionViewSpec.swift */; };
@@ -149,7 +149,7 @@
 		B144CDFF1F4379DA0073CF4E /* ClosureLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosureLayout.swift; sourceTree = "<group>"; };
 		B144CE011F4379F20073CF4E /* WaterfallLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterfallLayout.swift; sourceTree = "<group>"; };
 		B144CE031F437A100073CF4E /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
-		B144CE051F437A1D0073CF4E /* FlexLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlexLayout.swift; sourceTree = "<group>"; };
+		B144CE051F437A1D0073CF4E /* RowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowLayout.swift; sourceTree = "<group>"; };
 		B144CE091F437A6B0073CF4E /* BaseCollectionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionProvider.swift; sourceTree = "<group>"; };
 		B144CE0C1F437A960073CF4E /* ArrayDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayDataProvider.swift; sourceTree = "<group>"; };
 		B144CE0E1F437A9E0073CF4E /* ClosureDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClosureDataProvider.swift; sourceTree = "<group>"; };
@@ -178,7 +178,7 @@
 		B183C11F1F6349B800CEAAE1 /* InsetLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLayout.swift; sourceTree = "<group>"; };
 		B183C1211F634A3200CEAAE1 /* InverseLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InverseLayout.swift; sourceTree = "<group>"; };
 		B19D64CD1F23DE8100D02FDB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B19D64CE1F23DE8100D02FDB /* FlexLayoutSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlexLayoutSpec.swift; sourceTree = "<group>"; };
+		B19D64CE1F23DE8100D02FDB /* RowLayoutSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RowLayoutSpec.swift; sourceTree = "<group>"; };
 		B19E0BCF1F22B21C00214866 /* CollectionReuseViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionReuseViewManager.swift; sourceTree = "<group>"; };
 		B1A0736F1F438A3500E28E23 /* EdgeShrinkPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EdgeShrinkPresenter.swift; sourceTree = "<group>"; };
 		B1A54FAC1EA3E0ED00A96112 /* UIScrollView+CollectionKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+CollectionKit.swift"; sourceTree = "<group>"; };
@@ -377,7 +377,7 @@
 				B1ED75B41F58C95200CB772A /* FloatLayout.swift */,
 				B144CE031F437A100073CF4E /* FlowLayout.swift */,
 				B144CE011F4379F20073CF4E /* WaterfallLayout.swift */,
-				B144CE051F437A1D0073CF4E /* FlexLayout.swift */,
+				B144CE051F437A1D0073CF4E /* RowLayout.swift */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -459,7 +459,7 @@
 			children = (
 				B19D64CD1F23DE8100D02FDB /* Info.plist */,
 				B12F9F8B1F5770410082791D /* TestUils.swift */,
-				B19D64CE1F23DE8100D02FDB /* FlexLayoutSpec.swift */,
+				B19D64CE1F23DE8100D02FDB /* RowLayoutSpec.swift */,
 				0E3258441F5E23B000D455F8 /* FlowLayoutSpec.swift */,
 				B1A8E2DC1F59E99500172387 /* CollectionViewSpec.swift */,
 				B145FF9F1F5BB4D700A4F318 /* CollectionComposerSpec.swift */,
@@ -710,7 +710,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B19D64D01F23DE8100D02FDB /* FlexLayoutSpec.swift in Sources */,
+				B19D64D01F23DE8100D02FDB /* RowLayoutSpec.swift in Sources */,
 				B145FFA01F5BB4D700A4F318 /* CollectionComposerSpec.swift in Sources */,
 				0E3258451F5E23B000D455F8 /* FlowLayoutSpec.swift in Sources */,
 				B1A8E2DD1F59E99500172387 /* CollectionViewSpec.swift in Sources */,
@@ -729,7 +729,7 @@
 				B1688A2D1F25632900C229BD /* SpaceCollectionProvider.swift in Sources */,
 				B1B7B0611E7DAD2700F2483E /* Util.swift in Sources */,
 				B144CE0A1F437A6B0073CF4E /* BaseCollectionProvider.swift in Sources */,
-				B144CE061F437A1D0073CF4E /* FlexLayout.swift in Sources */,
+				B144CE061F437A1D0073CF4E /* RowLayout.swift in Sources */,
 				B19D64C91F23DCA800D02FDB /* CollectionReuseViewManager.swift in Sources */,
 				B144CE001F4379DA0073CF4E /* ClosureLayout.swift in Sources */,
 				B1E861F11F21515F00621BA0 /* CollectionViewProvider.swift in Sources */,

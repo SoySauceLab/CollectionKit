@@ -59,7 +59,7 @@ class PresenterExampleViewController: CollectionViewController {
     let providerCollectionViewProvider = ViewCollectionProvider(identifier: "providerContent", providerCollectionView, sizeStrategy: (.fill, .fill))
 
     provider = CollectionComposer(
-      layout: InverseLayout(FlexLayout(flex: ["providerContent": FlexValue(flex: 1)])),
+      layout: InverseLayout(RowLayout("providerContent")),
       buttonsCollectionViewProvider,
       providerCollectionViewProvider
     )
