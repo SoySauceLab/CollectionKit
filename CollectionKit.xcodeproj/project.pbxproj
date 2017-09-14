@@ -367,17 +367,17 @@
 		B144CE071F437A330073CF4E /* Layout */ = {
 			isa = PBXGroup;
 			children = (
-				B1E861F51F21518700621BA0 /* CollectionLayout.swift */,
-				B1B725981F671E2B007AC38C /* WrapperLayout.swift */,
-				B157E5191F6719F0008AEF83 /* SimpleLayout.swift */,
 				B144CDFF1F4379DA0073CF4E /* ClosureLayout.swift */,
+				B1E861F51F21518700621BA0 /* CollectionLayout.swift */,
+				B1ED75B41F58C95200CB772A /* FloatLayout.swift */,
+				B144CE031F437A100073CF4E /* FlowLayout.swift */,
 				B183C11F1F6349B800CEAAE1 /* InsetLayout.swift */,
 				B183C1211F634A3200CEAAE1 /* InverseLayout.swift */,
 				B157E5171F66FEE5008AEF83 /* OverlayLayout.swift */,
-				B1ED75B41F58C95200CB772A /* FloatLayout.swift */,
-				B144CE031F437A100073CF4E /* FlowLayout.swift */,
-				B144CE011F4379F20073CF4E /* WaterfallLayout.swift */,
 				B144CE051F437A1D0073CF4E /* RowLayout.swift */,
+				B157E5191F6719F0008AEF83 /* SimpleLayout.swift */,
+				B144CE011F4379F20073CF4E /* WaterfallLayout.swift */,
+				B1B725981F671E2B007AC38C /* WrapperLayout.swift */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
