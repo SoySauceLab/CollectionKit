@@ -25,12 +25,41 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
               _ views: UIView...,
               sizeStrategy: (ViewSizeStrategy, ViewSizeStrategy) = (.fit, .fit),
               insets: UIEdgeInsets = .zero) {
+    let layout: CollectionLayout<UIView> = insets == .zero ? FlowLayout() : InsetLayout(FlowLayout(), insets: insets)
     super.init(identifier: identifier,
                dataProvider: ArrayDataProvider(data: views, identifierMapper: {
                 return "\($0.1.hash)"
                }),
                viewProvider: ViewProvider(),
-               layout: insets == .zero ? FlowLayout() : InsetLayout(FlowLayout(), insets: insets),
+               layout: layout,
+               sizeProvider: { (_, view, size) -> CGSize in
+                let fitSize = view.sizeThatFits(size)
+                let width: CGFloat, height: CGFloat
+                switch sizeStrategy.0 {
+                case .fit: width = fitSize.width
+                case .fill: width = size.width
+                case .absolute(let value): width = value
+                }
+                switch sizeStrategy.1 {
+                case .fit: height = fitSize.height
+                case .fill: height = size.height
+                case .absolute(let value): height = value
+                }
+
+                return CGSize(width: width, height: height)
+    })
+  }
+
+  public init(identifier: String? = nil,
+              views: [UIView],
+              sizeStrategy: (ViewSizeStrategy, ViewSizeStrategy) = (.fit, .fit),
+              layout: CollectionLayout<UIView>) {
+    super.init(identifier: identifier,
+               dataProvider: ArrayDataProvider(data: views, identifierMapper: {
+                return "\($0.1.hash)"
+               }),
+               viewProvider: ViewProvider(),
+               layout: layout,
                sizeProvider: { (_, view, size) -> CGSize in
                 let fitSize = view.sizeThatFits(size)
                 let width: CGFloat, height: CGFloat

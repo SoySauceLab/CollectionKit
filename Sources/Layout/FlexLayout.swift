@@ -108,7 +108,7 @@ extension FlexLayout {
       func freeze(index: Int, width: CGFloat) {
         let freezedSize = sizeProvider(index, dataProvider.data(at: index),
                                        CGSize(width: width, height: collectionSize.height))
-        sizes[index] = CGSize(width: width, height: freezedSize.height)
+        sizes[index] = CGSize(width: max(width, freezedSize.width), height: freezedSize.height)
         freezedWidth += width
         flexValues[index] = nil
       }

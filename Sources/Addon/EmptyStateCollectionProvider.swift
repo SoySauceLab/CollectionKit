@@ -19,7 +19,7 @@ public class EmptyStateCollectionProvider: CollectionComposer {
     self.emptyStateViewGetter = emptyStateView
     self.content = content
     super.init(identifier: identifier,
-               layout: FlexLayout(flex: ["emptyStateView": FlexValue(flex: 1)]),
+               layout: InverseLayout(FlexLayout(flex: ["emptyStateView": FlexValue(flex: 1)])),
                sections: [content])
   }
 
