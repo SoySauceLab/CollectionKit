@@ -31,13 +31,12 @@ open class CollectionLayout<Data> {
   public init() {}
 }
 
-
 extension CollectionLayout {
-  public func inverse() -> InverseLayout<Data> {
-    return InverseLayout(self)
+  public func transposed() -> TransposeLayout<Data> {
+    return TransposeLayout(self)
   }
 
-  public func insets(by insets: UIEdgeInsets) -> InsetLayout<Data> {
+  public func inset(by insets: UIEdgeInsets) -> InsetLayout<Data> {
     return InsetLayout(self, insets: insets)
   }
 }

@@ -48,7 +48,7 @@ extension CGPoint {
     return sqrt(pow(self.x - point.x, 2)+pow(self.y - point.y, 2))
   }
 
-  var inverted: CGPoint {
+  var transposed: CGPoint {
     return CGPoint(x: y, y: x)
   }
 }
@@ -57,7 +57,7 @@ extension CGSize {
   func insets(by insets: UIEdgeInsets) -> CGSize {
     return CGSize(width: width - insets.left - insets.right, height: height - insets.top - insets.bottom)
   }
-  var inverted: CGSize {
+  var transposed: CGSize {
     return CGSize(width: height, height: width)
   }
 }
@@ -121,10 +121,10 @@ extension CGRect {
     self.origin = center - size / 2
     self.size = size
   }
-  var inverted: CGRect {
-    return CGRect(origin: origin.inverted, size: size.inverted)
+  var transposed: CGRect {
+    return CGRect(origin: origin.transposed, size: size.transposed)
   }
-  func insets(by insets: UIEdgeInsets) -> CGRect {
+  func inset(by insets: UIEdgeInsets) -> CGRect {
     return UIEdgeInsetsInsetRect(self, insets)
   }
 }

@@ -61,7 +61,7 @@
 		B1688A2F1F2563A200C229BD /* AnyCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A2E1F2563A200C229BD /* AnyCollectionProvider.swift */; };
 		B183C11E1F63218E00CEAAE1 /* LayoutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183C11D1F63218E00CEAAE1 /* LayoutHelper.swift */; };
 		B183C1201F6349B800CEAAE1 /* InsetLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183C11F1F6349B800CEAAE1 /* InsetLayout.swift */; };
-		B183C1221F634A3200CEAAE1 /* InverseLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183C1211F634A3200CEAAE1 /* InverseLayout.swift */; };
+		B183C1221F634A3200CEAAE1 /* TransposeLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183C1211F634A3200CEAAE1 /* TransposeLayout.swift */; };
 		B19D64C91F23DCA800D02FDB /* CollectionReuseViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19E0BCF1F22B21C00214866 /* CollectionReuseViewManager.swift */; };
 		B19D64CF1F23DE8100D02FDB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B19D64CD1F23DE8100D02FDB /* Info.plist */; };
 		B19D64D01F23DE8100D02FDB /* RowLayoutSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19D64CE1F23DE8100D02FDB /* RowLayoutSpec.swift */; };
@@ -176,7 +176,7 @@
 		B1688A2E1F2563A200C229BD /* AnyCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCollectionProvider.swift; sourceTree = "<group>"; };
 		B183C11D1F63218E00CEAAE1 /* LayoutHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutHelper.swift; sourceTree = "<group>"; };
 		B183C11F1F6349B800CEAAE1 /* InsetLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLayout.swift; sourceTree = "<group>"; };
-		B183C1211F634A3200CEAAE1 /* InverseLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InverseLayout.swift; sourceTree = "<group>"; };
+		B183C1211F634A3200CEAAE1 /* TransposeLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransposeLayout.swift; sourceTree = "<group>"; };
 		B19D64CD1F23DE8100D02FDB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B19D64CE1F23DE8100D02FDB /* RowLayoutSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RowLayoutSpec.swift; sourceTree = "<group>"; };
 		B19E0BCF1F22B21C00214866 /* CollectionReuseViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionReuseViewManager.swift; sourceTree = "<group>"; };
@@ -372,7 +372,7 @@
 				B1ED75B41F58C95200CB772A /* FloatLayout.swift */,
 				B144CE031F437A100073CF4E /* FlowLayout.swift */,
 				B183C11F1F6349B800CEAAE1 /* InsetLayout.swift */,
-				B183C1211F634A3200CEAAE1 /* InverseLayout.swift */,
+				B183C1211F634A3200CEAAE1 /* TransposeLayout.swift */,
 				B157E5171F66FEE5008AEF83 /* OverlayLayout.swift */,
 				B144CE051F437A1D0073CF4E /* RowLayout.swift */,
 				B157E5191F6719F0008AEF83 /* SimpleLayout.swift */,
@@ -723,7 +723,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1CCA0AF1F3A691B00632B19 /* EmptyStateCollectionProvider.swift in Sources */,
-				B183C1221F634A3200CEAAE1 /* InverseLayout.swift in Sources */,
+				B183C1221F634A3200CEAAE1 /* TransposeLayout.swift in Sources */,
 				B144CE041F437A100073CF4E /* FlowLayout.swift in Sources */,
 				B10A06281F20073C00069E17 /* CollectionPresenter.swift in Sources */,
 				B1688A2D1F25632900C229BD /* SpaceCollectionProvider.swift in Sources */,

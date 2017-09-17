@@ -25,7 +25,7 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
               _ views: UIView...,
               sizeStrategy: (ViewSizeStrategy, ViewSizeStrategy) = (.fit, .fit),
               insets: UIEdgeInsets = .zero) {
-    let layout: CollectionLayout<UIView> = insets == .zero ? FlowLayout() : InsetLayout(FlowLayout(), insets: insets)
+    let layout: CollectionLayout<UIView> = insets == .zero ? FlowLayout() : FlowLayout().inset(by: insets)
     super.init(identifier: identifier,
                dataProvider: ArrayDataProvider(data: views, identifierMapper: {
                 return "\($0.1.hash)"
