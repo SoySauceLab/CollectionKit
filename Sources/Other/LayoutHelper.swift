@@ -71,6 +71,7 @@ struct LayoutHelper {
       case .end:
         offset += (leftOverPrimary - minimunSpacing * CGFloat(numberOfItems - 1))
       case .spaceBetween:
+        guard numberOfItems > 1 else { break }
         spacing = leftOverPrimary / CGFloat(numberOfItems - 1)
       case .spaceAround:
         spacing = leftOverPrimary / CGFloat(numberOfItems)
