@@ -8,25 +8,24 @@
 
 import UIKit
 
-public class WaterfallLayout<Data>: AxisDependentLayout<Data> {
+public class WaterfallLayout<Data>: VerticalSimpleLayout<Data> {
   public var columns: Int
-  public var padding: CGFloat
+  public var spacing: CGFloat
   private var columnWidth: [CGFloat] = [0, 0]
   private var maxSize = CGSize.zero
 
-  public init(columns: Int = 1, insets: UIEdgeInsets = .zero, padding: CGFloat = 10, axis: Axis = .vertical) {
+  public init(columns: Int = 1, spacing: CGFloat = 10) {
     self.columns = columns
-    self.padding = padding
-    super.init(insets: insets)
-    self.axis = axis
+    self.spacing = spacing
+    super.init()
   }
 
-  public override func layout(collectionSize: CGSize,
-                              dataProvider: CollectionDataProvider<Data>,
-                              sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
+  public override func simpleLayout(collectionSize: CGSize,
+                                    dataProvider: CollectionDataProvider<Data>,
+                                    sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
     var frames: [CGRect] = []
 
-    let columnWidth = (secondary(collectionSize) - CGFloat(columns - 1) * padding) / CGFloat(columns)
+    let columnWidth = (collectionSize.width - CGFloat(columns - 1) * spacing) / CGFloat(columns)
     var columnHeight = [CGFloat](repeating: 0, count: columns)
 
     func getMinColomn() -> (Int, CGFloat) {
@@ -39,12 +38,12 @@ public class WaterfallLayout<Data>: AxisDependentLayout<Data> {
 
     for i in 0..<dataProvider.numberOfItems {
       var cellSize = sizeProvider(i, dataProvider.data(at: i),
-                                  size(primary: primary(collectionSize), secondary: columnWidth))
-      cellSize = size(primary: primary(cellSize), secondary: columnWidth)
+                                  CGSize(width: columnWidth, height: collectionSize.height))
+      cellSize = CGSize(width: columnWidth, height: cellSize.height)
       let (columnIndex, offsetY) = getMinColomn()
-      columnHeight[columnIndex] += primary(cellSize) + padding
-      let frame = CGRect(origin: point(primary: offsetY,
-                                       secondary: CGFloat(columnIndex) * (columnWidth + padding)),
+      columnHeight[columnIndex] += cellSize.height + spacing
+      let frame = CGRect(origin: CGPoint(x: CGFloat(columnIndex) * (columnWidth + spacing),
+                                         y: offsetY),
                          size: cellSize)
       frames.append(frame)
     }

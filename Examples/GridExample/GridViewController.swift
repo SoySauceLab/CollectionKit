@@ -21,7 +21,6 @@ class GridViewController: CollectionViewController {
       return "\(data)"
     })
     let layout = Closurelayout(
-      insets: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10),
       frameProvider: { (i: Int, data: Int,  _) in
         CGRect(x: CGFloat(i % kGridSize.width) * (kGridCellSize.width + kGridCellPadding),
                y: CGFloat(i / kGridSize.width) * (kGridCellSize.height + kGridCellPadding),
@@ -30,6 +29,7 @@ class GridViewController: CollectionViewController {
       }
     )
 
+    collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     provider = CollectionProvider(
       dataProvider: dataProvider,
       viewUpdater: { (view: UILabel, data: Int, index: Int) in

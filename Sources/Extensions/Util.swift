@@ -9,6 +9,26 @@ extension Array {
   }
 }
 
+extension Collection {
+  /// Finds such index N that predicate is true for all elements up to
+  /// but not including the index N, and is false for all elements
+  /// starting with index N.
+  /// Behavior is undefined if there is no such N.
+  func binarySearch(predicate: (Iterator.Element) -> Bool) -> Index {
+    var low = startIndex
+    var high = endIndex
+    while low != high {
+      let mid = index(low, offsetBy: distance(from: low, to: high)/2)
+      if predicate(self[mid]) {
+        low = index(after: mid)
+      } else {
+        high = mid
+      }
+    }
+    return low
+  }
+}
+
 extension CGFloat {
   func clamp(_ minValue: CGFloat, _ maxValue: CGFloat) -> CGFloat {
     return self < minValue ? minValue : (self > maxValue ? maxValue : self)
@@ -28,7 +48,7 @@ extension CGPoint {
     return sqrt(pow(self.x - point.x, 2)+pow(self.y - point.y, 2))
   }
 
-  var inverted: CGPoint {
+  var transposed: CGPoint {
     return CGPoint(x: y, y: x)
   }
 }
@@ -37,7 +57,7 @@ extension CGSize {
   func insets(by insets: UIEdgeInsets) -> CGSize {
     return CGSize(width: width - insets.left - insets.right, height: height - insets.top - insets.bottom)
   }
-  var inverted: CGSize {
+  var transposed: CGSize {
     return CGSize(width: height, height: width)
   }
 }
@@ -101,8 +121,11 @@ extension CGRect {
     self.origin = center - size / 2
     self.size = size
   }
-  var inverted: CGRect {
-    return CGRect(origin: origin.inverted, size: size.inverted)
+  var transposed: CGRect {
+    return CGRect(origin: origin.transposed, size: size.transposed)
+  }
+  func inset(by insets: UIEdgeInsets) -> CGRect {
+    return UIEdgeInsetsInsetRect(self, insets)
   }
 }
 

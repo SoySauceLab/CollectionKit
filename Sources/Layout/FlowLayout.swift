@@ -8,40 +8,103 @@
 
 import UIKit
 
-public class FlowLayout<Data>: AxisDependentLayout<Data> {
+public class FlowLayout<Data>: VerticalSimpleLayout<Data> {
   public var lineSpacing: CGFloat
   public var interitemSpacing: CGFloat
 
-  public init(insets: UIEdgeInsets = .zero,
-              lineSpacing: CGFloat = 0,
+  public var alignContent: AlignContent
+  public var alignItems: AlignItem
+  public var justifyContent: JustifyContent
+
+  public init(lineSpacing: CGFloat = 0,
               interitemSpacing: CGFloat = 0,
-              axis: Axis = .vertical) {
+              justifyContent: JustifyContent = .start,
+              alignItems: AlignItem = .start,
+              alignContent: AlignContent = .start) {
     self.lineSpacing = lineSpacing
     self.interitemSpacing = interitemSpacing
+    self.justifyContent = justifyContent
+    self.alignItems = alignItems
+    self.alignContent = alignContent
     super.init()
-    self.axis = axis
-    self.insets = insets
   }
 
-  public override func layout(collectionSize: CGSize,
-                              dataProvider: CollectionDataProvider<Data>,
-                              sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
+  public convenience init(spacing: CGFloat,
+                          justifyContent: JustifyContent = .start,
+                          alignItems: AlignItem = .start,
+                          alignContent: AlignContent = .start) {
+    self.init(lineSpacing: spacing,
+              interitemSpacing: spacing,
+              justifyContent: justifyContent,
+              alignItems: alignItems,
+              alignContent: alignContent)
+  }
+
+  public override func simpleLayout(collectionSize: CGSize,
+                                    dataProvider: CollectionDataProvider<Data>,
+                                    sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
     var frames: [CGRect] = []
-    var primaryOffset: CGFloat = 0
-    var secondaryOffset: CGFloat = 0
-    var currentMaxPrimary: CGFloat = 0
-    for i in 0..<dataProvider.numberOfItems {
-      let size = sizeProvider(i, dataProvider.data(at: i), collectionSize)
-      if secondaryOffset + secondary(size) > secondary(collectionSize), secondaryOffset != 0 {
-        secondaryOffset = 0
-        primaryOffset += currentMaxPrimary + lineSpacing
-        currentMaxPrimary = 0
-      }
-      currentMaxPrimary = max(currentMaxPrimary, primary(size))
-      let frame = CGRect(origin: point(primary: primaryOffset, secondary: secondaryOffset), size: size)
-      frames.append(frame)
-      secondaryOffset += secondary(size) + interitemSpacing
+
+    let sizes = (0..<dataProvider.numberOfItems).map { sizeProvider($0, dataProvider.data(at: $0), collectionSize) }
+    let (totalHeight, lineData) = distributeLines(sizes: sizes, maxWidth: collectionSize.width)
+
+    var (yOffset, spacing) = LayoutHelper.distribute(justifyContent: alignContent,
+                                                     maxPrimary: collectionSize.height,
+                                                     totalPrimary: totalHeight,
+                                                     minimunSpacing: lineSpacing,
+                                                     numberOfItems: lineData.count)
+
+    var index = 0
+    for (lineSize, count) in lineData {
+      let (xOffset, lineInteritemSpacing) =
+        LayoutHelper.distribute(justifyContent: justifyContent,
+                                maxPrimary: collectionSize.width,
+                                totalPrimary: lineSize.width,
+                                minimunSpacing: interitemSpacing,
+                                numberOfItems: count)
+
+      let lineFrames = LayoutHelper.alignItem(alignItems: alignItems,
+                                              startingPrimaryOffset: xOffset,
+                                              spacing: lineInteritemSpacing,
+                                              sizes: sizes[index..<(index+count)],
+                                              secondaryRange: yOffset...(yOffset + lineSize.height))
+
+      frames.append(contentsOf: lineFrames)
+
+      yOffset += lineSize.height + spacing
+      index += count
     }
+
     return frames
+  }
+
+  func distributeLines(sizes: [CGSize], maxWidth: CGFloat) ->
+    (totalHeight: CGFloat, lineData: [(lineSize: CGSize, count: Int)]) {
+    var lineData: [(lineSize: CGSize, count: Int)] = []
+    var currentLineItemCount = 0
+    var currentLineWidth: CGFloat = 0
+    var currentLineMaxHeight: CGFloat = 0
+    var totalHeight: CGFloat = 0
+    for size in sizes {
+      if currentLineWidth + size.width > maxWidth, currentLineItemCount != 0 {
+        lineData.append((lineSize: CGSize(width: currentLineWidth - CGFloat(currentLineItemCount) * interitemSpacing,
+                                          height: currentLineMaxHeight),
+                         count: currentLineItemCount))
+        totalHeight += currentLineMaxHeight
+        currentLineMaxHeight = 0
+        currentLineWidth = 0
+        currentLineItemCount = 0
+      }
+      currentLineMaxHeight = max(currentLineMaxHeight, size.height)
+      currentLineWidth += size.width + interitemSpacing
+      currentLineItemCount += 1
+    }
+    if currentLineItemCount > 0 {
+      lineData.append((lineSize: CGSize(width: currentLineWidth - CGFloat(currentLineItemCount) * interitemSpacing,
+                                        height: currentLineMaxHeight),
+                       count: currentLineItemCount))
+      totalHeight += currentLineMaxHeight
+    }
+    return (totalHeight, lineData)
   }
 }

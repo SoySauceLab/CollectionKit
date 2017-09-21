@@ -12,7 +12,7 @@ open class CollectionViewProvider<Data, View: UIView> {
   lazy var reuseManager = CollectionReuseViewManager()
 
   /// Should return a new view for the given data and index
-  open func view(data:Data, index: Int) -> View {
+  open func view(data: Data, index: Int) -> View {
     let view = reuseManager.dequeue(View())
     update(view: view, data: data, index: index)
     return view

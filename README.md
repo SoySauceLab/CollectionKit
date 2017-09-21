@@ -66,7 +66,7 @@ collectionView.provider = provider1
 Use `CollectionComposer` to combine multiple providers into one. You can also supply layout objects to Provider & Composer.
 
 ```swift
-provider1.layout = FlowLayout(padding: 10)
+provider1.layout = FlowLayout(spacing: 10)
 
 let provider2 = CollectionProvider(
     data: ["A", "B"],
@@ -76,14 +76,14 @@ let provider2 = CollectionProvider(
         label.textAlignment = .center
         label.text = data
     },
-    layout: FlowLayout(padding: 10),
+    layout: FlowLayout(spacing: 10),
     sizeProvider: { (index: Int, data: String, collectionSize: CGSize) -> CGSize in
         return CGSize(width: 230, height: 50)
     }
 )
 
 collectionView.provider = CollectionComposer(
-    layout: FlexLayout(padding: 20, justifyContent: .center, alignItems: .center),
+    layout: FlowLayout(spacing: 20, justifyContent: .center, alignItems: .center),
     provider1,
     provider2
 )

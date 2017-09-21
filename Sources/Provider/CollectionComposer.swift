@@ -32,8 +32,9 @@ open class CollectionComposer: BaseCollectionProvider {
   public init(identifier: String? = nil,
               layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(),
               presenter: CollectionPresenter? = nil,
-              _ sections: [AnyCollectionProvider]) {
+              sections: [AnyCollectionProvider]) {
     self.sections = sections
+    self.presenter = presenter
     self.layout = layout
     super.init(identifier: identifier)
   }
@@ -42,7 +43,7 @@ open class CollectionComposer: BaseCollectionProvider {
                           layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(),
                           presenter: CollectionPresenter? = nil,
                           _ sections: AnyCollectionProvider...) {
-    self.init(layout: layout, sections)
+    self.init(layout: layout, presenter: presenter, sections: sections)
   }
 
   func indexPath(_ index: Int) -> (Int, Int) {
@@ -72,7 +73,7 @@ open class CollectionComposer: BaseCollectionProvider {
   }
 
   open override func layout(collectionSize: CGSize) {
-    layout.doLayout(
+    layout.layout(
       collectionSize: collectionSize,
       dataProvider: ArrayDataProvider(data: currentSections, identifierMapper: {
        return $0.1.identifier ?? "\($0.0)"
