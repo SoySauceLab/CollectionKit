@@ -12,6 +12,8 @@
 		0E3258411F5DC8B400D455F8 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E32583E1F5DC8B400D455F8 /* ArticleView.swift */; };
 		0E3258451F5E23B000D455F8 /* FlowLayoutSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3258441F5E23B000D455F8 /* FlowLayoutSpec.swift */; };
 		0E3258481F5E334C00D455F8 /* ReloadDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3258471F5E334C00D455F8 /* ReloadDataViewController.swift */; };
+		0EFA71501F76C8ED0044091E /* Differ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EFA714F1F76C8ED0044091E /* Differ.framework */; };
+		0EFA71511F76C8FE0044091E /* Differ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0EFA714F1F76C8ED0044091E /* Differ.framework */; };
 		A372A3691C79567A0023C797 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A3681C79567A0023C797 /* MessageCell.swift */; };
 		A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDEECE1C7D88430053BFAE /* Messages.swift */; };
 		A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */; };
@@ -22,8 +24,6 @@
 		B100C3FC1EA55DB500868840 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100C3FB1EA55DB500868840 /* Util.swift */; };
 		B102FC591D10FE0100408DD6 /* HorizontalGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC581D10FE0100408DD6 /* HorizontalGalleryViewController.swift */; };
 		B102FC5D1D10FF5100408DD6 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC5C1D10FF5100408DD6 /* Random.swift */; };
-		B1076A411F4BCA7900530FD6 /* Diff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1076A401F4BCA7900530FD6 /* Diff.framework */; };
-		B1076A421F4BCA8000530FD6 /* Diff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1076A401F4BCA7900530FD6 /* Diff.framework */; };
 		B10A06281F20073C00069E17 /* CollectionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10A06271F20073C00069E17 /* CollectionPresenter.swift */; };
 		B12A1C011F23DC0C00D5C1C1 /* YetAnotherAnimationLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */; };
 		B12F9B261E804C370085F37D /* CollectionKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* CollectionKit.framework */; };
@@ -125,6 +125,7 @@
 		0E32583E1F5DC8B400D455F8 /* ArticleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
 		0E3258441F5E23B000D455F8 /* FlowLayoutSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowLayoutSpec.swift; sourceTree = "<group>"; };
 		0E3258471F5E334C00D455F8 /* ReloadDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReloadDataViewController.swift; sourceTree = "<group>"; };
+		0EFA714F1F76C8ED0044091E /* Differ.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Differ.framework; path = Carthage/Build/iOS/Differ.framework; sourceTree = "<group>"; };
 		A351C3451CE4CCD2005E15A7 /* CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		A351C3461CE4CCD2005E15A7 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		A372A3681C79567A0023C797 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
@@ -199,8 +200,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EFA71511F76C8FE0044091E /* Differ.framework in Frameworks */,
 				B1B7B0571E7DAD1F00F2483E /* CollectionKit.framework in Frameworks */,
-				B1076A421F4BCA8000530FD6 /* Diff.framework in Frameworks */,
 				B15029151EA671E600F89915 /* YetAnotherAnimationLibrary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -220,7 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B12A1C011F23DC0C00D5C1C1 /* YetAnotherAnimationLibrary.framework in Frameworks */,
-				B1076A411F4BCA7900530FD6 /* Diff.framework in Frameworks */,
+				0EFA71501F76C8ED0044091E /* Differ.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,6 +447,7 @@
 		B15029101EA66FC400F89915 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0EFA714F1F76C8ED0044091E /* Differ.framework */,
 				B12F9F851F575EF50082791D /* Nimble.framework */,
 				B12F9F861F575EF50082791D /* Quick.framework */,
 				B1076A401F4BCA7900530FD6 /* Diff.framework */,
@@ -621,7 +623,7 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/YetAnotherAnimationLibrary.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Diff.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Differ.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -653,7 +655,7 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/YetAnotherAnimationLibrary.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Diff.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Differ.framework",
 			);
 			name = Carthage;
 			outputPaths = (
