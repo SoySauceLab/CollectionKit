@@ -6,7 +6,7 @@
 //  Copyright © 2016 lkzhao. All rights reserved.
 //
 
-import Diff
+import Differ
 import UIKit
 
 open class CollectionView: UIScrollView {
