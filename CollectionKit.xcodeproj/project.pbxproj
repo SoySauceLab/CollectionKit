@@ -22,8 +22,6 @@
 		B100C3FC1EA55DB500868840 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100C3FB1EA55DB500868840 /* Util.swift */; };
 		B102FC591D10FE0100408DD6 /* HorizontalGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC581D10FE0100408DD6 /* HorizontalGalleryViewController.swift */; };
 		B102FC5D1D10FF5100408DD6 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC5C1D10FF5100408DD6 /* Random.swift */; };
-		B1076A411F4BCA7900530FD6 /* Diff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1076A401F4BCA7900530FD6 /* Diff.framework */; };
-		B1076A421F4BCA8000530FD6 /* Diff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1076A401F4BCA7900530FD6 /* Diff.framework */; };
 		B10A06281F20073C00069E17 /* CollectionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10A06271F20073C00069E17 /* CollectionPresenter.swift */; };
 		B12F9B261E804C370085F37D /* CollectionKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* CollectionKit.framework */; };
 		B12F9F871F575EF50082791D /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B12F9F851F575EF50082791D /* Nimble.framework */; };
@@ -199,7 +197,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1B7B0571E7DAD1F00F2483E /* CollectionKit.framework in Frameworks */,
-				B1076A421F4BCA8000530FD6 /* Diff.framework in Frameworks */,
 				B15029151EA671E600F89915 /* YetAnotherAnimationLibrary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -218,7 +215,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B1076A411F4BCA7900530FD6 /* Diff.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,7 +522,6 @@
 				B1B7B04C1E7DAD1E00F2483E /* Frameworks */,
 				B1B7B04D1E7DAD1E00F2483E /* Headers */,
 				B1B7B04E1E7DAD1E00F2483E /* Resources */,
-				B12A1C021F23DC2700D5C1C1 /* Carthage */,
 				B1A8E2DE1F59FE5500172387 /* SwiftLint */,
 			);
 			buildRules = (
@@ -612,21 +607,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		B12A1C021F23DC2700D5C1C1 /* Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Diff.framework",
-			);
-			name = Carthage;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
 		B12F9F8A1F575F360082791D /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -650,7 +630,6 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/YetAnotherAnimationLibrary.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Diff.framework",
 			);
 			name = Carthage;
 			outputPaths = (
