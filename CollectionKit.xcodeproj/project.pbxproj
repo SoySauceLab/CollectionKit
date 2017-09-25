@@ -22,10 +22,7 @@
 		B100C3FC1EA55DB500868840 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = B100C3FB1EA55DB500868840 /* Util.swift */; };
 		B102FC591D10FE0100408DD6 /* HorizontalGalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC581D10FE0100408DD6 /* HorizontalGalleryViewController.swift */; };
 		B102FC5D1D10FF5100408DD6 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = B102FC5C1D10FF5100408DD6 /* Random.swift */; };
-		B1076A411F4BCA7900530FD6 /* Diff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1076A401F4BCA7900530FD6 /* Diff.framework */; };
-		B1076A421F4BCA8000530FD6 /* Diff.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1076A401F4BCA7900530FD6 /* Diff.framework */; };
 		B10A06281F20073C00069E17 /* CollectionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B10A06271F20073C00069E17 /* CollectionPresenter.swift */; };
-		B12A1C011F23DC0C00D5C1C1 /* YetAnotherAnimationLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */; };
 		B12F9B261E804C370085F37D /* CollectionKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1B7B0501E7DAD1E00F2483E /* CollectionKit.framework */; };
 		B12F9F871F575EF50082791D /* Nimble.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B12F9F851F575EF50082791D /* Nimble.framework */; };
 		B12F9F881F575EF50082791D /* Quick.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B12F9F861F575EF50082791D /* Quick.framework */; };
@@ -39,7 +36,6 @@
 		B144CE0D1F437A960073CF4E /* ArrayDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE0C1F437A960073CF4E /* ArrayDataProvider.swift */; };
 		B144CE0F1F437A9E0073CF4E /* ClosureDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE0E1F437A9E0073CF4E /* ClosureDataProvider.swift */; };
 		B144CE111F437AAB0073CF4E /* ClosureViewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE101F437AAB0073CF4E /* ClosureViewProvider.swift */; };
-		B144CE131F437AB70073CF4E /* WobblePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE121F437AB70073CF4E /* WobblePresenter.swift */; };
 		B144CE151F437AC10073CF4E /* ZoomPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE141F437AC10073CF4E /* ZoomPresenter.swift */; };
 		B145FFA01F5BB4D700A4F318 /* CollectionComposerSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B145FF9F1F5BB4D700A4F318 /* CollectionComposerSpec.swift */; };
 		B145FFA21F5DF54900A4F318 /* ExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B145FFA11F5DF54900A4F318 /* ExampleView.swift */; };
@@ -54,6 +50,7 @@
 		B15029151EA671E600F89915 /* YetAnotherAnimationLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */; };
 		B157E5181F66FEE5008AEF83 /* OverlayLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B157E5171F66FEE5008AEF83 /* OverlayLayout.swift */; };
 		B157E51A1F6719F0008AEF83 /* SimpleLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B157E5191F6719F0008AEF83 /* SimpleLayout.swift */; };
+		B15F5F761F79952A00986418 /* WobblePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE121F437AB70073CF4E /* WobblePresenter.swift */; };
 		B1688A271F25448900C229BD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A261F25448900C229BD /* ViewController.swift */; };
 		B1688A291F2562AC00C229BD /* ViewCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A281F2562AC00C229BD /* ViewCollectionProvider.swift */; };
 		B1688A2B1F25631200C229BD /* LabelCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A2A1F25631200C229BD /* LabelCollectionProvider.swift */; };
@@ -200,7 +197,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1B7B0571E7DAD1F00F2483E /* CollectionKit.framework in Frameworks */,
-				B1076A421F4BCA8000530FD6 /* Diff.framework in Frameworks */,
 				B15029151EA671E600F89915 /* YetAnotherAnimationLibrary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -219,8 +215,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B12A1C011F23DC0C00D5C1C1 /* YetAnotherAnimationLibrary.framework in Frameworks */,
-				B1076A411F4BCA7900530FD6 /* Diff.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -409,7 +403,6 @@
 			children = (
 				B10A06271F20073C00069E17 /* CollectionPresenter.swift */,
 				B144CE141F437AC10073CF4E /* ZoomPresenter.swift */,
-				B144CE121F437AB70073CF4E /* WobblePresenter.swift */,
 			);
 			path = Presenter;
 			sourceTree = "<group>";
@@ -439,6 +432,7 @@
 				B145FFA31F5DF5C300A4F318 /* PresenterExampleViewController.swift */,
 				B14B0E091F27A084003E5105 /* SelectionButton.swift */,
 				B1A0736F1F438A3500E28E23 /* EdgeShrinkPresenter.swift */,
+				B144CE121F437AB70073CF4E /* WobblePresenter.swift */,
 			);
 			path = PresenterExample;
 			sourceTree = "<group>";
@@ -528,7 +522,6 @@
 				B1B7B04C1E7DAD1E00F2483E /* Frameworks */,
 				B1B7B04D1E7DAD1E00F2483E /* Headers */,
 				B1B7B04E1E7DAD1E00F2483E /* Resources */,
-				B12A1C021F23DC2700D5C1C1 /* Carthage */,
 				B1A8E2DE1F59FE5500172387 /* SwiftLint */,
 			);
 			buildRules = (
@@ -614,22 +607,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		B12A1C021F23DC2700D5C1C1 /* Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/YetAnotherAnimationLibrary.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Diff.framework",
-			);
-			name = Carthage;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
 		B12F9F8A1F575F360082791D /* Carthage */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -653,7 +630,6 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/YetAnotherAnimationLibrary.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Diff.framework",
 			);
 			name = Carthage;
 			outputPaths = (
@@ -693,6 +669,7 @@
 				0E3258411F5DC8B400D455F8 /* ArticleView.swift in Sources */,
 				A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */,
 				B136E9A01D04BA5700D02FCA /* GridViewController.swift in Sources */,
+				B15F5F761F79952A00986418 /* WobblePresenter.swift in Sources */,
 				0E32583F1F5DC8B400D455F8 /* ArticleData.swift in Sources */,
 				B102FC5D1D10FF5100408DD6 /* Random.swift in Sources */,
 				B1688A271F25448900C229BD /* ViewController.swift in Sources */,
@@ -752,7 +729,6 @@
 				B144CE021F4379F20073CF4E /* WaterfallLayout.swift in Sources */,
 				B144CE151F437AC10073CF4E /* ZoomPresenter.swift in Sources */,
 				B183C11E1F63218E00CEAAE1 /* LayoutHelper.swift in Sources */,
-				B144CE131F437AB70073CF4E /* WobblePresenter.swift in Sources */,
 				B1E861F71F21519900621BA0 /* CollectionLayout.swift in Sources */,
 				B14B0E061F2790E6003E5105 /* CollectionReloadable.swift in Sources */,
 				B148237C1F1E88430007A7E2 /* CollectionProvider.swift in Sources */,

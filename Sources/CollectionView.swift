@@ -6,7 +6,6 @@
 //  Copyright © 2016 lkzhao. All rights reserved.
 //
 
-import Diff
 import UIKit
 
 open class CollectionView: UIScrollView {
@@ -201,25 +200,37 @@ open class CollectionView: UIScrollView {
     lastLoadBounds = bounds
 
     let indexes = provider.visibleIndexes(activeFrame: activeFrame)
-    let patch = extendedPatch(from: visibleIdentifiers, to: indexes.map({ identifiers[$0] }))
+    let oldIdentifiers = visibleIdentifiers
+    let newIdentifiers = indexes.map({ identifiers[$0] })
 
-    for element in patch {
-      switch element {
-      case let .insertion(at, identifier):
-        _insertCell(identifier: identifier, at: at)
-      case let .deletion(at):
-        _deleteCell(at: at)
-      case let .move(from, to):
-        _moveCell(from: from, to: to)
+    let oldIdentifierSet = Set(oldIdentifiers)
+    let newIdentifierSet = Set(newIdentifiers)
+
+    // 1st pass, delete all removed cells
+    for identifier in oldIdentifiers {
+      if !newIdentifierSet.contains(identifier) {
+        let cell = identifierToView.removeValue(forKey: identifier)!
+        (cell.currentCollectionPresenter ?? presenter).delete(collectionView: self, view: cell)
       }
     }
+
+    // 2nd pass, insert new views
+    for (index, identifier) in newIdentifiers.enumerated() {
+      let cell: UIView
+      if !oldIdentifierSet.contains(identifier) {
+        currentlyInsertedIdentifiers?.insert(identifier)
+        cell = _generateCell(identifier: identifier)
+        identifierToView[identifier] = cell
+      } else {
+        cell = identifierToView[identifier]!
+      }
+      insertSubview(cell, at: index)
+    }
+
+    self.visibleIdentifiers = newIdentifiers
   }
 
-  private func _insertCell(identifier: String, at: Int) {
-    let previousCell = at > 0 ? identifierToView[visibleIdentifiers[at - 1]] : nil
-    visibleIdentifiers.insert(identifier, at: at)
-    currentlyInsertedIdentifiers?.insert(identifier)
-
+  private func _generateCell(identifier: String) -> UIView {
     let index = identifierToIndex[identifier]!
     let cell = provider.view(at: index)
     let frame = provider.frame(at: index)
@@ -229,38 +240,7 @@ open class CollectionView: UIScrollView {
     cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: index)
     let presenter = cell.currentCollectionPresenter ?? self.presenter
     presenter.insert(collectionView: self, view: cell, at: index, frame: provider.frame(at: index))
-
-    identifierToView[identifier] = cell
-
-    if let previousCell = previousCell {
-      let previousCellIndex = subviews.index(of: previousCell)!
-      insertSubview(cell, at: previousCellIndex + 1)
-    } else {
-      insertSubview(cell, at: 0)
-    }
-  }
-
-  private func _deleteCell(at: Int) {
-    let identifier = visibleIdentifiers.remove(at: at)
-    let cell = identifierToView[identifier]!
-    identifierToView[identifier] = nil
-    (cell.currentCollectionPresenter ?? presenter).delete(collectionView: self, view: cell)
-  }
-
-  private func _moveCell(from: Int, to: Int) {
-    let previousCell = to > 0 ? identifierToView[visibleIdentifiers[to - 1]] : nil
-
-    let identifier = visibleIdentifiers.remove(at: from)
-    visibleIdentifiers.insert(identifier, at: to)
-
-    let cell = identifierToView[identifier]!
-
-    if let previousCell = previousCell {
-      let previousCellIndex = subviews.index(of: previousCell)!
-      insertSubview(cell, at: previousCellIndex + 1)
-    } else {
-      insertSubview(cell, at: 0)
-    }
+    return cell
   }
 }
 
