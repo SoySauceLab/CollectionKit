@@ -236,7 +236,6 @@ open class CollectionView: UIScrollView {
     let frame = provider.frame(at: index)
     cell.bounds.size = frame.bounds.size
     cell.center = frame.center
-    provider.update(view: cell, at: index)
     cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: index)
     let presenter = cell.currentCollectionPresenter ?? self.presenter
     presenter.insert(collectionView: self, view: cell, at: index, frame: provider.frame(at: index))
