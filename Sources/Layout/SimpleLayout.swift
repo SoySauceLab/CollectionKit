@@ -64,10 +64,10 @@ open class VerticalSimpleLayout<Data>: SimpleLayout<Data> {
     var visibleIndexes = [Int]()
     while index < frames.count {
       let frame = frames[index]
-      if frame.minY > activeFrame.maxY {
+      if frame.minY >= activeFrame.maxY {
         break
       }
-      if frame.maxY >= activeFrame.minY {
+      if frame.maxY > activeFrame.minY {
         visibleIndexes.append(index)
       }
       index += 1
@@ -88,10 +88,10 @@ open class HorizontalSimpleLayout<Data>: SimpleLayout<Data> {
     var visibleIndexes = [Int]()
     while index < frames.count {
       let frame = frames[index]
-      if frame.minX > activeFrame.maxX {
+      if frame.minX >= activeFrame.maxX {
         break
       }
-      if frame.maxX >= activeFrame.minX {
+      if frame.maxX > activeFrame.minX {
         visibleIndexes.append(index)
       }
       index += 1
