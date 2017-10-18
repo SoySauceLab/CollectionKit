@@ -76,11 +76,12 @@ open class CollectionView: UIScrollView {
   }
 
   @objc func tap(gesture: UITapGestureRecognizer) {
-    for identifier in visibleIdentifiers {
+    for identifier in visibleIdentifiers.reversed() {
       let cell = identifierToView[identifier]!
       let index = identifierToIndex[identifier]!
       if cell.point(inside: gesture.location(in: cell), with: nil) {
         provider.didTap(view: cell, at: index)
+        return
       }
     }
   }
