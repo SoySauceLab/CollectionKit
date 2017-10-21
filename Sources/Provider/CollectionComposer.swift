@@ -116,7 +116,7 @@ open class CollectionComposer: BaseCollectionProvider {
   }
 
   open override func willReload() {
-    for section in currentSections {
+    for section in sections {
       section.willReload()
     }
     prepareForReload()
