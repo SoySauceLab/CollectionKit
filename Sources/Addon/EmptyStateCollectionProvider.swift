@@ -24,6 +24,7 @@ public class EmptyStateCollectionProvider: CollectionComposer {
   }
 
   public override func willReload() {
+    content.willReload()
     if content.numberOfItems == 0, sections.first === content {
       if emptyStateView == nil {
         emptyStateView = emptyStateViewGetter()
