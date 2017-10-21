@@ -116,10 +116,14 @@ open class CollectionComposer: BaseCollectionProvider {
   }
 
   open override func willReload() {
-    currentSections = sections
     for section in currentSections {
       section.willReload()
     }
+    prepareForReload()
+  }
+
+  internal func prepareForReload() {
+    currentSections = sections
     sectionBeginIndex = []
     sectionForIndex = []
     sectionBeginIndex.reserveCapacity(currentSections.count)

@@ -32,9 +32,14 @@ public class EmptyStateCollectionProvider: CollectionComposer {
       let viewSection = ViewCollectionProvider(emptyStateView!, sizeStrategy: (.fill, .fill))
       viewSection.identifier = "emptyStateView"
       sections = [viewSection]
+      super.willReload()
     } else if content.numberOfItems > 0, sections.first !== content {
       sections = [content]
+      prepareForReload() // no need to call willReload on `content`
     }
-    super.willReload()
+  }
+
+  public override func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
+    return reloadable === content || content.hasReloadable(reloadable) || super.hasReloadable(reloadable)
   }
 }
