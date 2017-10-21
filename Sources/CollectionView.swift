@@ -35,20 +35,10 @@ open class CollectionView: UIScrollView {
 
   var lastLoadBounds: CGRect?
 
-  public var activeFrameInset: UIEdgeInsets? {
-    didSet {
-      if !reloading && activeFrameInset != oldValue {
-        loadCells()
-      }
-    }
-  }
   open override var contentOffset: CGPoint {
     didSet {
       scrollVelocity = contentOffset - oldValue
     }
-  }
-  var activeFrame: CGRect {
-    return UIEdgeInsetsInsetRect(visibleFrame, activeFrameInset ?? .zero)
   }
 
   public convenience init(provider: AnyCollectionProvider) {
@@ -200,7 +190,7 @@ open class CollectionView: UIScrollView {
   private func _loadCells() {
     lastLoadBounds = bounds
 
-    let indexes = provider.visibleIndexes(activeFrame: activeFrame)
+    let indexes = provider.visibleIndexes(activeFrame: visibleFrame)
     let oldIdentifiers = visibleIdentifiers
     let newIdentifiers = indexes.map({ identifiers[$0] })
 
