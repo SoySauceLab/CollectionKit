@@ -31,7 +31,7 @@ class SimpleTestProvider<Data>: CollectionProvider<Data, UILabel> {
 
   init(data: [Data]) {
     super.init(
-      dataProvider: ArrayDataProvider(data: data, identifierMapper: {,<#arg#> ,<#arg#> ,<#arg#> ,<#arg#> ,<#arg#> ,<#arg#> ,<#arg#>  return "\($0.1)" }),
+      dataProvider: ArrayDataProvider(data: data, identifierMapper: { _, data in "\(data)" }),
       viewUpdater: { (label: UILabel, data: Data, index: Int) in
         label.backgroundColor = .red
         label.layer.cornerRadius = 8
