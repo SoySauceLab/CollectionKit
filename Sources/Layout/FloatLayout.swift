@@ -12,7 +12,8 @@ public class FloatLayout<Data>: WrapperLayout<Data> {
   var floatingFrames: [(index: Int, frame: CGRect)] = []
   var isFloated: (Int, CGRect) -> Bool
 
-  public init(rootLayout: CollectionLayout<Data>, isFloated: @escaping (Int, CGRect) -> Bool = { $0.0 % 2 == 0 }) {
+  public init(rootLayout: CollectionLayout<Data>,
+              isFloated: @escaping (Int, CGRect) -> Bool = { index, _ in index % 2 == 0 }) {
     self.isFloated = isFloated
     super.init(rootLayout)
   }

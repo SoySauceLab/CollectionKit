@@ -163,7 +163,7 @@ class MessagesViewController: CollectionViewController {
 
 // For sending new messages
 extension MessagesViewController {
-  func send() {
+  @objc func send() {
     let text = UUID().uuidString
     
     presenter.sendingMessage = true

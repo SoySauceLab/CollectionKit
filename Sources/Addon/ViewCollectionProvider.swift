@@ -28,7 +28,7 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
     let layout: CollectionLayout<UIView> = insets == .zero ? FlowLayout() : FlowLayout().inset(by: insets)
     super.init(identifier: identifier,
                dataProvider: ArrayDataProvider(data: views, identifierMapper: {
-                return "\($0.1.hash)"
+                return "\($1.hash)"
                }),
                viewProvider: ViewProvider(),
                layout: layout,
@@ -56,7 +56,7 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
               layout: CollectionLayout<UIView>) {
     super.init(identifier: identifier,
                dataProvider: ArrayDataProvider(data: views, identifierMapper: {
-                return "\($0.1.hash)"
+                return "\($1.hash)"
                }),
                viewProvider: ViewProvider(),
                layout: layout,

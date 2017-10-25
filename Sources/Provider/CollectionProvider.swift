@@ -8,7 +8,7 @@
 
 import UIKit
 
-func defaultSizeProvider<Data>(at: Int, data: Data, collectionSize: CGSize) -> CGSize {
+public func defaultSizeProvider<Data>(at: Int, data: Data, collectionSize: CGSize) -> CGSize {
   return collectionSize
 }
 

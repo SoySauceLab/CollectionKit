@@ -60,7 +60,6 @@
 		B183C1201F6349B800CEAAE1 /* InsetLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183C11F1F6349B800CEAAE1 /* InsetLayout.swift */; };
 		B183C1221F634A3200CEAAE1 /* TransposeLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183C1211F634A3200CEAAE1 /* TransposeLayout.swift */; };
 		B19D64C91F23DCA800D02FDB /* CollectionReuseViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19E0BCF1F22B21C00214866 /* CollectionReuseViewManager.swift */; };
-		B19D64CF1F23DE8100D02FDB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B19D64CD1F23DE8100D02FDB /* Info.plist */; };
 		B19D64D01F23DE8100D02FDB /* RowLayoutSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B19D64CE1F23DE8100D02FDB /* RowLayoutSpec.swift */; };
 		B1A073701F438A3500E28E23 /* EdgeShrinkPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A0736F1F438A3500E28E23 /* EdgeShrinkPresenter.swift */; };
 		B1A54FAD1EA3E0ED00A96112 /* UIScrollView+CollectionKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A54FAC1EA3E0ED00A96112 /* UIScrollView+CollectionKit.swift */; };
@@ -540,21 +539,23 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = lkzhao;
 				TargetAttributes = {
 					A3FC21C31C6EE5AA008566BB = {
 						CreatedOnToolsVersion = 7.2;
 						DevelopmentTeam = 4VSEW78TKT;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0900;
 					};
 					B12F9B201E804C370085F37D = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = 4VSEW78TKT;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					B1B7B04F1E7DAD1E00F2483E = {
 						CreatedOnToolsVersion = 8.2;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -593,7 +594,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B19D64CF1F23DE8100D02FDB /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -777,14 +777,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -824,14 +830,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -873,7 +885,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lkzhao.CollectionKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -893,7 +906,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lkzhao.CollectionKitExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -913,7 +927,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lkzhao.CollectionKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -932,7 +947,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lkzhao.CollectionKitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -961,7 +977,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -991,7 +1008,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lkzhao.CollectionKit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
