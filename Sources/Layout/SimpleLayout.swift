@@ -56,7 +56,7 @@ open class VerticalSimpleLayout<Data>: SimpleLayout<Data> {
   private var maxFrameLength: CGFloat = 0
 
   open override func doneLayout() {
-    maxFrameLength = frames.max { $0.0.height < $0.1.height }?.height ?? 0
+    maxFrameLength = frames.max { $0.height < $1.height }?.height ?? 0
   }
 
   open override func visibleIndexes(activeFrame: CGRect) -> [Int] {
@@ -80,7 +80,7 @@ open class HorizontalSimpleLayout<Data>: SimpleLayout<Data> {
   private var maxFrameLength: CGFloat = 0
 
   open override func doneLayout() {
-    maxFrameLength = frames.max { $0.0.width < $0.1.width }?.width ?? 0
+    maxFrameLength = frames.max { $0.width < $1.width }?.width ?? 0
   }
 
   open override func visibleIndexes(activeFrame: CGRect) -> [Int] {

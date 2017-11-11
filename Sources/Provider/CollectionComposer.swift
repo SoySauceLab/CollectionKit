@@ -76,7 +76,7 @@ open class CollectionComposer: BaseCollectionProvider {
     layout.layout(
       collectionSize: collectionSize,
       dataProvider: ArrayDataProvider(data: currentSections, identifierMapper: {
-       return $0.1.identifier ?? "\($0.0)"
+       return $1.identifier ?? "\($0)"
       }),
       sizeProvider: { (_, data, collectionSize) in
         data.layout(collectionSize: collectionSize)

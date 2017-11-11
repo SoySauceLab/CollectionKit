@@ -20,7 +20,8 @@ open class ClosureDataProvider<Data>: CollectionDataProvider<Data> {
     }
   }
 
-  public init(getter: @escaping () -> [Data], identifierMapper: @escaping (Int, Data) -> String = { "\($0)" }) {
+  public init(getter: @escaping () -> [Data],
+              identifierMapper: @escaping (Int, Data) -> String = { index, _ in "\(index)" }) {
     self.getter = getter
     self.identifierMapper = identifierMapper
   }

@@ -86,7 +86,7 @@ open class CollectionView: UIScrollView {
     }
   }
 
-  func pan(gesture: UIPanGestureRecognizer) {
+  @objc func pan(gesture: UIPanGestureRecognizer) {
     screenDragLocation = absoluteLocation(for: gesture.location(in: self))
   }
 

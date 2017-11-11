@@ -31,7 +31,7 @@ class SimpleTestProvider<Data>: CollectionProvider<Data, UILabel> {
 
   init(data: [Data]) {
     super.init(
-      dataProvider: ArrayDataProvider(data: data, identifierMapper: { return "\($0.1)" }),
+      dataProvider: ArrayDataProvider(data: data, identifierMapper: { _, data in "\(data)" }),
       viewUpdater: { (label: UILabel, data: Data, index: Int) in
         label.backgroundColor = .red
         label.layer.cornerRadius = 8
@@ -68,7 +68,7 @@ extension UITapGestureRecognizer {
     let swizzling: (AnyClass, Selector, Selector) -> Void = { forClass, originalSelector, swizzledSelector in
       let originalMethod = class_getInstanceMethod(forClass, originalSelector)
       let swizzledMethod = class_getInstanceMethod(forClass, swizzledSelector)
-      method_exchangeImplementations(originalMethod, swizzledMethod)
+      method_exchangeImplementations(originalMethod!, swizzledMethod!)
     }
     let originalSelector = #selector(location(in:))
     let swizzledSelector = #selector(test_location(in:))

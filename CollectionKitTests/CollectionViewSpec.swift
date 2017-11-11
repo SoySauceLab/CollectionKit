@@ -184,7 +184,7 @@ class CollectionViewSpec: QuickSpec {
         expect((collectionView.cell(at: 1) as! UILabel).text) == "2"
 
         provider = CollectionProvider(
-          dataProvider: ArrayDataProvider(data: [0,0,0,0], identifierMapper: { return "\($0.1)" }),
+          dataProvider: ArrayDataProvider(data: [0,0,0,0], identifierMapper: { _, data in "\(data)" }),
           viewUpdater: { (label: UILabel, data: Int, index: Int) in
             label.text = "\(data)"
           },

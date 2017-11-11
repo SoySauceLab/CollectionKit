@@ -74,7 +74,7 @@ class ReloadDataViewController: CollectionViewController {
     collectionView.frame = CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight - 44)
   }
 
-  func add() {
+  @objc func add() {
     dataProvider.data.append(currentMax)
     currentMax += 1
     // NOTE: Call reloadData() directly will make collectionView update immediately, so that contentSize
