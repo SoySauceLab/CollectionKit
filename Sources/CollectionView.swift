@@ -28,7 +28,6 @@ open class CollectionView: UIScrollView {
   public private(set) var visibleIdentifiers: [String] = []
 
   var currentlyInsertedCells: Set<UIView>?
-
   var lastLoadBounds: CGRect?
 
   public var activeFrameInset: UIEdgeInsets? {
@@ -182,7 +181,7 @@ open class CollectionView: UIScrollView {
     }
 
     // 2nd pass, insert new views
-    visibleCells = zip(newIdentifiers, newIndexes).map { identifier, index in
+    let newCells: [UIView] = zip(newIdentifiers, newIndexes).map { identifier, index in
       if let existingCell = oldIdentifierToCellMap[identifier] {
         return existingCell
       } else {
@@ -192,12 +191,13 @@ open class CollectionView: UIScrollView {
       }
     }
 
-    for (index, cell) in visibleCells.enumerated() {
+    for (index, cell) in newCells.enumerated() {
       insertSubview(cell, at: index)
     }
 
-    self.visibleIndexes = newIndexes
-    self.visibleIdentifiers = newIdentifiers
+    visibleIndexes = newIndexes
+    visibleIdentifiers = newIdentifiers
+    visibleCells = newCells
   }
 
   private func _generateCell(index: Int) -> UIView {
