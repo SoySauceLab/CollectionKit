@@ -22,16 +22,12 @@ open class CollectionView: UIScrollView {
 
   public let tapGestureRecognizer = UITapGestureRecognizer()
 
-  // all identifier provided by the provider
-  var identifiers: [String] = []
-  // index for all identifiers
-  var identifierToIndex: [String: Int] = [:]
   // visible identifiers for cells on screen
-  var visibleIdentifiers: [String] = []
-  // view for identifiers that are on screen
-  var identifierToView: [String: UIView] = [:]
+  public private(set) var visibleIndexes: [Int] = []
+  public private(set) var visibleCells: [UIView] = []
+  public private(set) var visibleIdentifiers: [String] = []
 
-  var currentlyInsertedIdentifiers: Set<String>?
+  var currentlyInsertedCells: Set<UIView>?
 
   var lastLoadBounds: CGRect?
 
@@ -76,9 +72,7 @@ open class CollectionView: UIScrollView {
   }
 
   @objc func tap(gesture: UITapGestureRecognizer) {
-    for identifier in visibleIdentifiers.reversed() {
-      let cell = identifierToView[identifier]!
-      let index = identifierToIndex[identifier]!
+    for (cell, index) in zip(visibleCells, visibleIndexes).reversed() {
       if cell.point(inside: gesture.location(in: cell), with: nil) {
         provider.didTap(view: cell, at: index)
         return
@@ -124,9 +118,7 @@ open class CollectionView: UIScrollView {
 
     _loadCells()
 
-    for identifier in visibleIdentifiers {
-      let cell = identifierToView[identifier]!
-      let index = identifierToIndex[identifier]!
+    for (cell, index) in zip(visibleCells, visibleIndexes) {
       let presenter = cell.currentCollectionPresenter ?? self.presenter
       presenter.update(collectionView: self, view: cell, at: index, frame: provider.frame(at: index))
     }
@@ -150,16 +142,13 @@ open class CollectionView: UIScrollView {
     }
     let contentOffsetDiff = contentOffset - oldContentOffset
 
-    currentlyInsertedIdentifiers = Set<String>()
-    _reloadIdentifiers()
+    currentlyInsertedCells = Set<UIView>()
     _loadCells()
 
-    for identifier in visibleIdentifiers {
-      let cell = identifierToView[identifier]!
-      let index = identifierToIndex[identifier]!
+    for (cell, index) in zip(visibleCells, visibleIndexes) {
       cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: index)
       let presenter = cell.currentCollectionPresenter ?? self.presenter
-      if !currentlyInsertedIdentifiers!.contains(identifier) {
+      if !currentlyInsertedCells!.contains(cell) {
         // cell was on screen before reload, need to update the view.
         provider.update(view: cell, at: index)
         presenter.shift(collectionView: self, delta: contentOffsetDiff, view: cell,
@@ -168,7 +157,7 @@ open class CollectionView: UIScrollView {
       presenter.update(collectionView: self, view: cell,
                        at: index, frame: provider.frame(at: index))
     }
-    currentlyInsertedIdentifiers = nil
+    currentlyInsertedCells = nil
 
     needsReload = false
     reloadCount += 1
@@ -176,63 +165,42 @@ open class CollectionView: UIScrollView {
     provider.didReload()
   }
 
-  private func _reloadIdentifiers() {
-    var newIdentifiers: [String] = []
-    var newIdentifierToIndex: [String: Int] = [:]
-    for index in 0..<provider.numberOfItems {
-      var identifier = provider.identifier(at: index)
-      if newIdentifierToIndex[identifier] != nil {
-        // Duplicate Identifier. will add a counter suffix to the identifier.
-        var i = 2
-        let originalIdentifier = identifier
-        repeat {
-          identifier = originalIdentifier + "\(i)"
-          i += 1
-        } while newIdentifierToIndex[identifier] != nil
-      }
-      newIdentifiers.append(identifier)
-      newIdentifierToIndex[identifier] = index
-    }
-    identifiers = newIdentifiers
-    identifierToIndex = newIdentifierToIndex
-  }
-
   private func _loadCells() {
     lastLoadBounds = bounds
 
-    let indexes = provider.visibleIndexes(activeFrame: activeFrame)
-    let oldIdentifiers = visibleIdentifiers
-    let newIdentifiers = indexes.map({ identifiers[$0] })
+    let newIndexes = provider.visibleIndexes(activeFrame: activeFrame)
+    let newIdentifiers = newIndexes.map { provider.identifier(at: $0) }
 
-    let oldIdentifierSet = Set(oldIdentifiers)
+    let oldIdentifierToCellMap = Dictionary(uniqueKeysWithValues: zip(visibleIdentifiers, visibleCells))
     let newIdentifierSet = Set(newIdentifiers)
 
     // 1st pass, delete all removed cells
-    for identifier in oldIdentifiers {
+    for (identifier, cell) in oldIdentifierToCellMap {
       if !newIdentifierSet.contains(identifier) {
-        let cell = identifierToView.removeValue(forKey: identifier)!
         (cell.currentCollectionPresenter ?? presenter).delete(collectionView: self, view: cell)
       }
     }
 
     // 2nd pass, insert new views
-    for (index, identifier) in newIdentifiers.enumerated() {
-      let cell: UIView
-      if !oldIdentifierSet.contains(identifier) {
-        currentlyInsertedIdentifiers?.insert(identifier)
-        cell = _generateCell(identifier: identifier)
-        identifierToView[identifier] = cell
+    visibleCells = zip(newIdentifiers, newIndexes).map { identifier, index in
+      if let existingCell = oldIdentifierToCellMap[identifier] {
+        return existingCell
       } else {
-        cell = identifierToView[identifier]!
+        let cell = _generateCell(index: index)
+        currentlyInsertedCells?.insert(cell)
+        return cell
       }
+    }
+
+    for (index, cell) in visibleCells.enumerated() {
       insertSubview(cell, at: index)
     }
 
+    self.visibleIndexes = newIndexes
     self.visibleIdentifiers = newIdentifiers
   }
 
-  private func _generateCell(identifier: String) -> UIView {
-    let index = identifierToIndex[identifier]!
+  private func _generateCell(index: Int) -> UIView {
     let cell = provider.view(at: index)
     let frame = provider.frame(at: index)
     cell.bounds.size = frame.bounds.size
@@ -245,29 +213,25 @@ open class CollectionView: UIScrollView {
 }
 
 extension CollectionView {
-  public var visibleCells: [UIView] {
-    return visibleIdentifiers.map { identifierToView[$0]! }
-  }
-
   public func indexForCell(at point: CGPoint) -> Int? {
-    for (index, cell) in visibleCells.enumerated() {
+    for (index, cell) in zip(visibleIndexes, visibleCells) {
       if cell.point(inside: cell.convert(point, from: self), with: nil) {
-        return identifierToIndex[visibleIdentifiers[index]]
+        return index
       }
     }
     return nil
   }
 
   public func index(for cell: UIView) -> Int? {
-    if let index = visibleCells.index(of: cell) {
-      return identifierToIndex[visibleIdentifiers[index]]
+    if let position = visibleCells.index(of: cell) {
+      return visibleIndexes[position]
     }
     return nil
   }
 
   public func cell(at index: Int) -> UIView? {
-    if let identifier = visibleIdentifiers.lazy.filter({ self.identifierToIndex[$0] == index }).first {
-      return identifierToView[identifier]
+    if let position = visibleIndexes.index(of: index) {
+      return visibleCells[position]
     }
     return nil
   }
