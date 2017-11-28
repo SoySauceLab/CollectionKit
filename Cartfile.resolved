@@ -1,4 +1,3 @@
-github "Quick/Nimble" "v7.0.2"
+github "Quick/Nimble" "v7.0.3"
 github "Quick/Quick" "v1.2.0"
 github "lkzhao/YetAnotherAnimationLibrary" "1.1.0"
-github "wokalski/Diff.swift" "0.5.3"

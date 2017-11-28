@@ -34,12 +34,12 @@ class ViewController: CollectionViewController {
       data: examples,
       viewUpdater: { (view: ExampleView, data: (String, UIViewController.Type), at: Int) in
         view.populate(title: data.0, contentViewControllerType: data.1)
-      },
-      layout: FlowLayout(lineSpacing: 30).inset(by: bodyInset),
-      sizeProvider: { (_, _, size) -> CGSize in
-        return CGSize(width: size.width, height: max(360, UIScreen.main.bounds.height * 0.7))
       }
     )
+    examplesSection.layout = FlowLayout(lineSpacing: 30).inset(by: bodyInset)
+    examplesSection.sizeProvider = { (_, _, size) -> CGSize in
+      return CGSize(width: size.width, height: max(360, UIScreen.main.bounds.height * 0.7))
+    }
 
     provider = CollectionComposer(
       space(100),

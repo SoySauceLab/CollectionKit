@@ -15,7 +15,7 @@ open class LabelCollectionProvider: ViewCollectionProvider {
   public init(identifier: String? = nil, insets: UIEdgeInsets = .zero) {
     let label = UILabel()
     label.numberOfLines = 0
-    super.init(identifier: identifier, label, sizeStrategy:(.fill, .fit), insets: insets)
+    super.init(identifier: identifier, label, sizeStrategy: (.fill, .fit), insets: insets)
   }
   public init(identifier: String? = nil,
               text: String,
@@ -27,12 +27,12 @@ open class LabelCollectionProvider: ViewCollectionProvider {
     label.textColor = color
     label.text = text
     label.numberOfLines = 0
-    super.init(identifier: identifier, label, sizeStrategy:(.fill, .fit), insets: insets)
+    super.init(identifier: identifier, label, sizeStrategy: (.fill, .fit), insets: insets)
   }
   public init(identifier: String? = nil, attributedString: NSAttributedString, insets: UIEdgeInsets = .zero) {
     let label = UILabel()
     label.attributedText = attributedString
     label.numberOfLines = 0
-    super.init(identifier: identifier, label, sizeStrategy:(.fill, .fit), insets: insets)
+    super.init(identifier: identifier, label, sizeStrategy: (.fill, .fit), insets: insets)
   }
 }

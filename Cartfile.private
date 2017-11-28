@@ -1,4 +1,3 @@
 github "Quick/Quick"
 github "Quick/Nimble"
 github "lkzhao/YetAnotherAnimationLibrary"
-github "wokalski/Diff.swift"

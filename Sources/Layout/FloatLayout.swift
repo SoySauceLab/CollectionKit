@@ -27,7 +27,7 @@ public class FloatLayout<Data>: WrapperLayout<Data> {
                               sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
     rootLayout.layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
     floatingFrames = (0..<dataProvider.numberOfItems).map {
-      (index: $0, frame: rootLayout.frame(at:$0))
+      (index: $0, frame: rootLayout.frame(at: $0))
     }.filter {
       isFloated($0.0, $0.1)
     }

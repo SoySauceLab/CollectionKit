@@ -10,7 +10,7 @@ import UIKit
 
 open class CollectionView: UIScrollView {
   public var provider: AnyCollectionProvider = BaseCollectionProvider() { didSet { setNeedsReload() } }
-  public var presenter: CollectionPresenter = CollectionPresenter()
+  public var presenter: CollectionPresenter = CollectionPresenter() { didSet { setNeedsReload() } }
 
   public private(set) var reloadCount = 0
   public private(set) var needsReload = true
@@ -128,7 +128,7 @@ open class CollectionView: UIScrollView {
       let cell = identifierToView[identifier]!
       let index = identifierToIndex[identifier]!
       let presenter = cell.currentCollectionPresenter ?? self.presenter
-      presenter.update(collectionView:self, view: cell, at: index, frame: provider.frame(at: index))
+      presenter.update(collectionView: self, view: cell, at: index, frame: provider.frame(at: index))
     }
 
     loading = false
@@ -165,7 +165,7 @@ open class CollectionView: UIScrollView {
         presenter.shift(collectionView: self, delta: contentOffsetDiff, view: cell,
                         at: index, frame: provider.frame(at: index))
       }
-      presenter.update(collectionView:self, view: cell,
+      presenter.update(collectionView: self, view: cell,
                        at: index, frame: provider.frame(at: index))
     }
     currentlyInsertedIdentifiers = nil

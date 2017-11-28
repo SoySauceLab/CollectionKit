@@ -10,9 +10,9 @@ import UIKit
 
 public class ClosureViewProvider<Data, View>: CollectionViewProvider<Data, View> where View: UIView {
   public var viewUpdater: (View, Data, Int) -> Void
-  public var viewGenerator: (() -> View)?
+  public var viewGenerator: ((Data, Int) -> View)?
 
-  public init(viewGenerator: (() -> View)? = nil, viewUpdater: @escaping (View, Data, Int) -> Void) {
+  public init(viewGenerator: ((Data, Int) -> View)? = nil, viewUpdater: @escaping (View, Data, Int) -> Void) {
     self.viewGenerator = viewGenerator
     self.viewUpdater = viewUpdater
     super.init()
@@ -24,7 +24,7 @@ public class ClosureViewProvider<Data, View>: CollectionViewProvider<Data, View>
 
   public override func view(data: Data, index: Int) -> View {
     if let viewGenerator = viewGenerator {
-      let view = reuseManager.dequeue(viewGenerator())
+      let view = reuseManager.dequeue(viewGenerator(data, index))
       update(view: view, data: data, index: index)
       return view
     } else {

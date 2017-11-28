@@ -44,7 +44,7 @@ class ReloadDataViewController: CollectionViewController {
     presenter.insertAnimation = .scale
     presenter.deleteAnimation = .scale
     presenter.updateAnimation = .normal
-    provider = CollectionProvider(
+    let provider = CollectionProvider(
       dataProvider: dataProvider,
       viewUpdater: { (view: UILabel, data: Int, index: Int) in
         view.backgroundColor = UIColor(hue: CGFloat(data) / 30,
@@ -55,15 +55,17 @@ class ReloadDataViewController: CollectionViewController {
         view.textAlignment = .center
         view.layer.cornerRadius = 4
         view.text = "\(data)"
-      },
-      layout: layout,
-      sizeProvider: { (index, data, _) in
-        return CGSize(width: 80, height: data % 3 == 0 ? 120 : 80)
-      },
-      presenter: presenter,
-      tapHandler: { (view: UILabel, at: Int, _: CollectionDataProvider<Int>) in
-        self.dataProvider.data.remove(at: at)
-      })
+      }
+    )
+    provider.layout = layout
+    provider.sizeProvider = { (index, data, _) in
+      return CGSize(width: 80, height: data % 3 == 0 ? 120 : 80)
+    }
+    provider.presenter = presenter
+    provider.tapHandler = { [weak self] (view, index, _) in
+      self?.dataProvider.data.remove(at: index)
+    }
+    self.provider = provider
   }
 
   override func viewDidLayoutSubviews() {
