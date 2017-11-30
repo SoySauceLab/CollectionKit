@@ -27,17 +27,18 @@ class HorizontalGalleryViewController: CollectionViewController {
     super.viewDidLoad()
 
     collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10)
-    provider = CollectionProvider(
-      data: testImages,
-      viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
-        view.image = data
-        view.layer.cornerRadius = 5
-        view.clipsToBounds = true
-      },
-      layout: WaterfallLayout<UIImage>(columns: 2).transposed(),
-      sizeProvider: imageSizeProvider,
-      presenter: WobblePresenter()
-    )
+    let provider = CollectionProvider(data: testImages, viewGenerator: { (data, index) -> UIImageView in
+      let view = UIImageView()
+      view.layer.cornerRadius = 5
+      view.clipsToBounds = true
+      return view
+    }, viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
+      view.image = data
+    })
+    provider.layout = WaterfallLayout<UIImage>(columns: 2).transposed()
+    provider.sizeProvider = imageSizeProvider
+    provider.presenter = WobblePresenter()
+    self.provider = provider
   }
 
 }

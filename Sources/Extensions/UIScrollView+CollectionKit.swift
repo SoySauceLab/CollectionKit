@@ -16,7 +16,7 @@ extension UIScrollView {
     return UIEdgeInsetsInsetRect(visibleFrame, contentInset)
   }
   public var absoluteFrameLessInset: CGRect {
-    return UIEdgeInsetsInsetRect(CGRect(origin:.zero, size:bounds.size), contentInset)
+    return UIEdgeInsetsInsetRect(CGRect(origin: .zero, size: bounds.size), contentInset)
   }
   public var innerSize: CGSize {
     return absoluteFrameLessInset.size

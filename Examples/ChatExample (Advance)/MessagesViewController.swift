@@ -127,14 +127,15 @@ class MessagesViewController: CollectionViewController {
     
     presenter.sourceView = newMessageButton
     presenter.dataProvider = dataProvider
-    provider = CollectionProvider(
+    let provider = CollectionProvider(
       dataProvider: dataProvider,
       viewUpdater: { (view: MessageCell, data: Message, at: Int) in
         view.message = data
-      },
-      layout: MessageLayout(),
-      presenter: presenter
+      }
     )
+    provider.layout = MessageLayout()
+    provider.presenter = presenter
+    self.provider = provider
   }
 
   override func viewDidLayoutSubviews() {

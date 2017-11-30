@@ -41,11 +41,21 @@ open class BaseCollectionProvider: AnyCollectionProvider {
     return nil
   }
 
-  open func willReload() {}
+  open func willReload() {
+    needsReload = false
+  }
   open func didReload() {}
   open func didTap(view: UIView, at: Int) {}
 
   open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     return reloadable === self
+  }
+
+  public private(set) var needsReload = false
+  public func setNeedsReload() {
+    if !needsReload {
+      needsReload = true
+      collectionView?.setNeedsReload()
+    }
   }
 }
