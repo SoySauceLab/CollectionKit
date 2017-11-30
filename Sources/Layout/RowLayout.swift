@@ -14,6 +14,9 @@ public class RowLayout<Data>: HorizontalSimpleLayout<Data> {
   public var alignItems: AlignItem
   public var justifyContent: JustifyContent
 
+  /// always stretch filling item to fill empty space even if sizeProvider returns a smaller size
+  public var alwaysFillEmptySpaces: Bool = true
+
   public init(fillIdentifiers: Set<String>,
               spacing: CGFloat = 0,
               justifyContent: JustifyContent = .start,
@@ -80,7 +83,7 @@ extension RowLayout {
     for i in fillIndexes {
       let size = sizeProvider(i, dataProvider.data(at: i), CGSize(width: leftOverWidthPerItem,
                                                                   height: collectionSize.height))
-      sizes[i] = CGSize(width: max(leftOverWidthPerItem, size.width), height: size.height)
+      sizes[i] = CGSize(width: alwaysFillEmptySpaces ? max(leftOverWidthPerItem, size.width) : size.width, height: size.height)
       freezedWidth += sizes[i].width
     }
 
