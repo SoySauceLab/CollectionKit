@@ -16,11 +16,7 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
     case absolute(CGFloat)
   }
 
-  var arrayDataProvider: ArrayDataProvider<UIView> {
-    return dataProvider as! ArrayDataProvider<UIView>
-  }
-
-  var views: [UIView] {
+  public var views: [UIView] {
     get { return arrayDataProvider.data }
     set {
       guard arrayDataProvider.data != newValue else { return }
@@ -30,6 +26,10 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
 
   public var sizeStrategy: (width: ViewSizeStrategy, height: ViewSizeStrategy)
   public var sizeStrategyOverride: [UIView: (width: ViewSizeStrategy, height: ViewSizeStrategy)] = [:]
+
+  private var arrayDataProvider: ArrayDataProvider<UIView> {
+    return dataProvider as! ArrayDataProvider<UIView>
+  }
 
   private class ViewProvider: CollectionViewProvider<UIView, UIView> {
     override func view(data: UIView, index: Int) -> UIView {
