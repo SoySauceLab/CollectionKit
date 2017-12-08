@@ -83,7 +83,8 @@ extension RowLayout {
     for i in fillIndexes {
       let size = sizeProvider(i, dataProvider.data(at: i), CGSize(width: leftOverWidthPerItem,
                                                                   height: collectionSize.height))
-      sizes[i] = CGSize(width: alwaysFillEmptySpaces ? max(leftOverWidthPerItem, size.width) : size.width, height: size.height)
+      let width = alwaysFillEmptySpaces ? max(leftOverWidthPerItem, size.width) : size.width
+      sizes[i] = CGSize(width: width, height: size.height)
       freezedWidth += sizes[i].width
     }
 
