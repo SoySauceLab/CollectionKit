@@ -29,8 +29,8 @@ class SimpleTestProvider<Data>: CollectionProvider<Data, UILabel> {
     set { (dataProvider as! ArrayDataProvider<Data>).data = newValue }
   }
 
-  init(data: [Data]) {
-    super.init(
+  convenience init(data: [Data]) {
+    self.init(
       dataProvider: ArrayDataProvider(data: data, identifierMapper: { _, data in "\(data)" }),
       viewUpdater: { (label: UILabel, data: Data, index: Int) in
         label.backgroundColor = .red
