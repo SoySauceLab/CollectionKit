@@ -42,6 +42,7 @@
 		B145FFA41F5DF5C300A4F318 /* PresenterExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B145FFA31F5DF5C300A4F318 /* PresenterExampleViewController.swift */; };
 		B145FFA61F5DF60300A4F318 /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B145FFA51F5DF60300A4F318 /* CollectionViewController.swift */; };
 		B148237C1F1E88430007A7E2 /* CollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B148237A1F1E87F60007A7E2 /* CollectionProvider.swift */; };
+		B14ABA2D1FE2F59B005D889A /* ReloadAnimationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14ABA2C1FE2F59B005D889A /* ReloadAnimationViewController.swift */; };
 		B14B0DFD1F2679E7003E5105 /* UIView+CollectionKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0DFB1F2679E4003E5105 /* UIView+CollectionKit.swift */; };
 		B14B0E001F267FE9003E5105 /* TestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0DFE1F267FE0003E5105 /* TestData.swift */; };
 		B14B0E021F2682EA003E5105 /* CollectionSizeProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B14B0E011F2682EA003E5105 /* CollectionSizeProvider.swift */; };
@@ -157,6 +158,8 @@
 		B145FFA31F5DF5C300A4F318 /* PresenterExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresenterExampleViewController.swift; sourceTree = "<group>"; };
 		B145FFA51F5DF60300A4F318 /* CollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
 		B148237A1F1E87F60007A7E2 /* CollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionProvider.swift; sourceTree = "<group>"; };
+		B14ABA2B1FE2DC1B005D889A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		B14ABA2C1FE2F59B005D889A /* ReloadAnimationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReloadAnimationViewController.swift; sourceTree = "<group>"; };
 		B14B0DFB1F2679E4003E5105 /* UIView+CollectionKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+CollectionKit.swift"; sourceTree = "<group>"; };
 		B14B0DFE1F267FE0003E5105 /* TestData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestData.swift; sourceTree = "<group>"; };
 		B14B0E011F2682EA003E5105 /* CollectionSizeProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionSizeProvider.swift; sourceTree = "<group>"; };
@@ -292,6 +295,7 @@
 		A3FC21BB1C6EE5AA008566BB = {
 			isa = PBXGroup;
 			children = (
+				B14ABA2B1FE2DC1B005D889A /* README.md */,
 				A3DDEED01C7D893D0053BFAE /* Sources */,
 				A3FC21C61C6EE5AA008566BB /* Examples */,
 				B19D64CC1F23DE8100D02FDB /* CollectionKitTests */,
@@ -323,6 +327,7 @@
 				A3E7918A1D11025B005D9410 /* HorizontalGalleryExample */,
 				B145FFA71F5DFA0100A4F318 /* PresenterExample */,
 				0E3258461F5E32DB00D455F8 /* ReloadDataExample */,
+				B14ABA2E1FE30655005D889A /* ReloadAnimationExample */,
 				A3DDEED11C7D894D0053BFAE /* Supporting Files */,
 			);
 			path = Examples;
@@ -434,6 +439,14 @@
 				B144CE121F437AB70073CF4E /* WobblePresenter.swift */,
 			);
 			path = PresenterExample;
+			sourceTree = "<group>";
+		};
+		B14ABA2E1FE30655005D889A /* ReloadAnimationExample */ = {
+			isa = PBXGroup;
+			children = (
+				B14ABA2C1FE2F59B005D889A /* ReloadAnimationViewController.swift */,
+			);
+			path = ReloadAnimationExample;
 			sourceTree = "<group>";
 		};
 		B15029101EA66FC400F89915 /* Frameworks */ = {
@@ -675,6 +688,7 @@
 				B1688A271F25448900C229BD /* ViewController.swift in Sources */,
 				B145FFA61F5DF60300A4F318 /* CollectionViewController.swift in Sources */,
 				B1A073701F438A3500E28E23 /* EdgeShrinkPresenter.swift in Sources */,
+				B14ABA2D1FE2F59B005D889A /* ReloadAnimationViewController.swift in Sources */,
 				0E3258401F5DC8B400D455F8 /* ArticleExampleViewController.swift in Sources */,
 				B100C3FC1EA55DB500868840 /* Util.swift in Sources */,
 				A3FC21CA1C6EE5AA008566BB /* MessagesViewController.swift in Sources */,

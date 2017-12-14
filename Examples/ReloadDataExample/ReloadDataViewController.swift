@@ -54,6 +54,7 @@ class ReloadDataViewController: CollectionViewController {
         view.textColor = .white
         view.textAlignment = .center
         view.layer.cornerRadius = 4
+        view.layer.masksToBounds = true
         view.text = "\(data)"
       }
     )

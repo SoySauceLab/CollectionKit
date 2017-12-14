@@ -23,6 +23,7 @@ class ViewController: CollectionViewController {
     ("Grid", GridViewController.self),
     ("Articles", ArticleExampleViewController.self),
     ("Reload", ReloadDataViewController.self),
+    ("Reload Animation", ReloadAnimationViewController.self),
     ("Chat", MessagesViewController.self),
     ("Presenters", PresenterExampleViewController.self)
   ]

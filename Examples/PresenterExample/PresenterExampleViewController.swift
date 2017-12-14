@@ -32,6 +32,7 @@ class PresenterExampleViewController: CollectionViewController {
     imageProvider.sizeProvider = imageSizeProvider
     imageProvider.presenter = presenters[0].1
     imagesCollectionView.provider = imageProvider
+    imagesCollectionView.activeFrameInset = UIEdgeInsets(top: 0, left: -100, bottom: 0, right: -100)
 
     let buttonsCollectionView = CollectionView()
     buttonsCollectionView.showsHorizontalScrollIndicator = false
