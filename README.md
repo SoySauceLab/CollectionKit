@@ -25,7 +25,7 @@ A modern Swift framework for building reusable data-driven collection components
 
 We think that populating collection view content should be as simple as building custom UIViews. Sections should be reusable and composable into one another. They should define their own layout be easily animatable as well. CollectionKit is our attempt in solving these problems. UICollectionView has been around for 10 years. It is time that we come up with something better **with Swift**.
 
-Unlike traditional UICollectionView's `datasource`/`delegate` methods, CollectionKit uses a single **Provider** object that tells `CollectionView` exactly how to display & handle a collection.
+Unlike traditional `UICollectionView`'s `datasource`/`delegate` methods, CollectionKit uses a single **Provider** object that tells `CollectionView` exactly how to display & handle a collection.
 
 These Providers are easy to construct, and composable as well. Providers can also provider their own animation and layout objects. It is easy to create sections that layouts and behave differently within a single `CollectionView`.
 
@@ -44,19 +44,19 @@ CollectionKit implements its own powerful layout system. Each section can have i
 
 ### Presenter System
 
-Presenter can handle how a cell is displayed on screen. They can be used to adjust the position or animate the cells when they go on/off screen.
+CollectionKit offers a presenter system which allows you to create fancy animations and adjust how cells are displayed. 
 
-Here are some examples of presenter handling the display of cells. Keep in mind that they can be used with any layout. But here we are displaying a transposed waterfall layout.
+Presenters are easy to write. Here are some examples of custom presenters that is included in the example project. They can be used with any layout. Here we are using a transposed waterfall layout.
 
 | Wobble  | Edge Shrink | Zoom |
 | ------------- | ------------- | ------------- |
 | <img width="200" src="http://lkzhao.com/public/posts/collectionKit/wobble.gif" />  | <img width="200" src="http://lkzhao.com/public/posts/collectionKit/edgeShrink.gif" /> | <img width="200" src="http://lkzhao.com/public/posts/collectionKit/zoom.gif" /> |
 
-Presenter also allows you to perform animation when a cell is added/moved/deleted. Here is an example showing a 3d scale animation with a cascading effect.
+Presenter can also perform animations when a cell is added/moved/deleted. Here is an example showing a 3d scale animation with a cascading effect.
 
 <img width="200" src="http://lkzhao.com/public/posts/collectionKit/reloadAnimation.gif" />
 
-Using presenter is very simple. Just assign your presenter to a `CollectionView` or a `CollectionProvider` or even any `UIView`.
+Using a presenter is very simple. Just assign your presenter to a `CollectionView`, a `CollectionProvider`, or even any `UIView`.
 
 ```swift
 // apply to the entire collection view
