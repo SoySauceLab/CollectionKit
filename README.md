@@ -27,9 +27,7 @@ We think that populating collection view content should be as simple as building
 
 Unlike traditional `UICollectionView`'s `datasource`/`delegate` methods, CollectionKit uses a single **Provider** object that tells `CollectionView` exactly how to display & handle a collection.
 
-These Providers are easy to construct, and composable as well. Providers can also provider their own animation and layout objects. It is easy to create sections that layouts and behave differently within a single `CollectionView`.
-
-CollectionKit already provides many of the commonly used Providers out of the box. But you can still easily create reuseable Provider classes that generalizes on different types on data. Checkout examples down below!
+These Providers are easy to construct, and composable as well. Providers can also provider their own animation and layout objects. It is easy to create sections with different layout and behaviour within a single `CollectionView`.
 
 ### Layout System
 
