@@ -15,10 +15,10 @@ A modern Swift framework for building reusable data-driven collection components
 
 ### Features
 
-* Provide a swift `UICollectionView` alternative built on top of `UIScrollView` that is far more customizable.
-* Automatically update UI when data changes. (No need to call `reloadData` any more)
-* Better performance than any other diffing library that work with `UICollectionView`. Only the visible cells are diffed.
-* An customizable animation layer specifically built for collections.
+* Provide a custom `CollectionView` class built on top of `UIScrollView` that is far more customizable than `UICollectionView`.
+* Automatically diff data changes and update UI.
+* Superb performance through cell reuse, batched reload, visible-only diff, & the use of swift value types.
+* Extendable animation layer specifically built for collections.
 * Composable & hot swappable sections with independent layout.
 * Strong type checking powered by Swift Generics.
 * Builtin layouts and animators that you can use out of the box.
