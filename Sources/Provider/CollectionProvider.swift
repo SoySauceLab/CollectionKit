@@ -18,6 +18,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
   public typealias Layout = CollectionLayout<Data>
   public typealias SizeProvider = CollectionSizeProvider<Data>
   public typealias Presenter = CollectionPresenter
+  public typealias TapHandler = (View, Int, DataProvider) -> Void
 
   public var dataProvider: DataProvider { didSet { setNeedsReload() } }
   public var viewProvider: ViewProvider { didSet { setNeedsReload() } }
@@ -27,7 +28,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
 
   public var willReloadHandler: (() -> Void)?
   public var didReloadHandler: (() -> Void)?
-  public var tapHandler: ((View, Int, DataProvider) -> Void)?
+  public var tapHandler: TapHandler?
 
   public init(identifier: String? = nil,
               dataProvider: DataProvider,
@@ -37,7 +38,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
               presenter: Presenter? = nil,
               willReloadHandler: (() -> Void)? = nil,
               didReloadHandler: (() -> Void)? = nil,
-              tapHandler: ((View, Int, DataProvider) -> Void)? = nil) {
+              tapHandler: TapHandler? = nil) {
     self.dataProvider = dataProvider
     self.viewProvider = viewProvider
     self.layout = layout
@@ -58,7 +59,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
                           presenter: Presenter? = nil,
                           willReloadHandler: (() -> Void)? = nil,
                           didReloadHandler: (() -> Void)? = nil,
-                          tapHandler: ((View, Int, DataProvider) -> Void)? = nil) {
+                          tapHandler: TapHandler? = nil) {
     self.init(identifier: identifier,
               dataProvider: dataProvider,
               viewProvider: ClosureViewProvider(viewGenerator: viewGenerator, viewUpdater: viewUpdater),
@@ -79,7 +80,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
                           presenter: Presenter? = nil,
                           willReloadHandler: (() -> Void)? = nil,
                           didReloadHandler: (() -> Void)? = nil,
-                          tapHandler: ((View, Int, DataProvider) -> Void)? = nil) {
+                          tapHandler: TapHandler? = nil) {
     self.init(identifier: identifier,
               dataProvider: ArrayDataProvider(data: data),
               viewProvider: ClosureViewProvider(viewGenerator: viewGenerator, viewUpdater: viewUpdater),
