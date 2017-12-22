@@ -12,6 +12,7 @@ A modern Swift framework for building reusable data-driven collection components
 ![Xcode 8.2+](https://img.shields.io/badge/Xcode-8.2%2B-blue.svg)
 ![iOS 8.0+](https://img.shields.io/badge/iOS-8.0%2B-blue.svg)
 ![Swift 3.0+](https://img.shields.io/badge/Swift-3.0%2B-orange.svg)
+[![Slack](https://slackin-axnycthvks.now.sh/badge.svg)](https://slackin-axnycthvks.now.sh)
 
 ### Features
 
@@ -137,4 +138,4 @@ See the [Getting Started Guide](https://soysaucelab.gitbooks.io/collectionkit-do
 
 ## Questions? Want to contribute?
 
-Join our public [Discord](https://discord.gg/e8VSaw4)!
+Join our public [Slack](https://slackin-axnycthvks.now.sh)!
