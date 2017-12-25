@@ -1,8 +1,8 @@
 # CollectionKit
 
-**Kill `UICollectionView`**
+**Reimagining `UICollectionView`**
 
-A modern Swift framework for building reusable data-driven collection components.
+A modern Swift framework for building composable data-driven collection view.
 
 [![Carthage compatible](https://img.shields.io/badge/Carthage-Compatible-brightgreen.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![Version](https://img.shields.io/cocoapods/v/CollectionKit.svg?style=flat)](http://cocoapods.org/pods/CollectionKit)
@@ -16,23 +16,22 @@ A modern Swift framework for building reusable data-driven collection components
 
 ### Features
 
-* Provide a custom `CollectionView` class built on top of `UIScrollView` that is far more customizable than `UICollectionView`.
+* Rewritten `UICollectionView` on top of `UIScrollView`.
 * Automatically diff data changes and update UI.
 * Superb performance through cell reuse, batched reload, visible-only diff, & the use of swift value types.
-* Extendable animation layer specifically built for collections.
-* Composable & hot swappable sections with independent layout.
+* Builtin layout & animation systems specifically built for collections.
+* Composable sections with independent layout.
 * Strong type checking powered by Swift Generics.
-* Builtin layouts and animators that you can use out of the box.
 
-We think that populating collection view content should be as simple as building custom UIViews. Sections should be reusable and composable into one another. They should define their own layout be easily animatable as well. CollectionKit is our attempt in solving these problems. UICollectionView has been around for 10 years. It is time that we come up with something better **with Swift**.
+### CollectionView
 
-Unlike traditional `UICollectionView`'s `datasource`/`delegate` methods, CollectionKit uses a single **Provider** object that tells `CollectionView` exactly how to display & handle a collection.
+`CollectionView` is CollectionKit's alternative to `UICollectionView`. You give it a **CollectionProvider** object that tells `CollectionView` how to display & handle a collection.
 
-These Providers are easy to construct, and composable as well. Providers can also provider their own animation and layout objects. It is easy to create sections with different layout and behaviour within a single `CollectionView`.
+Provider is easy to construct and composable as well. You can combine multiple providers together and easily create sections within a single `CollectionView`. Each provider can also have its own layout and presenter.
 
 ### Layout System
 
-CollectionKit implements its own powerful layout system. Each section can have its own layout. You can also specify a layout when combining multiple section together. CollectionKit provides some of the common layouts out of the box:
+CollectionKit implements its own powerful layout system. Each provider can have its own layout. You can also specify a layout when combining multiple providers together. CollectionKit provides some of the common layouts out of the box, but you can also create your own layout.
 
 * **FlowLayout** - better `UICollectionFlowLayout` - supports `alignItems`, `justifyContent`, & `alignContent`
 * **WaterfallLayout** - a pinterest like waterfall layout
@@ -43,9 +42,9 @@ CollectionKit implements its own powerful layout system. Each section can have i
 
 ### Presenter System
 
-CollectionKit offers a presenter system which allows you to create fancy animations and adjust how cells are displayed. 
+CollectionKit offers a presenter system which allows you to create fancy animations and adjust how cells are displayed. Presenter can be applied to individual providers, cells, or to entire `CollectionView`.
 
-Presenters are easy to write. Here are some examples of custom presenters that is included in the example project. They can be used with any layout. Here we are using a transposed waterfall layout.
+Here are some examples of custom presenters that is included in the example project. Note that they can be used in combination with any layout. Here we are using a transposed waterfall layout.
 
 | Wobble  | Edge Shrink | Zoom |
 | ------------- | ------------- | ------------- |
@@ -55,24 +54,19 @@ Presenter can also perform animations when a cell is added/moved/deleted. Here i
 
 <img width="200" src="http://lkzhao.com/public/posts/collectionKit/reloadAnimation.gif" />
 
-Using a presenter is very simple. Just assign your presenter to a `CollectionView`, a `CollectionProvider`, or even any `UIView`.
-
-```swift
-// apply to the entire collection view
-collectionView.presenter = WobblePresenter()
-
-// apply to a single section, will override collection view presenter
-provider1.presenter = WobblePresenter()
-
-// apply to a single view, will override collection view or section presenter
-view.collectionPresenter = WobblePresenter()
-```
-
 #### Please checkout the example project to see many of these examples in action.
 
 ## Install
 
-via **CocoaPods** or **Carthage**.
+**CocoaPods**
+```ruby
+pod "CollectionKit"
+```
+
+**Carthage**
+```
+github "SoySauceLab/CollectionKit"
+```
 
 ## Usage
 
@@ -102,7 +96,7 @@ collectionView.provider = provider1
 
 <img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/c36d783/Resources/example1.svg" />
 
-### Composing
+### Composing & Layout
 
 Use `CollectionComposer` to combine multiple providers into one. You can also supply layout objects to Provider & Composer.
 
@@ -132,9 +126,20 @@ collectionView.provider = CollectionComposer(
 
 <img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/c36d783/Resources/example2.svg" />
 
+### Apply Presenter
+
+```swift
+// apply to the entire CollectionView
+collectionView.presenter = WobblePresenter()
+
+// apply to a single section, will override CollectionView's presenter
+provider1.presenter = WobblePresenter()
+
+// apply to a single view, will take priority over all other presenters
+view.collectionPresenter = WobblePresenter()
+```
 
 See the [Getting Started Guide](https://soysaucelab.gitbooks.io/collectionkit-documentation/content/) for a in-depth tutorial on how to use CollectionKit.
-
 
 ## Questions? Want to contribute?
 
