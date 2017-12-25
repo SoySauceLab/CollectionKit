@@ -25,7 +25,7 @@ A modern Swift framework for building composable data-driven collection view.
 
 ### CollectionView
 
-`CollectionView` is CollectionKit's alternative to `UICollectionView`. You give it a **CollectionProvider** object that tells `CollectionView` how to display & handle a collection.
+`CollectionView` is CollectionKit's alternative to `UICollectionView`. You give it a `CollectionProvider` object that tells `CollectionView` how to display & handle a collection.
 
 Provider is easy to construct and composable as well. You can combine multiple providers together and easily create sections within a single `CollectionView`. Each provider can also have its own layout and presenter.
 
