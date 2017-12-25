@@ -18,7 +18,7 @@ public class CollectionReuseViewManager: NSObject {
   public var lifeSpan: TimeInterval = 0.5
 
   public func queue(view: UIView) {
-    let identifier = String(describing: type(of: view))
+    let identifier = NSStringFromClass(type(of: view))
     view.reuseManager = nil
     if reusableViews[identifier] != nil && !reusableViews[identifier]!.contains(view) {
       reusableViews[identifier]?.append(view)
@@ -31,10 +31,22 @@ public class CollectionReuseViewManager: NSObject {
   }
 
   public func dequeue<T: UIView> (_ defaultView: @autoclosure () -> T) -> T {
-    let queuedView = reusableViews[String(describing: T.self)]?.popLast() as? T
+    let identifier = NSStringFromClass(T.self)
+    let queuedView = reusableViews[identifier]?.popLast() as? T
     let view = queuedView ?? defaultView()
     if let view = view as? CollectionViewReusableView {
       view.prepareForReuse()
+    }
+    view.reuseManager = self
+    return view
+  }
+
+  public func dequeue<T: UIView> (type: T.Type) -> T {
+    let identifier = NSStringFromClass(type.self)
+    let queuedView = reusableViews[identifier]?.popLast() as? T
+    let view = queuedView ?? type.init()
+    if let view = view as? CollectionViewReusableView {
+        view.prepareForReuse()
     }
     view.reuseManager = self
     return view
