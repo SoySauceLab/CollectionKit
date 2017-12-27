@@ -12,6 +12,7 @@
 		0E3258411F5DC8B400D455F8 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E32583E1F5DC8B400D455F8 /* ArticleView.swift */; };
 		0E3258451F5E23B000D455F8 /* FlowLayoutSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3258441F5E23B000D455F8 /* FlowLayoutSpec.swift */; };
 		0E3258481F5E334C00D455F8 /* ReloadDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3258471F5E334C00D455F8 /* ReloadDataViewController.swift */; };
+		A31524C31FF4329B0043CEB3 /* YetAnotherAnimationLibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A372A3691C79567A0023C797 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A3681C79567A0023C797 /* MessageCell.swift */; };
 		A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDEECE1C7D88430053BFAE /* Messages.swift */; };
 		A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */; };
@@ -109,6 +110,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				A31524C31FF4329B0043CEB3 /* YetAnotherAnimationLibrary.framework in Embed Frameworks */,
 				B1B7B0581E7DAD1F00F2483E /* CollectionKit.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -494,7 +496,6 @@
 				A3FC21C11C6EE5AA008566BB /* Frameworks */,
 				A3FC21C21C6EE5AA008566BB /* Resources */,
 				B1B7B05C1E7DAD1F00F2483E /* Embed Frameworks */,
-				B19D64D11F23E3BF00D02FDB /* Carthage */,
 			);
 			buildRules = (
 			);
@@ -628,21 +629,6 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/Nimble.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Quick.framework",
-			);
-			name = Carthage;
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-		B19D64D11F23E3BF00D02FDB /* Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/YetAnotherAnimationLibrary.framework",
 			);
 			name = Carthage;
 			outputPaths = (
