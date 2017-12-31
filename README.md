@@ -75,7 +75,7 @@ To build a basic provider, here is what you need:
 ```swift
 let provider1 = CollectionProvider(
     data: [1，2，3, 4], // provide an array of data, data can be any type
-    viewUpdater: { (label: UILabel, index: Int, data: Int) in
+    viewUpdater: { (label: UILabel, data: Int, index: Int) in
         // update your view according to your data, view can be any subclass of UIView
         label.backgroundColor = .red
         label.layer.cornerRadius = 8
@@ -105,7 +105,7 @@ provider1.layout = FlowLayout(spacing: 10)
 
 let provider2 = CollectionProvider(
     data: ["A", "B"],
-    viewUpdater: { (label: UILabel, index: Int, data: String) in
+    viewUpdater: { (label: UILabel, data: String, index: Int) in
         label.backgroundColor = .blue
         label.layer.cornerRadius = 8
         label.textAlignment = .center
