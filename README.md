@@ -68,6 +68,10 @@ pod "CollectionKit"
 github "SoySauceLab/CollectionKit"
 ```
 
+## Getting Started
+
+[Getting Started Guide](https://soysaucelab.gitbooks.io/collectionkit-documentation/content/)
+
 ## Usage
 
 To build a basic provider, here is what you need:
