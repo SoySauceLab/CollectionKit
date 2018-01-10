@@ -60,7 +60,6 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
               willReloadHandler: (() -> Void)? = nil,
               didReloadHandler: (() -> Void)? = nil,
               tapHandler: TapHandler? = nil) {
-    
     self.dataProvider = dataProvider
     self.viewProvider = ClosureViewProvider(viewGenerator: viewGenerator, viewUpdater: viewUpdater)
     self.layout = layout
@@ -82,7 +81,6 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
               willReloadHandler: (() -> Void)? = nil,
               didReloadHandler: (() -> Void)? = nil,
               tapHandler: TapHandler? = nil) {
-    
     self.dataProvider = ArrayDataProvider(data: data)
     self.viewProvider = ClosureViewProvider(viewGenerator: viewGenerator, viewUpdater: viewUpdater)
     self.layout = layout
