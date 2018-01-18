@@ -50,46 +50,46 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
     super.init(identifier: identifier)
   }
 
-  public convenience init(identifier: String? = nil,
-                          dataProvider: DataProvider,
-                          viewGenerator: ((Data, Int) -> View)? = nil,
-                          viewUpdater: @escaping (View, Data, Int) -> Void,
-                          layout: Layout = FlowLayout<Data>(),
-                          sizeProvider: @escaping SizeProvider = defaultSizeProvider,
-                          presenter: Presenter? = nil,
-                          willReloadHandler: (() -> Void)? = nil,
-                          didReloadHandler: (() -> Void)? = nil,
-                          tapHandler: TapHandler? = nil) {
-    self.init(identifier: identifier,
-              dataProvider: dataProvider,
-              viewProvider: ClosureViewProvider(viewGenerator: viewGenerator, viewUpdater: viewUpdater),
-              layout: layout,
-              sizeProvider: sizeProvider,
-              presenter: presenter,
-              willReloadHandler: willReloadHandler,
-              didReloadHandler: didReloadHandler,
-              tapHandler: tapHandler)
+  public init(identifier: String? = nil,
+              dataProvider: DataProvider,
+              viewGenerator: ((Data, Int) -> View)? = nil,
+              viewUpdater: @escaping (View, Data, Int) -> Void,
+              layout: Layout = FlowLayout<Data>(),
+              sizeProvider: @escaping SizeProvider = defaultSizeProvider,
+              presenter: Presenter? = nil,
+              willReloadHandler: (() -> Void)? = nil,
+              didReloadHandler: (() -> Void)? = nil,
+              tapHandler: TapHandler? = nil) {
+    self.dataProvider = dataProvider
+    self.viewProvider = ClosureViewProvider(viewGenerator: viewGenerator, viewUpdater: viewUpdater)
+    self.layout = layout
+    self.sizeProvider = sizeProvider
+    self.presenter = presenter
+    self.willReloadHandler = willReloadHandler
+    self.didReloadHandler = didReloadHandler
+    self.tapHandler = tapHandler
+    super.init(identifier: identifier)
   }
 
-  public convenience init(identifier: String? = nil,
-                          data: [Data],
-                          viewGenerator: ((Data, Int) -> View)? = nil,
-                          viewUpdater: @escaping (View, Data, Int) -> Void,
-                          layout: Layout = FlowLayout<Data>(),
-                          sizeProvider: @escaping SizeProvider = defaultSizeProvider,
-                          presenter: Presenter? = nil,
-                          willReloadHandler: (() -> Void)? = nil,
-                          didReloadHandler: (() -> Void)? = nil,
-                          tapHandler: TapHandler? = nil) {
-    self.init(identifier: identifier,
-              dataProvider: ArrayDataProvider(data: data),
-              viewProvider: ClosureViewProvider(viewGenerator: viewGenerator, viewUpdater: viewUpdater),
-              layout: layout,
-              sizeProvider: sizeProvider,
-              presenter: presenter,
-              willReloadHandler: willReloadHandler,
-              didReloadHandler: didReloadHandler,
-              tapHandler: tapHandler)
+  public init(identifier: String? = nil,
+              data: [Data],
+              viewGenerator: ((Data, Int) -> View)? = nil,
+              viewUpdater: @escaping (View, Data, Int) -> Void,
+              layout: Layout = FlowLayout<Data>(),
+              sizeProvider: @escaping SizeProvider = defaultSizeProvider,
+              presenter: Presenter? = nil,
+              willReloadHandler: (() -> Void)? = nil,
+              didReloadHandler: (() -> Void)? = nil,
+              tapHandler: TapHandler? = nil) {
+    self.dataProvider = ArrayDataProvider(data: data)
+    self.viewProvider = ClosureViewProvider(viewGenerator: viewGenerator, viewUpdater: viewUpdater)
+    self.layout = layout
+    self.sizeProvider = sizeProvider
+    self.presenter = presenter
+    self.willReloadHandler = willReloadHandler
+    self.didReloadHandler = didReloadHandler
+    self.tapHandler = tapHandler
+    super.init(identifier: identifier)
   }
 
   // MARK: - Override Methods
