@@ -115,7 +115,7 @@ open class CollectionView: UIScrollView {
     guard !loading && !reloading && hasReloaded else { return }
     loading = true
 
-    _loadCells()
+    _loadCells(forceReload: false)
 
     for (cell, index) in zip(visibleCells, visibleIndexes) {
       let presenter = cell.currentCollectionPresenter ?? self.presenter
@@ -142,7 +142,7 @@ open class CollectionView: UIScrollView {
     let contentOffsetDiff = contentOffset - oldContentOffset
 
     currentlyInsertedCells = Set<UIView>()
-    _loadCells()
+    _loadCells(forceReload: true)
 
     for (cell, index) in zip(visibleCells, visibleIndexes) {
       cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: index)
@@ -164,25 +164,48 @@ open class CollectionView: UIScrollView {
     provider.didReload()
   }
 
-  private func _loadCells() {
+  var identifierCache: [Int: String] = [:]
+
+  private func _loadCells(forceReload: Bool) {
     lastLoadBounds = bounds
 
     let newIndexes = provider.visibleIndexes(activeFrame: activeFrame)
-    let newIdentifiers = newIndexes.map { provider.identifier(at: $0) }
 
-    let oldIdentifierToCellMap = Dictionary(uniqueKeysWithValues: zip(visibleIdentifiers, visibleCells))
+    // optimization: we assume that corresponding identifier for each index doesnt change unless forceReload is true.
+    guard forceReload || newIndexes.last != visibleIndexes.last || newIndexes != visibleIndexes else {
+      return
+    }
+
+    if forceReload {
+      identifierCache.removeAll()
+    }
+
+    let newIdentifiers: [String] = newIndexes.map { index in
+      if let identifier = identifierCache[index] {
+        return identifier
+      } else {
+        let identifier = provider.identifier(at: index)
+        identifierCache[index] = identifier
+        return identifier
+      }
+    }
+
+    var existingIdentifierToCellMap: [String: UIView] = [:]
     let newIdentifierSet = Set(newIdentifiers)
 
     // 1st pass, delete all removed cells
-    for (identifier, cell) in oldIdentifierToCellMap {
+    for (index, identifier) in visibleIdentifiers.enumerated() {
+      let cell = visibleCells[index]
       if !newIdentifierSet.contains(identifier) {
         (cell.currentCollectionPresenter ?? presenter).delete(collectionView: self, view: cell)
+      } else {
+        existingIdentifierToCellMap[identifier] = cell
       }
     }
 
     // 2nd pass, insert new views
     let newCells: [UIView] = zip(newIdentifiers, newIndexes).map { identifier, index in
-      if let existingCell = oldIdentifierToCellMap[identifier] {
+      if let existingCell = existingIdentifierToCellMap[identifier] {
         return existingCell
       } else {
         let cell = _generateCell(index: index)
@@ -191,7 +214,7 @@ open class CollectionView: UIScrollView {
       }
     }
 
-    for (index, cell) in newCells.enumerated() {
+    for (index, cell) in newCells.enumerated() where subviews.get(index) !== cell {
       insertSubview(cell, at: index)
     }
 
