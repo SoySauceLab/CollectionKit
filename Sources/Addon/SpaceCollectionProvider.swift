@@ -16,7 +16,7 @@ open class SpaceCollectionProvider: BaseCollectionProvider {
   public var sizeStrategy: (SpaceSizeStrategy, SpaceSizeStrategy)
   public init(sizeStrategy: (SpaceSizeStrategy, SpaceSizeStrategy) = (.fill, .fill)) {
     self.sizeStrategy = sizeStrategy
-    super.init(identifier: nil)
+    super.init()
   }
   var _contentSize: CGSize = .zero
   open override var contentSize: CGSize {
