@@ -18,7 +18,7 @@ open class SpaceCollectionProvider: BaseCollectionProvider {
     self.sizeStrategy = sizeStrategy
     super.init()
   }
-  var _contentSize: CGSize = .zero
+  var _contentSize: CGSize = .zero // swiftlint:disable:this identifier_name
   open override var contentSize: CGSize {
     return _contentSize
   }
