@@ -52,7 +52,7 @@ public class RowLayout<Data>: HorizontalSimpleLayout<Data> {
 
     let frames = LayoutHelper.alignItem(alignItems: alignItems,
                                         startingPrimaryOffset: offset, spacing: distributedSpacing,
-                                        sizes: sizes, secondaryRange: 0...collectionSize.height)
+                                        sizes: sizes, secondaryRange: 0...max(0, collectionSize.height))
 
     return frames
   }
