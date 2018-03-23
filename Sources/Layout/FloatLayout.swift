@@ -33,31 +33,31 @@ public class FloatLayout<Data>: WrapperLayout<Data> {
     }
   }
 
-  var activeFrame: CGRect = .zero
+  var visibleFrame: CGRect = .zero
   var topFrameIndex: Int = 0
-  public override func visibleIndexes(activeFrame: CGRect) -> [Int] {
-    self.activeFrame = activeFrame
-    topFrameIndex = floatingFrames.binarySearch { $0.frame.minY < activeFrame.minY } - 1
+  public override func visibleIndexes(visibleFrame: CGRect) -> [Int] {
+    self.visibleFrame = visibleFrame
+    topFrameIndex = floatingFrames.binarySearch { $0.frame.minY < visibleFrame.minY } - 1
     if let index = floatingFrames.get(topFrameIndex)?.index, index >= 0 {
-      var oldVisible = rootLayout.visibleIndexes(activeFrame: activeFrame)
+      var oldVisible = rootLayout.visibleIndexes(visibleFrame: visibleFrame)
       if let index = oldVisible.index(of: index) {
         oldVisible.remove(at: index)
       }
       return oldVisible + [index]
     }
-    return rootLayout.visibleIndexes(activeFrame: activeFrame)
+    return rootLayout.visibleIndexes(visibleFrame: visibleFrame)
   }
 
   public override func frame(at: Int) -> CGRect {
     let superFrame = rootLayout.frame(at: at)
-    if superFrame.minY < activeFrame.minY, let index = floatingFrames.get(topFrameIndex)?.index, index == at {
+    if superFrame.minY < visibleFrame.minY, let index = floatingFrames.get(topFrameIndex)?.index, index == at {
       let pushedY: CGFloat
       if topFrameIndex < floatingFrames.count - 1 {
         pushedY = rootLayout.frame(at: floatingFrames[topFrameIndex + 1].index).minY - superFrame.height
       } else {
-        pushedY = activeFrame.maxY - superFrame.height
+        pushedY = visibleFrame.maxY - superFrame.height
       }
-      return CGRect(origin: CGPoint(x: superFrame.minX, y: min(activeFrame.minY, pushedY)), size: superFrame.size)
+      return CGRect(origin: CGPoint(x: superFrame.minX, y: min(visibleFrame.minY, pushedY)), size: superFrame.size)
     }
     return superFrame
   }

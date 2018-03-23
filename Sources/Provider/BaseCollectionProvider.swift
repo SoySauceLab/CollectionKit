@@ -33,7 +33,7 @@ open class BaseCollectionProvider: AnyCollectionProvider {
   open func frame(at: Int) -> CGRect {
     return .zero
   }
-  open func visibleIndexes(activeFrame: CGRect) -> [Int] {
+  open func visibleIndexes(visibleFrame: CGRect) -> [Int] {
     return [Int]()
   }
 

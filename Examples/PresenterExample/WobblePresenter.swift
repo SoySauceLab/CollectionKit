@@ -20,9 +20,10 @@ open class WobblePresenter: CollectionPresenter {
 
   open override func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     super.insert(collectionView: collectionView, view: view, at: at, frame: frame)
+    let screenDragLocation = collectionView.absoluteLocation(for: collectionView.panGestureRecognizer.location(in: collectionView))
     let delta = collectionView.scrollVelocity * 8
     view.bounds.size = frame.bounds.size
-    let cellDiff = frame.center - collectionView.contentOffset - collectionView.screenDragLocation
+    let cellDiff = frame.center - collectionView.contentOffset - screenDragLocation
     let resistance = (cellDiff * sensitivity).distance(.zero) / 1000
     let newCenterDiff = delta * resistance
     let constrainted = CGPoint(x: delta.x > 0 ? min(delta.x, newCenterDiff.x) : max(delta.x, newCenterDiff.x),
@@ -33,9 +34,10 @@ open class WobblePresenter: CollectionPresenter {
   }
 
   open override func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
+    let screenDragLocation = collectionView.absoluteLocation(for: collectionView.panGestureRecognizer.location(in: collectionView))
     let delta = collectionView.scrollVelocity
     view.bounds.size = frame.bounds.size
-    let cellDiff = frame.center - collectionView.contentOffset - collectionView.screenDragLocation
+    let cellDiff = frame.center - collectionView.contentOffset - screenDragLocation
     let resistance = (cellDiff * sensitivity).distance(.zero) / 1000
     let newCenterDiff = delta * resistance
     let constrainted = CGPoint(x: delta.x > 0 ? min(delta.x, newCenterDiff.x) : max(delta.x, newCenterDiff.x),

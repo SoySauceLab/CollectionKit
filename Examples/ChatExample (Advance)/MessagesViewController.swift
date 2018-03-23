@@ -133,7 +133,8 @@ class MessagesViewController: CollectionViewController {
         view.message = data
       }
     )
-    provider.layout = MessageLayout()
+    let visibleFrameInsets = UIEdgeInsets(top: -200, left: 0, bottom: -200, right: 0)
+    provider.layout = MessageLayout().insetVisibleFrame(by: visibleFrameInsets)
     provider.presenter = presenter
     self.provider = provider
   }

@@ -16,7 +16,6 @@ open class CollectionView: UIScrollView {
   public private(set) var needsReload = true
   public private(set) var loading = false
   public private(set) var reloading = false
-  public private(set) var screenDragLocation: CGPoint = .zero
   public private(set) var scrollVelocity: CGPoint = .zero
   public var hasReloaded: Bool { return reloadCount > 0 }
 
@@ -30,20 +29,10 @@ open class CollectionView: UIScrollView {
   var currentlyInsertedCells: Set<UIView>?
   var lastLoadBounds: CGRect?
 
-  public var activeFrameInset: UIEdgeInsets? {
-    didSet {
-      if !reloading && activeFrameInset != oldValue {
-        loadCells()
-      }
-    }
-  }
   open override var contentOffset: CGPoint {
     didSet {
       scrollVelocity = contentOffset - oldValue
     }
-  }
-  var activeFrame: CGRect {
-    return UIEdgeInsetsInsetRect(visibleFrame, activeFrameInset ?? .zero)
   }
 
   public convenience init(provider: AnyCollectionProvider) {
@@ -66,8 +55,6 @@ open class CollectionView: UIScrollView {
 
     tapGestureRecognizer.addTarget(self, action: #selector(tap(gesture:)))
     addGestureRecognizer(tapGestureRecognizer)
-
-    panGestureRecognizer.addTarget(self, action: #selector(pan(gesture:)))
   }
 
   @objc func tap(gesture: UITapGestureRecognizer) {
@@ -77,10 +64,6 @@ open class CollectionView: UIScrollView {
         return
       }
     }
-  }
-
-  @objc func pan(gesture: UIPanGestureRecognizer) {
-    screenDragLocation = absoluteLocation(for: gesture.location(in: self))
   }
 
   open override func layoutSubviews() {
@@ -169,7 +152,7 @@ open class CollectionView: UIScrollView {
   private func _loadCells(forceReload: Bool) {
     lastLoadBounds = bounds
 
-    let newIndexes = provider.visibleIndexes(activeFrame: activeFrame)
+    let newIndexes = provider.visibleIndexes(visibleFrame: visibleFrame)
 
     // optimization: we assume that corresponding identifier for each index doesnt change unless forceReload is true.
     guard forceReload || newIndexes.last != visibleIndexes.last || newIndexes != visibleIndexes else {

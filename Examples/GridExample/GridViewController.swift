@@ -20,6 +20,7 @@ class GridViewController: CollectionViewController {
     let dataProvider = ArrayDataProvider(data: Array(1...kGridSize.width * kGridSize.height), identifierMapper: { (_, data) in
       return "\(data)"
     })
+    let visibleFrameInsets = UIEdgeInsets(top: -150, left: -150, bottom: -150, right: -150)
     let layout = Closurelayout(
       frameProvider: { (i: Int, data: Int,  _) in
         CGRect(x: CGFloat(i % kGridSize.width) * (kGridCellSize.width + kGridCellPadding),
@@ -27,7 +28,7 @@ class GridViewController: CollectionViewController {
                width: kGridCellSize.width,
                height: kGridCellSize.height)
       }
-    )
+    ).insetVisibleFrame(by: visibleFrameInsets)
 
     collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     let provider = CollectionProvider(

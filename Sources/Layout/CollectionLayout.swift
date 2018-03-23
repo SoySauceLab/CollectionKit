@@ -24,7 +24,7 @@ open class CollectionLayout<Data> {
     fatalError("Subclass should provide its own layout")
   }
 
-  open func visibleIndexes(activeFrame: CGRect) -> [Int] {
+  open func visibleIndexes(visibleFrame: CGRect) -> [Int] {
     fatalError("Subclass should provide its own layout")
   }
 
@@ -38,5 +38,9 @@ extension CollectionLayout {
 
   public func inset(by insets: UIEdgeInsets) -> InsetLayout<Data> {
     return InsetLayout(self, insets: insets)
+  }
+
+  public func insetVisibleFrame(by insets: UIEdgeInsets) -> VisibleFrameInsetLayout<Data> {
+    return VisibleFrameInsetLayout(self, insets: insets)
   }
 }

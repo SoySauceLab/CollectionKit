@@ -25,8 +25,8 @@ open class WrapperLayout<Data>: CollectionLayout<Data> {
     rootLayout.layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
   }
 
-  open override func visibleIndexes(activeFrame: CGRect) -> [Int] {
-    return rootLayout.visibleIndexes(activeFrame: activeFrame)
+  open override func visibleIndexes(visibleFrame: CGRect) -> [Int] {
+    return rootLayout.visibleIndexes(visibleFrame: visibleFrame)
   }
 
   open override func frame(at: Int) -> CGRect {

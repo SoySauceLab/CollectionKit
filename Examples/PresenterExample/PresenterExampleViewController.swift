@@ -28,11 +28,11 @@ class PresenterExampleViewController: CollectionViewController {
         view.clipsToBounds = true
       }
     )
-    imageProvider.layout = WaterfallLayout(columns:2).transposed().inset(by: bodyInset)
+    let visibleFrameInsets = UIEdgeInsets(top: 0, left: -100, bottom: 0, right: -100)
+    imageProvider.layout = WaterfallLayout(columns:2).transposed().inset(by: bodyInset).insetVisibleFrame(by: visibleFrameInsets)
     imageProvider.sizeProvider = imageSizeProvider
     imageProvider.presenter = presenters[0].1
     imagesCollectionView.provider = imageProvider
-    imagesCollectionView.activeFrameInset = UIEdgeInsets(top: 0, left: -100, bottom: 0, right: -100)
 
     let buttonsCollectionView = CollectionView()
     buttonsCollectionView.showsHorizontalScrollIndicator = false

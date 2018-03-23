@@ -22,7 +22,7 @@ public protocol AnyCollectionProvider: CollectionReloadable {
   // layout
   func layout(collectionSize: CGSize)
 
-  func visibleIndexes(activeFrame: CGRect) -> [Int]
+  func visibleIndexes(visibleFrame: CGRect) -> [Int]
   var contentSize: CGSize { get }
   func frame(at: Int) -> CGRect
 

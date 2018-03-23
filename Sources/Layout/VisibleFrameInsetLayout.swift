@@ -1,14 +1,14 @@
 //
-//  InsetLayout.swift
+//  VisibleFrameInsetLayout.swift
 //  CollectionKit
 //
-//  Created by Luke Zhao on 2017-09-08.
-//  Copyright © 2017 lkzhao. All rights reserved.
+//  Created by Luke Zhao on 2018-03-23.
+//  Copyright © 2018 lkzhao. All rights reserved.
 //
 
 import UIKit
 
-open class InsetLayout<Data>: WrapperLayout<Data> {
+open class VisibleFrameInsetLayout<Data>: WrapperLayout<Data> {
   public var insets: UIEdgeInsets
   public var insetProvider: ((CGSize) -> UIEdgeInsets)?
 
@@ -23,25 +23,18 @@ open class InsetLayout<Data>: WrapperLayout<Data> {
     super.init(rootLayout)
   }
 
-  open override var contentSize: CGSize {
-    return rootLayout.contentSize.insets(by: -insets)
-  }
-
   open override func layout(collectionSize: CGSize,
                             dataProvider: CollectionDataProvider<Data>,
                             sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
     if let insetProvider = insetProvider {
       insets = insetProvider(collectionSize)
     }
-    rootLayout.layout(collectionSize: collectionSize.insets(by: insets),
-                      dataProvider: dataProvider, sizeProvider: sizeProvider)
+    super.layout(collectionSize: collectionSize,
+                 dataProvider: dataProvider,
+                 sizeProvider: sizeProvider)
   }
 
   open override func visibleIndexes(visibleFrame: CGRect) -> [Int] {
-    return rootLayout.visibleIndexes(visibleFrame: visibleFrame.inset(by: -insets))
-  }
-
-  open override func frame(at: Int) -> CGRect {
-    return rootLayout.frame(at: at) + CGPoint(x: insets.left, y: insets.top)
+    return rootLayout.visibleIndexes(visibleFrame: visibleFrame.inset(by: insets))
   }
 }

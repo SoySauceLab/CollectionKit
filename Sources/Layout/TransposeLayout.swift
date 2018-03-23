@@ -23,8 +23,8 @@ open class TransposeLayout<Data>: WrapperLayout<Data> {
     }
   }
 
-  open override func visibleIndexes(activeFrame: CGRect) -> [Int] {
-    return rootLayout.visibleIndexes(activeFrame: activeFrame.transposed)
+  open override func visibleIndexes(visibleFrame: CGRect) -> [Int] {
+    return rootLayout.visibleIndexes(visibleFrame: visibleFrame.transposed)
   }
 
   open override func frame(at: Int) -> CGRect {
