@@ -16,6 +16,7 @@ identifier_name:
   min_length:
     error: 3
   excluded:
+    - i
     - id
     - at
     - to

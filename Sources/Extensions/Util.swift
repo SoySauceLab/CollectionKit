@@ -118,8 +118,7 @@ extension CGRect {
     return CGRect(origin: .zero, size: size)
   }
   init(center: CGPoint, size: CGSize) {
-    self.origin = center - size / 2
-    self.size = size
+    self.init(origin: center - size / 2, size: size)
   }
   var transposed: CGRect {
     return CGRect(origin: origin.transposed, size: size.transposed)
