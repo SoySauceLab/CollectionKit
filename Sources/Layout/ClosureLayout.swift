@@ -8,20 +8,18 @@
 
 import UIKit
 
-public class Closurelayout<Data>: SimpleLayout<Data> {
-  public var frameProvider: (Int, Data, CGSize) -> CGRect
+public class Closurelayout: SimpleLayout {
+  public var frameProvider: (Int, CGSize) -> CGRect
 
-  public init(frameProvider: @escaping (Int, Data, CGSize) -> CGRect) {
+  public init(frameProvider: @escaping (Int, CGSize) -> CGRect) {
     self.frameProvider = frameProvider
     super.init()
   }
 
-  public override func simpleLayout(collectionSize: CGSize,
-                                    dataProvider: CollectionDataProvider<Data>,
-                                    sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
+  public override func simpleLayout(context: LayoutContext) -> [CGRect] {
     var frames: [CGRect] = []
-    for i in 0..<dataProvider.numberOfItems {
-      let frame = frameProvider(i, dataProvider.data(at: i), collectionSize)
+    for i in 0..<context.numberOfItems {
+      let frame = frameProvider(i, context.collectionSize)
       frames.append(frame)
     }
     return frames

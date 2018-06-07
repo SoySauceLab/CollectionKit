@@ -17,17 +17,15 @@ class MessageDataProvider: ArrayDataProvider<Message> {
   }
 }
 
-class MessageLayout: SimpleLayout<Message> {
-  override func simpleLayout(collectionSize: CGSize,
-                       dataProvider: CollectionDataProvider<Message>,
-                       sizeProvider: @escaping CollectionSizeProvider<Message>) -> [CGRect] {
+class MessageLayout: SimpleLayout {
+  override func simpleLayout(context: LayoutContext) -> [CGRect] {
     var frames: [CGRect] = []
     var lastMessage: Message?
     var lastFrame: CGRect?
-    let maxWidth: CGFloat = collectionSize.width
+    let maxWidth: CGFloat = context.collectionSize.width
     
-    for i in 0..<dataProvider.numberOfItems {
-      let message = dataProvider.data(at: i)
+    for i in 0..<context.numberOfItems {
+      let message = context.data(at: i) as! Message
       var yHeight: CGFloat = 0
       var xOffset: CGFloat = 0
       var cellFrame = MessageCell.frameForMessage(message, containerWidth: maxWidth)

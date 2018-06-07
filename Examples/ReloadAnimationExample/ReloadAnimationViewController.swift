@@ -107,11 +107,11 @@ class ReloadAnimationViewController: CollectionViewController {
     view.addSubview(reloadButton)
 
     collectionView.contentInset = UIEdgeInsetsMake(20, 10, 20, 10)
-    let layout = FlowLayout<Int>(lineSpacing: 15,
-                                 interitemSpacing: 15,
-                                 justifyContent: .spaceAround,
-                                 alignItems: .center,
-                                 alignContent: .center)
+    let layout = FlowLayout(lineSpacing: 15,
+                            interitemSpacing: 15,
+                            justifyContent: .spaceAround,
+                            alignItems: .center,
+                            alignContent: .center)
     let presenter = AnimatedReloadPresenter(entryTransform: AnimatedReloadPresenter.fancyEntryTransform)
     let provider = CollectionProvider(
       dataProvider: dataProvider,

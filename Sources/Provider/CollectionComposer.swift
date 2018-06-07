@@ -21,7 +21,7 @@ open class CollectionComposer: BaseCollectionProvider {
     }
   }
 
-  public var layout: CollectionLayout<AnyCollectionProvider> {
+  public var layout: CollectionLayout {
     didSet {
       setNeedsReload()
     }
@@ -31,7 +31,7 @@ open class CollectionComposer: BaseCollectionProvider {
   private var dataProvider: ArrayDataProvider<AnyCollectionProvider>
 
   public init(identifier: String? = nil,
-              layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(),
+              layout: CollectionLayout = FlowLayout(),
               presenter: CollectionPresenter? = nil,
               sections: [AnyCollectionProvider]) {
     self.presenter = presenter
@@ -43,7 +43,7 @@ open class CollectionComposer: BaseCollectionProvider {
   }
 
   public convenience init(identifier: String? = nil,
-                          layout: CollectionLayout<AnyCollectionProvider> = FlowLayout(),
+                          layout: CollectionLayout = FlowLayout(),
                           presenter: CollectionPresenter? = nil,
                           _ sections: AnyCollectionProvider...) {
     self.init(layout: layout, presenter: presenter, sections: sections)
@@ -75,13 +75,12 @@ open class CollectionComposer: BaseCollectionProvider {
   }
 
   open override func layout(collectionSize: CGSize) {
-    layout.layout(
-      collectionSize: collectionSize,
-      dataProvider: dataProvider,
-      sizeProvider: { (_, data, collectionSize) in
-        data.layout(collectionSize: collectionSize)
-        return data.contentSize
-      })
+    layout.layout(context: CollectionProviderLayoutContext(collectionSize: collectionSize,
+                                                           dataProvider: dataProvider,
+                                                           sizeProvider: { (_, data, collectionSize) in
+      data.layout(collectionSize: collectionSize)
+      return data.contentSize
+    }))
   }
 
   open override var contentSize: CGSize {

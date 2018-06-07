@@ -37,7 +37,7 @@ class HorizontalGalleryViewController: CollectionViewController {
     })
 
     let visibleFrameInsets = UIEdgeInsets(top: 0, left: -100, bottom: 0, right: -100)
-    provider.layout = WaterfallLayout<UIImage>(columns: 2).transposed().insetVisibleFrame(by: visibleFrameInsets)
+    provider.layout = WaterfallLayout(columns: 2).transposed().insetVisibleFrame(by: visibleFrameInsets)
     provider.sizeProvider = imageSizeProvider
     provider.presenter = WobblePresenter()
     self.provider = provider

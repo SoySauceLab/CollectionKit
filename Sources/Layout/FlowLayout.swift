@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class FlowLayout<Data>: VerticalSimpleLayout<Data> {
+public class FlowLayout: VerticalSimpleLayout {
   public var lineSpacing: CGFloat
   public var interitemSpacing: CGFloat
 
@@ -40,16 +40,14 @@ public class FlowLayout<Data>: VerticalSimpleLayout<Data> {
               alignContent: alignContent)
   }
 
-  public override func simpleLayout(collectionSize: CGSize,
-                                    dataProvider: CollectionDataProvider<Data>,
-                                    sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
+  public override func simpleLayout(context: LayoutContext) -> [CGRect] {
     var frames: [CGRect] = []
 
-    let sizes = (0..<dataProvider.numberOfItems).map { sizeProvider($0, dataProvider.data(at: $0), collectionSize) }
-    let (totalHeight, lineData) = distributeLines(sizes: sizes, maxWidth: collectionSize.width)
+    let sizes = (0..<context.numberOfItems).map { context.size(at: $0, collectionSize: context.collectionSize) }
+    let (totalHeight, lineData) = distributeLines(sizes: sizes, maxWidth: context.collectionSize.width)
 
     var (yOffset, spacing) = LayoutHelper.distribute(justifyContent: alignContent,
-                                                     maxPrimary: collectionSize.height,
+                                                     maxPrimary: context.collectionSize.height,
                                                      totalPrimary: totalHeight,
                                                      minimunSpacing: lineSpacing,
                                                      numberOfItems: lineData.count)
@@ -58,7 +56,7 @@ public class FlowLayout<Data>: VerticalSimpleLayout<Data> {
     for (lineSize, count) in lineData {
       let (xOffset, lineInteritemSpacing) =
         LayoutHelper.distribute(justifyContent: justifyContent,
-                                maxPrimary: collectionSize.width,
+                                maxPrimary: context.collectionSize.width,
                                 totalPrimary: lineSize.width,
                                 minimunSpacing: interitemSpacing,
                                 numberOfItems: count)

@@ -8,11 +8,11 @@
 
 import UIKit
 
-public class FloatLayout<Data>: WrapperLayout<Data> {
+public class FloatLayout: WrapperLayout {
   var floatingFrames: [(index: Int, frame: CGRect)] = []
   var isFloated: (Int, CGRect) -> Bool
 
-  public init(rootLayout: CollectionLayout<Data>,
+  public init(rootLayout: CollectionLayout,
               isFloated: @escaping (Int, CGRect) -> Bool = { index, _ in index % 2 == 0 }) {
     self.isFloated = isFloated
     super.init(rootLayout)
@@ -22,11 +22,9 @@ public class FloatLayout<Data>: WrapperLayout<Data> {
     return rootLayout.contentSize
   }
 
-  override public func layout(collectionSize: CGSize,
-                              dataProvider: CollectionDataProvider<Data>,
-                              sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
-    rootLayout.layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
-    floatingFrames = (0..<dataProvider.numberOfItems).map {
+  override public func layout(context: LayoutContext) {
+    rootLayout.layout(context: context)
+    floatingFrames = (0..<context.numberOfItems).map {
       (index: $0, frame: rootLayout.frame(at: $0))
     }.filter {
       isFloated($0.0, $0.1)

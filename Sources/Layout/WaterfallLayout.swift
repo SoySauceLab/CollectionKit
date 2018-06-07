@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class WaterfallLayout<Data>: VerticalSimpleLayout<Data> {
+public class WaterfallLayout: VerticalSimpleLayout {
   public var columns: Int
   public var spacing: CGFloat
   private var columnWidth: [CGFloat] = [0, 0]
@@ -20,12 +20,10 @@ public class WaterfallLayout<Data>: VerticalSimpleLayout<Data> {
     super.init()
   }
 
-  public override func simpleLayout(collectionSize: CGSize,
-                                    dataProvider: CollectionDataProvider<Data>,
-                                    sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
+  public override func simpleLayout(context: LayoutContext) -> [CGRect] {
     var frames: [CGRect] = []
 
-    let columnWidth = (collectionSize.width - CGFloat(columns - 1) * spacing) / CGFloat(columns)
+    let columnWidth = (context.collectionSize.width - CGFloat(columns - 1) * spacing) / CGFloat(columns)
     var columnHeight = [CGFloat](repeating: 0, count: columns)
 
     func getMinColomn() -> (Int, CGFloat) {
@@ -36,9 +34,9 @@ public class WaterfallLayout<Data>: VerticalSimpleLayout<Data> {
       return minHeight
     }
 
-    for i in 0..<dataProvider.numberOfItems {
-      var cellSize = sizeProvider(i, dataProvider.data(at: i),
-                                  CGSize(width: columnWidth, height: collectionSize.height))
+    for i in 0..<context.numberOfItems {
+      var cellSize = context.size(at: i, collectionSize: CGSize(width: columnWidth,
+                                                                height: context.collectionSize.height))
       cellSize = CGSize(width: columnWidth, height: cellSize.height)
       let (columnIndex, offsetY) = getMinColomn()
       columnHeight[columnIndex] += cellSize.height + spacing

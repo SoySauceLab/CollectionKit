@@ -8,19 +8,33 @@
 
 import UIKit
 
-open class TransposeLayout<Data>: WrapperLayout<Data> {
+open class TransposeLayout: WrapperLayout {
+  struct TransposeLayoutContext: LayoutContext {
+    var original: LayoutContext
+
+    var collectionSize: CGSize {
+      return original.collectionSize.transposed
+    }
+    var numberOfItems: Int {
+      return original.numberOfItems
+    }
+    func data(at: Int) -> Any {
+      return original.data(at: at)
+    }
+    func identifier(at: Int) -> String {
+      return original.identifier(at: at)
+    }
+    func size(at: Int, collectionSize: CGSize) -> CGSize {
+      return original.size(at: at, collectionSize: collectionSize.transposed).transposed
+    }
+  }
 
   open override var contentSize: CGSize {
     return rootLayout.contentSize.transposed
   }
 
-  open override func layout(collectionSize: CGSize,
-                            dataProvider: CollectionDataProvider<Data>,
-                            sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
-    rootLayout.layout(collectionSize: collectionSize.transposed,
-                      dataProvider: dataProvider) {
-                        return sizeProvider($0, $1, $2.transposed).transposed
-    }
+  open override func layout(context: LayoutContext) {
+    rootLayout.layout(context: TransposeLayoutContext(original: context))
   }
 
   open override func visibleIndexes(visibleFrame: CGRect) -> [Int] {

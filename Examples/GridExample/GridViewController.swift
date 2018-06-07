@@ -22,7 +22,7 @@ class GridViewController: CollectionViewController {
     })
     let visibleFrameInsets = UIEdgeInsets(top: -150, left: -150, bottom: -150, right: -150)
     let layout = Closurelayout(
-      frameProvider: { (i: Int, data: Int,  _) in
+      frameProvider: { (i: Int, _) in
         CGRect(x: CGFloat(i % kGridSize.width) * (kGridCellSize.width + kGridCellPadding),
                y: CGFloat(i / kGridSize.width) * (kGridCellSize.height + kGridCellPadding),
                width: kGridCellSize.width,
