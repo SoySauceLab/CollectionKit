@@ -124,14 +124,25 @@ class MessagesViewController: CollectionViewController {
     collectionView.delegate = self
     collectionView.contentInset = UIEdgeInsetsMake(30, 10, 54, 10)
     collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(30, 0, 54, 0)
-    
+
+    let textMessageViewProvider = ClosureViewProvider(viewUpdater: { (view: TextMessageCell, data: Message, at: Int) in
+      view.message = data
+    })
+    let imageMessageViewProvider = ClosureViewProvider(viewUpdater: { (view: ImageMessageCell, data: Message, at: Int) in
+      view.message = data
+    })
     presenter.sourceView = newMessageButton
     presenter.dataProvider = dataProvider
     let provider = CollectionProvider(
       dataProvider: dataProvider,
-      viewUpdater: { (view: MessageCell, data: Message, at: Int) in
-        view.message = data
-      }
+      viewProvider: ViewProviderComposer(viewProviderSelector: { data in
+        switch data.type {
+        case .image:
+          return imageMessageViewProvider
+        default:
+          return textMessageViewProvider
+        }
+      })
     )
     let visibleFrameInsets = UIEdgeInsets(top: -200, left: 0, bottom: -200, right: 0)
     provider.layout = MessageLayout().insetVisibleFrame(by: visibleFrameInsets)

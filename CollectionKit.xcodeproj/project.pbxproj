@@ -15,6 +15,8 @@
 		0EB827AE203A58F500579A3E /* CollectionViewCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB827AD203A58F500579A3E /* CollectionViewCollectionProvider.swift */; };
 		A31524C31FF4329B0043CEB3 /* YetAnotherAnimationLibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A3299F342064ED690075A137 /* VisibleFrameInsetLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3299F332064ED690075A137 /* VisibleFrameInsetLayout.swift */; };
+		A363C56520C7EA44009A885F /* ViewProviderComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56420C7EA44009A885F /* ViewProviderComposer.swift */; };
+		A363C56620C7EA66009A885F /* AnyCollectionViewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56220C7EA2E009A885F /* AnyCollectionViewProvider.swift */; };
 		A372A3691C79567A0023C797 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A3681C79567A0023C797 /* MessageCell.swift */; };
 		A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDEECE1C7D88430053BFAE /* Messages.swift */; };
 		A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */; };
@@ -130,6 +132,8 @@
 		A3299F332064ED690075A137 /* VisibleFrameInsetLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibleFrameInsetLayout.swift; sourceTree = "<group>"; };
 		A351C3451CE4CCD2005E15A7 /* CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		A351C3461CE4CCD2005E15A7 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
+		A363C56220C7EA2E009A885F /* AnyCollectionViewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyCollectionViewProvider.swift; sourceTree = "<group>"; };
+		A363C56420C7EA44009A885F /* ViewProviderComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewProviderComposer.swift; sourceTree = "<group>"; };
 		A372A3681C79567A0023C797 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		A3DDEECE1C7D88430053BFAE /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; tabWidth = 2; };
 		A3FC21C41C6EE5AA008566BB /* CollectionKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -423,7 +427,9 @@
 			isa = PBXGroup;
 			children = (
 				B1E861EF1F21514E00621BA0 /* CollectionViewProvider.swift */,
+				A363C56220C7EA2E009A885F /* AnyCollectionViewProvider.swift */,
 				B144CE101F437AAB0073CF4E /* ClosureViewProvider.swift */,
+				A363C56420C7EA44009A885F /* ViewProviderComposer.swift */,
 			);
 			path = ViewProvider;
 			sourceTree = "<group>";
@@ -710,12 +716,14 @@
 				B144CE041F437A100073CF4E /* FlowLayout.swift in Sources */,
 				B10A06281F20073C00069E17 /* CollectionPresenter.swift in Sources */,
 				B1688A2D1F25632900C229BD /* SpaceCollectionProvider.swift in Sources */,
+				A363C56520C7EA44009A885F /* ViewProviderComposer.swift in Sources */,
 				B1B7B0611E7DAD2700F2483E /* Util.swift in Sources */,
 				B144CE0A1F437A6B0073CF4E /* BaseCollectionProvider.swift in Sources */,
 				B144CE061F437A1D0073CF4E /* RowLayout.swift in Sources */,
 				B19D64C91F23DCA800D02FDB /* CollectionReuseViewManager.swift in Sources */,
 				B144CE001F4379DA0073CF4E /* ClosureLayout.swift in Sources */,
 				B1E861F11F21515F00621BA0 /* CollectionViewProvider.swift in Sources */,
+				A363C56620C7EA66009A885F /* AnyCollectionViewProvider.swift in Sources */,
 				B144CE0D1F437A960073CF4E /* ArrayDataProvider.swift in Sources */,
 				B14B0E021F2682EA003E5105 /* CollectionSizeProvider.swift in Sources */,
 				B1ED75B51F58C95200CB772A /* FloatLayout.swift in Sources */,

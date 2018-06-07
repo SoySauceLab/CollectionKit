@@ -24,3 +24,13 @@ open class CollectionViewProvider<Data, View: UIView> {
 
   public init() {}
 }
+
+extension CollectionViewProvider: AnyCollectionViewProvider {
+  public final func anyView(data: Any, index: Int) -> UIView {
+    return view(data: data as! Data, index: index)
+  }
+
+  public final func anyUpdate(view: UIView, data: Any, index: Int) {
+    return update(view: view as! View, data: data as! Data, index: index)
+  }
+}
