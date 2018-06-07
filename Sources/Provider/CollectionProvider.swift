@@ -137,3 +137,22 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
     return reloadable === self || reloadable === dataProvider
   }
 }
+
+struct CollectionProviderLayoutContext<Data>: LayoutContext {
+  var collectionSize: CGSize
+  var dataProvider: CollectionDataProvider<Data>
+  var sizeProvider: CollectionSizeProvider<Data>
+
+  var numberOfItems: Int {
+    return dataProvider.numberOfItems
+  }
+  func data(at: Int) -> Any {
+    return dataProvider.data(at: at)
+  }
+  func identifier(at: Int) -> String {
+    return dataProvider.identifier(at: at)
+  }
+  func size(at: Int, collectionSize: CGSize) -> CGSize {
+    return sizeProvider(at, dataProvider.data(at: at), collectionSize)
+  }
+}

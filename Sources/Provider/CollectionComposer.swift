@@ -11,24 +11,18 @@ import UIKit
 open class CollectionComposer: BaseCollectionProvider {
 
   public var sections: [AnyCollectionProvider] {
-    get { return dataProvider.data }
-    set { dataProvider.data = newValue }
+    didSet { setNeedsReload() }
   }
 
   public var presenter: CollectionPresenter? {
-    didSet {
-      setNeedsReload()
-    }
+    didSet { setNeedsReload() }
   }
 
   public var layout: CollectionLayout {
-    didSet {
-      setNeedsReload()
-    }
+    didSet { setNeedsReload() }
   }
 
   private var sectionBeginIndex: [Int] = []
-  private var dataProvider: ArrayDataProvider<AnyCollectionProvider>
 
   public init(identifier: String? = nil,
               layout: CollectionLayout = FlowLayout(),
@@ -36,9 +30,7 @@ open class CollectionComposer: BaseCollectionProvider {
               sections: [AnyCollectionProvider]) {
     self.presenter = presenter
     self.layout = layout
-    self.dataProvider = ArrayDataProvider(data: sections, identifierMapper: {
-      return $1.identifier ?? "\($0)"
-    })
+    self.sections = sections
     super.init(identifier: identifier)
   }
 
@@ -75,12 +67,8 @@ open class CollectionComposer: BaseCollectionProvider {
   }
 
   open override func layout(collectionSize: CGSize) {
-    layout.layout(context: CollectionProviderLayoutContext(collectionSize: collectionSize,
-                                                           dataProvider: dataProvider,
-                                                           sizeProvider: { (_, data, collectionSize) in
-      data.layout(collectionSize: collectionSize)
-      return data.contentSize
-    }))
+    layout.layout(context: CollectionComposerLayoutContext(collectionSize: collectionSize,
+                                                           sections: sections))
   }
 
   open override var contentSize: CGSize {
@@ -145,7 +133,25 @@ open class CollectionComposer: BaseCollectionProvider {
   }
 
   open override func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
-    return reloadable === self || reloadable === dataProvider ||
-      sections.contains(where: { $0.hasReloadable(reloadable) })
+    return reloadable === self || sections.contains(where: { $0.hasReloadable(reloadable) })
+  }
+}
+
+struct CollectionComposerLayoutContext: LayoutContext {
+  var collectionSize: CGSize
+  var sections: [AnyCollectionProvider]
+
+  var numberOfItems: Int {
+    return sections.count
+  }
+  func data(at: Int) -> Any {
+    return sections[at]
+  }
+  func identifier(at: Int) -> String {
+    return sections[at].identifier ?? "\(at)"
+  }
+  func size(at: Int, collectionSize: CGSize) -> CGSize {
+    sections[at].layout(collectionSize: collectionSize)
+    return sections[at].contentSize
   }
 }
