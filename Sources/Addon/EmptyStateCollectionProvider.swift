@@ -35,7 +35,7 @@ public class EmptyStateCollectionProvider: CollectionComposer {
       super.willReload()
     } else if content.numberOfItems > 0, sections.first !== content {
       sections = [content]
-      prepareForReload() // no need to call willReload on `content`
+//      prepareForReload() // no need to call willReload on `content`
     } else {
       super.willReload()
     }

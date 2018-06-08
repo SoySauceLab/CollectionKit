@@ -18,6 +18,12 @@ open class BaseCollectionProvider: AnyCollectionProvider {
   open var numberOfItems: Int {
     return 0
   }
+  public var hasSection: Bool {
+    return false
+  }
+  public func section(at: Int) -> AnyCollectionProvider? {
+    return nil
+  }
   open func view(at: Int) -> UIView {
     return UIView()
   }
