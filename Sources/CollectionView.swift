@@ -9,8 +9,14 @@
 import UIKit
 
 open class CollectionView: UIScrollView {
-  public var provider: AnyCollectionProvider = BaseCollectionProvider() { didSet { setNeedsReload() } }
-  public var presenter: CollectionPresenter = CollectionPresenter() { didSet { setNeedsReload() } }
+
+  public var provider: AnyCollectionProvider = EmptyCollectionProvider() {
+    didSet { setNeedsReload() }
+  }
+
+  public var presenter: CollectionPresenter = CollectionPresenter() {
+    didSet { setNeedsReload() }
+  }
 
   public private(set) var reloadCount = 0
   public private(set) var needsReload = true
@@ -26,7 +32,7 @@ open class CollectionView: UIScrollView {
   public private(set) var visibleCells: [UIView] = []
   public private(set) var visibleIdentifiers: [String] = []
 
-  lazy var flattenedProvider: ViewOnlyCollectionProvider = ComposedSectionData(provider: provider)
+  lazy var flattenedProvider: ViewOnlyCollectionProvider = provider.flattenedProvider()
   var currentlyInsertedCells: Set<UIView>?
   var lastLoadBounds: CGRect?
 
@@ -36,9 +42,9 @@ open class CollectionView: UIScrollView {
     }
   }
 
-  public convenience init(flattenedProvider: AnyCollectionProvider) {
+  public convenience init(provider: AnyCollectionProvider) {
     self.init()
-    self.flattenedProvider = flattenedProvider
+    self.provider = provider
   }
 
   public override init(frame: CGRect) {

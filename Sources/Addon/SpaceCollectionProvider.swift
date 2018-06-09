@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class SpaceCollectionProvider: BaseCollectionProvider {
+open class SpaceCollectionProvider: EmptyCollectionProvider {
   public enum SpaceSizeStrategy {
     case fill
     case absolute(CGFloat)

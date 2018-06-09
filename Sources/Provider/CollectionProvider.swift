@@ -12,7 +12,7 @@ public func defaultSizeProvider<Data>(at: Int, data: Data, collectionSize: CGSiz
   return collectionSize
 }
 
-open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
+open class CollectionProvider<Data, View: UIView>: ViewOnlyCollectionProvider, CollectionReloadable {
   public typealias DataProvider = CollectionDataProvider<Data>
   public typealias ViewProvider = CollectionViewProvider<Data, View>
   public typealias Layout = CollectionLayout
@@ -20,6 +20,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
   public typealias Presenter = CollectionPresenter
   public typealias TapHandler = (View, Int, DataProvider) -> Void
 
+  public var identifier: String?
   public var dataProvider: DataProvider { didSet { setNeedsReload() } }
   public var viewProvider: ViewProvider { didSet { setNeedsReload() } }
   public var layout: Layout = FlowLayout() { didSet { setNeedsReload() } }
@@ -47,7 +48,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
     self.willReloadHandler = willReloadHandler
     self.didReloadHandler = didReloadHandler
     self.tapHandler = tapHandler
-    super.init(identifier: identifier)
+    self.identifier = identifier
   }
 
   public init(identifier: String? = nil,
@@ -68,7 +69,7 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
     self.willReloadHandler = willReloadHandler
     self.didReloadHandler = didReloadHandler
     self.tapHandler = tapHandler
-    super.init(identifier: identifier)
+    self.identifier = identifier
   }
 
   public init(identifier: String? = nil,
@@ -89,51 +90,48 @@ open class CollectionProvider<Data, View: UIView>: BaseCollectionProvider {
     self.willReloadHandler = willReloadHandler
     self.didReloadHandler = didReloadHandler
     self.tapHandler = tapHandler
-    super.init(identifier: identifier)
+    self.identifier = identifier
   }
 
-  // MARK: - Override Methods
-  open override var numberOfItems: Int {
+  open var numberOfItems: Int {
     return dataProvider.numberOfItems
   }
-  open override func view(at: Int) -> UIView {
+  open func view(at: Int) -> UIView {
     return viewProvider.view(data: dataProvider.data(at: at), index: at)
   }
-  open override func update(view: UIView, at: Int) {
+  open func update(view: UIView, at: Int) {
     viewProvider.update(view: view as! View, data: dataProvider.data(at: at), index: at)
   }
-  open override func identifier(at: Int) -> String {
+  open func identifier(at: Int) -> String {
     return dataProvider.identifier(at: at)
   }
-  open override func layout(collectionSize: CGSize) {
+  open func layout(collectionSize: CGSize) {
     layout.layout(context: CollectionProviderLayoutContext(collectionSize: collectionSize,
                                                            dataProvider: dataProvider,
                                                            sizeProvider: sizeProvider))
   }
-  open override var contentSize: CGSize {
+  open var contentSize: CGSize {
     return layout.contentSize
   }
-  open override func frame(at: Int) -> CGRect {
+  open func frame(at: Int) -> CGRect {
     return layout.frame(at: at)
   }
-  open override func visibleIndexes(visibleFrame: CGRect) -> [Int] {
+  open func visibleIndexes(visibleFrame: CGRect) -> [Int] {
     return layout.visibleIndexes(visibleFrame: visibleFrame)
   }
-  open override func presenter(at: Int) -> CollectionPresenter? {
+  open func presenter(at: Int) -> CollectionPresenter? {
     return presenter
   }
-  open override func willReload() {
-    super.willReload()
+  open func willReload() {
     willReloadHandler?()
   }
-  open override func didReload() {
-    super.didReload()
+  open func didReload() {
     didReloadHandler?()
   }
-  open override func didTap(view: UIView, at: Int) {
+  open func didTap(view: UIView, at: Int) {
     tapHandler?(view as! View, at, dataProvider)
   }
-  open override func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
+  open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     return reloadable === self || reloadable === dataProvider
   }
 }
