@@ -36,17 +36,15 @@ class HeaderExampleViewController: CollectionViewController {
     let sections: [AnyCollectionProvider] = (1...10).map { _ in
       return CollectionProvider(
         data: Array(1...9),
-        viewUpdater: { (view: UILabel, data: Int, index: Int) in
+        viewUpdater: { (view: SquareView, data: Int, index: Int) in
           view.backgroundColor = UIColor(hue: CGFloat(index) / 10,
                                          saturation: 0.68, brightness: 0.98, alpha: 1)
-          view.textColor = .white
-          view.textAlignment = .center
           view.text = "\(data)"
         },
-        layout: FlowLayout(spacing: 10, justifyContent: .center, alignItems: .center)
+        layout: FlowLayout(spacing: 10, justifyContent: .spaceAround, alignItems: .center)
           .inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)),
         sizeProvider: { (index, data, maxSize) -> CGSize in
-          return CGSize(width: 100, height: 100)
+          return CGSize(width: 80, height: 80)
         }
       )
     }

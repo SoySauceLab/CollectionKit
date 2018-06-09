@@ -33,11 +33,9 @@ class GridViewController: CollectionViewController {
     collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     let provider = CollectionProvider(
       dataProvider: dataProvider,
-      viewUpdater: { (view: UILabel, data: Int, index: Int) in
+      viewUpdater: { (view: SquareView, data: Int, index: Int) in
         view.backgroundColor = UIColor(hue: CGFloat(index) / CGFloat(kGridSize.width * kGridSize.height),
                                        saturation: 0.68, brightness: 0.98, alpha: 1)
-        view.textColor = .white
-        view.textAlignment = .center
         view.text = "\(data)"
       }
     )

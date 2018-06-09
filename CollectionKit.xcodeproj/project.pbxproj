@@ -21,6 +21,7 @@
 		A363C56C20CACA8A009A885F /* FlattenedProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56B20CACA89009A885F /* FlattenedProvider.swift */; };
 		A363C56E20CBD55B009A885F /* CollectionHeaderComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56D20CBD55B009A885F /* CollectionHeaderComposer.swift */; };
 		A363C57020CBF6A1009A885F /* HeaderExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56F20CBF6A1009A885F /* HeaderExampleViewController.swift */; };
+		A363C57320CC015D009A885F /* SquareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C57220CC015D009A885F /* SquareView.swift */; };
 		A372A3691C79567A0023C797 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A3681C79567A0023C797 /* MessageCell.swift */; };
 		A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDEECE1C7D88430053BFAE /* Messages.swift */; };
 		A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */; };
@@ -142,6 +143,7 @@
 		A363C56B20CACA89009A885F /* FlattenedProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlattenedProvider.swift; sourceTree = "<group>"; };
 		A363C56D20CBD55B009A885F /* CollectionHeaderComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionHeaderComposer.swift; sourceTree = "<group>"; };
 		A363C56F20CBF6A1009A885F /* HeaderExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HeaderExampleViewController.swift; path = Examples/HeaderExample/HeaderExampleViewController.swift; sourceTree = SOURCE_ROOT; };
+		A363C57220CC015D009A885F /* SquareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareView.swift; sourceTree = "<group>"; };
 		A372A3681C79567A0023C797 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		A3DDEECE1C7D88430053BFAE /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; tabWidth = 2; };
 		A3FC21C41C6EE5AA008566BB /* CollectionKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -304,6 +306,7 @@
 				A3FC21D31C6EE5AA008566BB /* Info.plist */,
 				A3FC21D01C6EE5AA008566BB /* LaunchScreen.storyboard */,
 				B100C3F71EA55A9400868840 /* DynamicView.swift */,
+				A363C57220CC015D009A885F /* SquareView.swift */,
 				B102FC5C1D10FF5100408DD6 /* Random.swift */,
 				B100C3FB1EA55DB500868840 /* Util.swift */,
 			);
@@ -705,6 +708,7 @@
 				B102FC5D1D10FF5100408DD6 /* Random.swift in Sources */,
 				B1688A271F25448900C229BD /* ViewController.swift in Sources */,
 				B145FFA61F5DF60300A4F318 /* CollectionViewController.swift in Sources */,
+				A363C57320CC015D009A885F /* SquareView.swift in Sources */,
 				B1A073701F438A3500E28E23 /* EdgeShrinkPresenter.swift in Sources */,
 				A363C57020CBF6A1009A885F /* HeaderExampleViewController.swift in Sources */,
 				B14ABA2D1FE2F59B005D889A /* ReloadAnimationViewController.swift in Sources */,

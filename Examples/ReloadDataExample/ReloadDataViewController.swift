@@ -46,15 +46,11 @@ class ReloadDataViewController: CollectionViewController {
     presenter.updateAnimation = .normal
     let provider = CollectionProvider(
       dataProvider: dataProvider,
-      viewUpdater: { (view: UILabel, data: Int, index: Int) in
+      viewUpdater: { (view: SquareView, data: Int, index: Int) in
         view.backgroundColor = UIColor(hue: CGFloat(data) / 30,
                                        saturation: 0.68,
                                        brightness: 0.98,
                                        alpha: 1)
-        view.textColor = .white
-        view.textAlignment = .center
-        view.layer.cornerRadius = 4
-        view.layer.masksToBounds = true
         view.text = "\(data)"
       }
     )
