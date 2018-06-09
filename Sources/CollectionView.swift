@@ -32,7 +32,7 @@ open class CollectionView: UIScrollView {
   public private(set) var visibleCells: [UIView] = []
   public private(set) var visibleIdentifiers: [String] = []
 
-  lazy var flattenedProvider: ViewOnlyCollectionProvider = provider.flattenedProvider()
+  lazy var flattenedProvider: ViewSource = provider.flattenedProvider()
   var currentlyInsertedCells: Set<UIView>?
   var lastLoadBounds: CGRect?
 

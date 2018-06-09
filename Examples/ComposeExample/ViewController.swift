@@ -24,6 +24,7 @@ class ViewController: CollectionViewController {
     ("Articles", ArticleExampleViewController.self),
     ("Reload", ReloadDataViewController.self),
     ("Reload Animation", ReloadAnimationViewController.self),
+    ("Header", HeaderExampleViewController.self),
     ("Chat", MessagesViewController.self),
     ("Presenters", PresenterExampleViewController.self)
   ]

@@ -12,7 +12,7 @@ public func defaultSizeProvider<Data>(at: Int, data: Data, collectionSize: CGSiz
   return collectionSize
 }
 
-open class CollectionProvider<Data, View: UIView>: ViewOnlyCollectionProvider, CollectionReloadable {
+open class CollectionProvider<Data, View: UIView>: ViewSource, CollectionReloadable {
   public typealias DataProvider = CollectionDataProvider<Data>
   public typealias ViewProvider = CollectionViewProvider<Data, View>
   public typealias Layout = CollectionLayout

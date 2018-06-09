@@ -8,19 +8,19 @@
 
 import UIKit
 
-struct FlattenedProvider: ViewOnlyCollectionProvider {
+struct FlattenedProvider: ViewSource {
 
-  var provider: ComposedCollectionProvider
+  var provider: SectionSource
 
-  private var childSections: [(beginIndex: Int, sectionData: ViewOnlyCollectionProvider?)]
+  private var childSections: [(beginIndex: Int, sectionData: ViewSource?)]
 
-  init(provider: ComposedCollectionProvider) {
+  init(provider: SectionSource) {
     self.provider = provider
-    var childSections: [(beginIndex: Int, sectionData: ViewOnlyCollectionProvider?)] = []
+    var childSections: [(beginIndex: Int, sectionData: ViewSource?)] = []
     childSections.reserveCapacity(provider.numberOfItems)
     var count = 0
     for i in 0..<provider.numberOfItems {
-      let sectionData: ViewOnlyCollectionProvider?
+      let sectionData: ViewSource?
       if let section = provider.section(at: i) {
         sectionData = section.flattenedProvider()
       } else {
@@ -37,13 +37,13 @@ struct FlattenedProvider: ViewOnlyCollectionProvider {
     return (sectionIndex, index - childSections[sectionIndex].beginIndex)
   }
 
-  func apply<T>(_ index: Int, with: (ViewOnlyCollectionProvider, Int) -> T) -> T {
+  func apply<T>(_ index: Int, with: (ViewSource, Int) -> T) -> T {
     let (sectionIndex, item) = indexPath(index)
     if let sectionData = childSections[sectionIndex].sectionData {
       return with(sectionData, item)
     } else {
-      assert(provider is ViewOnlyCollectionProvider, "Provider don't support view index")
-      return with(provider as! ViewOnlyCollectionProvider, sectionIndex)
+      assert(provider is ViewSource, "Provider don't support view index")
+      return with(provider as! ViewSource, sectionIndex)
     }
   }
 
@@ -117,7 +117,7 @@ struct FlattenedProvider: ViewOnlyCollectionProvider {
   func presenter(at: Int) -> CollectionPresenter? {
     return apply(at) {
       $0.presenter(at: $1)
-    }
+    } ?? provider.presenter(at: at)
   }
 
   func willReload() {

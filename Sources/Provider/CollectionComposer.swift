@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CollectionComposer: ComposedCollectionProvider, CollectionReloadable {
+open class CollectionComposer: SectionSource, CollectionReloadable {
 
   public var identifier: String?
 
@@ -68,6 +68,10 @@ open class CollectionComposer: ComposedCollectionProvider, CollectionReloadable 
 
   open func frame(at: Int) -> CGRect {
     return layout.frame(at: at)
+  }
+
+  open func presenter(at: Int) -> CollectionPresenter? {
+    return presenter
   }
 
   open func willReload() {

@@ -19,6 +19,8 @@
 		A363C56620C7EA66009A885F /* AnyCollectionViewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56220C7EA2E009A885F /* AnyCollectionViewProvider.swift */; };
 		A363C56A20C955C7009A885F /* LayoutContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56920C955C7009A885F /* LayoutContext.swift */; };
 		A363C56C20CACA8A009A885F /* FlattenedProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56B20CACA89009A885F /* FlattenedProvider.swift */; };
+		A363C56E20CBD55B009A885F /* CollectionHeaderComposer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56D20CBD55B009A885F /* CollectionHeaderComposer.swift */; };
+		A363C57020CBF6A1009A885F /* HeaderExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56F20CBF6A1009A885F /* HeaderExampleViewController.swift */; };
 		A372A3691C79567A0023C797 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A3681C79567A0023C797 /* MessageCell.swift */; };
 		A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDEECE1C7D88430053BFAE /* Messages.swift */; };
 		A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */; };
@@ -138,6 +140,8 @@
 		A363C56420C7EA44009A885F /* ViewProviderComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewProviderComposer.swift; sourceTree = "<group>"; };
 		A363C56920C955C7009A885F /* LayoutContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutContext.swift; sourceTree = "<group>"; };
 		A363C56B20CACA89009A885F /* FlattenedProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlattenedProvider.swift; sourceTree = "<group>"; };
+		A363C56D20CBD55B009A885F /* CollectionHeaderComposer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionHeaderComposer.swift; sourceTree = "<group>"; };
+		A363C56F20CBF6A1009A885F /* HeaderExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HeaderExampleViewController.swift; path = Examples/HeaderExample/HeaderExampleViewController.swift; sourceTree = SOURCE_ROOT; };
 		A372A3681C79567A0023C797 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		A3DDEECE1C7D88430053BFAE /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; tabWidth = 2; };
 		A3FC21C41C6EE5AA008566BB /* CollectionKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -265,6 +269,14 @@
 			path = "ChatExample (Advance)";
 			sourceTree = "<group>";
 		};
+		A363C57120CBF6A8009A885F /* HeaderExample */ = {
+			isa = PBXGroup;
+			children = (
+				A363C56F20CBF6A1009A885F /* HeaderExampleViewController.swift */,
+			);
+			path = HeaderExample;
+			sourceTree = "<group>";
+		};
 		A3DDEED01C7D893D0053BFAE /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -337,6 +349,7 @@
 				B145FFA11F5DF54900A4F318 /* ExampleView.swift */,
 				0E32583B1F5DC89900D455F8 /* ArticleExample */,
 				A351C3441CE4C917005E15A7 /* ChatExample (Advance) */,
+				A363C57120CBF6A8009A885F /* HeaderExample */,
 				B136E9A11D04C0D500D02FCA /* GridExample */,
 				A3E7918A1D11025B005D9410 /* HorizontalGalleryExample */,
 				B145FFA71F5DFA0100A4F318 /* PresenterExample */,
@@ -413,6 +426,7 @@
 			children = (
 				B148237A1F1E87F60007A7E2 /* CollectionProvider.swift */,
 				B1E861F81F21520200621BA0 /* CollectionComposer.swift */,
+				A363C56D20CBD55B009A885F /* CollectionHeaderComposer.swift */,
 				B1688A2E1F2563A200C229BD /* AnyCollectionProvider.swift */,
 				A363C56B20CACA89009A885F /* FlattenedProvider.swift */,
 				B144CE091F437A6B0073CF4E /* EmptyCollectionProvider.swift */,
@@ -692,6 +706,7 @@
 				B1688A271F25448900C229BD /* ViewController.swift in Sources */,
 				B145FFA61F5DF60300A4F318 /* CollectionViewController.swift in Sources */,
 				B1A073701F438A3500E28E23 /* EdgeShrinkPresenter.swift in Sources */,
+				A363C57020CBF6A1009A885F /* HeaderExampleViewController.swift in Sources */,
 				B14ABA2D1FE2F59B005D889A /* ReloadAnimationViewController.swift in Sources */,
 				0E3258401F5DC8B400D455F8 /* ArticleExampleViewController.swift in Sources */,
 				B100C3FC1EA55DB500868840 /* Util.swift in Sources */,
@@ -749,6 +764,7 @@
 				B1688A291F2562AC00C229BD /* ViewCollectionProvider.swift in Sources */,
 				B1E861F91F21520200621BA0 /* CollectionComposer.swift in Sources */,
 				B1688A2F1F2563A200C229BD /* AnyCollectionProvider.swift in Sources */,
+				A363C56E20CBD55B009A885F /* CollectionHeaderComposer.swift in Sources */,
 				B144CE021F4379F20073CF4E /* WaterfallLayout.swift in Sources */,
 				B144CE151F437AC10073CF4E /* ZoomPresenter.swift in Sources */,
 				B183C11E1F63218E00CEAAE1 /* LayoutHelper.swift in Sources */,
