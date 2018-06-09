@@ -14,40 +14,6 @@ open class CollectionHeaderComposer<HeaderView: UIView>: SectionSource, ViewSour
   public typealias HeaderViewProvider = CollectionViewProvider<HeaderData, HeaderView>
   public typealias HeaderSizeProvider = CollectionSizeProvider<HeaderData>
 
-  struct CollectionHeaderComposerLayoutContext: LayoutContext {
-    var collectionSize: CGSize
-    var sections: [AnyCollectionProvider]
-    var headerViewProvider: HeaderViewProvider
-    var headerSizeProvider: HeaderSizeProvider
-
-    var numberOfItems: Int {
-      return sections.count * 2
-    }
-    func data(at: Int) -> Any {
-      if at % 2 == 0 {
-        return HeaderData(index: at / 2, section: sections[at / 2])
-      } else {
-        return sections[at / 2]
-      }
-    }
-    func identifier(at: Int) -> String {
-      let sectionIdentifier = sections[at / 2].identifier ?? "\(at)"
-      if at % 2 == 0 {
-        return sectionIdentifier + "-header"
-      } else {
-        return sectionIdentifier
-      }
-    }
-    func size(at: Int, collectionSize: CGSize) -> CGSize {
-      if at % 2 == 0 {
-        return headerSizeProvider(at / 2, data(at: at) as! HeaderData, collectionSize)
-      } else {
-        sections[at / 2].layout(collectionSize: collectionSize)
-        return sections[at / 2].contentSize
-      }
-    }
-  }
-
   public var identifier: String?
 
   public var sections: [AnyCollectionProvider] {
@@ -55,10 +21,6 @@ open class CollectionHeaderComposer<HeaderView: UIView>: SectionSource, ViewSour
   }
 
   public var presenter: CollectionPresenter? {
-    didSet { setNeedsReload() }
-  }
-
-  public var layout: CollectionLayout {
     didSet { setNeedsReload() }
   }
 
@@ -70,6 +32,27 @@ open class CollectionHeaderComposer<HeaderView: UIView>: SectionSource, ViewSour
     didSet { setNeedsReload() }
   }
 
+  public var layout: CollectionLayout {
+    get { return internalLayout.rootLayout }
+    set {
+      internalLayout.rootLayout = newValue
+      setNeedsReload()
+    }
+  }
+
+  public var isSticky = true {
+    didSet {
+      if isSticky {
+        internalLayout.isStickyFn = { $0 % 2 == 0 }
+      } else {
+        internalLayout.isStickyFn = { _ in false }
+      }
+      setNeedsReload()
+    }
+  }
+
+  private var internalLayout: StickyLayout
+
   public init(identifier: String? = nil,
               layout: CollectionLayout = FlowLayout(),
               presenter: CollectionPresenter? = nil,
@@ -77,7 +60,7 @@ open class CollectionHeaderComposer<HeaderView: UIView>: SectionSource, ViewSour
               headerSizeProvider: @escaping HeaderSizeProvider,
               sections: [AnyCollectionProvider]) {
     self.presenter = presenter
-    self.layout = layout
+    self.internalLayout = StickyLayout(rootLayout: layout)
     self.sections = sections
     self.identifier = identifier
     self.headerViewProvider = headerViewProvider
@@ -106,7 +89,7 @@ open class CollectionHeaderComposer<HeaderView: UIView>: SectionSource, ViewSour
   }
 
   open func layout(collectionSize: CGSize) {
-    layout.layout(context:
+    internalLayout.layout(context:
       CollectionHeaderComposerLayoutContext(
         collectionSize: collectionSize,
         sections: sections,
@@ -116,15 +99,15 @@ open class CollectionHeaderComposer<HeaderView: UIView>: SectionSource, ViewSour
   }
 
   open var contentSize: CGSize {
-    return layout.contentSize
+    return internalLayout.contentSize
   }
 
   open func visibleIndexes(visibleFrame: CGRect) -> [Int] {
-    return layout.visibleIndexes(visibleFrame: visibleFrame)
+    return internalLayout.visibleIndexes(visibleFrame: visibleFrame)
   }
 
   open func frame(at: Int) -> CGRect {
-    return layout.frame(at: at)
+    return internalLayout.frame(at: at)
   }
 
   open func presenter(at: Int) -> CollectionPresenter? {
@@ -160,11 +143,46 @@ open class CollectionHeaderComposer<HeaderView: UIView>: SectionSource, ViewSour
     }
   }
 
+  // MARK: private stuff
   open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     return reloadable === self || sections.contains(where: { $0.hasReloadable(reloadable) })
   }
 
-  public func flattenedProvider() -> ViewSource {
+  open func flattenedProvider() -> ViewSource {
     return FlattenedProvider(provider: self)
+  }
+
+  struct CollectionHeaderComposerLayoutContext: LayoutContext {
+    var collectionSize: CGSize
+    var sections: [AnyCollectionProvider]
+    var headerViewProvider: HeaderViewProvider
+    var headerSizeProvider: HeaderSizeProvider
+
+    var numberOfItems: Int {
+      return sections.count * 2
+    }
+    func data(at: Int) -> Any {
+      if at % 2 == 0 {
+        return HeaderData(index: at / 2, section: sections[at / 2])
+      } else {
+        return sections[at / 2]
+      }
+    }
+    func identifier(at: Int) -> String {
+      let sectionIdentifier = sections[at / 2].identifier ?? "\(at)"
+      if at % 2 == 0 {
+        return sectionIdentifier + "-header"
+      } else {
+        return sectionIdentifier
+      }
+    }
+    func size(at: Int, collectionSize: CGSize) -> CGSize {
+      if at % 2 == 0 {
+        return headerSizeProvider(at / 2, data(at: at) as! HeaderData, collectionSize)
+      } else {
+        sections[at / 2].layout(collectionSize: collectionSize)
+        return sections[at / 2].contentSize
+      }
+    }
   }
 }

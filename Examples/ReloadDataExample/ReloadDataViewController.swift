@@ -34,7 +34,7 @@ class ReloadDataViewController: CollectionViewController {
     addButton.addTarget(self, action: #selector(add), for: .touchUpInside)
     view.addSubview(addButton)
 
-    collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10)
+    collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 54, right: 10)
     let layout = FlowLayout(lineSpacing: 15,
                             interitemSpacing: 15,
                             justifyContent: .spaceAround,
@@ -71,10 +71,8 @@ class ReloadDataViewController: CollectionViewController {
 
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-    let viewWidth = view.bounds.width
-    let viewHeight = view.bounds.height
-    addButton.frame = CGRect(x: 0, y: viewHeight - 44, width: viewWidth, height: 44)
-    collectionView.frame = CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight - 44)
+    addButton.frame = CGRect(x: 0, y: view.bounds.height - 44,
+                             width: view.bounds.width, height: 44)
   }
 
   @objc func add() {
