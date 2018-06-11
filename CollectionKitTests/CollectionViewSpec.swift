@@ -51,7 +51,7 @@ class CollectionViewSpec: QuickSpec {
         expect((collectionView.subviews[0] as! UILabel).text) == "1"
         expect((collectionView.subviews[0] as! UILabel).textAlignment) == NSTextAlignment.center
 
-        expect(provider.layout).to(beAKindOf(FlowLayout<Int>.self))
+        expect(provider.layout).to(beAKindOf(FlowLayout.self))
         expect(collectionView.subviews[0].frame) == CGRect(x: 0, y: 0, width: 50, height: 50)
         expect(collectionView.subviews[1].frame) == CGRect(x: 50, y: 0, width: 50, height: 50)
         expect(collectionView.subviews[2].frame) == CGRect(x: 100, y: 0, width: 50, height: 50)

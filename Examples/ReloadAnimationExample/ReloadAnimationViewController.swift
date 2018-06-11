@@ -95,10 +95,10 @@ class ReloadAnimationViewController: CollectionViewController {
 
   var currentDataIndex = 0
   var data: [[Int]] = [
-    [],
     [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],
     [2,3,5,8,10],
     [8,9,10,11,12,13,14,15,16],
+    [],
   ]
 
   override func viewDidLoad() {
@@ -106,24 +106,21 @@ class ReloadAnimationViewController: CollectionViewController {
     reloadButton.addTarget(self, action: #selector(reload), for: .touchUpInside)
     view.addSubview(reloadButton)
 
-    collectionView.contentInset = UIEdgeInsetsMake(20, 10, 20, 10)
-    let layout = FlowLayout<Int>(lineSpacing: 15,
-                                 interitemSpacing: 15,
-                                 justifyContent: .spaceAround,
-                                 alignItems: .center,
-                                 alignContent: .center)
+    collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 54, right: 10)
+    let layout = FlowLayout(lineSpacing: 15,
+                            interitemSpacing: 15,
+                            justifyContent: .spaceAround,
+                            alignItems: .center,
+                            alignContent: .center)
     let presenter = AnimatedReloadPresenter(entryTransform: AnimatedReloadPresenter.fancyEntryTransform)
+    dataProvider.data = data[0]
     let provider = CollectionProvider(
       dataProvider: dataProvider,
-      viewUpdater: { (view: UILabel, data: Int, index: Int) in
+      viewUpdater: { (view: SquareView, data: Int, index: Int) in
         view.backgroundColor = UIColor(hue: CGFloat(data) / 30,
                                        saturation: 0.68,
                                        brightness: 0.98,
                                        alpha: 1)
-        view.textColor = .white
-        view.textAlignment = .center
-        view.layer.cornerRadius = 4
-        view.layer.masksToBounds = true
         view.text = "\(data)"
       }
     )
@@ -140,10 +137,8 @@ class ReloadAnimationViewController: CollectionViewController {
 
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-    let viewWidth = view.bounds.width
-    let viewHeight = view.bounds.height
-    reloadButton.frame = CGRect(x: 0, y: viewHeight - 44, width: viewWidth, height: 44)
-    collectionView.frame = CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight - 44)
+    reloadButton.frame = CGRect(x: 0, y: view.bounds.height - 44,
+                                width: view.bounds.width, height: 44)
   }
 
   @objc func reload() {

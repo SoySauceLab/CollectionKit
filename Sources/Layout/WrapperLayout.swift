@@ -8,10 +8,10 @@
 
 import UIKit
 
-open class WrapperLayout<Data>: CollectionLayout<Data> {
-  var rootLayout: CollectionLayout<Data>
+open class WrapperLayout: CollectionLayout {
+  var rootLayout: CollectionLayout
 
-  public init(_ rootLayout: CollectionLayout<Data>) {
+  public init(_ rootLayout: CollectionLayout) {
     self.rootLayout = rootLayout
   }
 
@@ -19,10 +19,8 @@ open class WrapperLayout<Data>: CollectionLayout<Data> {
     return rootLayout.contentSize
   }
 
-  open override func layout(collectionSize: CGSize,
-                            dataProvider: CollectionDataProvider<Data>,
-                            sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
-    rootLayout.layout(collectionSize: collectionSize, dataProvider: dataProvider, sizeProvider: sizeProvider)
+  open override func layout(context: LayoutContext) {
+    rootLayout.layout(context: context)
   }
 
   open override func visibleIndexes(visibleFrame: CGRect) -> [Int] {

@@ -12,7 +12,7 @@ import CollectionKit
 let bodyInset = UIEdgeInsets(top: 10, left: 16, bottom: 10, right: 16)
 let headerInset = UIEdgeInsets(top: 20, left: 16, bottom: 0, right: 16)
 
-func space(_ height: CGFloat) -> AnyCollectionProvider {
+func space(_ height: CGFloat) -> SpaceCollectionProvider {
   return SpaceCollectionProvider(sizeStrategy: (.fill, .absolute(height)))
 }
 
@@ -24,6 +24,7 @@ class ViewController: CollectionViewController {
     ("Articles", ArticleExampleViewController.self),
     ("Reload", ReloadDataViewController.self),
     ("Reload Animation", ReloadAnimationViewController.self),
+    ("Header", HeaderExampleViewController.self),
     ("Chat", MessagesViewController.self),
     ("Presenters", PresenterExampleViewController.self)
   ]

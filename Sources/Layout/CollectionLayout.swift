@@ -8,11 +8,9 @@
 
 import UIKit
 
-open class CollectionLayout<Data> {
+open class CollectionLayout {
 
-  open func layout(collectionSize: CGSize,
-                   dataProvider: CollectionDataProvider<Data>,
-                   sizeProvider: @escaping CollectionSizeProvider<Data>) {
+  open func layout(context: LayoutContext) {
     fatalError("Subclass should provide its own layout")
   }
 
@@ -32,15 +30,15 @@ open class CollectionLayout<Data> {
 }
 
 extension CollectionLayout {
-  public func transposed() -> TransposeLayout<Data> {
+  public func transposed() -> TransposeLayout {
     return TransposeLayout(self)
   }
 
-  public func inset(by insets: UIEdgeInsets) -> InsetLayout<Data> {
+  public func inset(by insets: UIEdgeInsets) -> InsetLayout {
     return InsetLayout(self, insets: insets)
   }
 
-  public func insetVisibleFrame(by insets: UIEdgeInsets) -> VisibleFrameInsetLayout<Data> {
+  public func insetVisibleFrame(by insets: UIEdgeInsets) -> VisibleFrameInsetLayout {
     return VisibleFrameInsetLayout(self, insets: insets)
   }
 }

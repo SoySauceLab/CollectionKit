@@ -48,7 +48,7 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
   public init(identifier: String? = nil,
               views: [UIView],
               sizeStrategy: (width: ViewSizeStrategy, height: ViewSizeStrategy) = (.fit, .fit),
-              layout: CollectionLayout<UIView>) {
+              layout: CollectionLayout) {
     self.sizeStrategy = sizeStrategy
     super.init(dataProvider: ArrayDataProvider(data: views, identifierMapper: {
                  return "\($1.hash)"

@@ -8,13 +8,11 @@
 
 import UIKit
 
-public class OverlayLayout<Data>: SimpleLayout<Data> {
-  public override func simpleLayout(collectionSize: CGSize,
-                                    dataProvider: CollectionDataProvider<Data>,
-                                    sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
+public class OverlayLayout: SimpleLayout {
+  public override func simpleLayout(context: LayoutContext) -> [CGRect] {
     var frames: [CGRect] = []
-    for i in 0..<dataProvider.numberOfItems {
-      let size = sizeProvider(i, dataProvider.data(at: i), collectionSize)
+    for i in 0..<context.numberOfItems {
+      let size = context.size(at: i, collectionSize: context.collectionSize)
       frames.append(CGRect(origin: .zero, size: size))
     }
     return frames

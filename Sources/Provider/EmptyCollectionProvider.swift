@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class BaseCollectionProvider: AnyCollectionProvider {
+open class EmptyCollectionProvider: ViewSource, CollectionReloadable {
   public var identifier: String?
 
   public init(identifier: String? = nil) {
@@ -41,21 +41,11 @@ open class BaseCollectionProvider: AnyCollectionProvider {
     return nil
   }
 
-  open func willReload() {
-    needsReload = false
-  }
+  open func willReload() {}
   open func didReload() {}
   open func didTap(view: UIView, at: Int) {}
 
   open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     return reloadable === self
-  }
-
-  public private(set) var needsReload = false
-  public func setNeedsReload() {
-    if !needsReload {
-      needsReload = true
-      collectionView?.setNeedsReload()
-    }
   }
 }

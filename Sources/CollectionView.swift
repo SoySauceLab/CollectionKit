@@ -9,8 +9,14 @@
 import UIKit
 
 open class CollectionView: UIScrollView {
-  public var provider: AnyCollectionProvider = BaseCollectionProvider() { didSet { setNeedsReload() } }
-  public var presenter: CollectionPresenter = CollectionPresenter() { didSet { setNeedsReload() } }
+
+  public var provider: AnyCollectionProvider = EmptyCollectionProvider() {
+    didSet { setNeedsReload() }
+  }
+
+  public var presenter: CollectionPresenter = CollectionPresenter() {
+    didSet { setNeedsReload() }
+  }
 
   public private(set) var reloadCount = 0
   public private(set) var needsReload = true
@@ -26,6 +32,7 @@ open class CollectionView: UIScrollView {
   public private(set) var visibleCells: [UIView] = []
   public private(set) var visibleIdentifiers: [String] = []
 
+  lazy var flattenedProvider: ViewSource = provider.flattenedProvider()
   var currentlyInsertedCells: Set<UIView>?
   var lastLoadBounds: CGRect?
 
@@ -60,7 +67,7 @@ open class CollectionView: UIScrollView {
   @objc func tap(gesture: UITapGestureRecognizer) {
     for (cell, index) in zip(visibleCells, visibleIndexes).reversed() {
       if cell.point(inside: gesture.location(in: cell), with: nil) {
-        provider.didTap(view: cell, at: index)
+        flattenedProvider.didTap(view: cell, at: index)
         return
       }
     }
@@ -84,8 +91,8 @@ open class CollectionView: UIScrollView {
 
   public func invalidateLayout() {
     guard !loading && !reloading && hasReloaded else { return }
-    provider.layout(collectionSize: innerSize)
-    contentSize = provider.contentSize
+    flattenedProvider.layout(collectionSize: innerSize)
+    contentSize = flattenedProvider.contentSize
     loadCells()
   }
 
@@ -102,7 +109,7 @@ open class CollectionView: UIScrollView {
 
     for (cell, index) in zip(visibleCells, visibleIndexes) {
       let presenter = cell.currentCollectionPresenter ?? self.presenter
-      presenter.update(collectionView: self, view: cell, at: index, frame: provider.frame(at: index))
+      presenter.update(collectionView: self, view: cell, at: index, frame: flattenedProvider.frame(at: index))
     }
 
     loading = false
@@ -112,11 +119,12 @@ open class CollectionView: UIScrollView {
   public func reloadData(contentOffsetAdjustFn: (() -> CGPoint)? = nil) {
     guard !reloading else { return }
     provider.willReload()
+    flattenedProvider = provider.flattenedProvider()
     reloading = true
 
-    provider.layout(collectionSize: innerSize)
+    flattenedProvider.layout(collectionSize: innerSize)
     let oldContentOffset = contentOffset
-    contentSize = provider.contentSize
+    contentSize = flattenedProvider.contentSize
     if let offset = contentOffsetAdjustFn?() {
       let scrollVelocity = self.scrollVelocity
       contentOffset = offset
@@ -128,23 +136,23 @@ open class CollectionView: UIScrollView {
     _loadCells(forceReload: true)
 
     for (cell, index) in zip(visibleCells, visibleIndexes) {
-      cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: index)
+      cell.currentCollectionPresenter = cell.collectionPresenter ?? flattenedProvider.presenter(at: index)
       let presenter = cell.currentCollectionPresenter ?? self.presenter
       if !currentlyInsertedCells!.contains(cell) {
         // cell was on screen before reload, need to update the view.
-        provider.update(view: cell, at: index)
+        flattenedProvider.update(view: cell, at: index)
         presenter.shift(collectionView: self, delta: contentOffsetDiff, view: cell,
-                        at: index, frame: provider.frame(at: index))
+                        at: index, frame: flattenedProvider.frame(at: index))
       }
       presenter.update(collectionView: self, view: cell,
-                       at: index, frame: provider.frame(at: index))
+                       at: index, frame: flattenedProvider.frame(at: index))
     }
     currentlyInsertedCells = nil
 
     needsReload = false
     reloadCount += 1
     reloading = false
-    provider.didReload()
+    flattenedProvider.didReload()
   }
 
   var identifierCache: [Int: String] = [:]
@@ -152,7 +160,7 @@ open class CollectionView: UIScrollView {
   private func _loadCells(forceReload: Bool) {
     lastLoadBounds = bounds
 
-    let newIndexes = provider.visibleIndexes(visibleFrame: visibleFrame)
+    let newIndexes = flattenedProvider.visibleIndexes(visibleFrame: visibleFrame)
 
     // optimization: we assume that corresponding identifier for each index doesnt change unless forceReload is true.
     guard forceReload || newIndexes.last != visibleIndexes.last || newIndexes != visibleIndexes else {
@@ -167,7 +175,7 @@ open class CollectionView: UIScrollView {
       if let identifier = identifierCache[index] {
         return identifier
       } else {
-        let identifier = provider.identifier(at: index)
+        let identifier = flattenedProvider.identifier(at: index)
         identifierCache[index] = identifier
         return identifier
       }
@@ -207,13 +215,13 @@ open class CollectionView: UIScrollView {
   }
 
   private func _generateCell(index: Int) -> UIView {
-    let cell = provider.view(at: index)
-    let frame = provider.frame(at: index)
+    let cell = flattenedProvider.view(at: index)
+    let frame = flattenedProvider.frame(at: index)
     cell.bounds.size = frame.bounds.size
     cell.center = frame.center
-    cell.currentCollectionPresenter = cell.collectionPresenter ?? provider.presenter(at: index)
+    cell.currentCollectionPresenter = cell.collectionPresenter ?? flattenedProvider.presenter(at: index)
     let presenter = cell.currentCollectionPresenter ?? self.presenter
-    presenter.insert(collectionView: self, view: cell, at: index, frame: provider.frame(at: index))
+    presenter.insert(collectionView: self, view: cell, at: index, frame: flattenedProvider.frame(at: index))
     return cell
   }
 }

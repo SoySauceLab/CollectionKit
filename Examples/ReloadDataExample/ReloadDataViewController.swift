@@ -34,27 +34,23 @@ class ReloadDataViewController: CollectionViewController {
     addButton.addTarget(self, action: #selector(add), for: .touchUpInside)
     view.addSubview(addButton)
 
-    collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10)
-    let layout = FlowLayout<Int>(lineSpacing: 15,
-                                 interitemSpacing: 15,
-                                 justifyContent: .spaceAround,
-                                 alignItems: .center,
-                                 alignContent: .center)
+    collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 54, right: 10)
+    let layout = FlowLayout(lineSpacing: 15,
+                            interitemSpacing: 15,
+                            justifyContent: .spaceAround,
+                            alignItems: .center,
+                            alignContent: .center)
     let presenter = CollectionPresenter()
     presenter.insertAnimation = .scale
     presenter.deleteAnimation = .scale
     presenter.updateAnimation = .normal
     let provider = CollectionProvider(
       dataProvider: dataProvider,
-      viewUpdater: { (view: UILabel, data: Int, index: Int) in
+      viewUpdater: { (view: SquareView, data: Int, index: Int) in
         view.backgroundColor = UIColor(hue: CGFloat(data) / 30,
                                        saturation: 0.68,
                                        brightness: 0.98,
                                        alpha: 1)
-        view.textColor = .white
-        view.textAlignment = .center
-        view.layer.cornerRadius = 4
-        view.layer.masksToBounds = true
         view.text = "\(data)"
       }
     )
@@ -71,10 +67,8 @@ class ReloadDataViewController: CollectionViewController {
 
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-    let viewWidth = view.bounds.width
-    let viewHeight = view.bounds.height
-    addButton.frame = CGRect(x: 0, y: viewHeight - 44, width: viewWidth, height: 44)
-    collectionView.frame = CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight - 44)
+    addButton.frame = CGRect(x: 0, y: view.bounds.height - 44,
+                             width: view.bounds.width, height: 44)
   }
 
   @objc func add() {
