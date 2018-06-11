@@ -10,16 +10,32 @@ import UIKit
 import CollectionKit
 import UIKit.UIGestureRecognizerSubclass
 
-extension CollectionLayout where Data == CGSize {
+extension CollectionLayout {
 
-  func mockLayout(parentSize: (CGFloat, CGFloat) = (300, 300), _ childSizes: (CGFloat, CGFloat)...) {
-    layout(collectionSize: CGSize(width: parentSize.0, height: parentSize.1),
-           dataProvider: ArrayDataProvider(data: sizes(childSizes)),
-           sizeProvider: { (index, data, collectionSize) -> CGSize in
-              return data
-    })
+  struct MockLayoutContext: LayoutContext {
+    var parentSize: (CGFloat, CGFloat)
+    var childSizes: [(CGFloat, CGFloat)]
+    var collectionSize: CGSize {
+      return CGSize(width: parentSize.0, height: parentSize.1)
+    }
+    var numberOfItems: Int {
+      return childSizes.count
+    }
+    func data(at: Int) -> Any {
+      return childSizes[at]
+    }
+    func identifier(at: Int) -> String {
+      return "\(at)"
+    }
+    func size(at: Int, collectionSize: CGSize) -> CGSize {
+      let size = childSizes[at]
+      return CGSize(width: size.0, height: size.1)
+    }
   }
 
+  func mockLayout(parentSize: (CGFloat, CGFloat) = (300, 300), _ childSizes: (CGFloat, CGFloat)...) {
+    layout(context: MockLayoutContext(parentSize: parentSize, childSizes: childSizes))
+  }
 }
 
 class SimpleTestProvider<Data>: CollectionProvider<Data, UILabel> {
