@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class ViewProviderComposer<Data>: CollectionViewProvider<Data, UIView> {
+public class ViewProviderComposer<Data>: ViewProvider<Data, UIView> {
   public var viewProviderSelector: (Data) -> AnyCollectionViewProvider
 
   public init(viewProviderSelector: @escaping (Data) -> AnyCollectionViewProvider) {

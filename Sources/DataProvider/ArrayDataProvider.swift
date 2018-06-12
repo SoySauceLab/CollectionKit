@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class ArrayDataProvider<Data>: CollectionDataProvider<Data> {
+open class ArrayDataProvider<Data>: DataProvider<Data> {
   public var data: [Data] {
     didSet {
       setNeedsReload()

@@ -31,7 +31,7 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
     return dataProvider as! ArrayDataProvider<UIView>
   }
 
-  private class ViewProvider: CollectionViewProvider<UIView, UIView> {
+  private class ViewViewProvider: ViewProvider<UIView, UIView> {
     override func view(data: UIView, index: Int) -> UIView {
       return data
     }
@@ -53,7 +53,7 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
     super.init(dataProvider: ArrayDataProvider(data: views, identifierMapper: {
                  return "\($1.hash)"
                }),
-               viewProvider: ViewProvider())
+               viewProvider: ViewViewProvider())
     self.identifier = identifier
     self.layout = layout
     sizeProvider = { [unowned self] (_, view, size) -> CGSize in

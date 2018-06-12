@@ -11,8 +11,8 @@ import UIKit
 open class CollectionHeaderComposer<HeaderView: UIView>: SectionSource, ViewSource, CollectionReloadable {
 
   public typealias HeaderData = (index: Int, section: AnyCollectionProvider)
-  public typealias HeaderViewProvider = CollectionViewProvider<HeaderData, HeaderView>
-  public typealias HeaderSizeProvider = CollectionSizeProvider<HeaderData>
+  public typealias HeaderViewProvider = ViewProvider<HeaderData, HeaderView>
+  public typealias HeaderSizeProvider = SizeProvider<HeaderData>
 
   public var identifier: String?
 
