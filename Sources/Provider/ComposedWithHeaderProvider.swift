@@ -1,5 +1,5 @@
 //
-//  CollectionHeaderComposer.swift
+//  ComposedWithHeaderProvider.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2018-06-09.
@@ -8,15 +8,15 @@
 
 import UIKit
 
-open class CollectionHeaderComposer<HeaderView: UIView>: SectionProviderType, FlatProviderType, CollectionReloadable {
+open class ComposedWithHeaderProvider<HeaderView: UIView>: SectionProviderType, ItemProviderType, CollectionReloadable {
 
-  public typealias HeaderData = (index: Int, section: AnyCollectionProvider)
+  public typealias HeaderData = (index: Int, section: AnyProvider)
   public typealias HeaderViewProvider = ViewSource<HeaderData, HeaderView>
   public typealias HeaderSizeProvider = SizeSource<HeaderData>
 
   public var identifier: String?
 
-  public var sections: [AnyCollectionProvider] {
+  public var sections: [AnyProvider] {
     didSet { setNeedsReload() }
   }
 
@@ -58,7 +58,7 @@ open class CollectionHeaderComposer<HeaderView: UIView>: SectionProviderType, Fl
               presenter: Presenter? = nil,
               headerViewProvider: HeaderViewProvider,
               headerSizeProvider: @escaping HeaderSizeProvider,
-              sections: [AnyCollectionProvider]) {
+              sections: [AnyProvider]) {
     self.presenter = presenter
     self.internalLayout = StickyLayout(rootLayout: layout)
     self.sections = sections
@@ -71,7 +71,7 @@ open class CollectionHeaderComposer<HeaderView: UIView>: SectionProviderType, Fl
     return sections.count * 2
   }
 
-  open func section(at: Int) -> AnyCollectionProvider? {
+  open func section(at: Int) -> AnyProvider? {
     if at % 2 == 0 {
       return nil
     } else {
@@ -148,13 +148,13 @@ open class CollectionHeaderComposer<HeaderView: UIView>: SectionProviderType, Fl
     return reloadable === self || sections.contains(where: { $0.hasReloadable(reloadable) })
   }
 
-  open func flattenedProvider() -> FlatProviderType {
+  open func flattenedProvider() -> ItemProviderType {
     return FlattenedProvider(provider: self)
   }
 
   struct CollectionHeaderComposerLayoutContext: LayoutContext {
     var collectionSize: CGSize
-    var sections: [AnyCollectionProvider]
+    var sections: [AnyProvider]
     var headerViewProvider: HeaderViewProvider
     var headerSizeProvider: HeaderSizeProvider
 

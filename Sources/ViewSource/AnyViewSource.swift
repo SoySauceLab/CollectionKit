@@ -1,5 +1,5 @@
 //
-//  AnyCollectionViewProvider.swift
+//  AnyViewSource.swift
 //  CollectionKitExample
 //
 //  Created by Luke Zhao on 2018-06-06.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol AnyCollectionViewProvider {
+public protocol AnyViewSource {
   func anyView(data: Any, index: Int) -> UIView
   func anyUpdate(view: UIView, data: Any, index: Int)
 }

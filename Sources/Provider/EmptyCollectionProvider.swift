@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class EmptyCollectionProvider: FlatProviderType, CollectionReloadable {
+open class EmptyCollectionProvider: ItemProviderType, CollectionReloadable {
   public var identifier: String?
 
   public init(identifier: String? = nil) {

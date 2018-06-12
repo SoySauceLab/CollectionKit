@@ -1,5 +1,5 @@
 //
-//  ArrayDataProvider.swift
+//  ArrayDataSource.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2017-08-15.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class ArrayDataProvider<Data>: DataSource<Data> {
+open class ArrayDataSource<Data>: DataSource<Data> {
   public var data: [Data] {
     didSet {
       setNeedsReload()

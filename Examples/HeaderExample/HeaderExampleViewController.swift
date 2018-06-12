@@ -23,7 +23,7 @@ class HeaderExampleViewController: CollectionViewController {
     return button
   }()
 
-  var headerComposer: CollectionHeaderComposer<UILabel>!
+  var headerComposer: ComposedWithHeaderProvider<UILabel>!
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -33,8 +33,8 @@ class HeaderExampleViewController: CollectionViewController {
 
     collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 44, right: 0)
 
-    let sections: [AnyCollectionProvider] = (1...10).map { _ in
-      return CollectionProvider(
+    let sections: [AnyProvider] = (1...10).map { _ in
+      return BasicProvider(
         data: Array(1...9),
         viewUpdater: { (view: SquareView, data: Int, index: Int) in
           view.backgroundColor = UIColor(hue: CGFloat(index) / 10,
@@ -49,9 +49,9 @@ class HeaderExampleViewController: CollectionViewController {
       )
     }
 
-    let provider = CollectionHeaderComposer(
-      headerViewProvider: ClosureViewProvider(
-        viewUpdater: { (view: UILabel, data: (index: Int, section: AnyCollectionProvider), index) in
+    let provider = ComposedWithHeaderProvider(
+      headerViewProvider: ClosureViewSource(
+        viewUpdater: { (view: UILabel, data: (index: Int, section: AnyProvider), index) in
           view.backgroundColor = UIColor.darkGray
           view.textColor = .white
           view.textAlignment = .center

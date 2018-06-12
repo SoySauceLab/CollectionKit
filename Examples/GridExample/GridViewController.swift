@@ -17,7 +17,7 @@ class GridViewController: CollectionViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    let dataProvider = ArrayDataProvider(data: Array(1...kGridSize.width * kGridSize.height), identifierMapper: { (_, data) in
+    let dataProvider = ArrayDataSource(data: Array(1...kGridSize.width * kGridSize.height), identifierMapper: { (_, data) in
       return "\(data)"
     })
     let visibleFrameInsets = UIEdgeInsets(top: -150, left: -150, bottom: -150, right: -150)
@@ -31,7 +31,7 @@ class GridViewController: CollectionViewController {
     ).insetVisibleFrame(by: visibleFrameInsets)
 
     collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-    let provider = CollectionProvider(
+    let provider = BasicProvider(
       dataProvider: dataProvider,
       viewUpdater: { (view: SquareView, data: Int, index: Int) in
         view.backgroundColor = UIColor(hue: CGFloat(index) / CGFloat(kGridSize.width * kGridSize.height),

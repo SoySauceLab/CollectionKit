@@ -9,7 +9,7 @@
 import UIKit
 import CollectionKit
 
-class MessageDataProvider: ArrayDataProvider<Message> {
+class MessageDataProvider: ArrayDataSource<Message> {
   init() {
     super.init(data: testMessages, identifierMapper: { (_, data) in
       return data.identifier
@@ -123,17 +123,17 @@ class MessagesViewController: CollectionViewController {
     collectionView.contentInset = UIEdgeInsetsMake(30, 10, 54, 10)
     collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(30, 0, 54, 0)
 
-    let textMessageViewProvider = ClosureViewProvider(viewUpdater: { (view: TextMessageCell, data: Message, at: Int) in
+    let textMessageViewProvider = ClosureViewSource(viewUpdater: { (view: TextMessageCell, data: Message, at: Int) in
       view.message = data
     })
-    let imageMessageViewProvider = ClosureViewProvider(viewUpdater: { (view: ImageMessageCell, data: Message, at: Int) in
+    let imageMessageViewProvider = ClosureViewSource(viewUpdater: { (view: ImageMessageCell, data: Message, at: Int) in
       view.message = data
     })
     presenter.sourceView = newMessageButton
     presenter.dataProvider = dataProvider
-    let provider = CollectionProvider(
+    let provider = BasicProvider(
       dataProvider: dataProvider,
-      viewProvider: ViewProviderComposer(viewProviderSelector: { data in
+      viewProvider: ComposedViewSource(viewProviderSelector: { data in
         switch data.type {
         case .image:
           return imageMessageViewProvider

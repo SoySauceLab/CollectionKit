@@ -38,16 +38,16 @@ extension Layout {
   }
 }
 
-class SimpleTestProvider<Data>: CollectionProvider<Data, UILabel> {
+class SimpleTestProvider<Data>: BasicProvider<Data, UILabel> {
 
   var data: [Data] {
-    get { return (dataProvider as! ArrayDataProvider<Data>).data }
-    set { (dataProvider as! ArrayDataProvider<Data>).data = newValue }
+    get { return (dataSource as! ArrayDataProvider<Data>).data }
+    set { (dataSource as! ArrayDataProvider<Data>).data = newValue }
   }
 
   convenience init(data: [Data]) {
     self.init(
-      dataProvider: ArrayDataProvider(data: data, identifierMapper: { _, data in "\(data)" }),
+      dataProvider: ArrayDataSource(data: data, identifierMapper: { _, data in "\(data)" }),
       viewUpdater: { (label: UILabel, data: Data, index: Int) in
         label.backgroundColor = .red
         label.layer.cornerRadius = 8

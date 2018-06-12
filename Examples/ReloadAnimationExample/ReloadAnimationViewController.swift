@@ -77,7 +77,7 @@ class AnimatedReloadPresenter: Presenter {
 
 class ReloadAnimationViewController: CollectionViewController {
 
-  let dataProvider = ArrayDataProvider<Int>(data: []) { (_, data) in
+  let dataProvider = ArrayDataSource<Int>(data: []) { (_, data) in
     return "\(data)"
   }
 
@@ -114,7 +114,7 @@ class ReloadAnimationViewController: CollectionViewController {
                             alignContent: .center)
     let presenter = AnimatedReloadPresenter(entryTransform: AnimatedReloadPresenter.fancyEntryTransform)
     dataProvider.data = data[0]
-    let provider = CollectionProvider(
+    let provider = BasicProvider(
       dataProvider: dataProvider,
       viewUpdater: { (view: SquareView, data: Int, index: Int) in
         view.backgroundColor = UIColor(hue: CGFloat(data) / 30,
@@ -125,7 +125,7 @@ class ReloadAnimationViewController: CollectionViewController {
       }
     )
     provider.layout = layout
-    provider.sizeProvider = { (index, data, _) in
+    provider.sizeSource = { (index, data, _) in
       return CGSize(width: 80, height: 80)
     }
     provider.presenter = presenter

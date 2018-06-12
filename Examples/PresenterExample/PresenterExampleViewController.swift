@@ -20,7 +20,7 @@ class PresenterExampleViewController: CollectionViewController {
       ("Zoom", ZoomPresenter()),
       ]
     let imagesCollectionView = CollectionView()
-    let imageProvider = CollectionProvider(
+    let imageProvider = BasicProvider(
       data: testImages,
       viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
         view.image = data
@@ -30,13 +30,13 @@ class PresenterExampleViewController: CollectionViewController {
     )
     let visibleFrameInsets = UIEdgeInsets(top: 0, left: -100, bottom: 0, right: -100)
     imageProvider.layout = WaterfallLayout(columns:2).transposed().inset(by: bodyInset).insetVisibleFrame(by: visibleFrameInsets)
-    imageProvider.sizeProvider = imageSizeProvider
+    imageProvider.sizeSource = imageSizeProvider
     imageProvider.presenter = presenters[0].1
     imagesCollectionView.provider = imageProvider
 
     let buttonsCollectionView = CollectionView()
     buttonsCollectionView.showsHorizontalScrollIndicator = false
-    let buttonsProvider = CollectionProvider(
+    let buttonsProvider = BasicProvider(
       data: presenters,
       viewUpdater: { (view: SelectionButton, data: (String, Presenter), at: Int) in
         view.label.text = data.0
@@ -45,7 +45,7 @@ class PresenterExampleViewController: CollectionViewController {
       }
     )
     buttonsProvider.layout = FlowLayout(lineSpacing: 10).transposed().inset(by: UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16))
-    buttonsProvider.sizeProvider = { _, data, maxSize in
+    buttonsProvider.sizeSource = { _, data, maxSize in
       return CGSize(width: data.0.width(withConstraintedHeight: maxSize.height, font: UIFont.systemFont(ofSize:18)) + 20, height: maxSize.height)
     }
     buttonsProvider.presenter = WobblePresenter()
@@ -63,10 +63,10 @@ class PresenterExampleViewController: CollectionViewController {
 
     buttonsCollectionView.provider = buttonsProvider
 
-    let buttonsCollectionViewProvider = ViewCollectionProvider(buttonsCollectionView, sizeStrategy: (.fill, .absolute(44)))
-    let providerCollectionViewProvider = ViewCollectionProvider(identifier: "providerContent", imagesCollectionView, sizeStrategy: (.fill, .fill))
+    let buttonsCollectionViewProvider = SimpleViewProvider(buttonsCollectionView, sizeStrategy: (.fill, .absolute(44)))
+    let providerCollectionViewProvider = SimpleViewProvider(identifier: "providerContent", imagesCollectionView, sizeStrategy: (.fill, .fill))
 
-    provider = CollectionComposer(
+    provider = ComposedProvider(
       layout: RowLayout("providerContent").transposed(),
       buttonsCollectionViewProvider,
       providerCollectionViewProvider

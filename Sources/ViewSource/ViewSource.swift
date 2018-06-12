@@ -25,7 +25,7 @@ open class ViewSource<Data, View: UIView> {
   public init() {}
 }
 
-extension ViewSource: AnyCollectionViewProvider {
+extension ViewSource: AnyViewSource {
   public final func anyView(data: Any, index: Int) -> UIView {
     return view(data: data as! Data, index: index)
   }

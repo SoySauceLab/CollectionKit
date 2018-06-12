@@ -14,12 +14,12 @@ class CollectionComposerSpec: QuickSpec {
 
   override func spec() {
 
-    describe("CollectionComposer") {
+    describe("ComposedProvider") {
       it("combines multiple provider") {
         let provider1 = SimpleTestProvider(data: [1, 2, 3, 4])
         let provider2 = SimpleTestProvider(data: ["a", "b"])
         let provider3 = SimpleTestProvider(data: ["hello", "collectionKit"])
-        let composer = CollectionComposer(provider1, provider2, provider3)
+        let composer = ComposedProvider(provider1, provider2, provider3)
         let collectionView = CollectionView(provider: composer)
         collectionView.frame = CGRect(x: 0, y: 0, width: 300, height: 500)
         collectionView.layoutIfNeeded()
@@ -36,13 +36,13 @@ class CollectionComposerSpec: QuickSpec {
         let provider3 = SimpleTestProvider(data: ["hello", "collectionKit"])
         let provider4 = SimpleTestProvider(data: [])
         let provider5 = SimpleTestProvider(data: [5.0])
-        let composer = CollectionComposer(
-          CollectionComposer(
-            CollectionComposer(provider1,
+        let composer = ComposedProvider(
+          ComposedProvider(
+            ComposedProvider(provider1,
                                provider2),
             provider3),
-          CollectionComposer(),
-          CollectionComposer(provider4,
+          ComposedProvider(),
+          ComposedProvider(provider4,
                              provider5)
         )
         let collectionView = CollectionView(provider: composer)
@@ -60,7 +60,7 @@ class CollectionComposerSpec: QuickSpec {
         let provider1 = SimpleTestProvider(data: [1, 2, 3, 4])
         let provider2 = SimpleTestProvider(data: ["a", "b"])
         let provider3 = SimpleTestProvider(data: ["hello", "collectionKit"])
-        let composer = CollectionComposer(provider1, provider2, provider3)
+        let composer = ComposedProvider(provider1, provider2, provider3)
         let collectionView = CollectionView(provider: composer)
         collectionView.frame = CGRect(x: 0, y: 0, width: 300, height: 500)
         collectionView.layoutIfNeeded()
@@ -100,13 +100,13 @@ class CollectionComposerSpec: QuickSpec {
         let provider3 = SimpleTestProvider(data: ["hello", "collectionKit"])
         let provider4 = SimpleTestProvider(data: [])
         let provider5 = SimpleTestProvider(data: [5.0])
-        let composer = CollectionComposer(
-          CollectionComposer(
-            CollectionComposer(provider1,
+        let composer = ComposedProvider(
+          ComposedProvider(
+            ComposedProvider(provider1,
                                provider2),
             provider3),
-          CollectionComposer(),
-          CollectionComposer(provider4,
+          ComposedProvider(),
+          ComposedProvider(provider4,
                              provider5)
         )
         let collectionView = CollectionView(provider: composer)
@@ -127,7 +127,7 @@ class CollectionComposerSpec: QuickSpec {
         var lastTappedText: String?
         let provider1 = SimpleTestProvider(data: [1, 2, 3, 4])
         let provider2 = SimpleTestProvider(data: ["a", "b"])
-        let tapProvider = CollectionProvider(
+        let tapProvider = BasicProvider(
           data: [11, 12],
           viewUpdater: { (label: UILabel, data: Int, index: Int) in
             label.text = "\(data)"
@@ -139,8 +139,8 @@ class CollectionComposerSpec: QuickSpec {
             lastTappedText = view.text
           }
         )
-        let composer = CollectionComposer(
-          CollectionComposer(provider1,
+        let composer = ComposedProvider(
+          ComposedProvider(provider1,
                              provider2),
           tapProvider
         )

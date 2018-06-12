@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
+open class SimpleViewProvider: BasicProvider<UIView, UIView> {
 
   public enum ViewSizeStrategy {
     case fill
@@ -27,8 +27,8 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
   public var sizeStrategy: (width: ViewSizeStrategy, height: ViewSizeStrategy)
   public var sizeStrategyOverride: [UIView: (width: ViewSizeStrategy, height: ViewSizeStrategy)] = [:]
 
-  private var arrayDataProvider: ArrayDataProvider<UIView> {
-    return dataProvider as! ArrayDataProvider<UIView>
+  private var arrayDataProvider: ArrayDataSource<UIView> {
+    return dataSource as! ArrayDataSource<UIView>
   }
 
   private class ViewViewProvider: ViewSource<UIView, UIView> {
@@ -50,13 +50,13 @@ open class ViewCollectionProvider: CollectionProvider<UIView, UIView> {
               sizeStrategy: (width: ViewSizeStrategy, height: ViewSizeStrategy) = (.fit, .fit),
               layout: Layout) {
     self.sizeStrategy = sizeStrategy
-    super.init(dataProvider: ArrayDataProvider(data: views, identifierMapper: {
+    super.init(dataProvider: ArrayDataSource(data: views, identifierMapper: {
                  return "\($1.hash)"
                }),
                viewProvider: ViewViewProvider())
     self.identifier = identifier
     self.layout = layout
-    sizeProvider = { [unowned self] (_, view, size) -> CGSize in
+    sizeSource = { [unowned self] (_, view, size) -> CGSize in
       let fitSize = view.sizeThatFits(size)
       let sizeStrategy = self.sizeStrategyOverride[view] ?? self.sizeStrategy
       let width: CGFloat, height: CGFloat

@@ -11,7 +11,7 @@ import CollectionKit
 
 class ReloadDataViewController: CollectionViewController {
 
-  let dataProvider = ArrayDataProvider<Int>(data: Array(0..<5)) { (_, data) in
+  let dataProvider = ArrayDataSource<Int>(data: Array(0..<5)) { (_, data) in
     return "\(data)"
   }
 
@@ -44,7 +44,7 @@ class ReloadDataViewController: CollectionViewController {
     presenter.insertAnimation = .scale
     presenter.deleteAnimation = .scale
     presenter.updateAnimation = .normal
-    let provider = CollectionProvider(
+    let provider = BasicProvider(
       dataProvider: dataProvider,
       viewUpdater: { (view: SquareView, data: Int, index: Int) in
         view.backgroundColor = UIColor(hue: CGFloat(data) / 30,
@@ -55,7 +55,7 @@ class ReloadDataViewController: CollectionViewController {
       }
     )
     provider.layout = layout
-    provider.sizeProvider = { (index, data, _) in
+    provider.sizeSource = { (index, data, _) in
       return CGSize(width: 80, height: data % 3 == 0 ? 120 : 80)
     }
     provider.presenter = presenter

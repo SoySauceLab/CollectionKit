@@ -1,5 +1,5 @@
 //
-//  CollectionProvider.swift
+//  BasicProvider.swift
 //  CollectionView
 //
 //  Created by Luke Zhao on 2017-07-18.
@@ -12,23 +12,14 @@ public func defaultSizeProvider<Data>(at: Int, data: Data, collectionSize: CGSiz
   return collectionSize
 }
 
-@available(*, deprecated, message: "Use DataProvider instead")
-public typealias CollectionDataProvider = DataSource
-
-@available(*, deprecated, message: "Use ViewProvider instead")
-public typealias CollectionViewProvider = ViewSource
-
-@available(*, deprecated, message: "Use SizeProvider instead")
-public typealias CollectionSizeProvider = SizeSource
-
-open class CollectionProvider<Data, View: UIView>: FlatProviderType, CollectionReloadable {
+open class BasicProvider<Data, View: UIView>: ItemProviderType, CollectionReloadable {
   public typealias TapHandler = (View, Int, DataSource<Data>) -> Void
 
   public var identifier: String?
-  public var dataProvider: DataSource<Data> { didSet { setNeedsReload() } }
-  public var viewProvider: ViewSource<Data, View> { didSet { setNeedsReload() } }
+  public var dataSource: DataSource<Data> { didSet { setNeedsReload() } }
+  public var viewSource: ViewSource<Data, View> { didSet { setNeedsReload() } }
+  public var sizeSource: SizeSource<Data> = defaultSizeProvider { didSet { setNeedsReload() } }
   public var layout: Layout = FlowLayout() { didSet { setNeedsReload() } }
-  public var sizeProvider: SizeSource<Data> = defaultSizeProvider { didSet { setNeedsReload() } }
   public var presenter: Presenter? { didSet { setNeedsReload() } }
 
   public var willReloadHandler: (() -> Void)?
@@ -44,10 +35,10 @@ open class CollectionProvider<Data, View: UIView>: FlatProviderType, CollectionR
               willReloadHandler: (() -> Void)? = nil,
               didReloadHandler: (() -> Void)? = nil,
               tapHandler: TapHandler? = nil) {
-    self.dataProvider = dataProvider
-    self.viewProvider = viewProvider
+    self.dataSource = dataProvider
+    self.viewSource = viewProvider
     self.layout = layout
-    self.sizeProvider = sizeProvider
+    self.sizeSource = sizeProvider
     self.presenter = presenter
     self.willReloadHandler = willReloadHandler
     self.didReloadHandler = didReloadHandler
@@ -65,10 +56,10 @@ open class CollectionProvider<Data, View: UIView>: FlatProviderType, CollectionR
               willReloadHandler: (() -> Void)? = nil,
               didReloadHandler: (() -> Void)? = nil,
               tapHandler: TapHandler? = nil) {
-    self.dataProvider = dataProvider
-    self.viewProvider = ClosureViewProvider(viewGenerator: viewGenerator, viewUpdater: viewUpdater)
+    self.dataSource = dataProvider
+    self.viewSource = ClosureViewSource(viewGenerator: viewGenerator, viewUpdater: viewUpdater)
     self.layout = layout
-    self.sizeProvider = sizeProvider
+    self.sizeSource = sizeProvider
     self.presenter = presenter
     self.willReloadHandler = willReloadHandler
     self.didReloadHandler = didReloadHandler
@@ -86,10 +77,10 @@ open class CollectionProvider<Data, View: UIView>: FlatProviderType, CollectionR
               willReloadHandler: (() -> Void)? = nil,
               didReloadHandler: (() -> Void)? = nil,
               tapHandler: TapHandler? = nil) {
-    self.dataProvider = ArrayDataProvider(data: data)
-    self.viewProvider = ClosureViewProvider(viewGenerator: viewGenerator, viewUpdater: viewUpdater)
+    self.dataSource = ArrayDataSource(data: data)
+    self.viewSource = ClosureViewSource(viewGenerator: viewGenerator, viewUpdater: viewUpdater)
     self.layout = layout
-    self.sizeProvider = sizeProvider
+    self.sizeSource = sizeProvider
     self.presenter = presenter
     self.willReloadHandler = willReloadHandler
     self.didReloadHandler = didReloadHandler
@@ -98,21 +89,21 @@ open class CollectionProvider<Data, View: UIView>: FlatProviderType, CollectionR
   }
 
   open var numberOfItems: Int {
-    return dataProvider.numberOfItems
+    return dataSource.numberOfItems
   }
   open func view(at: Int) -> UIView {
-    return viewProvider.view(data: dataProvider.data(at: at), index: at)
+    return viewSource.view(data: dataSource.data(at: at), index: at)
   }
   open func update(view: UIView, at: Int) {
-    viewProvider.update(view: view as! View, data: dataProvider.data(at: at), index: at)
+    viewSource.update(view: view as! View, data: dataSource.data(at: at), index: at)
   }
   open func identifier(at: Int) -> String {
-    return dataProvider.identifier(at: at)
+    return dataSource.identifier(at: at)
   }
   open func layout(collectionSize: CGSize) {
-    layout.layout(context: CollectionProviderLayoutContext(collectionSize: collectionSize,
-                                                           dataProvider: dataProvider,
-                                                           sizeProvider: sizeProvider))
+    layout.layout(context: BasicProviderLayoutContext(collectionSize: collectionSize,
+                                                      dataProvider: dataSource,
+                                                      sizeProvider: sizeSource))
   }
   open var contentSize: CGSize {
     return layout.contentSize
@@ -133,14 +124,14 @@ open class CollectionProvider<Data, View: UIView>: FlatProviderType, CollectionR
     didReloadHandler?()
   }
   open func didTap(view: UIView, at: Int) {
-    tapHandler?(view as! View, at, dataProvider)
+    tapHandler?(view as! View, at, dataSource)
   }
   open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
-    return reloadable === self || reloadable === dataProvider
+    return reloadable === self || reloadable === dataSource
   }
 }
 
-struct CollectionProviderLayoutContext<Data>: LayoutContext {
+struct BasicProviderLayoutContext<Data>: LayoutContext {
   var collectionSize: CGSize
   var dataProvider: DataSource<Data>
   var sizeProvider: SizeSource<Data>

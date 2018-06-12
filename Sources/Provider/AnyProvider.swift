@@ -1,5 +1,5 @@
 //
-//  AnyCollectionProvider.swift
+//  AnyProvider.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2017-07-23.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public protocol BaseCollectionProvider {
+public protocol BaseProviderType {
   var identifier: String? { get }
 
   // data
@@ -31,39 +31,39 @@ public protocol BaseCollectionProvider {
   // determines if a context belongs to current provider
   func hasReloadable(_ reloadable: CollectionReloadable) -> Bool
 
-  func flattenedProvider() -> FlatProviderType
+  func flattenedProvider() -> ItemProviderType
 }
 
-public protocol SectionProviderType: BaseCollectionProvider {
-  func section(at: Int) -> AnyCollectionProvider?
+public protocol SectionProviderType: BaseProviderType {
+  func section(at: Int) -> AnyProvider?
 }
 
-public protocol FlatProviderType: BaseCollectionProvider {
+public protocol ItemProviderType: BaseProviderType {
   func view(at: Int) -> UIView
   func update(view: UIView, at: Int)
 
   func didTap(view: UIView, at: Int)
 }
 
-public typealias AnyCollectionProvider = BaseCollectionProvider & CollectionReloadable
+public typealias AnyProvider = BaseProviderType & CollectionReloadable
 
-extension BaseCollectionProvider {
-  public func flattenedProvider() -> FlatProviderType {
+extension BaseProviderType {
+  public func flattenedProvider() -> ItemProviderType {
     fatalError("""
       AnyCollectionProvider shouldn't be used by itself,
-      please use either ComposedCollectionProvider or ViewOnlyCollectionProvider
+      please use either SectionProviderType or ItemProviderType
       """)
   }
 }
 
 extension SectionProviderType {
-  public func flattenedProvider() -> FlatProviderType {
+  public func flattenedProvider() -> ItemProviderType {
     return FlattenedProvider(provider: self)
   }
 }
 
-extension FlatProviderType {
-  public func flattenedProvider() -> FlatProviderType {
+extension ItemProviderType {
+  public func flattenedProvider() -> ItemProviderType {
     return self
   }
 }

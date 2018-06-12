@@ -1,5 +1,5 @@
 //
-//  ClosureDataProvider.swift
+//  ClosureDataSource.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2017-08-15.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class ClosureDataProvider<Data>: DataSource<Data> {
+open class ClosureDataSource<Data>: DataSource<Data> {
   public var getter: () -> [Data] {
     didSet {
       setNeedsReload()

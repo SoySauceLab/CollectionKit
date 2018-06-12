@@ -1,5 +1,5 @@
 //
-//  EmptyStateCollectionProvider.swift
+//  EmptyStateProvider.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2017-08-08.
@@ -8,14 +8,14 @@
 
 import UIKit
 
-public class EmptyStateCollectionProvider: CollectionComposer {
+public class EmptyStateProvider: ComposedProvider {
   var emptyStateView: UIView?
   var emptyStateViewGetter: () -> UIView
-  var content: AnyCollectionProvider
+  var content: AnyProvider
 
   public init(identifier: String? = nil,
               emptyStateView: @autoclosure @escaping () -> UIView,
-              content: AnyCollectionProvider) {
+              content: AnyProvider) {
     self.emptyStateViewGetter = emptyStateView
     self.content = content
     super.init(identifier: identifier,
@@ -29,7 +29,7 @@ public class EmptyStateCollectionProvider: CollectionComposer {
       if emptyStateView == nil {
         emptyStateView = emptyStateViewGetter()
       }
-      let viewSection = ViewCollectionProvider(emptyStateView!, sizeStrategy: (.fill, .fill))
+      let viewSection = SimpleViewProvider(emptyStateView!, sizeStrategy: (.fill, .fill))
       viewSection.identifier = "emptyStateView"
       sections = [viewSection]
       super.willReload()

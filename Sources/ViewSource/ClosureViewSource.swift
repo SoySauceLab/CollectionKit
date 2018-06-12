@@ -1,5 +1,5 @@
 //
-//  ClosureViewProvider.swift
+//  ClosureViewSource.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2017-08-15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class ClosureViewProvider<Data, View>: ViewSource<Data, View> where View: UIView {
+public class ClosureViewSource<Data, View>: ViewSource<Data, View> where View: UIView {
   public var viewUpdater: (View, Data, Int) -> Void
   public var viewGenerator: ((Data, Int) -> View)?
 

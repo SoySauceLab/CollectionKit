@@ -1,5 +1,5 @@
 //
-//  SpaceCollectionProvider.swift
+//  SpaceProvider.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2017-07-23.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class SpaceCollectionProvider: EmptyCollectionProvider {
+open class SpaceProvider: EmptyCollectionProvider {
   public enum SpaceSizeStrategy {
     case fill
     case absolute(CGFloat)

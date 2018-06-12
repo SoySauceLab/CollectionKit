@@ -1,5 +1,5 @@
 //
-//  ViewProviderComposer.swift
+//  ComposedViewSource.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2018-06-06.
@@ -8,10 +8,10 @@
 
 import UIKit
 
-public class ViewProviderComposer<Data>: ViewSource<Data, UIView> {
-  public var viewProviderSelector: (Data) -> AnyCollectionViewProvider
+public class ComposedViewSource<Data>: ViewSource<Data, UIView> {
+  public var viewProviderSelector: (Data) -> AnyViewSource
 
-  public init(viewProviderSelector: @escaping (Data) -> AnyCollectionViewProvider) {
+  public init(viewProviderSelector: @escaping (Data) -> AnyViewSource) {
     self.viewProviderSelector = viewProviderSelector
   }
 

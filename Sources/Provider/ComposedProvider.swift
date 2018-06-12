@@ -1,5 +1,5 @@
 //
-//  CollectionComposer.swift
+//  ComposedProvider.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2017-07-20.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-open class CollectionComposer: SectionProviderType, CollectionReloadable {
+open class ComposedProvider: SectionProviderType, CollectionReloadable {
 
   public var identifier: String?
 
-  public var sections: [AnyCollectionProvider] {
+  public var sections: [AnyProvider] {
     didSet { setNeedsReload() }
   }
 
@@ -27,7 +27,7 @@ open class CollectionComposer: SectionProviderType, CollectionReloadable {
   public init(identifier: String? = nil,
               layout: Layout = FlowLayout(),
               presenter: Presenter? = nil,
-              sections: [AnyCollectionProvider]) {
+              sections: [AnyProvider]) {
     self.presenter = presenter
     self.layout = layout
     self.sections = sections
@@ -37,7 +37,7 @@ open class CollectionComposer: SectionProviderType, CollectionReloadable {
   public convenience init(identifier: String? = nil,
                           layout: Layout = FlowLayout(),
                           presenter: Presenter? = nil,
-                          _ sections: AnyCollectionProvider...) {
+                          _ sections: AnyProvider...) {
     self.init(identifier: identifier, layout: layout, presenter: presenter, sections: sections)
   }
 
@@ -45,7 +45,7 @@ open class CollectionComposer: SectionProviderType, CollectionReloadable {
     return sections.count
   }
 
-  open func section(at: Int) -> AnyCollectionProvider? {
+  open func section(at: Int) -> AnyProvider? {
     return sections[at]
   }
 
@@ -93,7 +93,7 @@ open class CollectionComposer: SectionProviderType, CollectionReloadable {
 
 struct CollectionComposerLayoutContext: LayoutContext {
   var collectionSize: CGSize
-  var sections: [AnyCollectionProvider]
+  var sections: [AnyProvider]
 
   var numberOfItems: Int {
     return sections.count

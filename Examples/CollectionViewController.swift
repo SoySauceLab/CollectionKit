@@ -12,7 +12,7 @@ import CollectionKit
 class CollectionViewController: UIViewController {
   let collectionView = CollectionView()
 
-  var provider: AnyCollectionProvider {
+  var provider: AnyProvider {
     get { return collectionView.provider }
     set { collectionView.provider = newValue }
   }

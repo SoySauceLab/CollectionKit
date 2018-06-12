@@ -8,14 +8,14 @@
 
 import UIKit
 
-open class CollectionViewCollectionProvider: ViewCollectionProvider {
+open class CollectionViewCollectionProvider: SimpleViewProvider {
 
   public var collectionView: CollectionView {
     return views[0] as! CollectionView
   }
 
   public convenience init(identifier: String? = nil,
-                          collectionProvider: AnyCollectionProvider,
+                          collectionProvider: AnyProvider,
                           height: CGFloat,
                           insets: UIEdgeInsets = .zero) {
     self.init(identifier: identifier,
@@ -25,7 +25,7 @@ open class CollectionViewCollectionProvider: ViewCollectionProvider {
   }
 
   public convenience init(identifier: String? = nil,
-                          collectionProvider: AnyCollectionProvider,
+                          collectionProvider: AnyProvider,
                           width: CGFloat,
                           height: CGFloat,
                           insets: UIEdgeInsets = .zero) {
@@ -36,7 +36,7 @@ open class CollectionViewCollectionProvider: ViewCollectionProvider {
   }
 
   public init(identifier: String? = nil,
-              collectionProvider: AnyCollectionProvider,
+              collectionProvider: AnyProvider,
               sizeStrategy: (width: ViewSizeStrategy, height: ViewSizeStrategy),
               insets: UIEdgeInsets = .zero) {
     let collectionView = CollectionView()
