@@ -33,12 +33,12 @@ open class InsetLayout: WrapperLayout {
     }
   }
 
-  public init(_ rootLayout: CollectionLayout, insets: UIEdgeInsets = .zero) {
+  public init(_ rootLayout: Layout, insets: UIEdgeInsets = .zero) {
     self.insets = insets
     super.init(rootLayout)
   }
 
-  public init(_ rootLayout: CollectionLayout, insetProvider: @escaping ((CGSize) -> UIEdgeInsets)) {
+  public init(_ rootLayout: Layout, insetProvider: @escaping ((CGSize) -> UIEdgeInsets)) {
     self.insets = .zero
     self.insetProvider = insetProvider
     super.init(rootLayout)

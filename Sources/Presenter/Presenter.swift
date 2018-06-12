@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CollectionPresenter {
+open class Presenter {
 
   public enum CollectionPresenterAnimation {
     case fade

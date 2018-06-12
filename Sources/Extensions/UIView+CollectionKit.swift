@@ -20,8 +20,8 @@ extension UIView {
     set { objc_setAssociatedObject(self, &AssociatedKeys.reuseManager, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
   }
 
-  public var collectionPresenter: CollectionPresenter? {
-    get { return objc_getAssociatedObject(self, &AssociatedKeys.presenter) as? CollectionPresenter }
+  public var collectionPresenter: Presenter? {
+    get { return objc_getAssociatedObject(self, &AssociatedKeys.presenter) as? Presenter }
     set {
       if collectionPresenter === currentCollectionPresenter {
         currentCollectionPresenter = newValue
@@ -30,8 +30,8 @@ extension UIView {
     }
   }
 
-  internal var currentCollectionPresenter: CollectionPresenter? {
-    get { return objc_getAssociatedObject(self, &AssociatedKeys.currentPresenter) as? CollectionPresenter }
+  internal var currentCollectionPresenter: Presenter? {
+    get { return objc_getAssociatedObject(self, &AssociatedKeys.currentPresenter) as? Presenter }
     set { objc_setAssociatedObject(self, &AssociatedKeys.currentPresenter,
                                    newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
   }

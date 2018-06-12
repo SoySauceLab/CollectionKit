@@ -26,19 +26,19 @@ public protocol BaseCollectionProvider {
   func willReload()
   func didReload()
 
-  func presenter(at: Int) -> CollectionPresenter?
+  func presenter(at: Int) -> Presenter?
 
   // determines if a context belongs to current provider
   func hasReloadable(_ reloadable: CollectionReloadable) -> Bool
 
-  func flattenedProvider() -> ViewSource
+  func flattenedProvider() -> FlatProviderType
 }
 
-public protocol SectionSource: BaseCollectionProvider {
+public protocol SectionProviderType: BaseCollectionProvider {
   func section(at: Int) -> AnyCollectionProvider?
 }
 
-public protocol ViewSource: BaseCollectionProvider {
+public protocol FlatProviderType: BaseCollectionProvider {
   func view(at: Int) -> UIView
   func update(view: UIView, at: Int)
 
@@ -48,7 +48,7 @@ public protocol ViewSource: BaseCollectionProvider {
 public typealias AnyCollectionProvider = BaseCollectionProvider & CollectionReloadable
 
 extension BaseCollectionProvider {
-  public func flattenedProvider() -> ViewSource {
+  public func flattenedProvider() -> FlatProviderType {
     fatalError("""
       AnyCollectionProvider shouldn't be used by itself,
       please use either ComposedCollectionProvider or ViewOnlyCollectionProvider
@@ -56,14 +56,14 @@ extension BaseCollectionProvider {
   }
 }
 
-extension SectionSource {
-  public func flattenedProvider() -> ViewSource {
+extension SectionProviderType {
+  public func flattenedProvider() -> FlatProviderType {
     return FlattenedProvider(provider: self)
   }
 }
 
-extension ViewSource {
-  public func flattenedProvider() -> ViewSource {
+extension FlatProviderType {
+  public func flattenedProvider() -> FlatProviderType {
     return self
   }
 }

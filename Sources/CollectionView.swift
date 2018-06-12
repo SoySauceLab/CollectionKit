@@ -14,7 +14,7 @@ open class CollectionView: UIScrollView {
     didSet { setNeedsReload() }
   }
 
-  public var presenter: CollectionPresenter = CollectionPresenter() {
+  public var presenter: Presenter = Presenter() {
     didSet { setNeedsReload() }
   }
 
@@ -32,7 +32,7 @@ open class CollectionView: UIScrollView {
   public private(set) var visibleCells: [UIView] = []
   public private(set) var visibleIdentifiers: [String] = []
 
-  lazy var flattenedProvider: ViewSource = provider.flattenedProvider()
+  lazy var flattenedProvider: FlatProviderType = provider.flattenedProvider()
   var currentlyInsertedCells: Set<UIView>?
   var lastLoadBounds: CGRect?
 

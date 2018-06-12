@@ -8,11 +8,11 @@
 
 import UIKit
 
-open class CollectionHeaderComposer<HeaderView: UIView>: SectionSource, ViewSource, CollectionReloadable {
+open class CollectionHeaderComposer<HeaderView: UIView>: SectionProviderType, FlatProviderType, CollectionReloadable {
 
   public typealias HeaderData = (index: Int, section: AnyCollectionProvider)
-  public typealias HeaderViewProvider = ViewProvider<HeaderData, HeaderView>
-  public typealias HeaderSizeProvider = SizeProvider<HeaderData>
+  public typealias HeaderViewProvider = ViewSource<HeaderData, HeaderView>
+  public typealias HeaderSizeProvider = SizeSource<HeaderData>
 
   public var identifier: String?
 
@@ -20,7 +20,7 @@ open class CollectionHeaderComposer<HeaderView: UIView>: SectionSource, ViewSour
     didSet { setNeedsReload() }
   }
 
-  public var presenter: CollectionPresenter? {
+  public var presenter: Presenter? {
     didSet { setNeedsReload() }
   }
 
@@ -32,7 +32,7 @@ open class CollectionHeaderComposer<HeaderView: UIView>: SectionSource, ViewSour
     didSet { setNeedsReload() }
   }
 
-  public var layout: CollectionLayout {
+  public var layout: Layout {
     get { return internalLayout.rootLayout }
     set {
       internalLayout.rootLayout = newValue
@@ -54,8 +54,8 @@ open class CollectionHeaderComposer<HeaderView: UIView>: SectionSource, ViewSour
   private var internalLayout: StickyLayout
 
   public init(identifier: String? = nil,
-              layout: CollectionLayout = FlowLayout(),
-              presenter: CollectionPresenter? = nil,
+              layout: Layout = FlowLayout(),
+              presenter: Presenter? = nil,
               headerViewProvider: HeaderViewProvider,
               headerSizeProvider: @escaping HeaderSizeProvider,
               sections: [AnyCollectionProvider]) {
@@ -110,7 +110,7 @@ open class CollectionHeaderComposer<HeaderView: UIView>: SectionSource, ViewSour
     return internalLayout.frame(at: at)
   }
 
-  open func presenter(at: Int) -> CollectionPresenter? {
+  open func presenter(at: Int) -> Presenter? {
     return presenter
   }
 
@@ -148,7 +148,7 @@ open class CollectionHeaderComposer<HeaderView: UIView>: SectionSource, ViewSour
     return reloadable === self || sections.contains(where: { $0.hasReloadable(reloadable) })
   }
 
-  open func flattenedProvider() -> ViewSource {
+  open func flattenedProvider() -> FlatProviderType {
     return FlattenedProvider(provider: self)
   }
 

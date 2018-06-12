@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class EmptyCollectionProvider: ViewSource, CollectionReloadable {
+open class EmptyCollectionProvider: FlatProviderType, CollectionReloadable {
   public var identifier: String?
 
   public init(identifier: String? = nil) {
@@ -37,7 +37,7 @@ open class EmptyCollectionProvider: ViewSource, CollectionReloadable {
     return [Int]()
   }
 
-  open func presenter(at: Int) -> CollectionPresenter? {
+  open func presenter(at: Int) -> Presenter? {
     return nil
   }
 

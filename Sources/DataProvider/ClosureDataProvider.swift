@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class ClosureDataProvider<Data>: DataProvider<Data> {
+open class ClosureDataProvider<Data>: DataSource<Data> {
   public var getter: () -> [Data] {
     didSet {
       setNeedsReload()

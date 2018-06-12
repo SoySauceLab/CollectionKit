@@ -1,5 +1,5 @@
 //
-//  ViewProvider.swift
+//  ViewSource.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2017-07-20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class ViewProvider<Data, View: UIView> {
+open class ViewSource<Data, View: UIView> {
   public private(set) lazy var reuseManager = CollectionReuseViewManager()
 
   /// Should return a new view for the given data and index
@@ -25,7 +25,7 @@ open class ViewProvider<Data, View: UIView> {
   public init() {}
 }
 
-extension ViewProvider: AnyCollectionViewProvider {
+extension ViewSource: AnyCollectionViewProvider {
   public final func anyView(data: Any, index: Int) -> UIView {
     return view(data: data as! Data, index: index)
   }

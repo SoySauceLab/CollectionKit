@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CollectionComposer: SectionSource, CollectionReloadable {
+open class CollectionComposer: SectionProviderType, CollectionReloadable {
 
   public var identifier: String?
 
@@ -16,17 +16,17 @@ open class CollectionComposer: SectionSource, CollectionReloadable {
     didSet { setNeedsReload() }
   }
 
-  public var presenter: CollectionPresenter? {
+  public var presenter: Presenter? {
     didSet { setNeedsReload() }
   }
 
-  public var layout: CollectionLayout {
+  public var layout: Layout {
     didSet { setNeedsReload() }
   }
 
   public init(identifier: String? = nil,
-              layout: CollectionLayout = FlowLayout(),
-              presenter: CollectionPresenter? = nil,
+              layout: Layout = FlowLayout(),
+              presenter: Presenter? = nil,
               sections: [AnyCollectionProvider]) {
     self.presenter = presenter
     self.layout = layout
@@ -35,8 +35,8 @@ open class CollectionComposer: SectionSource, CollectionReloadable {
   }
 
   public convenience init(identifier: String? = nil,
-                          layout: CollectionLayout = FlowLayout(),
-                          presenter: CollectionPresenter? = nil,
+                          layout: Layout = FlowLayout(),
+                          presenter: Presenter? = nil,
                           _ sections: AnyCollectionProvider...) {
     self.init(identifier: identifier, layout: layout, presenter: presenter, sections: sections)
   }
@@ -70,7 +70,7 @@ open class CollectionComposer: SectionSource, CollectionReloadable {
     return layout.frame(at: at)
   }
 
-  open func presenter(at: Int) -> CollectionPresenter? {
+  open func presenter(at: Int) -> Presenter? {
     return presenter
   }
 

@@ -13,34 +13,34 @@ public func defaultSizeProvider<Data>(at: Int, data: Data, collectionSize: CGSiz
 }
 
 @available(*, deprecated, message: "Use DataProvider instead")
-public typealias CollectionDataProvider = DataProvider
+public typealias CollectionDataProvider = DataSource
 
 @available(*, deprecated, message: "Use ViewProvider instead")
-public typealias CollectionViewProvider = ViewProvider
+public typealias CollectionViewProvider = ViewSource
 
 @available(*, deprecated, message: "Use SizeProvider instead")
-public typealias CollectionSizeProvider = SizeProvider
+public typealias CollectionSizeProvider = SizeSource
 
-open class CollectionProvider<Data, View: UIView>: ViewSource, CollectionReloadable {
-  public typealias TapHandler = (View, Int, DataProvider<Data>) -> Void
+open class CollectionProvider<Data, View: UIView>: FlatProviderType, CollectionReloadable {
+  public typealias TapHandler = (View, Int, DataSource<Data>) -> Void
 
   public var identifier: String?
-  public var dataProvider: DataProvider<Data> { didSet { setNeedsReload() } }
-  public var viewProvider: ViewProvider<Data, View> { didSet { setNeedsReload() } }
-  public var layout: CollectionLayout = FlowLayout() { didSet { setNeedsReload() } }
-  public var sizeProvider: SizeProvider<Data> = defaultSizeProvider { didSet { setNeedsReload() } }
-  public var presenter: CollectionPresenter? { didSet { setNeedsReload() } }
+  public var dataProvider: DataSource<Data> { didSet { setNeedsReload() } }
+  public var viewProvider: ViewSource<Data, View> { didSet { setNeedsReload() } }
+  public var layout: Layout = FlowLayout() { didSet { setNeedsReload() } }
+  public var sizeProvider: SizeSource<Data> = defaultSizeProvider { didSet { setNeedsReload() } }
+  public var presenter: Presenter? { didSet { setNeedsReload() } }
 
   public var willReloadHandler: (() -> Void)?
   public var didReloadHandler: (() -> Void)?
   public var tapHandler: TapHandler?
 
   public init(identifier: String? = nil,
-              dataProvider: DataProvider<Data>,
-              viewProvider: ViewProvider<Data, View>,
-              layout: CollectionLayout = FlowLayout(),
-              sizeProvider: @escaping SizeProvider<Data> = defaultSizeProvider,
-              presenter: CollectionPresenter? = nil,
+              dataProvider: DataSource<Data>,
+              viewProvider: ViewSource<Data, View>,
+              layout: Layout = FlowLayout(),
+              sizeProvider: @escaping SizeSource<Data> = defaultSizeProvider,
+              presenter: Presenter? = nil,
               willReloadHandler: (() -> Void)? = nil,
               didReloadHandler: (() -> Void)? = nil,
               tapHandler: TapHandler? = nil) {
@@ -56,12 +56,12 @@ open class CollectionProvider<Data, View: UIView>: ViewSource, CollectionReloada
   }
 
   public init(identifier: String? = nil,
-              dataProvider: DataProvider<Data>,
+              dataProvider: DataSource<Data>,
               viewGenerator: ((Data, Int) -> View)? = nil,
               viewUpdater: @escaping (View, Data, Int) -> Void,
-              layout: CollectionLayout = FlowLayout(),
-              sizeProvider: @escaping SizeProvider<Data> = defaultSizeProvider,
-              presenter: CollectionPresenter? = nil,
+              layout: Layout = FlowLayout(),
+              sizeProvider: @escaping SizeSource<Data> = defaultSizeProvider,
+              presenter: Presenter? = nil,
               willReloadHandler: (() -> Void)? = nil,
               didReloadHandler: (() -> Void)? = nil,
               tapHandler: TapHandler? = nil) {
@@ -80,9 +80,9 @@ open class CollectionProvider<Data, View: UIView>: ViewSource, CollectionReloada
               data: [Data],
               viewGenerator: ((Data, Int) -> View)? = nil,
               viewUpdater: @escaping (View, Data, Int) -> Void,
-              layout: CollectionLayout = FlowLayout(),
-              sizeProvider: @escaping SizeProvider<Data> = defaultSizeProvider,
-              presenter: CollectionPresenter? = nil,
+              layout: Layout = FlowLayout(),
+              sizeProvider: @escaping SizeSource<Data> = defaultSizeProvider,
+              presenter: Presenter? = nil,
               willReloadHandler: (() -> Void)? = nil,
               didReloadHandler: (() -> Void)? = nil,
               tapHandler: TapHandler? = nil) {
@@ -123,7 +123,7 @@ open class CollectionProvider<Data, View: UIView>: ViewSource, CollectionReloada
   open func visibleIndexes(visibleFrame: CGRect) -> [Int] {
     return layout.visibleIndexes(visibleFrame: visibleFrame)
   }
-  open func presenter(at: Int) -> CollectionPresenter? {
+  open func presenter(at: Int) -> Presenter? {
     return presenter
   }
   open func willReload() {
@@ -142,8 +142,8 @@ open class CollectionProvider<Data, View: UIView>: ViewSource, CollectionReloada
 
 struct CollectionProviderLayoutContext<Data>: LayoutContext {
   var collectionSize: CGSize
-  var dataProvider: DataProvider<Data>
-  var sizeProvider: SizeProvider<Data>
+  var dataProvider: DataSource<Data>
+  var sizeProvider: SizeSource<Data>
 
   var numberOfItems: Int {
     return dataProvider.numberOfItems

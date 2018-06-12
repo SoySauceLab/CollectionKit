@@ -1,5 +1,5 @@
 //
-//  CollectionLayout.swift
+//  Layout.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2017-07-20.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class CollectionLayout {
+open class Layout {
 
   open func layout(context: LayoutContext) {
     fatalError("Subclass should provide its own layout")
@@ -29,7 +29,7 @@ open class CollectionLayout {
   public init() {}
 }
 
-extension CollectionLayout {
+extension Layout {
   public func transposed() -> TransposeLayout {
     return TransposeLayout(self)
   }

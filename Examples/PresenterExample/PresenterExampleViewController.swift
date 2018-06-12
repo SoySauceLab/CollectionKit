@@ -14,7 +14,7 @@ class PresenterExampleViewController: CollectionViewController {
     super.viewDidLoad()
 
     let presenters = [
-      ("Default", CollectionPresenter()),
+      ("Default", Presenter()),
       ("Wobble", WobblePresenter()),
       ("Edge Shrink", EdgeShrinkPresenter()),
       ("Zoom", ZoomPresenter()),
@@ -38,7 +38,7 @@ class PresenterExampleViewController: CollectionViewController {
     buttonsCollectionView.showsHorizontalScrollIndicator = false
     let buttonsProvider = CollectionProvider(
       data: presenters,
-      viewUpdater: { (view: SelectionButton, data: (String, CollectionPresenter), at: Int) in
+      viewUpdater: { (view: SelectionButton, data: (String, Presenter), at: Int) in
         view.label.text = data.0
         view.label.textColor = imageProvider.presenter === data.1 ? .white : .black
         view.backgroundColor = imageProvider.presenter === data.1 ? .lightGray : .white

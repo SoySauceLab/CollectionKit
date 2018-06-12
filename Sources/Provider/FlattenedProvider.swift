@@ -8,19 +8,19 @@
 
 import UIKit
 
-struct FlattenedProvider: ViewSource {
+struct FlattenedProvider: FlatProviderType {
 
-  var provider: SectionSource
+  var provider: SectionProviderType
 
-  private var childSections: [(beginIndex: Int, sectionData: ViewSource?)]
+  private var childSections: [(beginIndex: Int, sectionData: FlatProviderType?)]
 
-  init(provider: SectionSource) {
+  init(provider: SectionProviderType) {
     self.provider = provider
-    var childSections: [(beginIndex: Int, sectionData: ViewSource?)] = []
+    var childSections: [(beginIndex: Int, sectionData: FlatProviderType?)] = []
     childSections.reserveCapacity(provider.numberOfItems)
     var count = 0
     for i in 0..<provider.numberOfItems {
-      let sectionData: ViewSource?
+      let sectionData: FlatProviderType?
       if let section = provider.section(at: i) {
         sectionData = section.flattenedProvider()
       } else {
@@ -37,13 +37,13 @@ struct FlattenedProvider: ViewSource {
     return (sectionIndex, index - childSections[sectionIndex].beginIndex)
   }
 
-  func apply<T>(_ index: Int, with: (ViewSource, Int) -> T) -> T {
+  func apply<T>(_ index: Int, with: (FlatProviderType, Int) -> T) -> T {
     let (sectionIndex, item) = indexPath(index)
     if let sectionData = childSections[sectionIndex].sectionData {
       return with(sectionData, item)
     } else {
-      assert(provider is ViewSource, "Provider don't support view index")
-      return with(provider as! ViewSource, sectionIndex)
+      assert(provider is FlatProviderType, "Provider don't support view index")
+      return with(provider as! FlatProviderType, sectionIndex)
     }
   }
 
@@ -114,7 +114,7 @@ struct FlattenedProvider: ViewSource {
     }
   }
 
-  func presenter(at: Int) -> CollectionPresenter? {
+  func presenter(at: Int) -> Presenter? {
     return apply(at) {
       $0.presenter(at: $1)
     } ?? provider.presenter(at: at)

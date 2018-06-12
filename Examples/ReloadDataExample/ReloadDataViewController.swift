@@ -40,7 +40,7 @@ class ReloadDataViewController: CollectionViewController {
                             justifyContent: .spaceAround,
                             alignItems: .center,
                             alignContent: .center)
-    let presenter = CollectionPresenter()
+    let presenter = Presenter()
     presenter.insertAnimation = .scale
     presenter.deleteAnimation = .scale
     presenter.updateAnimation = .normal

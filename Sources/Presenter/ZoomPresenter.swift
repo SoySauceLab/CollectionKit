@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class ZoomPresenter: CollectionPresenter {
+open class ZoomPresenter: Presenter {
   open override func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     super.update(collectionView: collectionView, view: view, at: at, frame: frame)
     let bounds = CGRect(origin: .zero, size: collectionView.bounds.size)

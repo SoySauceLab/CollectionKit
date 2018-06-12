@@ -10,7 +10,7 @@ import UIKit
 import CollectionKit
 import YetAnotherAnimationLibrary
 
-open class WobblePresenter: CollectionPresenter {
+open class WobblePresenter: Presenter {
   public var sensitivity: CGPoint = CGPoint(x: 1, y: 1)
 
   open override func shift(collectionView: CollectionView, delta: CGPoint, view: UIView, at: Int, frame: CGRect) {

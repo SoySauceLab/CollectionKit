@@ -15,7 +15,7 @@ public class StickyLayout: WrapperLayout {
   var visibleFrame: CGRect = .zero
   var topFrameIndex: Int = 0
 
-  public init(rootLayout: CollectionLayout,
+  public init(rootLayout: Layout,
               isStickyFn: @escaping (Int) -> Bool = { $0 % 2 == 0 }) {
     self.isStickyFn = isStickyFn
     super.init(rootLayout)

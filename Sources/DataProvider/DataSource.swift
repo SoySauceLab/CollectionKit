@@ -8,7 +8,7 @@
 
 import Foundation
 
-open class DataProvider<Data>: CollectionReloadable {
+open class DataSource<Data>: CollectionReloadable {
   open var numberOfItems: Int {
     return 0
   }

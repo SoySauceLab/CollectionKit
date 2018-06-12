@@ -9,7 +9,7 @@
 import UIKit
 import CollectionKit
 
-open class EdgeShrinkPresenter: CollectionPresenter {
+open class EdgeShrinkPresenter: Presenter {
   open override func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     super.update(collectionView: collectionView, view: view, at: at, frame: frame)
     let effectiveRange: ClosedRange<CGFloat> = -500...16

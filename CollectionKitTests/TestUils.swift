@@ -10,7 +10,7 @@ import UIKit
 import CollectionKit
 import UIKit.UIGestureRecognizerSubclass
 
-extension CollectionLayout {
+extension Layout {
 
   struct MockLayoutContext: LayoutContext {
     var parentSize: (CGFloat, CGFloat)

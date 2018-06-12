@@ -9,7 +9,7 @@
 import UIKit
 import CollectionKit
 
-class AnimatedReloadPresenter: CollectionPresenter {
+class AnimatedReloadPresenter: Presenter {
   static let defaultEntryTransform: CATransform3D = CATransform3DTranslate(CATransform3DScale(CATransform3DIdentity, 0.8, 0.8, 1), 0, 0, -1)
   static let fancyEntryTransform: CATransform3D = {
     var trans = CATransform3DIdentity

@@ -1,5 +1,5 @@
 //
-//  SizeProvider.swift
+//  SizeSource.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2017-07-24.
@@ -8,4 +8,4 @@
 
 import UIKit
 
-public typealias SizeProvider<Data> = (Int, Data, CGSize) -> CGSize
+public typealias SizeSource<Data> = (Int, Data, CGSize) -> CGSize

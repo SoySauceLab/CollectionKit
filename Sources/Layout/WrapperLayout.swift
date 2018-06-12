@@ -8,10 +8,10 @@
 
 import UIKit
 
-open class WrapperLayout: CollectionLayout {
-  var rootLayout: CollectionLayout
+open class WrapperLayout: Layout {
+  var rootLayout: Layout
 
-  public init(_ rootLayout: CollectionLayout) {
+  public init(_ rootLayout: Layout) {
     self.rootLayout = rootLayout
   }
 

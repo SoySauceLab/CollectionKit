@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class SimpleLayout: CollectionLayout {
+open class SimpleLayout: Layout {
   var _contentSize: CGSize = .zero
   public private(set) var frames: [CGRect] = []
 
