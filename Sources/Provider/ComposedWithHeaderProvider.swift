@@ -10,7 +10,10 @@ import UIKit
 
 open class ComposedWithHeaderProvider<HeaderView: UIView>: SectionProviderType, ItemProviderType, CollectionReloadable {
 
-  public typealias HeaderData = (index: Int, section: AnyProvider)
+  public struct HeaderData {
+    public let index: Int
+    public let section: AnyProvider
+  }
   public typealias HeaderViewProvider = ViewSource<HeaderData, HeaderView>
   public typealias HeaderSizeProvider = SizeSource<HeaderData>
 
@@ -51,6 +54,16 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>: SectionProviderType, 
     }
   }
 
+  public var tapHandler: TapHandler?
+
+  public typealias TapHandler = (TapContext) -> Void
+
+  public struct TapContext {
+    let view: HeaderView
+    let index: Int
+    let section: AnyProvider
+  }
+
   private var internalLayout: StickyLayout
 
   public init(identifier: String? = nil,
@@ -58,13 +71,15 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>: SectionProviderType, 
               presenter: Presenter? = nil,
               headerViewProvider: HeaderViewProvider,
               headerSizeProvider: @escaping HeaderSizeProvider,
-              sections: [AnyProvider]) {
+              sections: [AnyProvider] = [],
+              tapHandler: TapHandler? = nil) {
     self.presenter = presenter
     self.internalLayout = StickyLayout(rootLayout: layout)
     self.sections = sections
     self.identifier = identifier
     self.headerViewProvider = headerViewProvider
     self.headerSizeProvider = headerSizeProvider
+    self.tapHandler = tapHandler
   }
 
   open var numberOfItems: Int {
@@ -90,7 +105,7 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>: SectionProviderType, 
 
   open func layout(collectionSize: CGSize) {
     internalLayout.layout(context:
-      CollectionHeaderComposerLayoutContext(
+      ComposedWithHeaderProviderLayoutContext(
         collectionSize: collectionSize,
         sections: sections,
         headerViewProvider: headerViewProvider,
@@ -127,8 +142,10 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>: SectionProviderType, 
   }
 
   public func didTap(view: UIView, at: Int) {
-    // TODO: CollectionHeaderProvider doesn't support tap yet
-    // Need to cleanup tapHandler first.
+    if let tapHandler = tapHandler {
+      let context = TapContext(view: view as! HeaderView, index: at, section: sections[at])
+      tapHandler(context)
+    }
   }
 
   open func willReload() {
@@ -152,7 +169,7 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>: SectionProviderType, 
     return FlattenedProvider(provider: self)
   }
 
-  struct CollectionHeaderComposerLayoutContext: LayoutContext {
+  struct ComposedWithHeaderProviderLayoutContext: LayoutContext {
     var collectionSize: CGSize
     var sections: [AnyProvider]
     var headerViewProvider: HeaderViewProvider

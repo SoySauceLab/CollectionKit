@@ -50,10 +50,10 @@ open class SimpleViewProvider: BasicProvider<UIView, UIView> {
               sizeStrategy: (width: ViewSizeStrategy, height: ViewSizeStrategy) = (.fit, .fit),
               layout: Layout) {
     self.sizeStrategy = sizeStrategy
-    super.init(dataProvider: ArrayDataSource(data: views, identifierMapper: {
+    super.init(dataSource: ArrayDataSource(data: views, identifierMapper: {
                  return "\($1.hash)"
                }),
-               viewProvider: ViewViewProvider())
+               viewSource: ViewViewProvider())
     self.identifier = identifier
     self.layout = layout
     sizeSource = { [unowned self] (_, view, size) -> CGSize in

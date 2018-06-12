@@ -14,7 +14,7 @@ public class RowLayout: HorizontalSimpleLayout {
   public var alignItems: AlignItem
   public var justifyContent: JustifyContent
 
-  /// always stretch filling item to fill empty space even if sizeProvider returns a smaller size
+  /// always stretch filling item to fill empty space even if sizeSource returns a smaller size
   public var alwaysFillEmptySpaces: Bool = true
 
   public init(fillIdentifiers: Set<String>,

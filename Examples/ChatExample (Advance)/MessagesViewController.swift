@@ -60,13 +60,13 @@ class MessageLayout: SimpleLayout {
 }
 
 class MessagePresenter: WobblePresenter {
-  var dataProvider: MessageDataProvider?
+  var dataSource: MessageDataProvider?
   weak var sourceView: UIView?
   var sendingMessage = false
 
   override func insert(collectionView: CollectionView, view: UIView, at index: Int, frame: CGRect) {
     super.insert(collectionView: collectionView, view: view, at: index, frame: frame)
-    guard let messages = dataProvider?.data,
+    guard let messages = dataSource?.data,
       let sourceView = sourceView,
       collectionView.hasReloaded,
       collectionView.reloading else { return }
@@ -98,7 +98,7 @@ class MessagesViewController: CollectionViewController {
 
   var loading = false
 
-  let dataProvider = MessageDataProvider()
+  let dataSource = MessageDataProvider()
   let presenter = MessagePresenter()
   
   let newMessageButton = UIButton(type: .system)
@@ -130,10 +130,10 @@ class MessagesViewController: CollectionViewController {
       view.message = data
     })
     presenter.sourceView = newMessageButton
-    presenter.dataProvider = dataProvider
+    presenter.dataSource = dataSource
     let provider = BasicProvider(
-      dataProvider: dataProvider,
-      viewProvider: ComposedViewSource(viewProviderSelector: { data in
+      dataSource: dataSource,
+      viewSource: ComposedViewSource(viewSourceSelector: { data in
         switch data.type {
         case .image:
           return imageMessageViewProvider
@@ -178,13 +178,13 @@ extension MessagesViewController {
     let text = UUID().uuidString
     
     presenter.sendingMessage = true
-    dataProvider.data.append(Message(true, content: text))
+    dataSource.data.append(Message(true, content: text))
     collectionView.reloadData()
     collectionView.scrollTo(edge: .bottom, animated:true)
     presenter.sendingMessage = false
 
     delay(1.0) {
-      self.dataProvider.data.append(Message(false, content: text))
+      self.dataSource.data.append(Message(false, content: text))
       self.collectionView.reloadData()
       self.collectionView.scrollTo(edge: .bottom, animated:true)
     }
@@ -201,7 +201,7 @@ extension MessagesViewController: UIScrollViewDelegate {
       loading = true
       delay(0.5) { // Simulate network request
         let newMessages = testMessages.map{ $0.copy() }
-        self.dataProvider.data = newMessages + self.dataProvider.data
+        self.dataSource.data = newMessages + self.dataSource.data
         let oldContentHeight = self.collectionView.offsetFrame.maxY - self.collectionView.contentOffset.y
         self.collectionView.reloadData() {
           return CGPoint(x: self.collectionView.contentOffset.x,

@@ -31,19 +31,19 @@ class ViewController: CollectionViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    
-    let examplesSection = BasicProvider(
-      data: examples,
-      viewUpdater: { (view: ExampleView, data: (String, UIViewController.Type), at: Int) in
-        view.populate(title: data.0, contentViewControllerType: data.1)
-      }
-    )
-    examplesSection.layout = FlowLayout(lineSpacing: 30).inset(by: bodyInset)
-    examplesSection.sizeSource = { (_, _, size) -> CGSize in
-      return CGSize(width: size.width, height: max(360, UIScreen.main.bounds.height * 0.7))
-    }
 
-    provider = ComposedProvider(
+    let examplesSection = BasicProviderBuilder
+      .with(data: examples)
+      .with(viewUpdater: { (view: ExampleView, data: (String, UIViewController.Type), at: Int) in
+        view.populate(title: data.0, contentViewControllerType: data.1)
+      })
+      .with(layout: FlowLayout(lineSpacing: 30).inset(by: bodyInset))
+      .with(sizeSource: { (_, _, size) -> CGSize in
+        return CGSize(width: size.width, height: max(360, UIScreen.main.bounds.height * 0.7))
+      })
+      .build()
+
+    provider = ComposedProvider(sections: [
       space(100),
       LabelCollectionProvider(text: "CollectionKit", font: .boldSystemFont(ofSize: 38), insets: headerInset),
       LabelCollectionProvider(text: "A modern swift framework for building reusable collection view components.", font: .systemFont(ofSize: 20), insets: bodyInset),
@@ -51,7 +51,7 @@ class ViewController: CollectionViewController {
       LabelCollectionProvider(text: "Examples", font: .boldSystemFont(ofSize: 30), insets: headerInset),
       examplesSection,
       space(30)
-    )
+    ])
   }
 
 }

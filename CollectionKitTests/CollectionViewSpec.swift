@@ -25,7 +25,7 @@ class CollectionViewSpec: QuickSpec {
             label.textAlignment = .center
             label.text = "\(data)"
           },
-          sizeProvider: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+          sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
             return CGSize(width: 50, height: 50)
           }
         )
@@ -123,7 +123,7 @@ class CollectionViewSpec: QuickSpec {
         expect((collectionView.subviews[1] as! UILabel).text) == "2"
         expect(collectionView.contentSize) == CGSize(width: 100, height: 100)
 
-        provider.dataProvider = ArrayDataSource(data:[9, 8, 5, 6, 7])
+        provider.dataSource = ArrayDataSource(data:[9, 8, 5, 6, 7])
         collectionView.layoutIfNeeded()
         expect(collectionView.reloadCount) == 2
 
@@ -134,7 +134,7 @@ class CollectionViewSpec: QuickSpec {
         expect((collectionView.subviews[1] as! UILabel).text) == "8"
         expect(collectionView.contentSize) == CGSize(width: 100, height: 150)
 
-        provider.dataProvider = ArrayDataSource(data:[8, 5, 6, 7])
+        provider.dataSource = ArrayDataSource(data:[8, 5, 6, 7])
         collectionView.layoutIfNeeded()
         expect(collectionView.reloadCount) == 3
 
@@ -184,11 +184,11 @@ class CollectionViewSpec: QuickSpec {
         expect((collectionView.cell(at: 1) as! UILabel).text) == "2"
 
         provider = BasicProvider(
-          dataProvider: ArrayDataSource(data: [0,0,0,0], identifierMapper: { _, data in "\(data)" }),
+          dataSource: ArrayDataSource(data: [0,0,0,0], identifierMapper: { _, data in "\(data)" }),
           viewUpdater: { (label: UILabel, data: Int, index: Int) in
             label.text = "\(data)"
           },
-          sizeProvider: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+          sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
             return CGSize(width: 50, height: 50)
           }
         )
@@ -224,10 +224,10 @@ class CollectionViewSpec: QuickSpec {
           viewUpdater: { (label: UILabel, data: Int, index: Int) in
             label.text = "\(data)"
           },
-          sizeProvider: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+          sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
             return CGSize(width: 50, height: 50)
           },
-          tapHandler: { view, index, dataProvider in
+          tapHandler: { view, index, dataSource in
             lastTappedIndex = index
           }
         )

@@ -47,14 +47,14 @@ class SimpleTestProvider<Data>: BasicProvider<Data, UILabel> {
 
   convenience init(data: [Data]) {
     self.init(
-      dataProvider: ArrayDataSource(data: data, identifierMapper: { _, data in "\(data)" }),
+      dataSource: ArrayDataSource(data: data, identifierMapper: { _, data in "\(data)" }),
       viewUpdater: { (label: UILabel, data: Data, index: Int) in
         label.backgroundColor = .red
         label.layer.cornerRadius = 8
         label.textAlignment = .center
         label.text = "\(data)"
       },
-      sizeProvider: { (index: Int, data: Data, collectionSize: CGSize) -> CGSize in
+      sizeSource: { (index: Int, data: Data, collectionSize: CGSize) -> CGSize in
         return CGSize(width: 50, height: 50)
       }
     )

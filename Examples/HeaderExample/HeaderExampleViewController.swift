@@ -34,28 +34,28 @@ class HeaderExampleViewController: CollectionViewController {
     collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 44, right: 0)
 
     let sections: [AnyProvider] = (1...10).map { _ in
-      return BasicProvider(
-        data: Array(1...9),
-        viewUpdater: { (view: SquareView, data: Int, index: Int) in
+      return BasicProviderBuilder
+        .with(data: Array(1...9))
+        .with(viewUpdater: { (view: SquareView, data: Int, index: Int) in
           view.backgroundColor = UIColor(hue: CGFloat(index) / 10,
                                          saturation: 0.68, brightness: 0.98, alpha: 1)
           view.text = "\(data)"
-        },
-        layout: FlowLayout(spacing: 10, justifyContent: .spaceAround, alignItems: .center)
-          .inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)),
-        sizeProvider: { (index, data, maxSize) -> CGSize in
+        })
+        .with(layout: FlowLayout(spacing: 10, justifyContent: .spaceAround, alignItems: .center)
+          .inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)))
+        .with(sizeSource: { (index, data, maxSize) -> CGSize in
           return CGSize(width: 80, height: 80)
-        }
-      )
+        })
+        .build()
     }
 
     let provider = ComposedWithHeaderProvider(
       headerViewProvider: ClosureViewSource(
-        viewUpdater: { (view: UILabel, data: (index: Int, section: AnyProvider), index) in
+        viewUpdater: { (view: UILabel, data, index) in
           view.backgroundColor = UIColor.darkGray
           view.textColor = .white
           view.textAlignment = .center
-          view.text = "Header \(index)"
+          view.text = "Header \(data.index)"
       }),
       headerSizeProvider: { (index, data, maxSize) -> CGSize in
         return CGSize(width: maxSize.width, height: 40)

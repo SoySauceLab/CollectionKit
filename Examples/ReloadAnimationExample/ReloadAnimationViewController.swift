@@ -77,7 +77,7 @@ class AnimatedReloadPresenter: Presenter {
 
 class ReloadAnimationViewController: CollectionViewController {
 
-  let dataProvider = ArrayDataSource<Int>(data: []) { (_, data) in
+  let dataSource = ArrayDataSource<Int>(data: []) { (_, data) in
     return "\(data)"
   }
 
@@ -107,32 +107,29 @@ class ReloadAnimationViewController: CollectionViewController {
     view.addSubview(reloadButton)
 
     collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 54, right: 10)
-    let layout = FlowLayout(lineSpacing: 15,
-                            interitemSpacing: 15,
-                            justifyContent: .spaceAround,
-                            alignItems: .center,
-                            alignContent: .center)
-    let presenter = AnimatedReloadPresenter(entryTransform: AnimatedReloadPresenter.fancyEntryTransform)
-    dataProvider.data = data[0]
-    let provider = BasicProvider(
-      dataProvider: dataProvider,
-      viewUpdater: { (view: SquareView, data: Int, index: Int) in
+    dataSource.data = data[0]
+
+    provider = BasicProviderBuilder
+      .with(dataSource: dataSource)
+      .with(viewUpdater: { (view: SquareView, data: Int, index: Int) in
         view.backgroundColor = UIColor(hue: CGFloat(data) / 30,
                                        saturation: 0.68,
                                        brightness: 0.98,
                                        alpha: 1)
         view.text = "\(data)"
-      }
-    )
-    provider.layout = layout
-    provider.sizeSource = { (index, data, _) in
-      return CGSize(width: 80, height: 80)
-    }
-    provider.presenter = presenter
-    provider.tapHandler = { [weak self] (view, index, _) in
-      self?.dataProvider.data.remove(at: index)
-    }
-    self.provider = provider
+      })
+      .with(layout: FlowLayout(lineSpacing: 15,
+                               interitemSpacing: 15,
+                               justifyContent: .spaceAround,
+                               alignItems: .center,
+                               alignContent: .center))
+      .with(sizeSource: { (index, data, _) in
+        return CGSize(width: 80, height: 80)
+      })
+      .with(presenter: AnimatedReloadPresenter(entryTransform: AnimatedReloadPresenter.fancyEntryTransform))
+      .with(tapHandler: { [weak self] context in
+        self?.dataSource.data.remove(at: context.index)
+      }).build()
   }
 
   override func viewDidLayoutSubviews() {
@@ -143,7 +140,7 @@ class ReloadAnimationViewController: CollectionViewController {
 
   @objc func reload() {
     currentDataIndex = (currentDataIndex + 1) % data.count
-    dataProvider.data = data[currentDataIndex]
+    dataSource.data = data[currentDataIndex]
   }
 }
 

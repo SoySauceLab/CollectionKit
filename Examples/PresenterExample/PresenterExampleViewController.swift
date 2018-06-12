@@ -19,47 +19,53 @@ class PresenterExampleViewController: CollectionViewController {
       ("Edge Shrink", EdgeShrinkPresenter()),
       ("Zoom", ZoomPresenter()),
       ]
+
     let imagesCollectionView = CollectionView()
-    let imageProvider = BasicProvider(
-      data: testImages,
-      viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
-        view.image = data
+    let visibleFrameInsets = UIEdgeInsets(top: 0, left: -100, bottom: 0, right: -100)
+    let imageProvider = BasicProviderBuilder
+      .with(data: testImages)
+      .with(viewGenerator: { (data, index) -> UIImageView in
+        let view = UIImageView()
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
-      }
-    )
-    let visibleFrameInsets = UIEdgeInsets(top: 0, left: -100, bottom: 0, right: -100)
-    imageProvider.layout = WaterfallLayout(columns:2).transposed().inset(by: bodyInset).insetVisibleFrame(by: visibleFrameInsets)
-    imageProvider.sizeSource = imageSizeProvider
-    imageProvider.presenter = presenters[0].1
+        return view
+      }, viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
+        view.image = data
+      })
+      .with(layout: WaterfallLayout(columns:2).transposed().inset(by: bodyInset).insetVisibleFrame(by: visibleFrameInsets))
+      .with(sizeSource: imageSizeProvider)
+      .with(presenter: presenters[0].1)
+      .build()
+
     imagesCollectionView.provider = imageProvider
 
     let buttonsCollectionView = CollectionView()
     buttonsCollectionView.showsHorizontalScrollIndicator = false
-    let buttonsProvider = BasicProvider(
-      data: presenters,
-      viewUpdater: { (view: SelectionButton, data: (String, Presenter), at: Int) in
+
+    let buttonsProvider = BasicProviderBuilder
+      .with(data: presenters)
+      .with(viewUpdater: { (view: SelectionButton, data: (String, Presenter), at: Int) in
         view.label.text = data.0
         view.label.textColor = imageProvider.presenter === data.1 ? .white : .black
         view.backgroundColor = imageProvider.presenter === data.1 ? .lightGray : .white
-      }
-    )
-    buttonsProvider.layout = FlowLayout(lineSpacing: 10).transposed().inset(by: UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16))
-    buttonsProvider.sizeSource = { _, data, maxSize in
-      return CGSize(width: data.0.width(withConstraintedHeight: maxSize.height, font: UIFont.systemFont(ofSize:18)) + 20, height: maxSize.height)
-    }
-    buttonsProvider.presenter = WobblePresenter()
-    buttonsProvider.tapHandler = { _, index, dataProvider in
-      imageProvider.presenter = dataProvider.data(at: index).1
+      })
+      .with(layout: FlowLayout(lineSpacing: 10).transposed()
+        .inset(by: UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16)))
+      .with(sizeSource: { _, data, maxSize in
+        return CGSize(width: data.0.width(withConstraintedHeight: maxSize.height, font: UIFont.systemFont(ofSize:18)) + 20, height: maxSize.height)
+      })
+      .with(presenter: WobblePresenter())
+      .with(tapHandler: { context in
+        imageProvider.presenter = context.data.1
 
-      // clear previous styles
-      for cell in imagesCollectionView.visibleCells {
-        cell.alpha = 1
-        cell.transform = .identity
-      }
+        // clear previous styles
+        for cell in imagesCollectionView.visibleCells {
+          cell.alpha = 1
+          cell.transform = .identity
+        }
 
-      dataProvider.reloadData()
-    }
+        context.setNeedsReload()
+      }).build()
 
     buttonsCollectionView.provider = buttonsProvider
 
@@ -68,8 +74,10 @@ class PresenterExampleViewController: CollectionViewController {
 
     provider = ComposedProvider(
       layout: RowLayout("providerContent").transposed(),
-      buttonsCollectionViewProvider,
-      providerCollectionViewProvider
+      sections: [
+        buttonsCollectionViewProvider,
+        providerCollectionViewProvider
+      ]
     )
   }
 }

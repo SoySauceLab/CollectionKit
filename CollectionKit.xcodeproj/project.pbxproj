@@ -24,6 +24,7 @@
 		A363C57320CC015D009A885F /* SquareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C57220CC015D009A885F /* SquareView.swift */; };
 		A372A3691C79567A0023C797 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A3681C79567A0023C797 /* MessageCell.swift */; };
 		A3C76C1820CFBE2E003082BF /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1720CFBE2E003082BF /* Bridge.swift */; };
+		A3C76C1B20CFE0CB003082BF /* BasicProviderBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1A20CFE0CB003082BF /* BasicProviderBuilder.swift */; };
 		A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDEECE1C7D88430053BFAE /* Messages.swift */; };
 		A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */; };
 		A3FC21CA1C6EE5AA008566BB /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C91C6EE5AA008566BB /* MessagesViewController.swift */; };
@@ -147,6 +148,7 @@
 		A363C57220CC015D009A885F /* SquareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareView.swift; sourceTree = "<group>"; };
 		A372A3681C79567A0023C797 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		A3C76C1720CFBE2E003082BF /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
+		A3C76C1A20CFE0CB003082BF /* BasicProviderBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicProviderBuilder.swift; sourceTree = "<group>"; };
 		A3DDEECE1C7D88430053BFAE /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; tabWidth = 2; };
 		A3FC21C41C6EE5AA008566BB /* CollectionKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -281,13 +283,6 @@
 			path = HeaderExample;
 			sourceTree = "<group>";
 		};
-		A3C76C1920CFC767003082BF /* SizeSource */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = SizeSource;
-			sourceTree = "<group>";
-		};
 		A3DDEED01C7D893D0053BFAE /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,7 +291,6 @@
 				B144CE071F437A330073CF4E /* Layout */,
 				B144CE1A1F437B470073CF4E /* DataSource */,
 				B144CE191F437B2C0073CF4E /* ViewSource */,
-				A3C76C1920CFC767003082BF /* SizeSource */,
 				B144CE181F437B130073CF4E /* Presenter */,
 				B144CDFE1F4379800073CF4E /* Addon */,
 				B144CE081F437A570073CF4E /* Other */,
@@ -439,6 +433,7 @@
 			isa = PBXGroup;
 			children = (
 				B148237A1F1E87F60007A7E2 /* BasicProvider.swift */,
+				A3C76C1A20CFE0CB003082BF /* BasicProviderBuilder.swift */,
 				B1E861F81F21520200621BA0 /* ComposedProvider.swift */,
 				A363C56D20CBD55B009A885F /* ComposedWithHeaderProvider.swift */,
 				B1688A2E1F2563A200C229BD /* AnyProvider.swift */,
@@ -762,6 +757,7 @@
 				B144CE001F4379DA0073CF4E /* ClosureLayout.swift in Sources */,
 				B1E861F11F21515F00621BA0 /* ViewSource.swift in Sources */,
 				A363C56620C7EA66009A885F /* AnyViewSource.swift in Sources */,
+				A3C76C1B20CFE0CB003082BF /* BasicProviderBuilder.swift in Sources */,
 				B144CE0D1F437A960073CF4E /* ArrayDataSource.swift in Sources */,
 				B14B0E021F2682EA003E5105 /* SizeSource.swift in Sources */,
 				B1ED75B51F58C95200CB772A /* StickyLayout.swift in Sources */,

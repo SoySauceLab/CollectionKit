@@ -24,17 +24,16 @@ class ArticleExampleViewController: CollectionViewController {
     super.viewDidLoad()
 
     collectionView.contentInset = UIEdgeInsets(top: 20, left: 16, bottom: 20, right: 16)
-    let provider = BasicProvider(
-      data: articles,
-      viewUpdater: { (view: ArticleView, data: ArticleData, at: Int) in
+    provider = BasicProviderBuilder
+      .with(data: articles)
+      .with(viewUpdater: { (view: ArticleView, data: ArticleData, at: Int) in
         view.populate(article: data)
-      }
-    )
-    provider.layout = FlowLayout(lineSpacing: 30)
-    provider.sizeSource = { (_, view, size) -> CGSize in
-      return CGSize(width: size.width, height: 200)
-    }
-    self.provider = provider
+      })
+      .with(layout: FlowLayout(lineSpacing: 30))
+      .with(sizeSource: { (_, view, size) -> CGSize in
+        return CGSize(width: size.width, height: 200)
+      })
+      .build()
   }
 
 }

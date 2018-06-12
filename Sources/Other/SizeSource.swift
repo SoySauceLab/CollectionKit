@@ -9,3 +9,7 @@
 import UIKit
 
 public typealias SizeSource<Data> = (Int, Data, CGSize) -> CGSize
+
+public func defaultSizeProvider<Data>(at: Int, data: Data, collectionSize: CGSize) -> CGSize {
+  return collectionSize
+}

@@ -9,17 +9,17 @@
 import UIKit
 
 public class ComposedViewSource<Data>: ViewSource<Data, UIView> {
-  public var viewProviderSelector: (Data) -> AnyViewSource
+  public var viewSourceSelector: (Data) -> AnyViewSource
 
-  public init(viewProviderSelector: @escaping (Data) -> AnyViewSource) {
-    self.viewProviderSelector = viewProviderSelector
+  public init(viewSourceSelector: @escaping (Data) -> AnyViewSource) {
+    self.viewSourceSelector = viewSourceSelector
   }
 
   public override func update(view: UIView, data: Data, index: Int) {
-    viewProviderSelector(data).anyUpdate(view: view, data: data, index: index)
+    viewSourceSelector(data).anyUpdate(view: view, data: data, index: index)
   }
 
   public override func view(data: Data, index: Int) -> UIView {
-    return viewProviderSelector(data).anyView(data: data, index: index)
+    return viewSourceSelector(data).anyView(data: data, index: index)
   }
 }

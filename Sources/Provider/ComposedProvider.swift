@@ -27,18 +27,11 @@ open class ComposedProvider: SectionProviderType, CollectionReloadable {
   public init(identifier: String? = nil,
               layout: Layout = FlowLayout(),
               presenter: Presenter? = nil,
-              sections: [AnyProvider]) {
+              sections: [AnyProvider] = []) {
     self.presenter = presenter
     self.layout = layout
     self.sections = sections
     self.identifier = identifier
-  }
-
-  public convenience init(identifier: String? = nil,
-                          layout: Layout = FlowLayout(),
-                          presenter: Presenter? = nil,
-                          _ sections: AnyProvider...) {
-    self.init(identifier: identifier, layout: layout, presenter: presenter, sections: sections)
   }
 
   open var numberOfItems: Int {

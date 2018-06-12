@@ -86,7 +86,7 @@ let provider1 = CollectionProvider(
         label.textAlignment = .center
         label.text = "\(data)"
     },
-    sizeProvider: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+    sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
         return CGSize(width: 50, height: 50) // return your cell size
     }
 )
@@ -116,7 +116,7 @@ let provider2 = CollectionProvider(
         label.text = data
     },
     layout: FlowLayout(spacing: 10),
-    sizeProvider: { (index: Int, data: String, collectionSize: CGSize) -> CGSize in
+    sizeSource: { (index: Int, data: String, collectionSize: CGSize) -> CGSize in
         return CGSize(width: 230, height: 50)
     }
 )

@@ -8,82 +8,81 @@
 
 import UIKit
 
-open class Presenter {
-
-  public enum CollectionPresenterAnimation {
-    case fade
-    case scale
+open class FadePresenter: BaseSimplePresenter {
+  open override func hide(view: UIView) {
+    view.alpha = 0
   }
-
-  public enum CollectionPresenterUpdateAnimation {
-    case normal
+  open override func show(view: UIView) {
+    view.alpha = 1
   }
+}
 
-  open var insertAnimation: CollectionPresenterAnimation?
-  open var deleteAnimation: CollectionPresenterAnimation?
-  open var updateAnimation: CollectionPresenterUpdateAnimation?
+open class ScalePresenter: BaseSimplePresenter {
+  open override func hide(view: UIView) {
+    view.alpha = 0
+    view.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
+  }
+  open override func show(view: UIView) {
+    view.alpha = 1
+    view.transform = CGAffineTransform.identity
+  }
+}
 
-  open func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
-    view.bounds.size = frame.bounds.size
-    view.center = frame.center
-    if collectionView.reloading, collectionView.hasReloaded, collectionView.bounds.intersects(frame),
-      let insertAnimation = insertAnimation {
-      switch insertAnimation {
-      case .fade:
-        view.alpha = 0
-        UIView.animate(withDuration: 0.2, animations: {
-          view.alpha = 1
-        })
-      case .scale:
-        view.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
-        view.alpha = 0
-        UIView.animate(withDuration: 0.2, animations: {
-          view.transform = CGAffineTransform.identity
-          view.alpha = 1
-        })
-      }
+open class BaseSimplePresenter: Presenter {
+  public var updateAnimationDuration: TimeInterval = 0.2
+
+  open func hide(view: UIView) {}
+
+  open func show(view: UIView) {}
+
+  open override func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
+    super.insert(collectionView: collectionView, view: view, at: at, frame: frame)
+    if collectionView.reloading, collectionView.hasReloaded, collectionView.bounds.intersects(frame) {
+      hide(view: view)
+      UIView.animate(withDuration: 0.2, animations: {
+        self.show(view: view)
+      })
     }
   }
-  open func delete(collectionView: CollectionView, view: UIView) {
-    if collectionView.reloading, collectionView.bounds.intersects(view.frame), let deleteAnimation = deleteAnimation {
-      switch deleteAnimation {
-      case .fade:
-        UIView.animate(withDuration: 0.2, animations: {
-          view.alpha = 0
-        }, completion: { _ in
-          if !collectionView.visibleCells.contains(view) {
-            view.recycleForCollectionKitReuse()
-            view.alpha = 1
-          }
-        })
-      case .scale:
-        UIView.animate(withDuration: 0.2, animations: {
-          view.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
-          view.alpha = 0
-        }, completion: { _ in
-          if !collectionView.visibleCells.contains(view) {
-            view.recycleForCollectionKitReuse()
-            view.transform = CGAffineTransform.identity
-            view.alpha = 1
-          }
-        })
-      }
+
+  open override func delete(collectionView: CollectionView, view: UIView) {
+    if collectionView.reloading, collectionView.bounds.intersects(view.frame) {
+      UIView.animate(withDuration: 0.2, animations: {
+        self.hide(view: view)
+      }, completion: { _ in
+        if !collectionView.visibleCells.contains(view) {
+          view.recycleForCollectionKitReuse()
+          self.show(view: view)
+        }
+      })
     } else {
       view.recycleForCollectionKitReuse()
     }
+  }
+
+  open override func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
+    if view.bounds.size != frame.bounds.size {
+      view.bounds.size = frame.bounds.size
+    }
+    UIView.animate(withDuration: updateAnimationDuration) {
+      view.center = frame.center
+    }
+  }
+}
+
+open class Presenter {
+  open func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
+    view.bounds.size = frame.bounds.size
+    view.center = frame.center
+  }
+  open func delete(collectionView: CollectionView, view: UIView) {
+    view.recycleForCollectionKitReuse()
   }
   open func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     if view.bounds.size != frame.bounds.size {
       view.bounds.size = frame.bounds.size
     }
-    if let updateAnimation = updateAnimation {
-      switch updateAnimation {
-      case .normal:
-        UIView.animate(withDuration: 0.2) {
-          view.center = frame.center
-        }
-      }
-    } else {
+    if view.center != frame.center {
       view.center = frame.center
     }
   }

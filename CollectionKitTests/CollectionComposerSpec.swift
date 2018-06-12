@@ -132,10 +132,10 @@ class CollectionComposerSpec: QuickSpec {
           viewUpdater: { (label: UILabel, data: Int, index: Int) in
             label.text = "\(data)"
           },
-          sizeProvider: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+          sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
             return CGSize(width: 50, height: 50)
           },
-          tapHandler: { view, index, dataProvider in
+          tapHandler: { view, index, dataSource in
             lastTappedText = view.text
           }
         )

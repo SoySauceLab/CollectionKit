@@ -8,82 +8,44 @@
 
 import UIKit
 
-public func defaultSizeProvider<Data>(at: Int, data: Data, collectionSize: CGSize) -> CGSize {
-  return collectionSize
-}
-
 open class BasicProvider<Data, View: UIView>: ItemProviderType, CollectionReloadable {
-  public typealias TapHandler = (View, Int, DataSource<Data>) -> Void
 
   public var identifier: String?
   public var dataSource: DataSource<Data> { didSet { setNeedsReload() } }
   public var viewSource: ViewSource<Data, View> { didSet { setNeedsReload() } }
-  public var sizeSource: SizeSource<Data> = defaultSizeProvider { didSet { setNeedsReload() } }
-  public var layout: Layout = FlowLayout() { didSet { setNeedsReload() } }
+  public var sizeSource: SizeSource<Data> { didSet { setNeedsReload() } }
+  public var layout: Layout { didSet { setNeedsReload() } }
   public var presenter: Presenter? { didSet { setNeedsReload() } }
-
-  public var willReloadHandler: (() -> Void)?
-  public var didReloadHandler: (() -> Void)?
   public var tapHandler: TapHandler?
 
-  public init(identifier: String? = nil,
-              dataProvider: DataSource<Data>,
-              viewProvider: ViewSource<Data, View>,
-              layout: Layout = FlowLayout(),
-              sizeProvider: @escaping SizeSource<Data> = defaultSizeProvider,
-              presenter: Presenter? = nil,
-              willReloadHandler: (() -> Void)? = nil,
-              didReloadHandler: (() -> Void)? = nil,
-              tapHandler: TapHandler? = nil) {
-    self.dataSource = dataProvider
-    self.viewSource = viewProvider
-    self.layout = layout
-    self.sizeSource = sizeProvider
-    self.presenter = presenter
-    self.willReloadHandler = willReloadHandler
-    self.didReloadHandler = didReloadHandler
-    self.tapHandler = tapHandler
-    self.identifier = identifier
+  public typealias TapHandler = (TapContext) -> Void
+
+  public struct TapContext {
+    public let view: View
+    public let index: Int
+    public let dataSource: DataSource<Data>
+
+    public var data: Data {
+      return dataSource.data(at: index)
+    }
+
+    public func setNeedsReload() {
+      dataSource.setNeedsReload()
+    }
   }
 
   public init(identifier: String? = nil,
-              dataProvider: DataSource<Data>,
-              viewGenerator: ((Data, Int) -> View)? = nil,
-              viewUpdater: @escaping (View, Data, Int) -> Void,
+              dataSource: DataSource<Data>,
+              viewSource: ViewSource<Data, View>,
               layout: Layout = FlowLayout(),
-              sizeProvider: @escaping SizeSource<Data> = defaultSizeProvider,
+              sizeSource: @escaping SizeSource<Data> = defaultSizeProvider,
               presenter: Presenter? = nil,
-              willReloadHandler: (() -> Void)? = nil,
-              didReloadHandler: (() -> Void)? = nil,
               tapHandler: TapHandler? = nil) {
-    self.dataSource = dataProvider
-    self.viewSource = ClosureViewSource(viewGenerator: viewGenerator, viewUpdater: viewUpdater)
+    self.dataSource = dataSource
+    self.viewSource = viewSource
     self.layout = layout
-    self.sizeSource = sizeProvider
+    self.sizeSource = sizeSource
     self.presenter = presenter
-    self.willReloadHandler = willReloadHandler
-    self.didReloadHandler = didReloadHandler
-    self.tapHandler = tapHandler
-    self.identifier = identifier
-  }
-
-  public init(identifier: String? = nil,
-              data: [Data],
-              viewGenerator: ((Data, Int) -> View)? = nil,
-              viewUpdater: @escaping (View, Data, Int) -> Void,
-              layout: Layout = FlowLayout(),
-              sizeProvider: @escaping SizeSource<Data> = defaultSizeProvider,
-              presenter: Presenter? = nil,
-              willReloadHandler: (() -> Void)? = nil,
-              didReloadHandler: (() -> Void)? = nil,
-              tapHandler: TapHandler? = nil) {
-    self.dataSource = ArrayDataSource(data: data)
-    self.viewSource = ClosureViewSource(viewGenerator: viewGenerator, viewUpdater: viewUpdater)
-    self.layout = layout
-    self.sizeSource = sizeProvider
-    self.presenter = presenter
-    self.willReloadHandler = willReloadHandler
-    self.didReloadHandler = didReloadHandler
     self.tapHandler = tapHandler
     self.identifier = identifier
   }
@@ -102,8 +64,8 @@ open class BasicProvider<Data, View: UIView>: ItemProviderType, CollectionReload
   }
   open func layout(collectionSize: CGSize) {
     layout.layout(context: BasicProviderLayoutContext(collectionSize: collectionSize,
-                                                      dataProvider: dataSource,
-                                                      sizeProvider: sizeSource))
+                                                      dataSource: dataSource,
+                                                      sizeSource: sizeSource))
   }
   open var contentSize: CGSize {
     return layout.contentSize
@@ -118,13 +80,14 @@ open class BasicProvider<Data, View: UIView>: ItemProviderType, CollectionReload
     return presenter
   }
   open func willReload() {
-    willReloadHandler?()
   }
   open func didReload() {
-    didReloadHandler?()
   }
   open func didTap(view: UIView, at: Int) {
-    tapHandler?(view as! View, at, dataSource)
+    if let tapHandler = tapHandler {
+      let context = TapContext(view: view as! View, index: at, dataSource: dataSource)
+      tapHandler(context)
+    }
   }
   open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     return reloadable === self || reloadable === dataSource
@@ -133,19 +96,19 @@ open class BasicProvider<Data, View: UIView>: ItemProviderType, CollectionReload
 
 struct BasicProviderLayoutContext<Data>: LayoutContext {
   var collectionSize: CGSize
-  var dataProvider: DataSource<Data>
-  var sizeProvider: SizeSource<Data>
+  var dataSource: DataSource<Data>
+  var sizeSource: SizeSource<Data>
 
   var numberOfItems: Int {
-    return dataProvider.numberOfItems
+    return dataSource.numberOfItems
   }
   func data(at: Int) -> Any {
-    return dataProvider.data(at: at)
+    return dataSource.data(at: at)
   }
   func identifier(at: Int) -> String {
-    return dataProvider.identifier(at: at)
+    return dataSource.identifier(at: at)
   }
   func size(at: Int, collectionSize: CGSize) -> CGSize {
-    return sizeProvider(at, dataProvider.data(at: at), collectionSize)
+    return sizeSource(at, dataSource.data(at: at), collectionSize)
   }
 }
