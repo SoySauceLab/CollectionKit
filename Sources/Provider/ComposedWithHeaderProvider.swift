@@ -8,18 +8,20 @@
 
 import UIKit
 
-open class ComposedWithHeaderProvider<HeaderView: UIView>: SectionProviderType, ItemProviderType, CollectionReloadable {
+open class ComposedWithHeaderProvider<HeaderView: UIView>:
+  SectionProvider, ItemProvider, LayoutableProvider, CollectionReloadable {
 
   public struct HeaderData {
     public let index: Int
-    public let section: AnyProvider
+    public let section: Provider
   }
+
   public typealias HeaderViewProvider = ViewSource<HeaderData, HeaderView>
   public typealias HeaderSizeProvider = SizeSource<HeaderData>
 
   public var identifier: String?
 
-  public var sections: [AnyProvider] {
+  public var sections: [Provider] {
     didSet { setNeedsReload() }
   }
 
@@ -36,9 +38,9 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>: SectionProviderType, 
   }
 
   public var layout: Layout {
-    get { return internalLayout.rootLayout }
+    get { return stickyLayout.rootLayout }
     set {
-      internalLayout.rootLayout = newValue
+      stickyLayout.rootLayout = newValue
       setNeedsReload()
     }
   }
@@ -46,9 +48,9 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>: SectionProviderType, 
   public var isSticky = true {
     didSet {
       if isSticky {
-        internalLayout.isStickyFn = { $0 % 2 == 0 }
+        stickyLayout.isStickyFn = { $0 % 2 == 0 }
       } else {
-        internalLayout.isStickyFn = { _ in false }
+        stickyLayout.isStickyFn = { _ in false }
       }
       setNeedsReload()
     }
@@ -61,20 +63,21 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>: SectionProviderType, 
   public struct TapContext {
     let view: HeaderView
     let index: Int
-    let section: AnyProvider
+    let section: Provider
   }
 
-  private var internalLayout: StickyLayout
+  private var stickyLayout: StickyLayout
+  public var internalLayout: Layout { return stickyLayout }
 
   public init(identifier: String? = nil,
               layout: Layout = FlowLayout(),
               presenter: Presenter? = nil,
               headerViewProvider: HeaderViewProvider,
               headerSizeProvider: @escaping HeaderSizeProvider,
-              sections: [AnyProvider] = [],
+              sections: [Provider] = [],
               tapHandler: TapHandler? = nil) {
     self.presenter = presenter
-    self.internalLayout = StickyLayout(rootLayout: layout)
+    self.stickyLayout = StickyLayout(rootLayout: layout)
     self.sections = sections
     self.identifier = identifier
     self.headerViewProvider = headerViewProvider
@@ -86,7 +89,7 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>: SectionProviderType, 
     return sections.count * 2
   }
 
-  open func section(at: Int) -> AnyProvider? {
+  open func section(at: Int) -> Provider? {
     if at % 2 == 0 {
       return nil
     } else {
@@ -103,26 +106,13 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>: SectionProviderType, 
     }
   }
 
-  open func layout(collectionSize: CGSize) {
-    internalLayout.layout(context:
-      ComposedWithHeaderProviderLayoutContext(
-        collectionSize: collectionSize,
-        sections: sections,
-        headerViewProvider: headerViewProvider,
-        headerSizeProvider: headerSizeProvider
-    ))
-  }
-
-  open var contentSize: CGSize {
-    return internalLayout.contentSize
-  }
-
-  open func visibleIndexes(visibleFrame: CGRect) -> [Int] {
-    return internalLayout.visibleIndexes(visibleFrame: visibleFrame)
-  }
-
-  open func frame(at: Int) -> CGRect {
-    return internalLayout.frame(at: at)
+  open func layoutContext(collectionSize: CGSize) -> LayoutContext {
+    return ComposedWithHeaderProviderLayoutContext(
+      collectionSize: collectionSize,
+      sections: sections,
+      headerViewProvider: headerViewProvider,
+      headerSizeProvider: headerSizeProvider
+    )
   }
 
   open func presenter(at: Int) -> Presenter? {
@@ -165,13 +155,13 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>: SectionProviderType, 
     return reloadable === self || sections.contains(where: { $0.hasReloadable(reloadable) })
   }
 
-  open func flattenedProvider() -> ItemProviderType {
+  open func flattenedProvider() -> ItemProvider {
     return FlattenedProvider(provider: self)
   }
 
   struct ComposedWithHeaderProviderLayoutContext: LayoutContext {
     var collectionSize: CGSize
-    var sections: [AnyProvider]
+    var sections: [Provider]
     var headerViewProvider: HeaderViewProvider
     var headerSizeProvider: HeaderSizeProvider
 

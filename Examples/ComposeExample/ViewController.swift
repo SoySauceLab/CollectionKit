@@ -45,10 +45,10 @@ class ViewController: CollectionViewController {
 
     provider = ComposedProvider(sections: [
       space(100),
-      LabelCollectionProvider(text: "CollectionKit", font: .boldSystemFont(ofSize: 38), insets: headerInset),
-      LabelCollectionProvider(text: "A modern swift framework for building reusable collection view components.", font: .systemFont(ofSize: 20), insets: bodyInset),
+      LabelProvider(text: "CollectionKit", font: .boldSystemFont(ofSize: 38), insets: headerInset),
+      LabelProvider(text: "A modern swift framework for building reusable collection view components.", font: .systemFont(ofSize: 20), insets: bodyInset),
       space(30),
-      LabelCollectionProvider(text: "Examples", font: .boldSystemFont(ofSize: 30), insets: headerInset),
+      LabelProvider(text: "Examples", font: .boldSystemFont(ofSize: 30), insets: headerInset),
       examplesSection,
       space(30)
     ])

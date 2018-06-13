@@ -12,7 +12,6 @@
 		0E3258411F5DC8B400D455F8 /* ArticleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E32583E1F5DC8B400D455F8 /* ArticleView.swift */; };
 		0E3258451F5E23B000D455F8 /* FlowLayoutSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3258441F5E23B000D455F8 /* FlowLayoutSpec.swift */; };
 		0E3258481F5E334C00D455F8 /* ReloadDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3258471F5E334C00D455F8 /* ReloadDataViewController.swift */; };
-		0EB827AE203A58F500579A3E /* CollectionViewCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB827AD203A58F500579A3E /* CollectionViewCollectionProvider.swift */; };
 		A31524C31FF4329B0043CEB3 /* YetAnotherAnimationLibrary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B15029111EA66FC400F89915 /* YetAnotherAnimationLibrary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A3299F342064ED690075A137 /* VisibleFrameInsetLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3299F332064ED690075A137 /* VisibleFrameInsetLayout.swift */; };
 		A363C56520C7EA44009A885F /* ComposedViewSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56420C7EA44009A885F /* ComposedViewSource.swift */; };
@@ -25,6 +24,10 @@
 		A372A3691C79567A0023C797 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A3681C79567A0023C797 /* MessageCell.swift */; };
 		A3C76C1820CFBE2E003082BF /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1720CFBE2E003082BF /* Bridge.swift */; };
 		A3C76C1B20CFE0CB003082BF /* BasicProviderBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1A20CFE0CB003082BF /* BasicProviderBuilder.swift */; };
+		A3C76C1D20D1007C003082BF /* LabelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1C20D1007C003082BF /* LabelProvider.swift */; };
+		A3C76C1F20D10817003082BF /* LayoutableProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1E20D10817003082BF /* LayoutableProvider.swift */; };
+		A3C76C2120D1082D003082BF /* SectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C2020D1082D003082BF /* SectionProvider.swift */; };
+		A3C76C2320D10841003082BF /* ItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C2220D10841003082BF /* ItemProvider.swift */; };
 		A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDEECE1C7D88430053BFAE /* Messages.swift */; };
 		A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */; };
 		A3FC21CA1C6EE5AA008566BB /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C91C6EE5AA008566BB /* MessagesViewController.swift */; };
@@ -66,9 +69,8 @@
 		B15F5F761F79952A00986418 /* WobblePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B144CE121F437AB70073CF4E /* WobblePresenter.swift */; };
 		B1688A271F25448900C229BD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A261F25448900C229BD /* ViewController.swift */; };
 		B1688A291F2562AC00C229BD /* SimpleViewProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A281F2562AC00C229BD /* SimpleViewProvider.swift */; };
-		B1688A2B1F25631200C229BD /* LabelCollectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A2A1F25631200C229BD /* LabelCollectionProvider.swift */; };
 		B1688A2D1F25632900C229BD /* SpaceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A2C1F25632900C229BD /* SpaceProvider.swift */; };
-		B1688A2F1F2563A200C229BD /* AnyProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A2E1F2563A200C229BD /* AnyProvider.swift */; };
+		B1688A2F1F2563A200C229BD /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1688A2E1F2563A200C229BD /* Provider.swift */; };
 		B183C11E1F63218E00CEAAE1 /* LayoutHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183C11D1F63218E00CEAAE1 /* LayoutHelper.swift */; };
 		B183C1201F6349B800CEAAE1 /* InsetLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183C11F1F6349B800CEAAE1 /* InsetLayout.swift */; };
 		B183C1221F634A3200CEAAE1 /* TransposeLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B183C1211F634A3200CEAAE1 /* TransposeLayout.swift */; };
@@ -135,7 +137,6 @@
 		0E32583E1F5DC8B400D455F8 /* ArticleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArticleView.swift; sourceTree = "<group>"; };
 		0E3258441F5E23B000D455F8 /* FlowLayoutSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowLayoutSpec.swift; sourceTree = "<group>"; };
 		0E3258471F5E334C00D455F8 /* ReloadDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReloadDataViewController.swift; sourceTree = "<group>"; };
-		0EB827AD203A58F500579A3E /* CollectionViewCollectionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCollectionProvider.swift; sourceTree = "<group>"; };
 		A3299F332064ED690075A137 /* VisibleFrameInsetLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibleFrameInsetLayout.swift; sourceTree = "<group>"; };
 		A351C3451CE4CCD2005E15A7 /* CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		A351C3461CE4CCD2005E15A7 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
@@ -149,6 +150,10 @@
 		A372A3681C79567A0023C797 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		A3C76C1720CFBE2E003082BF /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
 		A3C76C1A20CFE0CB003082BF /* BasicProviderBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicProviderBuilder.swift; sourceTree = "<group>"; };
+		A3C76C1C20D1007C003082BF /* LabelProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelProvider.swift; sourceTree = "<group>"; };
+		A3C76C1E20D10817003082BF /* LayoutableProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutableProvider.swift; sourceTree = "<group>"; };
+		A3C76C2020D1082D003082BF /* SectionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionProvider.swift; sourceTree = "<group>"; };
+		A3C76C2220D10841003082BF /* ItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemProvider.swift; sourceTree = "<group>"; };
 		A3DDEECE1C7D88430053BFAE /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; tabWidth = 2; };
 		A3FC21C41C6EE5AA008566BB /* CollectionKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -194,9 +199,8 @@
 		B157E5191F6719F0008AEF83 /* SimpleLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SimpleLayout.swift; path = Sources/Layout/SimpleLayout.swift; sourceTree = SOURCE_ROOT; };
 		B1688A261F25448900C229BD /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = Examples/ComposeExample/ViewController.swift; sourceTree = SOURCE_ROOT; };
 		B1688A281F2562AC00C229BD /* SimpleViewProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleViewProvider.swift; sourceTree = "<group>"; };
-		B1688A2A1F25631200C229BD /* LabelCollectionProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelCollectionProvider.swift; sourceTree = "<group>"; };
 		B1688A2C1F25632900C229BD /* SpaceProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpaceProvider.swift; sourceTree = "<group>"; };
-		B1688A2E1F2563A200C229BD /* AnyProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyProvider.swift; sourceTree = "<group>"; };
+		B1688A2E1F2563A200C229BD /* Provider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
 		B183C11D1F63218E00CEAAE1 /* LayoutHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutHelper.swift; sourceTree = "<group>"; };
 		B183C11F1F6349B800CEAAE1 /* InsetLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsetLayout.swift; sourceTree = "<group>"; };
 		B183C1211F634A3200CEAAE1 /* TransposeLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransposeLayout.swift; sourceTree = "<group>"; };
@@ -283,10 +287,22 @@
 			path = HeaderExample;
 			sourceTree = "<group>";
 		};
+		A3C76C2420D10853003082BF /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				B1688A2E1F2563A200C229BD /* Provider.swift */,
+				A3C76C1E20D10817003082BF /* LayoutableProvider.swift */,
+				A3C76C2020D1082D003082BF /* SectionProvider.swift */,
+				A3C76C2220D10841003082BF /* ItemProvider.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		A3DDEED01C7D893D0053BFAE /* Sources */ = {
 			isa = PBXGroup;
 			children = (
 				A351C3451CE4CCD2005E15A7 /* CollectionView.swift */,
+				A3C76C2420D10853003082BF /* Protocol */,
 				B144CE0B1F437A840073CF4E /* Provider */,
 				B144CE071F437A330073CF4E /* Layout */,
 				B144CE1A1F437B470073CF4E /* DataSource */,
@@ -353,6 +369,7 @@
 			children = (
 				B1688A261F25448900C229BD /* ViewController.swift */,
 				B145FFA51F5DF60300A4F318 /* CollectionViewController.swift */,
+				A3C76C1C20D1007C003082BF /* LabelProvider.swift */,
 				B145FFA11F5DF54900A4F318 /* ExampleView.swift */,
 				0E32583B1F5DC89900D455F8 /* ArticleExample */,
 				A351C3441CE4C917005E15A7 /* ChatExample (Advance) */,
@@ -390,9 +407,7 @@
 			children = (
 				B1688A281F2562AC00C229BD /* SimpleViewProvider.swift */,
 				B1CCA0AE1F3A691B00632B19 /* EmptyStateProvider.swift */,
-				B1688A2A1F25631200C229BD /* LabelCollectionProvider.swift */,
 				B1688A2C1F25632900C229BD /* SpaceProvider.swift */,
-				0EB827AD203A58F500579A3E /* CollectionViewCollectionProvider.swift */,
 			);
 			path = Addon;
 			sourceTree = "<group>";
@@ -436,7 +451,6 @@
 				A3C76C1A20CFE0CB003082BF /* BasicProviderBuilder.swift */,
 				B1E861F81F21520200621BA0 /* ComposedProvider.swift */,
 				A363C56D20CBD55B009A885F /* ComposedWithHeaderProvider.swift */,
-				B1688A2E1F2563A200C229BD /* AnyProvider.swift */,
 				A363C56B20CACA89009A885F /* FlattenedProvider.swift */,
 				B144CE091F437A6B0073CF4E /* EmptyCollectionProvider.swift */,
 			);
@@ -711,6 +725,7 @@
 				B136E9A01D04BA5700D02FCA /* GridViewController.swift in Sources */,
 				B15F5F761F79952A00986418 /* WobblePresenter.swift in Sources */,
 				0E32583F1F5DC8B400D455F8 /* ArticleData.swift in Sources */,
+				A3C76C1D20D1007C003082BF /* LabelProvider.swift in Sources */,
 				B102FC5D1D10FF5100408DD6 /* Random.swift in Sources */,
 				B1688A271F25448900C229BD /* ViewController.swift in Sources */,
 				B145FFA61F5DF60300A4F318 /* CollectionViewController.swift in Sources */,
@@ -742,6 +757,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3C76C2120D1082D003082BF /* SectionProvider.swift in Sources */,
 				B1CCA0AF1F3A691B00632B19 /* EmptyStateProvider.swift in Sources */,
 				B183C1221F634A3200CEAAE1 /* TransposeLayout.swift in Sources */,
 				A3C76C1820CFBE2E003082BF /* Bridge.swift in Sources */,
@@ -754,6 +770,7 @@
 				B144CE0A1F437A6B0073CF4E /* EmptyCollectionProvider.swift in Sources */,
 				B144CE061F437A1D0073CF4E /* RowLayout.swift in Sources */,
 				B19D64C91F23DCA800D02FDB /* CollectionReuseViewManager.swift in Sources */,
+				A3C76C2320D10841003082BF /* ItemProvider.swift in Sources */,
 				B144CE001F4379DA0073CF4E /* ClosureLayout.swift in Sources */,
 				B1E861F11F21515F00621BA0 /* ViewSource.swift in Sources */,
 				A363C56620C7EA66009A885F /* AnyViewSource.swift in Sources */,
@@ -770,12 +787,12 @@
 				B1B7B05F1E7DAD2700F2483E /* CollectionView.swift in Sources */,
 				B157E51A1F6719F0008AEF83 /* SimpleLayout.swift in Sources */,
 				A3299F342064ED690075A137 /* VisibleFrameInsetLayout.swift in Sources */,
-				0EB827AE203A58F500579A3E /* CollectionViewCollectionProvider.swift in Sources */,
 				B1E861F41F21517400621BA0 /* DataSource.swift in Sources */,
+				A3C76C1F20D10817003082BF /* LayoutableProvider.swift in Sources */,
 				B157E5181F66FEE5008AEF83 /* OverlayLayout.swift in Sources */,
 				B1688A291F2562AC00C229BD /* SimpleViewProvider.swift in Sources */,
 				B1E861F91F21520200621BA0 /* ComposedProvider.swift in Sources */,
-				B1688A2F1F2563A200C229BD /* AnyProvider.swift in Sources */,
+				B1688A2F1F2563A200C229BD /* Provider.swift in Sources */,
 				A363C56E20CBD55B009A885F /* ComposedWithHeaderProvider.swift in Sources */,
 				B144CE021F4379F20073CF4E /* WaterfallLayout.swift in Sources */,
 				B144CE151F437AC10073CF4E /* ZoomPresenter.swift in Sources */,
@@ -784,7 +801,6 @@
 				B1E861F71F21519900621BA0 /* Layout.swift in Sources */,
 				B14B0E061F2790E6003E5105 /* CollectionReloadable.swift in Sources */,
 				B148237C1F1E88430007A7E2 /* BasicProvider.swift in Sources */,
-				B1688A2B1F25631200C229BD /* LabelCollectionProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

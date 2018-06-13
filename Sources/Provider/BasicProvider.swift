@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class BasicProvider<Data, View: UIView>: ItemProviderType, CollectionReloadable {
+open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, CollectionReloadable {
 
   public var identifier: String?
   public var dataSource: DataSource<Data> { didSet { setNeedsReload() } }
@@ -62,26 +62,13 @@ open class BasicProvider<Data, View: UIView>: ItemProviderType, CollectionReload
   open func identifier(at: Int) -> String {
     return dataSource.identifier(at: at)
   }
-  open func layout(collectionSize: CGSize) {
-    layout.layout(context: BasicProviderLayoutContext(collectionSize: collectionSize,
-                                                      dataSource: dataSource,
-                                                      sizeSource: sizeSource))
-  }
-  open var contentSize: CGSize {
-    return layout.contentSize
-  }
-  open func frame(at: Int) -> CGRect {
-    return layout.frame(at: at)
-  }
-  open func visibleIndexes(visibleFrame: CGRect) -> [Int] {
-    return layout.visibleIndexes(visibleFrame: visibleFrame)
+  open func layoutContext(collectionSize: CGSize) -> LayoutContext {
+    return BasicProviderLayoutContext(collectionSize: collectionSize,
+                                      dataSource: dataSource,
+                                      sizeSource: sizeSource)
   }
   open func presenter(at: Int) -> Presenter? {
     return presenter
-  }
-  open func willReload() {
-  }
-  open func didReload() {
   }
   open func didTap(view: UIView, at: Int) {
     if let tapHandler = tapHandler {

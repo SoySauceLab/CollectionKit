@@ -33,7 +33,7 @@ class HeaderExampleViewController: CollectionViewController {
 
     collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 44, right: 0)
 
-    let sections: [AnyProvider] = (1...10).map { _ in
+    let sections: [Provider] = (1...10).map { _ in
       return BasicProviderBuilder
         .with(data: Array(1...9))
         .with(viewUpdater: { (view: SquareView, data: Int, index: Int) in

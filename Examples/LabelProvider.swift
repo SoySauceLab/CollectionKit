@@ -7,8 +7,9 @@
 //
 
 import UIKit
+import CollectionKit
 
-open class LabelCollectionProvider: SimpleViewProvider {
+open class LabelProvider: SimpleViewProvider {
   public var label: UILabel {
     return view(at: 0) as! UILabel
   }

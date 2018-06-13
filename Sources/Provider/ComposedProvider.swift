@@ -8,11 +8,11 @@
 
 import UIKit
 
-open class ComposedProvider: SectionProviderType, CollectionReloadable {
+open class ComposedProvider: SectionProvider, LayoutableProvider, CollectionReloadable {
 
   public var identifier: String?
 
-  public var sections: [AnyProvider] {
+  public var sections: [Provider] {
     didSet { setNeedsReload() }
   }
 
@@ -27,7 +27,7 @@ open class ComposedProvider: SectionProviderType, CollectionReloadable {
   public init(identifier: String? = nil,
               layout: Layout = FlowLayout(),
               presenter: Presenter? = nil,
-              sections: [AnyProvider] = []) {
+              sections: [Provider] = []) {
     self.presenter = presenter
     self.layout = layout
     self.sections = sections
@@ -38,7 +38,7 @@ open class ComposedProvider: SectionProviderType, CollectionReloadable {
     return sections.count
   }
 
-  open func section(at: Int) -> AnyProvider? {
+  open func section(at: Int) -> Provider? {
     return sections[at]
   }
 
@@ -46,21 +46,11 @@ open class ComposedProvider: SectionProviderType, CollectionReloadable {
     return sections[at].identifier ?? "\(at)"
   }
 
-  open func layout(collectionSize: CGSize) {
-    layout.layout(context: CollectionComposerLayoutContext(collectionSize: collectionSize,
-                                                           sections: sections))
-  }
-
-  open var contentSize: CGSize {
-    return layout.contentSize
-  }
-
-  open func visibleIndexes(visibleFrame: CGRect) -> [Int] {
-    return layout.visibleIndexes(visibleFrame: visibleFrame)
-  }
-
-  open func frame(at: Int) -> CGRect {
-    return layout.frame(at: at)
+  open func layoutContext(collectionSize: CGSize) -> LayoutContext {
+    return CollectionComposerLayoutContext(
+      collectionSize: collectionSize,
+      sections: sections
+    )
   }
 
   open func presenter(at: Int) -> Presenter? {
@@ -86,7 +76,7 @@ open class ComposedProvider: SectionProviderType, CollectionReloadable {
 
 struct CollectionComposerLayoutContext: LayoutContext {
   var collectionSize: CGSize
-  var sections: [AnyProvider]
+  var sections: [Provider]
 
   var numberOfItems: Int {
     return sections.count
