@@ -101,21 +101,21 @@
 			containerPortal = A3FC21BC1C6EE5AA008566BB /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = B1B7B04F1E7DAD1E00F2483E;
-			remoteInfo = MCollectionView;
+			remoteInfo = CollectionKit;
 		};
 		B12F9B2C1E804F250085F37D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A3FC21BC1C6EE5AA008566BB /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = A3FC21C31C6EE5AA008566BB;
-			remoteInfo = MCollectionViewExample;
+			remoteInfo = CollectionKitExample;
 		};
 		B1B7B0551E7DAD1F00F2483E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A3FC21BC1C6EE5AA008566BB /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = B1B7B04F1E7DAD1E00F2483E;
-			remoteInfo = MCollectionView;
+			remoteInfo = CollectionKit;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -567,7 +567,7 @@
 				B1B7B0561E7DAD1F00F2483E /* PBXTargetDependency */,
 			);
 			name = CollectionKitExample;
-			productName = MCollectionViewExample;
+			productName = CollectionKitExample;
 			productReference = A3FC21C41C6EE5AA008566BB /* CollectionKitExample.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -587,7 +587,7 @@
 				B12F9B2D1E804F250085F37D /* PBXTargetDependency */,
 			);
 			name = CollectionKitTests;
-			productName = MCollectionViewTests;
+			productName = CollectionKitTests;
 			productReference = B12F9B211E804C370085F37D /* CollectionKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -606,7 +606,7 @@
 			dependencies = (
 			);
 			name = CollectionKit;
-			productName = MCollectionView;
+			productName = CollectionKit;
 			productReference = B1B7B0501E7DAD1E00F2483E /* CollectionKit.framework */;
 			productType = "com.apple.product-type.framework";
 		};
