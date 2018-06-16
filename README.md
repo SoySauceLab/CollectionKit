@@ -25,13 +25,13 @@ A modern Swift framework for building composable data-driven collection view.
 
 ### CollectionView
 
-`CollectionView` is CollectionKit's alternative to `UICollectionView`. You give it a `CollectionProvider` object that tells `CollectionView` how to display & handle a collection.
+`CollectionView` is CollectionKit's alternative to `UICollectionView`. You give it a `Provider` object that tells `CollectionView` how to display & handle a collection.
 
-Provider is easy to construct and composable as well. You can combine multiple providers together and easily create sections within a single `CollectionView`. Each provider can also have its own layout and presenter.
+Providers are easy to construct and composable as well. You can combine multiple providers together and create sections within a single `CollectionView`. Each provider can also have its own layout and presenter.
 
 ### Layout System
 
-CollectionKit implements its own powerful layout system. Each provider can have its own layout. You can also specify a layout when combining multiple providers together. CollectionKit provides some of the common layouts out of the box, but you can also create your own layout.
+CollectionKit has its powerful layout system. Each provider can have its own layout. You can also specify a layout when combining multiple providers together. CollectionKit also provides some of the common layouts out of the box, but you can also create your own layout.
 
 * **FlowLayout** - better `UICollectionFlowLayout` - supports `alignItems`, `justifyContent`, & `alignContent`
 * **WaterfallLayout** - a pinterest like waterfall layout
@@ -77,19 +77,19 @@ github "SoySauceLab/CollectionKit"
 To build a basic provider, here is what you need:
 
 ```swift
-let provider1 = CollectionProvider(
-    data: [1，2，3, 4], // provide an array of data, data can be any type
-    viewUpdater: { (label: UILabel, data: Int, index: Int) in
-        // update your view according to your data, view can be any subclass of UIView
-        label.backgroundColor = .red
-        label.layer.cornerRadius = 8
-        label.textAlignment = .center
-        label.text = "\(data)"
-    },
-    sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
-        return CGSize(width: 50, height: 50) // return your cell size
-    }
-)
+let provider1 = BasicProviderBuilder
+  .with(data: [1, 2, 3, 4]) // provide an array of data, data can be any type
+  .with(viewUpdater: { (label: UILabel, data: Int, index: Int) in
+    // update your view according to your data, view can be any subclass of UIView
+    label.backgroundColor = .red
+    label.layer.cornerRadius = 8
+    label.textAlignment = .center
+    label.text = "\(data)"
+  })
+  .with(sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+    return CGSize(width: 50, height: 50) // return your cell size
+  })
+  .build()
 ```
 
 To display the content, just assign this provider to any instance of `CollectionView`.
@@ -107,25 +107,26 @@ Use `CollectionComposer` to combine multiple providers into one. You can also su
 ```swift
 provider1.layout = FlowLayout(spacing: 10)
 
-let provider2 = CollectionProvider(
-    data: ["A", "B"],
-    viewUpdater: { (label: UILabel, data: String, index: Int) in
-        label.backgroundColor = .blue
-        label.layer.cornerRadius = 8
-        label.textAlignment = .center
-        label.text = data
-    },
-    layout: FlowLayout(spacing: 10),
-    sizeSource: { (index: Int, data: String, collectionSize: CGSize) -> CGSize in
-        return CGSize(width: 230, height: 50)
-    }
-)
+let provider2 = BasicProviderBuilder
+  .with(data: ["A", "B"])
+  .with(viewUpdater: { (label: UILabel, data: String, index: Int) in
+    label.backgroundColor = .blue
+    label.layer.cornerRadius = 8
+    label.textAlignment = .center
+    label.text = data
+  })
+  .with(layout: FlowLayout(spacing: 10))
+  .with(sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+    return CGSize(width: 230, height: 50) // return your cell size
+  })
+  .build()
 
-collectionView.provider = CollectionComposer(
+collectionView.provider = ComposedProvider(
     layout: FlowLayout(spacing: 20, justifyContent: .center, alignItems: .center),
-    provider1,
-    provider2
-)
+    sections: [
+      provider1,
+      provider2
+    ])
 ```
 
 <img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/c36d783/Resources/example2.svg" />
