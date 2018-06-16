@@ -20,8 +20,8 @@ open class CollectionView: UIScrollView {
 
   public private(set) var reloadCount = 0
   public private(set) var needsReload = true
-  public private(set) var loading = false
-  public private(set) var reloading = false
+  public private(set) var isLoadingCell = false
+  public private(set) var isReloading = false
   public private(set) var scrollVelocity: CGPoint = .zero
   public var hasReloaded: Bool { return reloadCount > 0 }
 
@@ -32,9 +32,10 @@ open class CollectionView: UIScrollView {
   public private(set) var visibleCells: [UIView] = []
   public private(set) var visibleIdentifiers: [String] = []
 
+  public private(set) var lastLoadBounds: CGRect?
+
   lazy var flattenedProvider: ItemProvider = provider.flattenedProvider()
   var currentlyInsertedCells: Set<UIView>?
-  var lastLoadBounds: CGRect?
 
   open override var contentOffset: CGPoint {
     didSet {
@@ -90,7 +91,7 @@ open class CollectionView: UIScrollView {
   }
 
   public func invalidateLayout() {
-    guard !loading && !reloading && hasReloaded else { return }
+    guard !isLoadingCell && !isReloading && hasReloaded else { return }
     flattenedProvider.layout(collectionSize: innerSize)
     contentSize = flattenedProvider.contentSize
     loadCells()
@@ -102,8 +103,8 @@ open class CollectionView: UIScrollView {
    * they move out of the visibleFrame.
    */
   func loadCells() {
-    guard !loading && !reloading && hasReloaded else { return }
-    loading = true
+    guard !isLoadingCell && !isReloading && hasReloaded else { return }
+    isLoadingCell = true
 
     _loadCells(forceReload: false)
 
@@ -112,15 +113,15 @@ open class CollectionView: UIScrollView {
       presenter.update(collectionView: self, view: cell, at: index, frame: flattenedProvider.frame(at: index))
     }
 
-    loading = false
+    isLoadingCell = false
   }
 
   // reload all frames. will automatically diff insertion & deletion
   public func reloadData(contentOffsetAdjustFn: (() -> CGPoint)? = nil) {
-    guard !reloading else { return }
+    guard !isReloading else { return }
     provider.willReload()
     flattenedProvider = provider.flattenedProvider()
-    reloading = true
+    isReloading = true
 
     flattenedProvider.layout(collectionSize: innerSize)
     let oldContentOffset = contentOffset
@@ -151,7 +152,7 @@ open class CollectionView: UIScrollView {
 
     needsReload = false
     reloadCount += 1
-    reloading = false
+    isReloading = false
     flattenedProvider.didReload()
   }
 

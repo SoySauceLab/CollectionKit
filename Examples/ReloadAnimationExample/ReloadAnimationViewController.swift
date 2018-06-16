@@ -25,7 +25,7 @@ class AnimatedReloadPresenter: Presenter {
   }
 
   override func delete(collectionView: CollectionView, view: UIView) {
-    if collectionView.reloading, collectionView.bounds.intersects(view.frame) {
+    if collectionView.isReloading, collectionView.bounds.intersects(view.frame) {
       UIView.animate(withDuration: 0.25, animations: {
         view.layer.transform = self.entryTransform
         view.alpha = 0
@@ -44,7 +44,7 @@ class AnimatedReloadPresenter: Presenter {
   override func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     view.bounds = frame.bounds
     view.center = frame.center
-    if collectionView.reloading, collectionView.hasReloaded, collectionView.bounds.intersects(frame) {
+    if collectionView.isReloading, collectionView.hasReloaded, collectionView.bounds.intersects(frame) {
       let offsetTime: TimeInterval = TimeInterval(frame.origin.distance(collectionView.contentOffset) / 3000)
       view.layer.transform = entryTransform
       view.alpha = 0

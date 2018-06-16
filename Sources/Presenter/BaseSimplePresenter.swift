@@ -17,7 +17,7 @@ open class BaseSimplePresenter: Presenter {
 
   open override func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     super.insert(collectionView: collectionView, view: view, at: at, frame: frame)
-    if collectionView.reloading, collectionView.hasReloaded, collectionView.bounds.intersects(frame) {
+    if collectionView.isReloading, collectionView.hasReloaded, collectionView.bounds.intersects(frame) {
       hide(view: view)
       UIView.animate(withDuration: 0.2, animations: {
         self.show(view: view)
@@ -26,7 +26,7 @@ open class BaseSimplePresenter: Presenter {
   }
 
   open override func delete(collectionView: CollectionView, view: UIView) {
-    if collectionView.reloading, collectionView.bounds.intersects(view.frame) {
+    if collectionView.isReloading, collectionView.bounds.intersects(view.frame) {
       UIView.animate(withDuration: 0.2, animations: {
         self.hide(view: view)
       }, completion: { _ in

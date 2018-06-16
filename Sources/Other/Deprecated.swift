@@ -53,6 +53,14 @@ public typealias ClosureViewProvider = ClosureViewSource
 @available(*, deprecated, message: "v2.0 deprecated naming")
 public typealias ArrayDataProvider = ArrayDataSource
 
+extension CollectionView {
+  @available(*, deprecated, message: "v2.0 deprecated naming")
+  public var loading: Bool { return isLoadingCell }
+
+  @available(*, deprecated, message: "v2.0 deprecated naming")
+  public var reloading: Bool { return isReloading }
+}
+
 extension BasicProvider {
   public typealias OldTapHandler = (View, Int, DataSource<Data>) -> Void
 
