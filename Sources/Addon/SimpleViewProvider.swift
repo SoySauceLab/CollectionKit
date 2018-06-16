@@ -19,8 +19,13 @@ open class SimpleViewProvider: ItemProvider, CollectionReloadable {
   public var identifier: String?
   public var layout: Layout
   public var views: [UIView] { didSet { setNeedsReload() } }
-  public var sizeStrategy: (width: ViewSizeStrategy, height: ViewSizeStrategy)
-  public var sizeStrategyOverride: [UIView: (width: ViewSizeStrategy, height: ViewSizeStrategy)] = [:]
+  public var sizeStrategy: (width: ViewSizeStrategy, height: ViewSizeStrategy) {
+    didSet { setNeedsReload() }
+  }
+  public var sizeStrategyOverride: [UIView: (width: ViewSizeStrategy, height: ViewSizeStrategy)] = [:] {
+    didSet { setNeedsReload() }
+  }
+  public var presenter: Presenter? { didSet { setNeedsReload() } }
 
   public init(identifier: String? = nil,
               views: [UIView],
@@ -66,9 +71,9 @@ open class SimpleViewProvider: ItemProvider, CollectionReloadable {
     return views[at]
   }
 
-  public func willReload() {}
-  public func didReload() {}
-  public func presenter(at: Int) -> Presenter? { return nil }
+  public func presenter(at: Int) -> Presenter? {
+    return presenter
+  }
   public func update(view: UIView, at: Int) {}
   public func didTap(view: UIView, at: Int) {}
 

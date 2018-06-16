@@ -22,12 +22,15 @@
 		A363C57020CBF6A1009A885F /* HeaderExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56F20CBF6A1009A885F /* HeaderExampleViewController.swift */; };
 		A363C57320CC015D009A885F /* SquareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C57220CC015D009A885F /* SquareView.swift */; };
 		A372A3691C79567A0023C797 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A3681C79567A0023C797 /* MessageCell.swift */; };
-		A3C76C1820CFBE2E003082BF /* Bridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1720CFBE2E003082BF /* Bridge.swift */; };
+		A3C76C1820CFBE2E003082BF /* Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1720CFBE2E003082BF /* Deprecated.swift */; };
 		A3C76C1B20CFE0CB003082BF /* BasicProviderBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1A20CFE0CB003082BF /* BasicProviderBuilder.swift */; };
 		A3C76C1D20D1007C003082BF /* LabelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1C20D1007C003082BF /* LabelProvider.swift */; };
 		A3C76C1F20D10817003082BF /* LayoutableProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1E20D10817003082BF /* LayoutableProvider.swift */; };
 		A3C76C2120D1082D003082BF /* SectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C2020D1082D003082BF /* SectionProvider.swift */; };
 		A3C76C2320D10841003082BF /* ItemProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C2220D10841003082BF /* ItemProvider.swift */; };
+		A3C76C2920D507D6003082BF /* FadePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C2820D507D6003082BF /* FadePresenter.swift */; };
+		A3C76C2B20D507E2003082BF /* ScalePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C2A20D507E2003082BF /* ScalePresenter.swift */; };
+		A3C76C2D20D507F2003082BF /* BaseSimplePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C2C20D507F2003082BF /* BaseSimplePresenter.swift */; };
 		A3DDEECF1C7D88430053BFAE /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDEECE1C7D88430053BFAE /* Messages.swift */; };
 		A3FC21C81C6EE5AA008566BB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */; };
 		A3FC21CA1C6EE5AA008566BB /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC21C91C6EE5AA008566BB /* MessagesViewController.swift */; };
@@ -148,12 +151,15 @@
 		A363C56F20CBF6A1009A885F /* HeaderExampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HeaderExampleViewController.swift; path = Examples/HeaderExample/HeaderExampleViewController.swift; sourceTree = SOURCE_ROOT; };
 		A363C57220CC015D009A885F /* SquareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareView.swift; sourceTree = "<group>"; };
 		A372A3681C79567A0023C797 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
-		A3C76C1720CFBE2E003082BF /* Bridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bridge.swift; sourceTree = "<group>"; };
+		A3C76C1720CFBE2E003082BF /* Deprecated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deprecated.swift; sourceTree = "<group>"; };
 		A3C76C1A20CFE0CB003082BF /* BasicProviderBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicProviderBuilder.swift; sourceTree = "<group>"; };
 		A3C76C1C20D1007C003082BF /* LabelProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelProvider.swift; sourceTree = "<group>"; };
 		A3C76C1E20D10817003082BF /* LayoutableProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutableProvider.swift; sourceTree = "<group>"; };
 		A3C76C2020D1082D003082BF /* SectionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionProvider.swift; sourceTree = "<group>"; };
 		A3C76C2220D10841003082BF /* ItemProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemProvider.swift; sourceTree = "<group>"; };
+		A3C76C2820D507D6003082BF /* FadePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FadePresenter.swift; sourceTree = "<group>"; };
+		A3C76C2A20D507E2003082BF /* ScalePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScalePresenter.swift; sourceTree = "<group>"; };
+		A3C76C2C20D507F2003082BF /* BaseSimplePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseSimplePresenter.swift; sourceTree = "<group>"; };
 		A3DDEECE1C7D88430053BFAE /* Messages.swift */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; tabWidth = 2; };
 		A3FC21C41C6EE5AA008566BB /* CollectionKitExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CollectionKitExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3FC21C71C6EE5AA008566BB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -439,7 +445,7 @@
 				B14B0E051F2790E6003E5105 /* CollectionReloadable.swift */,
 				B14B0E011F2682EA003E5105 /* SizeSource.swift */,
 				B19E0BCF1F22B21C00214866 /* CollectionReuseViewManager.swift */,
-				A3C76C1720CFBE2E003082BF /* Bridge.swift */,
+				A3C76C1720CFBE2E003082BF /* Deprecated.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -461,6 +467,9 @@
 			isa = PBXGroup;
 			children = (
 				B10A06271F20073C00069E17 /* Presenter.swift */,
+				A3C76C2C20D507F2003082BF /* BaseSimplePresenter.swift */,
+				A3C76C2A20D507E2003082BF /* ScalePresenter.swift */,
+				A3C76C2820D507D6003082BF /* FadePresenter.swift */,
 				B144CE141F437AC10073CF4E /* ZoomPresenter.swift */,
 			);
 			path = Presenter;
@@ -760,8 +769,9 @@
 				A3C76C2120D1082D003082BF /* SectionProvider.swift in Sources */,
 				B1CCA0AF1F3A691B00632B19 /* EmptyStateProvider.swift in Sources */,
 				B183C1221F634A3200CEAAE1 /* TransposeLayout.swift in Sources */,
-				A3C76C1820CFBE2E003082BF /* Bridge.swift in Sources */,
+				A3C76C1820CFBE2E003082BF /* Deprecated.swift in Sources */,
 				B144CE041F437A100073CF4E /* FlowLayout.swift in Sources */,
+				A3C76C2B20D507E2003082BF /* ScalePresenter.swift in Sources */,
 				B10A06281F20073C00069E17 /* Presenter.swift in Sources */,
 				A363C56C20CACA8A009A885F /* FlattenedProvider.swift in Sources */,
 				B1688A2D1F25632900C229BD /* SpaceProvider.swift in Sources */,
@@ -770,6 +780,7 @@
 				B144CE0A1F437A6B0073CF4E /* EmptyCollectionProvider.swift in Sources */,
 				B144CE061F437A1D0073CF4E /* RowLayout.swift in Sources */,
 				B19D64C91F23DCA800D02FDB /* CollectionReuseViewManager.swift in Sources */,
+				A3C76C2920D507D6003082BF /* FadePresenter.swift in Sources */,
 				A3C76C2320D10841003082BF /* ItemProvider.swift in Sources */,
 				B144CE001F4379DA0073CF4E /* ClosureLayout.swift in Sources */,
 				B1E861F11F21515F00621BA0 /* ViewSource.swift in Sources */,
@@ -798,6 +809,7 @@
 				B144CE151F437AC10073CF4E /* ZoomPresenter.swift in Sources */,
 				B183C11E1F63218E00CEAAE1 /* LayoutHelper.swift in Sources */,
 				A363C56A20C955C7009A885F /* LayoutContext.swift in Sources */,
+				A3C76C2D20D507F2003082BF /* BaseSimplePresenter.swift in Sources */,
 				B1E861F71F21519900621BA0 /* Layout.swift in Sources */,
 				B14B0E061F2790E6003E5105 /* CollectionReloadable.swift in Sources */,
 				B148237C1F1E88430007A7E2 /* BasicProvider.swift in Sources */,

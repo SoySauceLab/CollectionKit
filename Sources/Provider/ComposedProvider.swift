@@ -11,18 +11,9 @@ import UIKit
 open class ComposedProvider: SectionProvider, LayoutableProvider, CollectionReloadable {
 
   public var identifier: String?
-
-  public var sections: [Provider] {
-    didSet { setNeedsReload() }
-  }
-
-  public var presenter: Presenter? {
-    didSet { setNeedsReload() }
-  }
-
-  public var layout: Layout {
-    didSet { setNeedsReload() }
-  }
+  public var sections: [Provider] { didSet { setNeedsReload() } }
+  public var presenter: Presenter? { didSet { setNeedsReload() } }
+  public var layout: Layout { didSet { setNeedsReload() } }
 
   public init(identifier: String? = nil,
               layout: Layout = FlowLayout(),
