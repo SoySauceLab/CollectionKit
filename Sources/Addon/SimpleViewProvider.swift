@@ -74,6 +74,7 @@ open class SimpleViewProvider: ItemProvider, CollectionReloadable {
   public func presenter(at: Int) -> Presenter? {
     return presenter
   }
+
   public func update(view: UIView, at: Int) {}
   public func didTap(view: UIView, at: Int) {}
 

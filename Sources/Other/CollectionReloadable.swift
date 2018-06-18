@@ -37,7 +37,7 @@ internal class CollectionViewManager {
 
   internal func collectionView(for reloadable: CollectionReloadable) -> CollectionView? {
     for collectionView in collectionViews.allObjects {
-      if collectionView.provider.hasReloadable(reloadable) {
+      if let provider = collectionView.provider, provider.hasReloadable(reloadable) {
         return collectionView
       }
     }

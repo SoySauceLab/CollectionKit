@@ -67,6 +67,9 @@ open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, 
                                       dataSource: dataSource,
                                       sizeSource: sizeSource)
   }
+  open func presenter(at: Int) -> Presenter? {
+    return presenter
+  }
   open func didTap(view: UIView, at: Int) {
     if let tapHandler = tapHandler {
       let context = TapContext(view: view as! View, index: at, dataSource: dataSource)
