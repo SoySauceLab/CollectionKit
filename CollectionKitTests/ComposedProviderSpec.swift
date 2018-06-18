@@ -1,5 +1,5 @@
 //
-//  CollectionComposerSpec.swift
+//  ComposedProviderSpec.swift
 //  CollectionKitTests
 //
 //  Created by Luke Zhao on 2017-09-02.
@@ -10,7 +10,7 @@
 import Quick
 import Nimble
 
-class CollectionComposerSpec: QuickSpec {
+class ComposedProviderSpec: QuickSpec {
 
   override func spec() {
 
