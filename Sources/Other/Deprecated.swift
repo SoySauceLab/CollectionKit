@@ -133,17 +133,6 @@ extension BasicProvider {
   }
 }
 
-extension SimpleViewProvider {
-  @available(*, deprecated, message: "please use designated init instead, this will be removed soon")
-  public convenience init(identifier: String? = nil,
-                          _ views: UIView...,
-                          sizeStrategy: (ViewSizeStrategy, ViewSizeStrategy) = (.fit, .fit),
-                          insets: UIEdgeInsets = .zero) {
-    self.init(identifier: identifier, views: views, sizeStrategy: sizeStrategy,
-              layout: insets == .zero ? FlowLayout() : FlowLayout().inset(by: insets))
-  }
-}
-
 @available(*, deprecated, message: "will be removed soon")
 open class LabelCollectionProvider: SimpleViewProvider {
   public var label: UILabel {

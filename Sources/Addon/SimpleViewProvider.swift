@@ -28,7 +28,7 @@ open class SimpleViewProvider: ItemProvider, CollectionReloadable {
   public var presenter: Presenter? { didSet { setNeedsReload() } }
 
   public init(identifier: String? = nil,
-              views: [UIView],
+              views: [UIView] = [],
               sizeStrategy: (width: ViewSizeStrategy, height: ViewSizeStrategy) = (.fit, .fit),
               layout: Layout = FlowLayout()) {
     self.identifier = identifier

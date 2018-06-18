@@ -149,6 +149,25 @@ Please change the following:
  ComposedProvider(sections: [provider1, provider2, provider3])
 ```
 
+
+### SimpleViewProvider (ViewCollectionProvider in v1.3)
+
+* following convenience init has been removed
+
+```swift
+public convenience init(identifier: String? = nil,
+                        _ views: UIView...,
+                        sizeStrategy: (ViewSizeStrategy, ViewSizeStrategy) = (.fit, .fit),
+                        insets: UIEdgeInsets = .zero) {}
+```
+
+Please change the following:
+```swift
+ViewCollectionProvider(view1, view2)
+->
+SimpleViewProvider(views: [view1, view2])
+```
+
 ### Layout
 
 **Layout** becomes data independent.
