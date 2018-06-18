@@ -37,7 +37,7 @@ ArrayDataProvider -> ArrayDataSource
 ### BasicProvider (CollectionProvider in v1.3)
 
 * variable name changes
-```
+```swift
 dataProvider -> dataSource
 viewProvider -> viewSource
 ```
@@ -45,7 +45,7 @@ viewProvider -> viewSource
 * willReloadHandler & didReloadHandler is removed
 
 * designated init is now changed to the following. while other initializer has been removed.
-```
+```swift
 public init(identifier: String? = nil,
             dataSource: DataSource<Data>,
             viewSource: ViewSource<Data, View>,
@@ -114,12 +114,12 @@ self.init(
 ```
 
 * TapHandler type is changed from
-```
+```swift
 typealias TapHandler = (View, Int, DataSource<Data>) -> Void
 ```
 
 to
-```
+```swift
 typealias TapHandler = (TapContext) -> Void
 
 protocol TapContext {
@@ -153,7 +153,7 @@ Please change the following:
 
 **Layout** becomes data independent.
 
-```
+```swift
 FlowLayout<Int> -> FlowLayout
 ```
 
