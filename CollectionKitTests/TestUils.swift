@@ -41,19 +41,19 @@ extension Layout {
 class SimpleTestProvider<Data>: BasicProvider<Data, UILabel> {
 
   var data: [Data] {
-    get { return (dataSource as! ArrayDataProvider<Data>).data }
-    set { (dataSource as! ArrayDataProvider<Data>).data = newValue }
+    get { return (dataSource as! ArrayDataSource<Data>).data }
+    set { (dataSource as! ArrayDataSource<Data>).data = newValue }
   }
 
   convenience init(data: [Data]) {
     self.init(
       dataSource: ArrayDataSource(data: data, identifierMapper: { _, data in "\(data)" }),
-      viewUpdater: { (label: UILabel, data: Data, index: Int) in
+      viewSource: ClosureViewSource(viewUpdater: { (label: UILabel, data: Data, index: Int) in
         label.backgroundColor = .red
         label.layer.cornerRadius = 8
         label.textAlignment = .center
         label.text = "\(data)"
-      },
+      }),
       sizeSource: { (index: Int, data: Data, collectionSize: CGSize) -> CGSize in
         return CGSize(width: 50, height: 50)
       }

@@ -14,6 +14,10 @@ A modern Swift framework for building composable data-driven collection view.
 ![Swift 3.0+](https://img.shields.io/badge/Swift-3.0%2B-orange.svg)
 [![Slack](https://slackin-axnycthvks.now.sh/badge.svg)](https://slackin-axnycthvks.now.sh)
 
+### Migration Guide
+
+[v2.0](/Resources/v2_migration.md)
+
 ### Features
 
 * Rewritten `UICollectionView` on top of `UIScrollView`.

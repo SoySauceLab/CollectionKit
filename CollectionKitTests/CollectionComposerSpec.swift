@@ -19,7 +19,7 @@ class CollectionComposerSpec: QuickSpec {
         let provider1 = SimpleTestProvider(data: [1, 2, 3, 4])
         let provider2 = SimpleTestProvider(data: ["a", "b"])
         let provider3 = SimpleTestProvider(data: ["hello", "collectionKit"])
-        let composer = ComposedProvider(provider1, provider2, provider3)
+        let composer = ComposedProvider(sections: [provider1, provider2, provider3])
         let collectionView = CollectionView(provider: composer)
         collectionView.frame = CGRect(x: 0, y: 0, width: 300, height: 500)
         collectionView.layoutIfNeeded()
@@ -37,13 +37,15 @@ class CollectionComposerSpec: QuickSpec {
         let provider4 = SimpleTestProvider(data: [])
         let provider5 = SimpleTestProvider(data: [5.0])
         let composer = ComposedProvider(
-          ComposedProvider(
-            ComposedProvider(provider1,
-                               provider2),
-            provider3),
-          ComposedProvider(),
-          ComposedProvider(provider4,
-                             provider5)
+          sections: [
+            ComposedProvider(
+              sections: [
+                ComposedProvider(sections: [provider1, provider2]),
+                provider3
+              ]),
+            ComposedProvider(),
+            ComposedProvider(sections: [provider4, provider5])
+          ]
         )
         let collectionView = CollectionView(provider: composer)
         collectionView.frame = CGRect(x: 0, y: 0, width: 300, height: 500)
@@ -60,7 +62,7 @@ class CollectionComposerSpec: QuickSpec {
         let provider1 = SimpleTestProvider(data: [1, 2, 3, 4])
         let provider2 = SimpleTestProvider(data: ["a", "b"])
         let provider3 = SimpleTestProvider(data: ["hello", "collectionKit"])
-        let composer = ComposedProvider(provider1, provider2, provider3)
+        let composer = ComposedProvider(sections: [provider1, provider2, provider3])
         let collectionView = CollectionView(provider: composer)
         collectionView.frame = CGRect(x: 0, y: 0, width: 300, height: 500)
         collectionView.layoutIfNeeded()
@@ -100,15 +102,14 @@ class CollectionComposerSpec: QuickSpec {
         let provider3 = SimpleTestProvider(data: ["hello", "collectionKit"])
         let provider4 = SimpleTestProvider(data: [])
         let provider5 = SimpleTestProvider(data: [5.0])
-        let composer = ComposedProvider(
-          ComposedProvider(
-            ComposedProvider(provider1,
-                               provider2),
-            provider3),
+        let composer = ComposedProvider(sections: [
+          ComposedProvider(sections: [
+            ComposedProvider(sections: [provider1, provider2]),
+            provider3
+          ]),
           ComposedProvider(),
-          ComposedProvider(provider4,
-                             provider5)
-        )
+          ComposedProvider(sections: [provider4, provider5])
+        ])
         let collectionView = CollectionView(provider: composer)
         collectionView.frame = CGRect(x: 0, y: 0, width: 300, height: 500)
         collectionView.layoutIfNeeded()
@@ -127,22 +128,24 @@ class CollectionComposerSpec: QuickSpec {
         var lastTappedText: String?
         let provider1 = SimpleTestProvider(data: [1, 2, 3, 4])
         let provider2 = SimpleTestProvider(data: ["a", "b"])
-        let tapProvider = BasicProvider(
-          data: [11, 12],
-          viewUpdater: { (label: UILabel, data: Int, index: Int) in
+        let tapProvider = BasicProviderBuilder
+          .with(data: [11, 12])
+          .with(viewUpdater: { (label: UILabel, data: Int, index: Int) in
             label.text = "\(data)"
-          },
-          sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+          })
+          .with(sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
             return CGSize(width: 50, height: 50)
-          },
-          tapHandler: { view, index, dataSource in
-            lastTappedText = view.text
-          }
-        )
+          })
+          .with(tapHandler: { context in
+            lastTappedText = context.view.text
+          }).build()
         let composer = ComposedProvider(
-          ComposedProvider(provider1,
-                             provider2),
-          tapProvider
+          sections: [
+            ComposedProvider(
+              sections: [provider1,
+                         provider2]),
+            tapProvider
+          ]
         )
         let collectionView = CollectionView(provider: composer)
         collectionView.frame = CGRect(x: 0, y: 0, width: 200, height: 500)
