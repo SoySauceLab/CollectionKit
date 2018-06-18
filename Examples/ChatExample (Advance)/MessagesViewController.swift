@@ -123,10 +123,10 @@ class MessagesViewController: CollectionViewController {
     collectionView.contentInset = UIEdgeInsetsMake(30, 10, 54, 10)
     collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(30, 0, 54, 0)
 
-    let textMessageViewProvider = ClosureViewSource(viewUpdater: { (view: TextMessageCell, data: Message, at: Int) in
+    let textMessageViewSource = ClosureViewSource(viewUpdater: { (view: TextMessageCell, data: Message, at: Int) in
       view.message = data
     })
-    let imageMessageViewProvider = ClosureViewSource(viewUpdater: { (view: ImageMessageCell, data: Message, at: Int) in
+    let imageMessageViewSource = ClosureViewSource(viewUpdater: { (view: ImageMessageCell, data: Message, at: Int) in
       view.message = data
     })
     presenter.sourceView = newMessageButton
@@ -136,9 +136,9 @@ class MessagesViewController: CollectionViewController {
       viewSource: ComposedViewSource(viewSourceSelector: { data in
         switch data.type {
         case .image:
-          return imageMessageViewProvider
+          return imageMessageViewSource
         default:
-          return textMessageViewProvider
+          return textMessageViewSource
         }
       })
     )

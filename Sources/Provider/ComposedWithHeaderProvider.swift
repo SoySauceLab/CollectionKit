@@ -16,8 +16,8 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>:
     public let section: Provider
   }
 
-  public typealias HeaderViewProvider = ViewSource<HeaderData, HeaderView>
-  public typealias HeaderSizeProvider = SizeSource<HeaderData>
+  public typealias HeaderViewSource = ViewSource<HeaderData, HeaderView>
+  public typealias HeaderSizeSource = SizeSource<HeaderData>
 
   public var identifier: String?
 
@@ -29,11 +29,11 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>:
     didSet { setNeedsReload() }
   }
 
-  public var headerViewProvider: HeaderViewProvider {
+  public var headerViewSource: HeaderViewSource {
     didSet { setNeedsReload() }
   }
 
-  public var headerSizeProvider: HeaderSizeProvider {
+  public var headerSizeSource: HeaderSizeSource {
     didSet { setNeedsReload() }
   }
 
@@ -72,16 +72,16 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>:
   public init(identifier: String? = nil,
               layout: Layout = FlowLayout(),
               presenter: Presenter? = nil,
-              headerViewProvider: HeaderViewProvider,
-              headerSizeProvider: @escaping HeaderSizeProvider,
+              headerViewSource: HeaderViewSource,
+              headerSizeSource: @escaping HeaderSizeSource,
               sections: [Provider] = [],
               tapHandler: TapHandler? = nil) {
     self.presenter = presenter
     self.stickyLayout = StickyLayout(rootLayout: layout)
     self.sections = sections
     self.identifier = identifier
-    self.headerViewProvider = headerViewProvider
-    self.headerSizeProvider = headerSizeProvider
+    self.headerViewSource = headerViewSource
+    self.headerSizeSource = headerSizeSource
     self.tapHandler = tapHandler
   }
 
@@ -110,8 +110,7 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>:
     return ComposedWithHeaderProviderLayoutContext(
       collectionSize: collectionSize,
       sections: sections,
-      headerViewProvider: headerViewProvider,
-      headerSizeProvider: headerSizeProvider
+      headerSizeSource: headerSizeSource
     )
   }
 
@@ -121,12 +120,12 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>:
 
   public func view(at: Int) -> UIView {
     let index = at / 2
-    return headerViewProvider.view(data: HeaderData(index: index, section: sections[index]), index: index)
+    return headerViewSource.view(data: HeaderData(index: index, section: sections[index]), index: index)
   }
 
   public func update(view: UIView, at: Int) {
     let index = at / 2
-    headerViewProvider.update(view: view as! HeaderView,
+    headerViewSource.update(view: view as! HeaderView,
                               data: HeaderData(index: index, section: sections[index]),
                               index: index)
   }
@@ -162,8 +161,7 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>:
   struct ComposedWithHeaderProviderLayoutContext: LayoutContext {
     var collectionSize: CGSize
     var sections: [Provider]
-    var headerViewProvider: HeaderViewProvider
-    var headerSizeProvider: HeaderSizeProvider
+    var headerSizeSource: HeaderSizeSource
 
     var numberOfItems: Int {
       return sections.count * 2
@@ -185,7 +183,7 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>:
     }
     func size(at: Int, collectionSize: CGSize) -> CGSize {
       if at % 2 == 0 {
-        return headerSizeProvider(at / 2, data(at: at) as! HeaderData, collectionSize)
+        return headerSizeSource(at / 2, data(at: at) as! HeaderData, collectionSize)
       } else {
         sections[at / 2].layout(collectionSize: collectionSize)
         return sections[at / 2].contentSize

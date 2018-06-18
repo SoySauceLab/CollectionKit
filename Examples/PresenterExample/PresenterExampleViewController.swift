@@ -69,11 +69,11 @@ class PresenterExampleViewController: CollectionViewController {
 
     buttonsCollectionView.provider = buttonsProvider
 
-    let buttonsCollectionViewProvider = SimpleViewProvider(
+    let buttonsViewProvider = SimpleViewProvider(
       views: [buttonsCollectionView],
       sizeStrategy: (.fill, .absolute(44))
     )
-    let providerCollectionViewProvider = SimpleViewProvider(
+    let providerViewProvider = SimpleViewProvider(
       identifier: "providerContent",
       views: [imagesCollectionView],
       sizeStrategy: (.fill, .fill)
@@ -82,8 +82,8 @@ class PresenterExampleViewController: CollectionViewController {
     provider = ComposedProvider(
       layout: RowLayout("providerContent").transposed(),
       sections: [
-        buttonsCollectionViewProvider,
-        providerCollectionViewProvider
+        buttonsViewProvider,
+        providerViewProvider
       ]
     )
   }

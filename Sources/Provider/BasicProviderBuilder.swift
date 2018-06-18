@@ -75,7 +75,7 @@ public class FullBasicProviderBuilder<Data, View: UIView> {
                          dataSource: dataSource,
                          viewSource: viewSource,
                          layout: layout ?? FlowLayout(),
-                         sizeSource: sizeSource ?? defaultSizeProvider,
+                         sizeSource: sizeSource ?? defaultSizeSource,
                          presenter: presenter,
                          tapHandler: tapHandler)
   }

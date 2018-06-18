@@ -50,14 +50,14 @@ class HeaderExampleViewController: CollectionViewController {
     }
 
     let provider = ComposedWithHeaderProvider(
-      headerViewProvider: ClosureViewSource(
+      headerViewSource: ClosureViewSource(
         viewUpdater: { (view: UILabel, data, index) in
           view.backgroundColor = UIColor.darkGray
           view.textColor = .white
           view.textAlignment = .center
           view.text = "Header \(data.index)"
       }),
-      headerSizeProvider: { (index, data, maxSize) -> CGSize in
+      headerSizeSource: { (index, data, maxSize) -> CGSize in
         return CGSize(width: maxSize.width, height: 40)
       },
       sections: sections

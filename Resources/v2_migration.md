@@ -50,7 +50,7 @@ public init(identifier: String? = nil,
             dataSource: DataSource<Data>,
             viewSource: ViewSource<Data, View>,
             layout: Layout = FlowLayout(),
-            sizeSource: @escaping SizeSource<Data> = defaultSizeProvider,
+            sizeSource: @escaping SizeSource<Data> = defaultSizeSource,
             presenter: Presenter? = nil,
             tapHandler: TapHandler? = nil) {}
 ```
