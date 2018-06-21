@@ -81,7 +81,7 @@ class ComposedProviderSpec: QuickSpec {
         expect(collectionView.reloadCount) == 3
         expect(collectionView.subviews[0].frame.origin) != CGPoint.zero
 
-        composer.animator = ZoomAnimator()
+        composer.animator = ScaleAnimator()
         collectionView.layoutIfNeeded()
         expect(collectionView.reloadCount) == 4
 
@@ -128,17 +128,21 @@ class ComposedProviderSpec: QuickSpec {
         var lastTappedText: String?
         let provider1 = SimpleTestProvider(data: [1, 2, 3, 4])
         let provider2 = SimpleTestProvider(data: ["a", "b"])
-        let tapProvider = BasicProviderBuilder
-          .with(data: [11, 12])
-          .with(viewUpdater: { (label: UILabel, data: Int, index: Int) in
+
+        let tapProvider = BasicProvider(
+          dataSource: ArrayDataSource(data: [11, 12]),
+          viewSource: ClosureViewSource(viewUpdater: {
+            (label: UILabel, data: Int, index: Int) in
             label.text = "\(data)"
-          })
-          .with(sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+          }),
+          sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
             return CGSize(width: 50, height: 50)
-          })
-          .with(tapHandler: { context in
+          },
+          tapHandler: { context in
             lastTappedText = context.view.text
-          }).build()
+          }
+        )
+
         let composer = ComposedProvider(
           sections: [
             ComposedProvider(

@@ -17,16 +17,17 @@ class CollectionViewSpec: QuickSpec {
       var provider: BasicProvider<Int, UILabel>!
       var collectionView: CollectionView!
       beforeEach {
-        provider = BasicProviderBuilder
-          .with(data: [1, 2, 3, 4])
-          .with(viewUpdater: { (label: UILabel, data: Int, index: Int) in
+        provider = BasicProvider(
+          dataSource: ArrayDataSource(data: [1, 2, 3, 4]),
+          viewSource: ClosureViewSource(viewUpdater: { (label: UILabel, data: Int, index: Int) in
             label.backgroundColor = .red
             label.textAlignment = .center
             label.text = "\(data)"
-          })
-          .with(sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+          }),
+          sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
             return CGSize(width: 50, height: 50)
-          }).build()
+          }
+        )
         collectionView = CollectionView(provider: provider)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.showsHorizontalScrollIndicator = false
@@ -181,14 +182,15 @@ class CollectionViewSpec: QuickSpec {
         expect((collectionView.cell(at: 0) as! UILabel).text) == "1"
         expect((collectionView.cell(at: 1) as! UILabel).text) == "2"
 
-        provider = BasicProviderBuilder
-          .with(data: [0, 0, 0, 0])
-          .with(viewUpdater: { (label: UILabel, data: Int, index: Int) in
+        provider = BasicProvider(
+          dataSource: ArrayDataSource(data: [0, 0, 0, 0]),
+          viewSource: ClosureViewSource(viewUpdater: { (label: UILabel, data: Int, index: Int) in
             label.text = "\(data)"
-          })
-          .with(sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+          }),
+          sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
             return CGSize(width: 50, height: 50)
-          }).build()
+          }
+        )
         collectionView.provider = provider
         collectionView.layoutIfNeeded()
 
@@ -216,17 +218,19 @@ class CollectionViewSpec: QuickSpec {
 
       it("handles tap") {
         var lastTappedIndex: Int = -1
-        provider = BasicProviderBuilder
-          .with(data: [0, 1, 2, 3])
-          .with(viewUpdater: { (label: UILabel, data: Int, index: Int) in
+        provider = BasicProvider(
+          dataSource: ArrayDataSource(data: [0, 1, 2, 3]),
+          viewSource: ClosureViewSource(viewUpdater: { (label: UILabel, data: Int, index: Int) in
             label.text = "\(data)"
-          })
-          .with(sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+          }),
+          sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
             return CGSize(width: 50, height: 50)
-          })
-          .with(tapHandler: { context in
+          },
+          tapHandler: { context in
             lastTappedIndex = context.index
-          }).build()
+          }
+        )
+        
         collectionView.provider = provider
         collectionView.frame = CGRect(x: 0, y: 0, width: 500, height: 50)
         collectionView.layoutIfNeeded()
