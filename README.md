@@ -78,7 +78,7 @@ collectionView.provider = provider
 
 <img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example1.svg" />
 
-Note that we used `ArrayDataSource` & `ClosureViewSource` here. These two classes are built-in to CollectionKit, and should be able to serve most jobs. But there could be other `dataSource` and `viewSource` as well. You might implement a `dataSource` that pulls data from the network and cache it locally, imagine a `NetworkDataSource` that retrives json data and parse it into swift objects in your project.
+Note that we used `ArrayDataSource` & `ClosureViewSource` here. These two classes are built-in to CollectionKit, and should be able to serve most jobs. You can implement other `dataSource` and `viewSource` as well. Imagine implementing a `NetworkDataSource` in your project, that retrives json data and parse into swift objects.
 
 
 ### Reload
