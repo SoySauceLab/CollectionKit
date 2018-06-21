@@ -80,7 +80,7 @@ let provider = BasicProvider(
 collectionView.provider = provider
 ```
 
-<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/c36d783/Resources/example1.svg" />
+<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example1.svg" />
 
 Note that we used `ArrayDataSource` & `ClosureViewSource` here. These two classes are built-in to CollectionKit, and should be able to serve most jobs. But there could be other `dataSource` and `viewSource` as well. You might implement a `dataSource` that pulls data from the network and cache it locally, imagine a `NetworkDataSource` that retrives json data and parse it into swift objects in your project.
 
@@ -95,7 +95,7 @@ dataSource.data = [7, 8, 9]
 
 This will trigger an update of the collectionView that is served by this dataSource.
 
-<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/c36d783/Resources/example1.svg" />
+<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example2.svg" />
 
 Note that `append` and other array actions will also work.
 
@@ -105,7 +105,7 @@ dataSource.data.append(11)
 dataSource.data.append(12)
 ```
 
-<image />
+<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example3.svg" />
 
 We updated the array three times in this example. Each update is triggering a reload. You might be thinking that this is very computational intensive, but CollectionKit is smart enough to only update once per layout cycle. It will wait until the next layout cycle to actually reload.
 
@@ -134,7 +134,7 @@ These can be achieved with Layout objects. Here is an example.
 dataSource.layout = FlowLayout(spacing: 10, justifyContent: .center)
 ```
 
-<image />
+<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example4.svg" />
 
 `FlowLayout` is a `Layout` class that it built-in to CollectionKit. There are many more built-in layouts including `WaterfallLayout` & `RowLayout`. You can also easily create your own layout.
 
@@ -149,7 +149,7 @@ let inset = UIEdgeInset(top: 10, left: 10, bottom: 10, right: 10)
 dataSource.layout = FlowLayout(spacing: 10).inset(by: inset)
 ```
 
-<image />
+<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example5.svg" />
 
 `transposed()` converts a vertical layout into a horizontal layout or vice-versa. It returns the original layout wrapped inside a `TransposedLayout`
 
@@ -157,7 +157,7 @@ dataSource.layout = FlowLayout(spacing: 10).inset(by: inset)
 dataSource.layout = FlowLayout(spacing: 10).transposed()
 ```
 
-<image />
+<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example6.svg" />
 
 You can also use them together like
 
@@ -166,7 +166,7 @@ let inset = UIEdgeInset(top: 10, left: 10, bottom: 10, right: 10)
 dataSource.layout = FlowLayout(spacing: 10).transposed().inset(by: inset)
 ```
 
-<image />
+<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example7.svg" />
 
 
 There can be a lot to talk about with Layouts. We will create more tutorial later to teach you how to create your own layout and show you some advance usages. In the mean time, feel free to dive in the source code. I promise you it is not complecated at all.
@@ -181,7 +181,7 @@ let finalProvider = ComposedProvider(sections: [provider1, provider2, provider3]
 collectionView.provider = finalProvider
 ```
 
-<image />
+<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example8.svg" />
 
 To update individual sections, just update its own `dataSource`.
 
@@ -189,7 +189,7 @@ To update individual sections, just update its own `dataSource`.
 provider2DataSource.data = [2]
 ```
 
-<image />
+<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example9.svg" />
 
 You can also live update sections around.
 
@@ -197,7 +197,7 @@ You can also live update sections around.
 finalProvider.sections = [provider2, provider3, provider1]
 ```
 
-<image />
+<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example10.svg" />
 
 Or add more to it.
 
@@ -205,7 +205,7 @@ Or add more to it.
 finalProvider.sections.append(provider4)
 ```
 
-<image />
+<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example11.svg" />
 
 You can even put `ComposedProvider` into another `ComposedProvider` no problem.
 
