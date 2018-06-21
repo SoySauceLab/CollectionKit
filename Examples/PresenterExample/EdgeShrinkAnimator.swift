@@ -1,5 +1,5 @@
 //
-//  EdgeShrinkPresenter.swift
+//  EdgeShrinkAnimator.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2017-08-15.
@@ -9,7 +9,7 @@
 import UIKit
 import CollectionKit
 
-open class EdgeShrinkPresenter: Presenter {
+open class EdgeShrinkAnimator: Animator {
   open override func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     super.update(collectionView: collectionView, view: view, at: at, frame: frame)
     let effectiveRange: ClosedRange<CGFloat> = -500...16

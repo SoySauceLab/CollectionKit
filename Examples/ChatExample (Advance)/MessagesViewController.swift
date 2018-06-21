@@ -59,7 +59,7 @@ class MessageLayout: SimpleLayout {
   }
 }
 
-class MessagePresenter: WobblePresenter {
+class MessageAnimator: WobbleAnimator {
   var dataSource: MessageDataProvider?
   weak var sourceView: UIView?
   var sendingMessage = false
@@ -99,7 +99,7 @@ class MessagesViewController: CollectionViewController {
   var loading = false
 
   let dataSource = MessageDataProvider()
-  let presenter = MessagePresenter()
+  let animator = MessageAnimator()
   
   let newMessageButton = UIButton(type: .system)
 
@@ -129,8 +129,8 @@ class MessagesViewController: CollectionViewController {
     let imageMessageViewSource = ClosureViewSource(viewUpdater: { (view: ImageMessageCell, data: Message, at: Int) in
       view.message = data
     })
-    presenter.sourceView = newMessageButton
-    presenter.dataSource = dataSource
+    animator.sourceView = newMessageButton
+    animator.dataSource = dataSource
     let provider = BasicProvider(
       dataSource: dataSource,
       viewSource: ComposedViewSource(viewSourceSelector: { data in
@@ -144,7 +144,7 @@ class MessagesViewController: CollectionViewController {
     )
     let visibleFrameInsets = UIEdgeInsets(top: -200, left: 0, bottom: -200, right: 0)
     provider.layout = MessageLayout().insetVisibleFrame(by: visibleFrameInsets)
-    provider.presenter = presenter
+    provider.animator = animator
     self.provider = provider
   }
 
@@ -177,11 +177,11 @@ extension MessagesViewController {
   @objc func send() {
     let text = UUID().uuidString
     
-    presenter.sendingMessage = true
+    animator.sendingMessage = true
     dataSource.data.append(Message(true, content: text))
     collectionView.reloadData()
     collectionView.scrollTo(edge: .bottom, animated:true)
-    presenter.sendingMessage = false
+    animator.sendingMessage = false
 
     delay(1.0) {
       self.dataSource.data.append(Message(false, content: text))

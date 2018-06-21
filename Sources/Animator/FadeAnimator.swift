@@ -1,5 +1,5 @@
 //
-//  FadePresenter.swift
+//  FadeAnimator.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2018-06-16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class FadePresenter: BaseSimplePresenter {
+open class FadeAnimator: BaseSimpleAnimator {
   open override func hide(view: UIView) {
     view.alpha = 0
   }

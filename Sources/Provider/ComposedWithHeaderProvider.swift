@@ -25,7 +25,7 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>:
     didSet { setNeedsReload() }
   }
 
-  public var presenter: Presenter? {
+  public var animator: Animator? {
     didSet { setNeedsReload() }
   }
 
@@ -71,12 +71,12 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>:
 
   public init(identifier: String? = nil,
               layout: Layout = FlowLayout(),
-              presenter: Presenter? = nil,
+              animator: Animator? = nil,
               headerViewSource: HeaderViewSource,
               headerSizeSource: @escaping HeaderSizeSource,
               sections: [Provider] = [],
               tapHandler: TapHandler? = nil) {
-    self.presenter = presenter
+    self.animator = animator
     self.stickyLayout = StickyLayout(rootLayout: layout)
     self.sections = sections
     self.identifier = identifier
@@ -114,8 +114,8 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>:
     )
   }
 
-  open func presenter(at: Int) -> Presenter? {
-    return presenter
+  open func animator(at: Int) -> Animator? {
+    return animator
   }
 
   public func view(at: Int) -> UIView {

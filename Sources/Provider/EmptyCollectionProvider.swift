@@ -37,7 +37,7 @@ open class EmptyCollectionProvider: ItemProvider, CollectionReloadable {
     return [Int]()
   }
 
-  open func presenter(at: Int) -> Presenter? {
+  open func animator(at: Int) -> Animator? {
     return nil
   }
 

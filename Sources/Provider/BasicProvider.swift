@@ -15,7 +15,7 @@ open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, 
   public var viewSource: ViewSource<Data, View> { didSet { setNeedsReload() } }
   public var sizeSource: SizeSource<Data> { didSet { setNeedsReload() } }
   public var layout: Layout { didSet { setNeedsReload() } }
-  public var presenter: Presenter? { didSet { setNeedsReload() } }
+  public var animator: Animator? { didSet { setNeedsReload() } }
   public var tapHandler: TapHandler?
 
   public typealias TapHandler = (TapContext) -> Void
@@ -39,13 +39,13 @@ open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, 
               viewSource: ViewSource<Data, View>,
               layout: Layout = FlowLayout(),
               sizeSource: @escaping SizeSource<Data> = defaultSizeSource,
-              presenter: Presenter? = nil,
+              animator: Animator? = nil,
               tapHandler: TapHandler? = nil) {
     self.dataSource = dataSource
     self.viewSource = viewSource
     self.layout = layout
     self.sizeSource = sizeSource
-    self.presenter = presenter
+    self.animator = animator
     self.tapHandler = tapHandler
     self.identifier = identifier
   }
@@ -67,8 +67,8 @@ open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, 
                                       dataSource: dataSource,
                                       sizeSource: sizeSource)
   }
-  open func presenter(at: Int) -> Presenter? {
-    return presenter
+  open func animator(at: Int) -> Animator? {
+    return animator
   }
   open func didTap(view: UIView, at: Int) {
     if let tapHandler = tapHandler {

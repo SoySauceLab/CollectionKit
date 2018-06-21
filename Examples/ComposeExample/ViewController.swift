@@ -26,7 +26,7 @@ class ViewController: CollectionViewController {
     ("Reload Animation", ReloadAnimationViewController.self),
     ("Header", HeaderExampleViewController.self),
     ("Chat", MessagesViewController.self),
-    ("Presenters", PresenterExampleViewController.self)
+    ("Animators", AnimatorExampleViewController.self)
   ]
 
   override func viewDidLoad() {

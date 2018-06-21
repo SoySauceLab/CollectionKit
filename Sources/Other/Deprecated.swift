@@ -25,7 +25,7 @@ public typealias CollectionSizeProvider = SizeSource
 public typealias CollectionLayout = Layout
 
 @available(*, deprecated, message: "v2.0 deprecated naming")
-public typealias CollectionPresenter = Presenter
+public typealias CollectionPresenter = Animator
 
 // MARK: providers
 @available(*, deprecated, message: "v2.0 deprecated naming")
@@ -79,7 +79,7 @@ extension BasicProvider {
                           viewProvider: ViewSource<Data, View>,
                           layout: Layout = FlowLayout(),
                           sizeProvider: @escaping SizeSource<Data> = defaultSizeSource,
-                          presenter: Presenter? = nil,
+                          presenter: Animator? = nil,
                           willReloadHandler: (() -> Void)? = nil,
                           didReloadHandler: (() -> Void)? = nil,
                           tapHandler: OldTapHandler? = nil) {
@@ -88,7 +88,7 @@ extension BasicProvider {
               viewSource: viewProvider,
               layout: layout,
               sizeSource: sizeProvider,
-              presenter: presenter,
+              animator: presenter,
               tapHandler: BasicProvider.convertTapHandler(tapHandler))
   }
 
@@ -99,7 +99,7 @@ extension BasicProvider {
                           viewUpdater: @escaping (View, Data, Int) -> Void,
                           layout: Layout = FlowLayout(),
                           sizeProvider: @escaping SizeSource<Data> = defaultSizeSource,
-                          presenter: Presenter? = nil,
+                          presenter: Animator? = nil,
                           willReloadHandler: (() -> Void)? = nil,
                           didReloadHandler: (() -> Void)? = nil,
                           tapHandler: OldTapHandler? = nil) {
@@ -108,7 +108,7 @@ extension BasicProvider {
               viewSource: ClosureViewProvider(viewGenerator: viewGenerator, viewUpdater: viewUpdater),
               layout: layout,
               sizeSource: sizeProvider,
-              presenter: presenter,
+              animator: presenter,
               tapHandler: BasicProvider.convertTapHandler(tapHandler))
   }
 
@@ -119,7 +119,7 @@ extension BasicProvider {
                           viewUpdater: @escaping (View, Data, Int) -> Void,
                           layout: Layout = FlowLayout(),
                           sizeProvider: @escaping SizeSource<Data> = defaultSizeSource,
-                          presenter: Presenter? = nil,
+                          presenter: Animator? = nil,
                           willReloadHandler: (() -> Void)? = nil,
                           didReloadHandler: (() -> Void)? = nil,
                           tapHandler: OldTapHandler? = nil) {
@@ -128,7 +128,7 @@ extension BasicProvider {
               viewSource: ClosureViewProvider(viewGenerator: viewGenerator, viewUpdater: viewUpdater),
               layout: layout,
               sizeSource: sizeProvider,
-              presenter: presenter,
+              animator: presenter,
               tapHandler: BasicProvider.convertTapHandler(tapHandler))
   }
 }

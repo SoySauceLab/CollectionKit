@@ -23,7 +23,7 @@ CollectionDataProvider -> DataSource
 CollectionViewProvider -> ViewSource
 CollectionSizeProvider -> SizeSource
 CollectionLayout -> Layout
-CollectionPresenter -> Presenter
+CollectionPresenter -> Animator
 CollectionProvider -> BasicProvider
 CollectionComposer -> ComposedProvider
 ViewCollectionProvider -> SimpleViewProvider
@@ -51,7 +51,7 @@ public init(identifier: String? = nil,
             viewSource: ViewSource<Data, View>,
             layout: Layout = FlowLayout(),
             sizeSource: @escaping SizeSource<Data> = defaultSizeSource,
-            presenter: Presenter? = nil,
+            animator: Animator? = nil,
             tapHandler: TapHandler? = nil) {}
 ```
 

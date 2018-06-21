@@ -1,5 +1,5 @@
 //
-//  CollectionPresenter.swift
+//  CollectionAnimator.swift
 //  CollectionView
 //
 //  Created by Luke Zhao on 2017-07-19.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class Presenter {
+open class Animator {
   open func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     view.bounds.size = frame.bounds.size
     view.center = frame.center

@@ -81,7 +81,7 @@ class ComposedProviderSpec: QuickSpec {
         expect(collectionView.reloadCount) == 3
         expect(collectionView.subviews[0].frame.origin) != CGPoint.zero
 
-        composer.presenter = ZoomPresenter()
+        composer.animator = ZoomAnimator()
         collectionView.layoutIfNeeded()
         expect(collectionView.reloadCount) == 4
 

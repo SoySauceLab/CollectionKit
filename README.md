@@ -31,7 +31,7 @@ A modern Swift framework for building composable data-driven collection view.
 
 `CollectionView` is CollectionKit's alternative to `UICollectionView`. You give it a `Provider` object that tells `CollectionView` how to display & handle a collection.
 
-Providers are easy to construct and composable as well. You can combine multiple providers together and create sections within a single `CollectionView`. Each provider can also have its own layout and presenter.
+Providers are easy to construct and composable as well. You can combine multiple providers together and create sections within a single `CollectionView`. Each provider can also have its own layout and animator.
 
 ### Layout System
 
@@ -43,18 +43,19 @@ CollectionKit has its powerful layout system. Each provider can have its own lay
 * **InsetLayout** - adds extra padding around a existing layout
 * **TransposeLayout** - rotate an existing layout. (vertical to horizontal or vice versa)
 * **OverlayLayout** - overlay items on top of each other.
+* and more...
 
-### Presenter System
+### Animation System
 
-CollectionKit offers a presenter system which allows you to create fancy animations and adjust how cells are displayed. Presenter can be applied to individual providers, cells, or to entire `CollectionView`.
+CollectionKit offers a animation system which allows you to create fancy animations and adjust how cells are displayed. Animator can be applied to individual providers, cells, or to entire `CollectionView`.
 
-Here are some examples of custom presenters that is included in the example project. Note that they can be used in combination with any layout. Here we are using a transposed waterfall layout.
+Here are some examples of custom animators that is included in the example project. Note that they can be used in combination with any layout. Here we are using a transposed waterfall layout.
 
 | Wobble  | Edge Shrink | Zoom |
 | ------------- | ------------- | ------------- |
 | <img width="200" src="http://lkzhao.com/public/posts/collectionKit/wobble.gif" />  | <img width="200" src="http://lkzhao.com/public/posts/collectionKit/edgeShrink.gif" /> | <img width="200" src="http://lkzhao.com/public/posts/collectionKit/zoom.gif" /> |
 
-Presenter can also perform animations when a cell is added/moved/deleted. Here is an example showing a 3d scale animation with a cascading effect.
+Animator can also perform animations when a cell is added/moved/deleted. Here is an example showing a 3d scale animation with a cascading effect.
 
 <img width="200" src="http://lkzhao.com/public/posts/collectionKit/reloadAnimation.gif" />
 
@@ -135,17 +136,17 @@ collectionView.provider = ComposedProvider(
 
 <img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/c36d783/Resources/example2.svg" />
 
-### Apply Presenter
+### Apply Animator
 
 ```swift
 // apply to the entire CollectionView
-collectionView.presenter = WobblePresenter()
+collectionView.animator = WobbleAnimator()
 
-// apply to a single section, will override CollectionView's presenter
-provider1.presenter = WobblePresenter()
+// apply to a single section, will override CollectionView's animator
+provider1.animator = WobbleAnimator()
 
-// apply to a single view, will take priority over all other presenters
-view.collectionPresenter = WobblePresenter()
+// apply to a single view, will take priority over all other animators
+view.collectionAnimator = WobbleAnimator()
 ```
 
 See the [Getting Started Guide](https://soysaucelab.gitbooks.io/collectionkit-documentation/content/) for a in-depth tutorial on how to use CollectionKit.

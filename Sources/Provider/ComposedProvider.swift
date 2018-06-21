@@ -12,14 +12,14 @@ open class ComposedProvider: SectionProvider, LayoutableProvider, CollectionRelo
 
   public var identifier: String?
   public var sections: [Provider] { didSet { setNeedsReload() } }
-  public var presenter: Presenter? { didSet { setNeedsReload() } }
+  public var animator: Animator? { didSet { setNeedsReload() } }
   public var layout: Layout { didSet { setNeedsReload() } }
 
   public init(identifier: String? = nil,
               layout: Layout = FlowLayout(),
-              presenter: Presenter? = nil,
+              animator: Animator? = nil,
               sections: [Provider] = []) {
-    self.presenter = presenter
+    self.animator = animator
     self.layout = layout
     self.sections = sections
     self.identifier = identifier
@@ -44,8 +44,8 @@ open class ComposedProvider: SectionProvider, LayoutableProvider, CollectionRelo
     )
   }
 
-  open func presenter(at: Int) -> Presenter? {
-    return presenter
+  open func animator(at: Int) -> Animator? {
+    return animator
   }
 
   open func willReload() {

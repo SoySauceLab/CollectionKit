@@ -1,5 +1,5 @@
 //
-//  PresenterExampleViewController.swift
+//  AnimatorExampleViewController.swift
 //  CollectionKitExample
 //
 //  Created by Luke Zhao on 2017-09-04.
@@ -9,15 +9,15 @@
 import UIKit
 import CollectionKit
 
-class PresenterExampleViewController: CollectionViewController {
+class AnimatorExampleViewController: CollectionViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    let presenters = [
-      ("Default", Presenter()),
-      ("Wobble", WobblePresenter()),
-      ("Edge Shrink", EdgeShrinkPresenter()),
-      ("Zoom", ZoomPresenter()),
+    let animators = [
+      ("Default", Animator()),
+      ("Wobble", WobbleAnimator()),
+      ("Edge Shrink", EdgeShrinkAnimator()),
+      ("Zoom", ZoomAnimator()),
       ]
 
     let imagesCollectionView = CollectionView()
@@ -34,7 +34,7 @@ class PresenterExampleViewController: CollectionViewController {
       })
       .with(layout: WaterfallLayout(columns:2).transposed().inset(by: bodyInset).insetVisibleFrame(by: visibleFrameInsets))
       .with(sizeSource: imageSizeProvider)
-      .with(presenter: presenters[0].1)
+      .with(animator: animators[0].1)
       .build()
 
     imagesCollectionView.provider = imageProvider
@@ -43,20 +43,20 @@ class PresenterExampleViewController: CollectionViewController {
     buttonsCollectionView.showsHorizontalScrollIndicator = false
 
     let buttonsProvider = BasicProviderBuilder
-      .with(data: presenters)
-      .with(viewUpdater: { (view: SelectionButton, data: (String, Presenter), at: Int) in
+      .with(data: animators)
+      .with(viewUpdater: { (view: SelectionButton, data: (String, Animator), at: Int) in
         view.label.text = data.0
-        view.label.textColor = imageProvider.presenter === data.1 ? .white : .black
-        view.backgroundColor = imageProvider.presenter === data.1 ? .lightGray : .white
+        view.label.textColor = imageProvider.animator === data.1 ? .white : .black
+        view.backgroundColor = imageProvider.animator === data.1 ? .lightGray : .white
       })
       .with(layout: FlowLayout(lineSpacing: 10).transposed()
         .inset(by: UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16)))
       .with(sizeSource: { _, data, maxSize in
         return CGSize(width: data.0.width(withConstraintedHeight: maxSize.height, font: UIFont.systemFont(ofSize:18)) + 20, height: maxSize.height)
       })
-      .with(presenter: WobblePresenter())
+      .with(animator: WobbleAnimator())
       .with(tapHandler: { context in
-        imageProvider.presenter = context.data.1
+        imageProvider.animator = context.data.1
 
         // clear previous styles
         for cell in imagesCollectionView.visibleCells {

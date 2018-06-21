@@ -9,7 +9,7 @@
 import UIKit
 import CollectionKit
 
-class AnimatedReloadPresenter: Presenter {
+class AnimatedReloadAnimator: Animator {
   static let defaultEntryTransform: CATransform3D = CATransform3DTranslate(CATransform3DScale(CATransform3DIdentity, 0.8, 0.8, 1), 0, 0, -1)
   static let fancyEntryTransform: CATransform3D = {
     var trans = CATransform3DIdentity
@@ -126,7 +126,7 @@ class ReloadAnimationViewController: CollectionViewController {
       .with(sizeSource: { (index, data, _) in
         return CGSize(width: 80, height: 80)
       })
-      .with(presenter: AnimatedReloadPresenter(entryTransform: AnimatedReloadPresenter.fancyEntryTransform))
+      .with(animator: AnimatedReloadAnimator(entryTransform: AnimatedReloadAnimator.fancyEntryTransform))
       .with(tapHandler: { [weak self] context in
         self?.dataSource.data.remove(at: context.index)
       }).build()

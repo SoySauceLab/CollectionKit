@@ -40,7 +40,7 @@ public class FullBasicProviderBuilder<Data, View: UIView> {
   var identifier: String?
   var sizeSource: SizeSource<Data>?
   var layout: Layout?
-  var presenter: Presenter?
+  var animator: Animator?
 
   var tapHandler: BasicProvider<Data, View>.TapHandler?
 
@@ -61,8 +61,8 @@ public class FullBasicProviderBuilder<Data, View: UIView> {
     self.layout = layout
     return self
   }
-  public func with(presenter: Presenter) -> Self {
-    self.presenter = presenter
+  public func with(animator: Animator) -> Self {
+    self.animator = animator
     return self
   }
   public func with(tapHandler: @escaping BasicProvider<Data, View>.TapHandler) -> Self {
@@ -76,7 +76,7 @@ public class FullBasicProviderBuilder<Data, View: UIView> {
                          viewSource: viewSource,
                          layout: layout ?? FlowLayout(),
                          sizeSource: sizeSource ?? defaultSizeSource,
-                         presenter: presenter,
+                         animator: animator,
                          tapHandler: tapHandler)
   }
 }

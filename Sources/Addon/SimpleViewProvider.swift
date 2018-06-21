@@ -25,7 +25,7 @@ open class SimpleViewProvider: ItemProvider, CollectionReloadable {
   public var sizeStrategyOverride: [UIView: (width: ViewSizeStrategy, height: ViewSizeStrategy)] = [:] {
     didSet { setNeedsReload() }
   }
-  public var presenter: Presenter? { didSet { setNeedsReload() } }
+  public var animator: Animator? { didSet { setNeedsReload() } }
 
   public init(identifier: String? = nil,
               views: [UIView] = [],
@@ -71,8 +71,8 @@ open class SimpleViewProvider: ItemProvider, CollectionReloadable {
     return views[at]
   }
 
-  public func presenter(at: Int) -> Presenter? {
-    return presenter
+  public func animator(at: Int) -> Animator? {
+    return animator
   }
 
   public func update(view: UIView, at: Int) {}

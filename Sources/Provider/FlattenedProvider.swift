@@ -114,10 +114,10 @@ struct FlattenedProvider: ItemProvider {
     }
   }
 
-  func presenter(at: Int) -> Presenter? {
+  func animator(at: Int) -> Animator? {
     return apply(at) {
-      $0.presenter(at: $1)
-    } ?? provider.presenter(at: at)
+      $0.animator(at: $1)
+    } ?? provider.animator(at: at)
   }
 
   func willReload() {

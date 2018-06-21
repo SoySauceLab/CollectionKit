@@ -37,7 +37,7 @@ class GridViewController: CollectionViewController {
         view.text = "\(data)"
       })
       .with(layout: layout)
-      .with(presenter: WobblePresenter())
+      .with(animator: WobbleAnimator())
       .build()
   }
 

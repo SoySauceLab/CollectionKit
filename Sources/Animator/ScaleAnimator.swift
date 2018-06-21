@@ -1,5 +1,5 @@
 //
-//  ScalePresenter.swift
+//  ScaleAnimator.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2018-06-16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class ScalePresenter: BaseSimplePresenter {
+open class ScaleAnimator: BaseSimpleAnimator {
   open override func hide(view: UIView) {
     view.alpha = 0
     view.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)

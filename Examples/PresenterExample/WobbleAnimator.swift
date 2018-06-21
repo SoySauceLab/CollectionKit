@@ -1,5 +1,5 @@
 //
-//  WobblePresenter.swift
+//  WobbleAnimator.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2017-08-15.
@@ -10,7 +10,7 @@ import UIKit
 import CollectionKit
 import YetAnotherAnimationLibrary
 
-open class WobblePresenter: Presenter {
+open class WobbleAnimator: Animator {
   public var sensitivity: CGPoint = CGPoint(x: 1, y: 1)
 
   func scrollVelocity(collectionView: CollectionView) -> CGPoint {

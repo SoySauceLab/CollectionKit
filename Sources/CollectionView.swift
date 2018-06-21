@@ -14,7 +14,7 @@ open class CollectionView: UIScrollView {
     didSet { setNeedsReload() }
   }
 
-  public var presenter: Presenter = Presenter() {
+  public var animator: Animator = Animator() {
     didSet { setNeedsReload() }
   }
 
@@ -110,8 +110,8 @@ open class CollectionView: UIScrollView {
     _loadCells(forceReload: false)
 
     for (cell, index) in zip(visibleCells, visibleIndexes) {
-      let presenter = cell.currentCollectionPresenter ?? self.presenter
-      presenter.update(collectionView: self, view: cell, at: index, frame: flattenedProvider.frame(at: index))
+      let animator = cell.currentCollectionAnimator ?? self.animator
+      animator.update(collectionView: self, view: cell, at: index, frame: flattenedProvider.frame(at: index))
     }
 
     lastLoadBounds = bounds
@@ -137,15 +137,15 @@ open class CollectionView: UIScrollView {
     _loadCells(forceReload: true)
 
     for (cell, index) in zip(visibleCells, visibleIndexes) {
-      cell.currentCollectionPresenter = cell.collectionPresenter ?? flattenedProvider.presenter(at: index)
-      let presenter = cell.currentCollectionPresenter ?? self.presenter
+      cell.currentCollectionAnimator = cell.collectionAnimator ?? flattenedProvider.animator(at: index)
+      let animator = cell.currentCollectionAnimator ?? self.animator
       if oldVisibleCells.contains(cell) {
         // cell was on screen before reload, need to update the view.
         flattenedProvider.update(view: cell, at: index)
-        presenter.shift(collectionView: self, delta: contentOffsetChange, view: cell,
+        animator.shift(collectionView: self, delta: contentOffsetChange, view: cell,
                         at: index, frame: flattenedProvider.frame(at: index))
       }
-      presenter.update(collectionView: self, view: cell,
+      animator.update(collectionView: self, view: cell,
                        at: index, frame: flattenedProvider.frame(at: index))
     }
 
@@ -186,7 +186,7 @@ open class CollectionView: UIScrollView {
     for (index, identifier) in visibleIdentifiers.enumerated() {
       let cell = visibleCells[index]
       if !newIdentifierSet.contains(identifier) {
-        (cell.currentCollectionPresenter ?? presenter)?.delete(collectionView: self, view: cell)
+        (cell.currentCollectionAnimator ?? animator)?.delete(collectionView: self, view: cell)
       } else {
         existingIdentifierToCellMap[identifier] = cell
       }
@@ -215,9 +215,9 @@ open class CollectionView: UIScrollView {
     let frame = flattenedProvider.frame(at: index)
     cell.bounds.size = frame.bounds.size
     cell.center = frame.center
-    cell.currentCollectionPresenter = cell.collectionPresenter ?? flattenedProvider.presenter(at: index)
-    let presenter = cell.currentCollectionPresenter ?? self.presenter
-    presenter.insert(collectionView: self, view: cell, at: index, frame: flattenedProvider.frame(at: index))
+    cell.currentCollectionAnimator = cell.collectionAnimator ?? flattenedProvider.animator(at: index)
+    let animator = cell.currentCollectionAnimator ?? self.animator
+    animator.insert(collectionView: self, view: cell, at: index, frame: flattenedProvider.frame(at: index))
     return cell
   }
 }

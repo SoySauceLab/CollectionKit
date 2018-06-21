@@ -1,5 +1,5 @@
 //
-//  BaseSimplePresenter.swift
+//  BaseSimpleAnimator.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2018-06-16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class BaseSimplePresenter: Presenter {
+open class BaseSimpleAnimator: Animator {
   public var updateAnimationDuration: TimeInterval = 0.2
 
   open func hide(view: UIView) {}

@@ -1,5 +1,5 @@
 //
-//  ZoomPresenter.swift
+//  ZoomAnimator.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2017-08-15.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class ZoomPresenter: Presenter {
+open class ZoomAnimator: Animator {
   open override func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     super.update(collectionView: collectionView, view: view, at: at, frame: frame)
     let bounds = CGRect(origin: .zero, size: collectionView.bounds.size)

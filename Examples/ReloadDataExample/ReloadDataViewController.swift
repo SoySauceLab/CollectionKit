@@ -52,7 +52,7 @@ class ReloadDataViewController: CollectionViewController {
       .with(sizeSource: { (index, data, _) in
         return CGSize(width: 80, height: data % 3 == 0 ? 120 : 80)
       })
-      .with(presenter: ScalePresenter())
+      .with(animator: ScaleAnimator())
       .with(tapHandler: { [weak self] context in
         self?.dataSource.data.remove(at: context.index)
       }).build()

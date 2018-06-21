@@ -25,7 +25,7 @@ public protocol Provider {
   func willReload()
   func didReload()
 
-  func presenter(at: Int) -> Presenter?
+  func animator(at: Int) -> Animator?
 
   // determines if a context belongs to current provider
   func hasReloadable(_ reloadable: CollectionReloadable) -> Bool
@@ -36,7 +36,7 @@ public protocol Provider {
 extension Provider {
   public func willReload() {}
   public func didReload() {}
-  public func presenter(at: Int) -> Presenter? {
+  public func animator(at: Int) -> Animator? {
     return nil
   }
   public func flattenedProvider() -> ItemProvider {
