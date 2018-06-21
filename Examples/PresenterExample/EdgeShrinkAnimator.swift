@@ -19,9 +19,7 @@ open class EdgeShrinkAnimator: Animator {
       return
     }
     let scale = (absolutePosition.x.clamp(effectiveRange.lowerBound, effectiveRange.upperBound) - effectiveRange.lowerBound) / (effectiveRange.upperBound - effectiveRange.lowerBound)
-    let alpha = scale
     let translation = absolutePosition.x < effectiveRange.upperBound ? effectiveRange.upperBound - absolutePosition.x - (1 - scale) / 2 * frame.width : 0
-    view.alpha = alpha
     view.transform = CGAffineTransform.identity.translatedBy(x: translation, y: 0).scaledBy(x: scale, y: scale)
   }
 }

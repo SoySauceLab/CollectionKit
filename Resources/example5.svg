@@ -10,18 +10,33 @@
     </style>
     <rect fill="#F6F8FA" width="100%" height="100%" rx="8"></rect>
 
-    <svg x="0" y="0" width="50" height="50">
+    <svg x="10" y="10" width="50" height="50">
         <rect fill="#FFD8DC" rx="8" width="100%" height="100%"></rect>
         <text x="50%" y ="55%" class="bodyText" text-anchor="middle" alignment-baseline="middle" >7</text>
     </svg>
 
-    <svg x="51" y="0" width="50" height="50">
+    <svg x="70" y="10" width="50" height="50">
         <rect fill="#FFD8DC" rx="8" width="100%" height="100%"></rect>
         <text x="50%" y ="55%" class="bodyText" text-anchor="middle" alignment-baseline="middle" >8</text>
     </svg>
 
-    <svg x="102" y="0" width="50" height="50">
+    <svg x="130" y="10" width="50" height="50">
         <rect fill="#FFD8DC" rx="8" width="100%" height="100%"></rect>
         <text x="50%" y ="55%" class="bodyText" text-anchor="middle" alignment-baseline="middle" >9</text>
+    </svg>
+
+    <svg x="10" y="70" width="50" height="50">
+        <rect fill="#FFD8DC" rx="8" width="100%" height="100%"></rect>
+        <text x="50%" y ="55%" class="bodyText" text-anchor="middle" alignment-baseline="middle" >10</text>
+    </svg>
+
+    <svg x="70" y="70" width="50" height="50">
+        <rect fill="#FFD8DC" rx="8" width="100%" height="100%"></rect>
+        <text x="50%" y ="55%" class="bodyText" text-anchor="middle" alignment-baseline="middle" >11</text>
+    </svg>
+
+    <svg x="130" y="70" width="50" height="50">
+        <rect fill="#FFD8DC" rx="8" width="100%" height="100%"></rect>
+        <text x="50%" y ="55%" class="bodyText" text-anchor="middle" alignment-baseline="middle" >12</text>
     </svg>
 </svg>

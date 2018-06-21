@@ -27,40 +27,6 @@ A modern Swift framework for building composable data-driven collection view.
 * Composable sections with independent layout.
 * Strong type checking powered by Swift Generics.
 
-### CollectionView
-
-`CollectionView` is CollectionKit's alternative to `UICollectionView`. You give it a `Provider` object that tells `CollectionView` how to display & handle a collection.
-
-Providers are easy to construct and composable as well. You can combine multiple providers together and create sections within a single `CollectionView`. Each provider can also have its own layout and animator.
-
-### Layout System
-
-CollectionKit has its powerful layout system. Each provider can have its own layout. You can also specify a layout when combining multiple providers together. CollectionKit also provides some of the common layouts out of the box, but you can also create your own layout.
-
-* **FlowLayout** - better `UICollectionFlowLayout` - supports `alignItems`, `justifyContent`, & `alignContent`
-* **WaterfallLayout** - a pinterest like waterfall layout
-* **RowLayout** - a single row flowlayout that allows cell to fill up empty spaces.
-* **InsetLayout** - adds extra padding around a existing layout
-* **TransposeLayout** - rotate an existing layout. (vertical to horizontal or vice versa)
-* **OverlayLayout** - overlay items on top of each other.
-* and more...
-
-### Animation System
-
-CollectionKit offers a animation system which allows you to create fancy animations and adjust how cells are displayed. Animator can be applied to individual providers, cells, or to entire `CollectionView`.
-
-Here are some examples of custom animators that is included in the example project. Note that they can be used in combination with any layout. Here we are using a transposed waterfall layout.
-
-| Wobble  | Edge Shrink | Zoom |
-| ------------- | ------------- | ------------- |
-| <img width="200" src="http://lkzhao.com/public/posts/collectionKit/wobble.gif" />  | <img width="200" src="http://lkzhao.com/public/posts/collectionKit/edgeShrink.gif" /> | <img width="200" src="http://lkzhao.com/public/posts/collectionKit/zoom.gif" /> |
-
-Animator can also perform animations when a cell is added/moved/deleted. Here is an example showing a 3d scale animation with a cascading effect.
-
-<img width="200" src="http://lkzhao.com/public/posts/collectionKit/reloadAnimation.gif" />
-
-#### Please checkout the example project to see many of these examples in action.
-
 ## Install
 
 **CocoaPods**
@@ -75,81 +41,215 @@ github "SoySauceLab/CollectionKit"
 
 ## Getting Started
 
-[Getting Started Guide](https://soysaucelab.gitbooks.io/collectionkit-documentation/content/)
+To start using CollectionKit, use `CollectionView` in places of `UICollectionView`. `CollectionView` is CollectionKit's alternative to `UICollectionView`. You give it a `Provider` object that tells `CollectionView` how to display & handle a collection.
 
-## Usage
+A provider is anything that implements the `Provider` protocol. It gives CollectionView the necessary information to render a collection. Just like `dataSource` for `UICollectionView`, a provider knows many cells it has, and provide individual cells to CollectionView when necessary. In addition, provider also has layout and animation information, basically a better `dataSource`.
 
-To build a basic provider, here is what you need:
+The simpliest way to construct a provider is by using `BasicProvider` class.
 
-```swift
-let provider1 = BasicProviderBuilder
-  .with(data: [1, 2, 3, 4]) // provide an array of data, data can be any type
-  .with(viewUpdater: { (label: UILabel, data: Int, index: Int) in
-    // update your view according to your data, view can be any subclass of UIView
-    label.backgroundColor = .red
-    label.layer.cornerRadius = 8
-    label.textAlignment = .center
-    label.text = "\(data)"
-  })
-  .with(sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
-    return CGSize(width: 50, height: 50) // return your cell size
-  })
-  .build()
-```
+## BasicProvider
 
-To display the content, just assign this provider to any instance of `CollectionView`.
+To build a BasicProvider, here is what you need:
+
+* a `DataSource`
+* an object that supplies data to the BasicProvider.
+* a `ViewSource`
+* an object that maps each data into a view, and update the view accordingly
+* a `SizeSource`
+* an function that gives the size for each cell.
+
+It sounds complicated, but it really isn't. Here is a short example demostrating
+how it all works.
 
 ```swift
-collectionView.provider = provider1
+let dataSource = ArrayDataSource(data: [1, 2, 3, 4])
+let viewSource = ClosureViewSource(viewUpdater: { (view: UILabel, data: Int, index: Int) in
+  view.backgroundColor = .red
+  view.text = "\(data)"
+})
+let sizeSource = { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+  return CGSize(width: 50, height: 50)
+}
+let provider = BasicProvider(
+  dataSource: dataSource,
+  viewSource: viewSource,
+  sizeSource: sizeSource
+)
+
+//lastly assign this provider to the collectionView to display the content
+collectionView.provider = provider
 ```
 
 <img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/c36d783/Resources/example1.svg" />
 
-### Composing & Layout
+Note that we used `ArrayDataSource` & `ClosureViewSource` here. These two classes are built-in to CollectionKit, and should be able to serve most jobs. But there could be other `dataSource` and `viewSource` as well. You might implement a `dataSource` that pulls data from the network and cache it locally, imagine a `NetworkDataSource` that retrives json data and parse it into swift objects in your project.
 
-Use `CollectionComposer` to combine multiple providers into one. You can also supply layout objects to Provider & Composer.
+
+## Reload
+
+It is simple to update the collectionView with new data as well:
 
 ```swift
-provider1.layout = FlowLayout(spacing: 10)
-
-let provider2 = BasicProviderBuilder
-  .with(data: ["A", "B"])
-  .with(viewUpdater: { (label: UILabel, data: String, index: Int) in
-    label.backgroundColor = .blue
-    label.layer.cornerRadius = 8
-    label.textAlignment = .center
-    label.text = data
-  })
-  .with(layout: FlowLayout(spacing: 10))
-  .with(sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
-    return CGSize(width: 230, height: 50) // return your cell size
-  })
-  .build()
-
-collectionView.provider = ComposedProvider(
-    layout: FlowLayout(spacing: 20, justifyContent: .center, alignItems: .center),
-    sections: [
-      provider1,
-      provider2
-    ])
+dataSource.data = [7, 8, 9]
 ```
 
-<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/c36d783/Resources/example2.svg" />
+This will trigger an update of the collectionView that is served by this dataSource.
 
-### Apply Animator
+<img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/c36d783/Resources/example1.svg" />
+
+Note that `append` and other array actions will also work.
+
+```swift
+dataSource.data.append(10)
+dataSource.data.append(11)
+dataSource.data.append(12)
+```
+
+<image />
+
+We updated the array three times in this example. Each update is triggering a reload. You might be thinking that this is very computational intensive, but CollectionKit is smart enough to only update once per layout cycle. It will wait until the next layout cycle to actually reload.
+
+So even after executing the 3 lines above, CollectionView will still be showing [7, 8, 9]. But once the current run loop cycle is completed, CollectionView will update immediately. Your user won't notice any lag from this process.
+
+To trigger an update immediately, you can call `collectionView.reloadData()` or `provider.reloadData()` or `dataSource.reloadData()`. 
+
+To make collectionView reload on the next layout cycle, you can call `collectionView.setNeedsReload()` or `provider.setNeedsReload()` or `dataSource.setNeedsReload()`. You might already understanded, once you update the array inside `ArrayDataSource`, it is basically calling `setNeedsReload()` for you.
+
+Note that if you assign an array to the dataSource and later update that array instead. It won't actually update the `CollectionView`
+
+```swift
+var a = [1, 2 ,3]
+dataSource.data = a
+a.append(5) // won't trigger an update be cause dataSource.data & a is now two different array.
+a = [4 ,5 ,6] // also won't trigger an update
+```
+
+## Layout
+
+Up to this point, the collection is still a bit ugly to look at. Every cell is left aligned and doesn't have space in between. You might want the views to be evenly spaced out, or you might want to add some spacing in between items or lines.
+
+These can be achieved with Layout objects. Here is an example.
+
+```swift
+dataSource.layout = FlowLayout(spacing: 10, justifyContent: .center)
+```
+
+<image />
+
+`FlowLayout` is a `Layout` class that it built-in to CollectionKit. There are many more built-in layouts including `WaterfallLayout` & `RowLayout`. You can also easily create your own layout.
+
+`FlowLayout` is basically a better `UICollectionViewFlowLayout` that aligns items in row by row fashion. It supports `lineSpacing`, `interitemSpacing`, `alignContent`, `alignItems`, & `justifyContent`.
+
+Every layout also supports `inset(by:)` and `transposed()` methods. 
+
+`inset(by:` adds an outer padding to the layout and return the result layout as `InsetLayout`. 
+
+```swift
+let inset = UIEdgeInset(top: 10, left: 10, bottom: 10, right: 10)
+dataSource.layout = FlowLayout(spacing: 10).inset(by: inset)
+```
+
+<image />
+
+`transposed()` converts a vertical layout into a horizontal layout or vice-versa. It returns the original layout wrapped inside a `TransposedLayout`
+
+```swift
+dataSource.layout = FlowLayout(spacing: 10).transposed()
+```
+
+<image />
+
+You can also use them together like
+
+```swift
+let inset = UIEdgeInset(top: 10, left: 10, bottom: 10, right: 10)
+dataSource.layout = FlowLayout(spacing: 10).transposed().inset(by: inset)
+```
+
+<image />
+
+
+There can be a lot to talk about with Layouts. We will create more tutorial later to teach you how to create your own layout and show you some advance usages. In the mean time, feel free to dive in the source code. I promise you it is not complecated at all.
+
+## Composing (ComposedProvider)
+
+The best feature of CollectionKit, is that you can freely combine providers together into multiple sections within one CollectionView. And it is **REALLY EASY** to do so.
+
+```swift
+let finalProvider = ComposedProvider(sections: [provider1, provider2, provider3])
+
+collectionView.provider = finalProvider
+```
+
+<image />
+
+To update individual sections, just update its own `dataSource`.
+
+```swift
+provider2DataSource.data = [2]
+```
+
+<image />
+
+You can also live update sections around.
+
+```swift
+finalProvider.sections = [provider2, provider3, provider1]
+```
+
+<image />
+
+Or add more to it.
+
+```swift
+finalProvider.sections.append(provider4)
+```
+
+<image />
+
+You can even put `ComposedProvider` into another `ComposedProvider` no problem.
+
+```swift
+let trulyFinalProvider = ComposedProvider(sections: [finalProvider, provider5])
+
+collectionView.provider = trulyFinalProvider
+```
+
+#### How cool is that!
+
+## Animation
+
+CollectionKit offers a animation system which allows you to create fancy animations and adjust how cells are displayed. Animator can be applied to individual providers, cells, or to entire `CollectionView`.
+
+Here are some examples of custom animators that is included in the example project. Note that they can be used in combination with any layout. Here we are using a transposed waterfall layout.
+
+| Wobble  | Edge Shrink | Zoom |
+| ------------- | ------------- | ------------- |
+| <img width="200" src="http://lkzhao.com/public/posts/collectionKit/wobble.gif" />  | <img width="200" src="http://lkzhao.com/public/posts/collectionKit/edgeShrink.gif" /> | <img width="200" src="http://lkzhao.com/public/posts/collectionKit/zoom.gif" /> |
+
+Animator can also perform animations when a cell is added/moved/deleted. Here is an example showing a 3d scale animation with a cascading effect.
+
+<img width="200" src="http://lkzhao.com/public/posts/collectionKit/reloadAnimation.gif" />
+
+It is easy to apply an `Animator`.
 
 ```swift
 // apply to the entire CollectionView
-collectionView.animator = WobbleAnimator()
+collectionView.animator = ScaleAnimator()
 
 // apply to a single section, will override CollectionView's animator
-provider1.animator = WobbleAnimator()
+provider.animator = FadeAnimator()
 
 // apply to a single view, will take priority over all other animators
 view.collectionAnimator = WobbleAnimator()
 ```
 
-See the [Getting Started Guide](https://soysaucelab.gitbooks.io/collectionkit-documentation/content/) for a in-depth tutorial on how to use CollectionKit.
+Note: that `WobbleAnimator`, `ZoomAnimator`, & `EdgeShrinkAnimator` are not provided with CollectionKit. But feel free to grab it from the example project and use them in your project.
+
+
+#### Please checkout the example project to see many of these examples in action.
+
+
 
 ## Questions? Want to contribute?
 

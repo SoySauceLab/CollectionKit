@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CollectionKit
 
 open class ZoomAnimator: Animator {
   open override func update(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
