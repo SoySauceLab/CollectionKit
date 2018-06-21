@@ -29,34 +29,30 @@ A modern Swift framework for building composable data-driven collection view.
 
 ## Install
 
-**CocoaPods**
 ```ruby
+# CocoaPods
 pod "CollectionKit"
-```
 
-**Carthage**
-```
+# Carthage
 github "SoySauceLab/CollectionKit"
 ```
 
 ## Getting Started
 
-To start using CollectionKit, use `CollectionView` in places of `UICollectionView`. `CollectionView` is CollectionKit's alternative to `UICollectionView`. You give it a `Provider` object that tells `CollectionView` how to display & handle a collection.
-
-A provider is anything that implements the `Provider` protocol. It gives CollectionView the necessary information to render a collection. Just like `dataSource` for `UICollectionView`, a provider knows many cells it has, and provide individual cells to CollectionView when necessary. In addition, provider also has layout and animation information, basically a better `dataSource`.
+To start using CollectionKit, use `CollectionView` in place of `UICollectionView`. `CollectionView` is CollectionKit's alternative to `UICollectionView`. You give it a `Provider` object that tells `CollectionView` how to display a collection.
 
 The simpliest way to construct a provider is by using `BasicProvider` class.
 
-## BasicProvider
+### BasicProvider
 
-To build a BasicProvider, here is what you need:
+To build a `BasicProvider`, here is what you need:
 
-* a `DataSource`
-* an object that supplies data to the BasicProvider.
-* a `ViewSource`
-* an object that maps each data into a view, and update the view accordingly
-* a `SizeSource`
-* an function that gives the size for each cell.
+* **DataSource**
+  * an object that supplies data to the BasicProvider.
+* **ViewSource**
+  * an object that maps each data into a view, and update the view accordingly
+* **SizeSource**
+  * an function that gives the size for each cell.
 
 It sounds complicated, but it really isn't. Here is a short example demostrating
 how it all works.
@@ -85,19 +81,19 @@ collectionView.provider = provider
 Note that we used `ArrayDataSource` & `ClosureViewSource` here. These two classes are built-in to CollectionKit, and should be able to serve most jobs. But there could be other `dataSource` and `viewSource` as well. You might implement a `dataSource` that pulls data from the network and cache it locally, imagine a `NetworkDataSource` that retrives json data and parse it into swift objects in your project.
 
 
-## Reload
+### Reload
 
-It is simple to update the collectionView with new data as well:
+It is easy to update the CollectionView with new data.
 
 ```swift
 dataSource.data = [7, 8, 9]
 ```
 
-This will trigger an update of the collectionView that is served by this dataSource.
+This will trigger an update of the CollectionView that is served by this dataSource.
 
 <img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example2.svg" />
 
-Note that `append` and other array actions will also work.
+Note that `append` and other array mutating methods will also work.
 
 ```swift
 dataSource.data.append(10)
@@ -107,13 +103,13 @@ dataSource.data.append(12)
 
 <img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example3.svg" />
 
-We updated the array three times in this example. Each update is triggering a reload. You might be thinking that this is very computational intensive, but CollectionKit is smart enough to only update once per layout cycle. It will wait until the next layout cycle to actually reload.
+We updated the array three times in this example. Each update is triggering a reload. You might be thinking that this is very computational intensive, but it isn't. CollectionKit is smart enough to only update once per layout cycle. It will wait until the next layout cycle to actually reload.
 
-So even after executing the 3 lines above, CollectionView will still be showing [7, 8, 9]. But once the current run loop cycle is completed, CollectionView will update immediately. Your user won't notice any lag from this process.
+After executing the 3 lines above, CollectionView will still show `[7, 8, 9]`. But once the current run loop cycle is completed, CollectionView will update immediately. Your user won't notice any lag from this process.
 
 To trigger an update immediately, you can call `collectionView.reloadData()` or `provider.reloadData()` or `dataSource.reloadData()`. 
 
-To make collectionView reload on the next layout cycle, you can call `collectionView.setNeedsReload()` or `provider.setNeedsReload()` or `dataSource.setNeedsReload()`. You might already understanded, once you update the array inside `ArrayDataSource`, it is basically calling `setNeedsReload()` for you.
+To make collectionView reload on the next layout cycle, you can call `collectionView.setNeedsReload()` or `provider.setNeedsReload()` or `dataSource.setNeedsReload()`. You might already noticed, once you update the array inside `ArrayDataSource`, it is basically calling `setNeedsReload()` for you.
 
 Note that if you assign an array to the dataSource and later update that array instead. It won't actually update the `CollectionView`
 
@@ -124,7 +120,7 @@ a.append(5) // won't trigger an update be cause dataSource.data & a is now two d
 a = [4 ,5 ,6] // also won't trigger an update
 ```
 
-## Layout
+### Layout
 
 Up to this point, the collection is still a bit ugly to look at. Every cell is left aligned and doesn't have space in between. You might want the views to be evenly spaced out, or you might want to add some spacing in between items or lines.
 
@@ -142,7 +138,7 @@ dataSource.layout = FlowLayout(spacing: 10, justifyContent: .center)
 
 Every layout also supports `inset(by:)` and `transposed()` methods. 
 
-`inset(by:` adds an outer padding to the layout and return the result layout as `InsetLayout`. 
+`inset(by:)` adds an outer padding to the layout and return the result layout as `InsetLayout`. 
 
 ```swift
 let inset = UIEdgeInset(top: 10, left: 10, bottom: 10, right: 10)
@@ -171,7 +167,7 @@ dataSource.layout = FlowLayout(spacing: 10).transposed().inset(by: inset)
 
 There can be a lot to talk about with Layouts. We will create more tutorial later to teach you how to create your own layout and show you some advance usages. In the mean time, feel free to dive in the source code. I promise you it is not complecated at all.
 
-## Composing (ComposedProvider)
+### Composing (ComposedProvider)
 
 The best feature of CollectionKit, is that you can freely combine providers together into multiple sections within one CollectionView. And it is **REALLY EASY** to do so.
 
@@ -217,11 +213,11 @@ collectionView.provider = trulyFinalProvider
 
 #### How cool is that!
 
-## Animation
+### Animation
 
-CollectionKit offers a animation system which allows you to create fancy animations and adjust how cells are displayed. Animator can be applied to individual providers, cells, or to entire `CollectionView`.
+CollectionKit offers a animation system which allows you to create fancy animations and adjust how cells are displayed. 
 
-Here are some examples of custom animators that is included in the example project. Note that they can be used in combination with any layout. Here we are using a transposed waterfall layout.
+Here are some examples of custom animators that is included in the example project. They can be used in combination with any layout. Here we are using a transposed waterfall layout.
 
 | Wobble  | Edge Shrink | Zoom |
 | ------------- | ------------- | ------------- |
@@ -231,7 +227,7 @@ Animator can also perform animations when a cell is added/moved/deleted. Here is
 
 <img width="200" src="http://lkzhao.com/public/posts/collectionKit/reloadAnimation.gif" />
 
-It is easy to apply an `Animator`.
+It is easy to use an `Animator`. You can assign it to providers, cells, or to entire `CollectionView`.
 
 ```swift
 // apply to the entire CollectionView
@@ -248,8 +244,6 @@ Note: that `WobbleAnimator`, `ZoomAnimator`, & `EdgeShrinkAnimator` are not prov
 
 
 #### Please checkout the example project to see many of these examples in action.
-
-
 
 ## Questions? Want to contribute?
 
