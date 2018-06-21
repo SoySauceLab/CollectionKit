@@ -141,9 +141,6 @@
 		0E3258471F5E334C00D455F8 /* ReloadDataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReloadDataViewController.swift; sourceTree = "<group>"; };
 		A3299F332064ED690075A137 /* VisibleFrameInsetLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibleFrameInsetLayout.swift; sourceTree = "<group>"; };
 		A33E637320D7957200BC6D2C /* v2_migration.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = v2_migration.md; path = Resources/v2_migration.md; sourceTree = "<group>"; };
-		A33E637620DB8C3C00BC6D2C /* example2.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = example2.svg; sourceTree = "<group>"; };
-		A33E637720DB8C3C00BC6D2C /* example1.svg */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = example1.svg; sourceTree = "<group>"; };
-		A33E637820DB8C3C00BC6D2C /* v2_migration.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = v2_migration.md; sourceTree = "<group>"; };
 		A351C3451CE4CCD2005E15A7 /* CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
 		A351C3461CE4CCD2005E15A7 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		A363C56220C7EA2E009A885F /* AnyViewSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyViewSource.swift; sourceTree = "<group>"; };
@@ -277,16 +274,6 @@
 			path = ReloadDataExample;
 			sourceTree = "<group>";
 		};
-		A33E637520DB8C3C00BC6D2C /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				A33E637620DB8C3C00BC6D2C /* example2.svg */,
-				A33E637720DB8C3C00BC6D2C /* example1.svg */,
-				A33E637820DB8C3C00BC6D2C /* v2_migration.md */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		A351C3441CE4C917005E15A7 /* ChatExample (Advance) */ = {
 			isa = PBXGroup;
 			children = (
@@ -367,7 +354,6 @@
 				A3DDEED01C7D893D0053BFAE /* Sources */,
 				A3FC21C61C6EE5AA008566BB /* Examples */,
 				B19D64CC1F23DE8100D02FDB /* CollectionKitTests */,
-				A33E637520DB8C3C00BC6D2C /* Resources */,
 				B15029101EA66FC400F89915 /* Frameworks */,
 			);
 			indentWidth = 2;

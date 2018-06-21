@@ -4,7 +4,7 @@ Focus of v2.0 will be towards API cleanliness & solves pain points with v1.0+
 
 Main feature of v2.0:
 1. Complete renaming of classes
-    * With v1.0, naming of the classes weren't given enough thoughts. Names like CollectionProvider, ViewCollectionProvider, ViewProvider, DataProvider, etc.. are all quite confusing to use.
+    * With v1.0, naming of the classes weren't given enough thoughts. Names like `CollectionProvider`, `ViewCollectionProvider`, `ViewProvider`, `DataProvider`, etc.. are all quite confusing to use.
 1. Removing confusing initializer
 1. Sticky Header Support
 1. Initial support for mixed data type
@@ -40,6 +40,8 @@ ArrayDataProvider -> ArrayDataSource
 ```swift
 dataProvider -> dataSource
 viewProvider -> viewSource
+sizeProvider -> sizeSource
+presenter -> animator
 ```
 
 * willReloadHandler & didReloadHandler is removed
@@ -170,6 +172,29 @@ public protocol LayoutContext {
 
 
 func layout(context: LayoutContext) {}
+```
+
+## Animator (CollectionPresenter in v1.3)
+
+The following has been removed. Base class `Animator` now doesn't do animation.
+
+```swift
+insertAnimation
+deleteAnimation
+updateAnimation
+```
+
+The following hass been added:
+
+```
+ScaleAnimator
+FadeAnimator
+```
+
+The following has been moved from `CollectionKit` to `CollectionKitExample`
+
+```swift
+ZoomAnimator
 ```
 
 ### Other
