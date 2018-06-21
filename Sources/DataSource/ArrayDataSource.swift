@@ -20,7 +20,7 @@ open class ArrayDataSource<Data>: DataSource<Data> {
     }
   }
 
-  public init(data: [Data], identifierMapper: @escaping (Int, Data) -> String = { index, _ in "\(index)" }) {
+  public init(data: [Data] = [], identifierMapper: @escaping (Int, Data) -> String = { index, _ in "\(index)" }) {
     self.data = data
     self.identifierMapper = identifierMapper
   }

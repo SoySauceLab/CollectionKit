@@ -22,40 +22,41 @@ class AnimatorExampleViewController: CollectionViewController {
 
     let imagesCollectionView = CollectionView()
     let visibleFrameInsets = UIEdgeInsets(top: 0, left: -100, bottom: 0, right: -100)
-    let imageProvider = BasicProviderBuilder
-      .with(data: testImages)
-      .with(viewGenerator: { (data, index) -> UIImageView in
+
+    let imageProvider = BasicProvider(
+      dataSource: ArrayDataSource(data: testImages),
+      viewSource: ClosureViewSource(viewGenerator: { (data, index) -> UIImageView in
         let view = UIImageView()
         view.layer.cornerRadius = 5
         view.clipsToBounds = true
         return view
       }, viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
         view.image = data
-      })
-      .with(layout: WaterfallLayout(columns:2).transposed().inset(by: bodyInset).insetVisibleFrame(by: visibleFrameInsets))
-      .with(sizeSource: imageSizeProvider)
-      .with(animator: animators[0].1)
-      .build()
+      }),
+      sizeSource: imageSizeProvider,
+      layout: WaterfallLayout(columns: 2).transposed().inset(by: bodyInset).insetVisibleFrame(by: visibleFrameInsets),
+      animator: animators[0].1
+    )
 
     imagesCollectionView.provider = imageProvider
 
     let buttonsCollectionView = CollectionView()
     buttonsCollectionView.showsHorizontalScrollIndicator = false
 
-    let buttonsProvider = BasicProviderBuilder
-      .with(data: animators)
-      .with(viewUpdater: { (view: SelectionButton, data: (String, Animator), at: Int) in
+    let buttonsProvider = BasicProvider(
+      dataSource: ArrayDataSource(data: animators),
+      viewSource: ClosureViewSource(viewUpdater: { (view: SelectionButton, data: (String, Animator), at: Int) in
         view.label.text = data.0
         view.label.textColor = imageProvider.animator === data.1 ? .white : .black
         view.backgroundColor = imageProvider.animator === data.1 ? .lightGray : .white
-      })
-      .with(layout: FlowLayout(lineSpacing: 10).transposed()
-        .inset(by: UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16)))
-      .with(sizeSource: { _, data, maxSize in
+      }),
+      sizeSource: { _, data, maxSize in
         return CGSize(width: data.0.width(withConstraintedHeight: maxSize.height, font: UIFont.systemFont(ofSize:18)) + 20, height: maxSize.height)
-      })
-      .with(animator: WobbleAnimator())
-      .with(tapHandler: { context in
+      },
+      layout: FlowLayout(lineSpacing: 10).transposed()
+        .inset(by: UIEdgeInsets(top: 10, left: 16, bottom: 0, right: 16)),
+      animator: WobbleAnimator(),
+      tapHandler: { context in
         imageProvider.animator = context.data.1
 
         // clear previous styles
@@ -65,7 +66,8 @@ class AnimatorExampleViewController: CollectionViewController {
         }
 
         context.setNeedsReload()
-      }).build()
+      }
+    )
 
     buttonsCollectionView.provider = buttonsProvider
 

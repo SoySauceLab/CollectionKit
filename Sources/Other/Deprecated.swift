@@ -73,7 +73,7 @@ extension BasicProvider {
     return nil
   }
 
-  @available(*, deprecated, message: "please use BasicProviderBuilder instead")
+  @available(*, deprecated, message: "please use designated init instead")
   public convenience init(identifier: String? = nil,
                           dataProvider: DataSource<Data>,
                           viewProvider: ViewSource<Data, View>,
@@ -86,13 +86,13 @@ extension BasicProvider {
     self.init(identifier: identifier,
               dataSource: dataProvider,
               viewSource: viewProvider,
-              layout: layout,
               sizeSource: sizeProvider,
+              layout: layout,
               animator: presenter,
               tapHandler: BasicProvider.convertTapHandler(tapHandler))
   }
 
-  @available(*, deprecated, message: "please use BasicProviderBuilder instead")
+  @available(*, deprecated, message: "please use designated init instead")
   public convenience init(identifier: String? = nil,
                           dataProvider: DataSource<Data>,
                           viewGenerator: ((Data, Int) -> View)? = nil,
@@ -106,13 +106,13 @@ extension BasicProvider {
     self.init(identifier: identifier,
               dataSource: dataProvider,
               viewSource: ClosureViewProvider(viewGenerator: viewGenerator, viewUpdater: viewUpdater),
-              layout: layout,
               sizeSource: sizeProvider,
+              layout: layout,
               animator: presenter,
               tapHandler: BasicProvider.convertTapHandler(tapHandler))
   }
 
-  @available(*, deprecated, message: "please use BasicProviderBuilder instead")
+  @available(*, deprecated, message: "please use designated init instead")
   public convenience init(identifier: String? = nil,
                           data: [Data],
                           viewGenerator: ((Data, Int) -> View)? = nil,
@@ -126,8 +126,8 @@ extension BasicProvider {
     self.init(identifier: identifier,
               dataSource: ArrayDataProvider(data: data),
               viewSource: ClosureViewProvider(viewGenerator: viewGenerator, viewUpdater: viewUpdater),
-              layout: layout,
               sizeSource: sizeProvider,
+              layout: layout,
               animator: presenter,
               tapHandler: BasicProvider.convertTapHandler(tapHandler))
   }

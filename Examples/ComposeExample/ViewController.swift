@@ -32,16 +32,17 @@ class ViewController: CollectionViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    let examplesSection = BasicProviderBuilder
-      .with(data: examples)
-      .with(viewUpdater: { (view: ExampleView, data: (String, UIViewController.Type), at: Int) in
+    let examplesSection = BasicProvider(
+      dataSource: ArrayDataSource(data: examples),
+      viewSource: ClosureViewSource(viewUpdater: {
+        (view: ExampleView, data: (String, UIViewController.Type), at: Int) in
         view.populate(title: data.0, contentViewControllerType: data.1)
-      })
-      .with(layout: FlowLayout(lineSpacing: 30).inset(by: bodyInset))
-      .with(sizeSource: { (_, _, size) -> CGSize in
+      }),
+      sizeSource: { (_, _, size) -> CGSize in
         return CGSize(width: size.width, height: max(360, UIScreen.main.bounds.height * 0.7))
-      })
-      .build()
+      },
+      layout: FlowLayout(lineSpacing: 30).inset(by: bodyInset)
+      )
 
     provider = ComposedProvider(sections: [
       space(100),

@@ -24,7 +24,6 @@
 		A363C57320CC015D009A885F /* SquareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C57220CC015D009A885F /* SquareView.swift */; };
 		A372A3691C79567A0023C797 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A372A3681C79567A0023C797 /* MessageCell.swift */; };
 		A3C76C1820CFBE2E003082BF /* Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1720CFBE2E003082BF /* Deprecated.swift */; };
-		A3C76C1B20CFE0CB003082BF /* BasicProviderBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1A20CFE0CB003082BF /* BasicProviderBuilder.swift */; };
 		A3C76C1D20D1007C003082BF /* LabelProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1C20D1007C003082BF /* LabelProvider.swift */; };
 		A3C76C1F20D10817003082BF /* LayoutableProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1E20D10817003082BF /* LayoutableProvider.swift */; };
 		A3C76C2120D1082D003082BF /* SectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C2020D1082D003082BF /* SectionProvider.swift */; };
@@ -156,7 +155,6 @@
 		A363C57220CC015D009A885F /* SquareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SquareView.swift; sourceTree = "<group>"; };
 		A372A3681C79567A0023C797 /* MessageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		A3C76C1720CFBE2E003082BF /* Deprecated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deprecated.swift; sourceTree = "<group>"; };
-		A3C76C1A20CFE0CB003082BF /* BasicProviderBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicProviderBuilder.swift; sourceTree = "<group>"; };
 		A3C76C1C20D1007C003082BF /* LabelProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelProvider.swift; sourceTree = "<group>"; };
 		A3C76C1E20D10817003082BF /* LayoutableProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutableProvider.swift; sourceTree = "<group>"; };
 		A3C76C2020D1082D003082BF /* SectionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionProvider.swift; sourceTree = "<group>"; };
@@ -470,7 +468,6 @@
 			isa = PBXGroup;
 			children = (
 				B148237A1F1E87F60007A7E2 /* BasicProvider.swift */,
-				A3C76C1A20CFE0CB003082BF /* BasicProviderBuilder.swift */,
 				B1E861F81F21520200621BA0 /* ComposedProvider.swift */,
 				A363C56D20CBD55B009A885F /* ComposedWithHeaderProvider.swift */,
 				A363C56B20CACA89009A885F /* FlattenedProvider.swift */,
@@ -802,7 +799,6 @@
 				B144CE001F4379DA0073CF4E /* ClosureLayout.swift in Sources */,
 				B1E861F11F21515F00621BA0 /* ViewSource.swift in Sources */,
 				A363C56620C7EA66009A885F /* AnyViewSource.swift in Sources */,
-				A3C76C1B20CFE0CB003082BF /* BasicProviderBuilder.swift in Sources */,
 				B144CE0D1F437A960073CF4E /* ArrayDataSource.swift in Sources */,
 				B14B0E021F2682EA003E5105 /* SizeSource.swift in Sources */,
 				B1ED75B51F58C95200CB772A /* StickyLayout.swift in Sources */,

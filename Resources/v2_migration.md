@@ -49,13 +49,13 @@ viewProvider -> viewSource
 public init(identifier: String? = nil,
             dataSource: DataSource<Data>,
             viewSource: ViewSource<Data, View>,
-            layout: Layout = FlowLayout(),
             sizeSource: @escaping SizeSource<Data> = defaultSizeSource,
+            layout: Layout = FlowLayout(),
             animator: Animator? = nil,
             tapHandler: TapHandler? = nil) {}
 ```
 
-If you are creating a `BasicProvider`, please use the new `BasicProviderBuilder` to construct a provider:
+If you are using any of the convenient init, please change to the following:
 
 ```swift
 CollectionProvider(
@@ -71,35 +71,7 @@ CollectionProvider(
   }
 )
 ->
-BasicProviderBuilder
-  .with(data: data)
-  .with(viewUpdater: { (label: UILabel, data: Int, index: Int) in
-    label.backgroundColor = .red
-    label.layer.cornerRadius = 8
-    label.textAlignment = .center
-    label.text = "\(data)"
-  })
-  .with(sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
-    return CGSize(width: 50, height: 50)
-  }).build()
-```
-
-If you are subclassing, please change the following to use the designated initializer:
-```swift
-self.init(
-  data: data,
-  viewUpdater: { (label: UILabel, data: Data, index: Int) in
-    label.backgroundColor = .red
-    label.layer.cornerRadius = 8
-    label.textAlignment = .center
-    label.text = "\(data)"
-  },
-  sizeProvider: { (index: Int, data: Data, collectionSize: CGSize) -> CGSize in
-    return CGSize(width: 50, height: 50)
-  }
-)
-->
-self.init(
+BasicProvider(
   dataSource: ArrayDataSource(data: data),
   viewSource: ClosureViewSource(viewUpdater: { (label: UILabel, data: Data, index: Int) in
     label.backgroundColor = .red
@@ -114,11 +86,13 @@ self.init(
 ```
 
 * TapHandler type is changed from
+
 ```swift
 typealias TapHandler = (View, Int, DataSource<Data>) -> Void
 ```
 
 to
+
 ```swift
 typealias TapHandler = (TapContext) -> Void
 
@@ -148,7 +122,6 @@ Please change the following:
  ->
  ComposedProvider(sections: [provider1, provider2, provider3])
 ```
-
 
 ### SimpleViewProvider (ViewCollectionProvider in v1.3)
 

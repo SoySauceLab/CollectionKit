@@ -109,27 +109,28 @@ class ReloadAnimationViewController: CollectionViewController {
     collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 54, right: 10)
     dataSource.data = data[0]
 
-    provider = BasicProviderBuilder
-      .with(dataSource: dataSource)
-      .with(viewUpdater: { (view: SquareView, data: Int, index: Int) in
+    provider = BasicProvider(
+      dataSource: dataSource,
+      viewSource: ClosureViewSource(viewUpdater: { (view: SquareView, data: Int, index: Int) in
         view.backgroundColor = UIColor(hue: CGFloat(data) / 30,
                                        saturation: 0.68,
                                        brightness: 0.98,
                                        alpha: 1)
         view.text = "\(data)"
-      })
-      .with(layout: FlowLayout(lineSpacing: 15,
-                               interitemSpacing: 15,
-                               justifyContent: .spaceAround,
-                               alignItems: .center,
-                               alignContent: .center))
-      .with(sizeSource: { (index, data, _) in
+      }),
+      sizeSource: { (index, data, _) in
         return CGSize(width: 80, height: 80)
-      })
-      .with(animator: AnimatedReloadAnimator(entryTransform: AnimatedReloadAnimator.fancyEntryTransform))
-      .with(tapHandler: { [weak self] context in
+      },
+      layout: FlowLayout(lineSpacing: 15,
+                         interitemSpacing: 15,
+                         justifyContent: .spaceAround,
+                         alignItems: .center,
+                         alignContent: .center),
+      animator: AnimatedReloadAnimator(entryTransform: AnimatedReloadAnimator.fancyEntryTransform),
+      tapHandler: { [weak self] context in
         self?.dataSource.data.remove(at: context.index)
-      }).build()
+      }
+    )
   }
 
   override func viewDidLayoutSubviews() {

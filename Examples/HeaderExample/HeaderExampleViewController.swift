@@ -34,19 +34,19 @@ class HeaderExampleViewController: CollectionViewController {
     collectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 44, right: 0)
 
     let sections: [Provider] = (1...10).map { _ in
-      return BasicProviderBuilder
-        .with(data: Array(1...9))
-        .with(viewUpdater: { (view: SquareView, data: Int, index: Int) in
+      return BasicProvider(
+        dataSource: ArrayDataSource(data: Array(1...9)),
+        viewSource: ClosureViewSource(viewUpdater: { (view: SquareView, data: Int, index: Int) in
           view.backgroundColor = UIColor(hue: CGFloat(index) / 10,
                                          saturation: 0.68, brightness: 0.98, alpha: 1)
           view.text = "\(data)"
-        })
-        .with(layout: FlowLayout(spacing: 10, justifyContent: .spaceAround, alignItems: .center)
-          .inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)))
-        .with(sizeSource: { (index, data, maxSize) -> CGSize in
+        }),
+        sizeSource:  { (index, data, maxSize) -> CGSize in
           return CGSize(width: 80, height: 80)
-        })
-        .build()
+        },
+        layout: FlowLayout(spacing: 10, justifyContent: .spaceAround, alignItems: .center)
+          .inset(by: UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10))
+      )
     }
 
     let provider = ComposedWithHeaderProvider(

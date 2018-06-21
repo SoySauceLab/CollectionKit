@@ -37,8 +37,8 @@ open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, 
   public init(identifier: String? = nil,
               dataSource: DataSource<Data>,
               viewSource: ViewSource<Data, View>,
-              layout: Layout = FlowLayout(),
               sizeSource: @escaping SizeSource<Data> = defaultSizeSource,
+              layout: Layout = FlowLayout(),
               animator: Animator? = nil,
               tapHandler: TapHandler? = nil) {
     self.dataSource = dataSource
