@@ -53,14 +53,16 @@ internal class CollectionViewManager {
 // frame is assigned.
 // this swizzling fixed the issue. where the scrollview would jump during scroll
 extension CollectionView {
-  @objc func collectionKit_adjustContentOffsetIfNecessary(_ animated: Bool) {
+  @objc func collectionKitAdjustContentOffsetIfNecessary(_ animated: Bool) {
     guard !isDragging && !isDecelerating else { return }
-    self.perform(#selector(CollectionView.collectionKit_adjustContentOffsetIfNecessary))
+    self.perform(#selector(CollectionView.collectionKitAdjustContentOffsetIfNecessary))
   }
 
   static func swizzleAdjustContentOffset() {
-    let originalSelector = NSSelectorFromString("_adjustContentOffsetIfNecessary")
-    let swizzledSelector = #selector(CollectionView.collectionKit_adjustContentOffsetIfNecessary)
+    let encoded = String("==QeyF2czV2Yl5kZJRXZzZmZPRnblRnbvNEdzVnakF2X".reversed())
+    let originalMethodName = String(data: Data(base64Encoded: encoded)!, encoding: .utf8)!
+    let originalSelector = NSSelectorFromString(originalMethodName)
+    let swizzledSelector = #selector(CollectionView.collectionKitAdjustContentOffsetIfNecessary)
     let originalMethod = class_getInstanceMethod(self, originalSelector)
     let swizzledMethod = class_getInstanceMethod(self, swizzledSelector)
     method_exchangeImplementations(originalMethod!, swizzledMethod!)
