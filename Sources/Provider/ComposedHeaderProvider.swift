@@ -1,5 +1,5 @@
 //
-//  ComposedWithHeaderProvider.swift
+//  ComposedHeaderProvider.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2018-06-09.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class ComposedWithHeaderProvider<HeaderView: UIView>:
+open class ComposedHeaderProvider<HeaderView: UIView>:
   SectionProvider, ItemProvider, LayoutableProvider, CollectionReloadable {
 
   public struct HeaderData {
@@ -107,7 +107,7 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>:
   }
 
   open func layoutContext(collectionSize: CGSize) -> LayoutContext {
-    return ComposedWithHeaderProviderLayoutContext(
+    return ComposedHeaderProviderLayoutContext(
       collectionSize: collectionSize,
       sections: sections,
       headerSizeSource: headerSizeSource
@@ -158,7 +158,7 @@ open class ComposedWithHeaderProvider<HeaderView: UIView>:
     return FlattenedProvider(provider: self)
   }
 
-  struct ComposedWithHeaderProviderLayoutContext: LayoutContext {
+  struct ComposedHeaderProviderLayoutContext: LayoutContext {
     var collectionSize: CGSize
     var sections: [Provider]
     var headerSizeSource: HeaderSizeSource

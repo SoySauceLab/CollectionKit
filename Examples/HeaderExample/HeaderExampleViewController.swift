@@ -23,7 +23,7 @@ class HeaderExampleViewController: CollectionViewController {
     return button
   }()
 
-  var headerComposer: ComposedWithHeaderProvider<UILabel>!
+  var headerComposer: ComposedHeaderProvider<UILabel>!
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -49,7 +49,7 @@ class HeaderExampleViewController: CollectionViewController {
       )
     }
 
-    let provider = ComposedWithHeaderProvider(
+    let provider = ComposedHeaderProvider(
       headerViewSource: ClosureViewSource(
         viewUpdater: { (view: UILabel, data, index) in
           view.backgroundColor = UIColor.darkGray
