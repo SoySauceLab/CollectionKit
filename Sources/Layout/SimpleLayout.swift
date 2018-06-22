@@ -9,7 +9,7 @@
 import UIKit
 
 open class SimpleLayout<Data>: CollectionLayout<Data> {
-  var _contentSize: CGSize = .zero
+  var _contentSize: CGSize = .zero // swiftlint:disable:this identifier_name
   public private(set) var frames: [CGRect] = []
 
   open func simpleLayout(collectionSize: CGSize,
