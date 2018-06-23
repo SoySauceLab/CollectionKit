@@ -9,7 +9,7 @@
 import UIKit
 import CollectionKit
 
-class MessageDataProvider: ArrayDataProvider<Message> {
+class MessageDataProvider: ArrayDataSource<Message> {
   init() {
     super.init(data: testMessages, identifierMapper: { (_, data) in
       return data.identifier
@@ -17,17 +17,15 @@ class MessageDataProvider: ArrayDataProvider<Message> {
   }
 }
 
-class MessageLayout: SimpleLayout<Message> {
-  override func simpleLayout(collectionSize: CGSize,
-                       dataProvider: CollectionDataProvider<Message>,
-                       sizeProvider: @escaping CollectionSizeProvider<Message>) -> [CGRect] {
+class MessageLayout: SimpleLayout {
+  override func simpleLayout(context: LayoutContext) -> [CGRect] {
     var frames: [CGRect] = []
     var lastMessage: Message?
     var lastFrame: CGRect?
-    let maxWidth: CGFloat = collectionSize.width
+    let maxWidth: CGFloat = context.collectionSize.width
     
-    for i in 0..<dataProvider.numberOfItems {
-      let message = dataProvider.data(at: i)
+    for i in 0..<context.numberOfItems {
+      let message = context.data(at: i) as! Message
       var yHeight: CGFloat = 0
       var xOffset: CGFloat = 0
       var cellFrame = MessageCell.frameForMessage(message, containerWidth: maxWidth)
@@ -61,17 +59,17 @@ class MessageLayout: SimpleLayout<Message> {
   }
 }
 
-class MessagePresenter: WobblePresenter {
-  var dataProvider: MessageDataProvider?
+class MessageAnimator: WobbleAnimator {
+  var dataSource: MessageDataProvider?
   weak var sourceView: UIView?
   var sendingMessage = false
 
   override func insert(collectionView: CollectionView, view: UIView, at index: Int, frame: CGRect) {
     super.insert(collectionView: collectionView, view: view, at: index, frame: frame)
-    guard let messages = dataProvider?.data,
+    guard let messages = dataSource?.data,
       let sourceView = sourceView,
       collectionView.hasReloaded,
-      collectionView.reloading else { return }
+      collectionView.isReloading else { return }
     if sendingMessage && index == messages.count - 1 {
       // we just sent this message, lets animate it from inputToolbarView to it's position
       view.frame = collectionView.convert(sourceView.bounds, from: sourceView)
@@ -100,8 +98,8 @@ class MessagesViewController: CollectionViewController {
 
   var loading = false
 
-  let dataProvider = MessageDataProvider()
-  let presenter = MessagePresenter()
+  let dataSource = MessageDataProvider()
+  let animator = MessageAnimator()
   
   let newMessageButton = UIButton(type: .system)
 
@@ -124,18 +122,29 @@ class MessagesViewController: CollectionViewController {
     collectionView.delegate = self
     collectionView.contentInset = UIEdgeInsetsMake(30, 10, 54, 10)
     collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(30, 0, 54, 0)
-    
-    presenter.sourceView = newMessageButton
-    presenter.dataProvider = dataProvider
-    let provider = CollectionProvider(
-      dataProvider: dataProvider,
-      viewUpdater: { (view: MessageCell, data: Message, at: Int) in
-        view.message = data
-      }
+
+    let textMessageViewSource = ClosureViewSource(viewUpdater: { (view: TextMessageCell, data: Message, at: Int) in
+      view.message = data
+    })
+    let imageMessageViewSource = ClosureViewSource(viewUpdater: { (view: ImageMessageCell, data: Message, at: Int) in
+      view.message = data
+    })
+    animator.sourceView = newMessageButton
+    animator.dataSource = dataSource
+    let provider = BasicProvider(
+      dataSource: dataSource,
+      viewSource: ComposedViewSource(viewSourceSelector: { data in
+        switch data.type {
+        case .image:
+          return imageMessageViewSource
+        default:
+          return textMessageViewSource
+        }
+      })
     )
     let visibleFrameInsets = UIEdgeInsets(top: -200, left: 0, bottom: -200, right: 0)
     provider.layout = MessageLayout().insetVisibleFrame(by: visibleFrameInsets)
-    provider.presenter = presenter
+    provider.animator = animator
     self.provider = provider
   }
 
@@ -168,14 +177,14 @@ extension MessagesViewController {
   @objc func send() {
     let text = UUID().uuidString
     
-    presenter.sendingMessage = true
-    dataProvider.data.append(Message(true, content: text))
+    animator.sendingMessage = true
+    dataSource.data.append(Message(true, content: text))
     collectionView.reloadData()
     collectionView.scrollTo(edge: .bottom, animated:true)
-    presenter.sendingMessage = false
+    animator.sendingMessage = false
 
     delay(1.0) {
-      self.dataProvider.data.append(Message(false, content: text))
+      self.dataSource.data.append(Message(false, content: text))
       self.collectionView.reloadData()
       self.collectionView.scrollTo(edge: .bottom, animated:true)
     }
@@ -192,7 +201,7 @@ extension MessagesViewController: UIScrollViewDelegate {
       loading = true
       delay(0.5) { // Simulate network request
         let newMessages = testMessages.map{ $0.copy() }
-        self.dataProvider.data = newMessages + self.dataProvider.data
+        self.dataSource.data = newMessages + self.dataSource.data
         let oldContentHeight = self.collectionView.offsetFrame.maxY - self.collectionView.contentOffset.y
         self.collectionView.reloadData() {
           return CGPoint(x: self.collectionView.contentOffset.x,

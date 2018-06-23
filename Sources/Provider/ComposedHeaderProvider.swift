@@ -1,0 +1,193 @@
+//
+//  ComposedHeaderProvider.swift
+//  CollectionKit
+//
+//  Created by Luke Zhao on 2018-06-09.
+//  Copyright © 2018 lkzhao. All rights reserved.
+//
+
+import UIKit
+
+open class ComposedHeaderProvider<HeaderView: UIView>:
+  SectionProvider, ItemProvider, LayoutableProvider, CollectionReloadable {
+
+  public struct HeaderData {
+    public let index: Int
+    public let section: Provider
+  }
+
+  public typealias HeaderViewSource = ViewSource<HeaderData, HeaderView>
+  public typealias HeaderSizeSource = SizeSource<HeaderData>
+
+  public var identifier: String?
+
+  public var sections: [Provider] {
+    didSet { setNeedsReload() }
+  }
+
+  public var animator: Animator? {
+    didSet { setNeedsReload() }
+  }
+
+  public var headerViewSource: HeaderViewSource {
+    didSet { setNeedsReload() }
+  }
+
+  public var headerSizeSource: HeaderSizeSource {
+    didSet { setNeedsReload() }
+  }
+
+  public var layout: Layout {
+    get { return stickyLayout.rootLayout }
+    set {
+      stickyLayout.rootLayout = newValue
+      setNeedsReload()
+    }
+  }
+
+  public var isSticky = true {
+    didSet {
+      if isSticky {
+        stickyLayout.isStickyFn = { $0 % 2 == 0 }
+      } else {
+        stickyLayout.isStickyFn = { _ in false }
+      }
+      setNeedsReload()
+    }
+  }
+
+  public var tapHandler: TapHandler?
+
+  public typealias TapHandler = (TapContext) -> Void
+
+  public struct TapContext {
+    let view: HeaderView
+    let index: Int
+    let section: Provider
+  }
+
+  private var stickyLayout: StickyLayout
+  public var internalLayout: Layout { return stickyLayout }
+
+  public init(identifier: String? = nil,
+              layout: Layout = FlowLayout(),
+              animator: Animator? = nil,
+              headerViewSource: HeaderViewSource,
+              headerSizeSource: @escaping HeaderSizeSource,
+              sections: [Provider] = [],
+              tapHandler: TapHandler? = nil) {
+    self.animator = animator
+    self.stickyLayout = StickyLayout(rootLayout: layout)
+    self.sections = sections
+    self.identifier = identifier
+    self.headerViewSource = headerViewSource
+    self.headerSizeSource = headerSizeSource
+    self.tapHandler = tapHandler
+  }
+
+  open var numberOfItems: Int {
+    return sections.count * 2
+  }
+
+  open func section(at: Int) -> Provider? {
+    if at % 2 == 0 {
+      return nil
+    } else {
+      return sections[at / 2]
+    }
+  }
+
+  open func identifier(at: Int) -> String {
+    let sectionIdentifier = sections[at / 2].identifier ?? "\(at)"
+    if at % 2 == 0 {
+      return sectionIdentifier + "-header"
+    } else {
+      return sectionIdentifier
+    }
+  }
+
+  open func layoutContext(collectionSize: CGSize) -> LayoutContext {
+    return ComposedHeaderProviderLayoutContext(
+      collectionSize: collectionSize,
+      sections: sections,
+      headerSizeSource: headerSizeSource
+    )
+  }
+
+  open func animator(at: Int) -> Animator? {
+    return animator
+  }
+
+  public func view(at: Int) -> UIView {
+    let index = at / 2
+    return headerViewSource.view(data: HeaderData(index: index, section: sections[index]), index: index)
+  }
+
+  public func update(view: UIView, at: Int) {
+    let index = at / 2
+    headerViewSource.update(view: view as! HeaderView,
+                              data: HeaderData(index: index, section: sections[index]),
+                              index: index)
+  }
+
+  public func didTap(view: UIView, at: Int) {
+    if let tapHandler = tapHandler {
+      let context = TapContext(view: view as! HeaderView, index: at, section: sections[at])
+      tapHandler(context)
+    }
+  }
+
+  open func willReload() {
+    for section in sections {
+      section.willReload()
+    }
+  }
+
+  open func didReload() {
+    for section in sections {
+      section.didReload()
+    }
+  }
+
+  // MARK: private stuff
+  open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
+    return reloadable === self || sections.contains(where: { $0.hasReloadable(reloadable) })
+  }
+
+  open func flattenedProvider() -> ItemProvider {
+    return FlattenedProvider(provider: self)
+  }
+
+  struct ComposedHeaderProviderLayoutContext: LayoutContext {
+    var collectionSize: CGSize
+    var sections: [Provider]
+    var headerSizeSource: HeaderSizeSource
+
+    var numberOfItems: Int {
+      return sections.count * 2
+    }
+    func data(at: Int) -> Any {
+      if at % 2 == 0 {
+        return HeaderData(index: at / 2, section: sections[at / 2])
+      } else {
+        return sections[at / 2]
+      }
+    }
+    func identifier(at: Int) -> String {
+      let sectionIdentifier = sections[at / 2].identifier ?? "\(at)"
+      if at % 2 == 0 {
+        return sectionIdentifier + "-header"
+      } else {
+        return sectionIdentifier
+      }
+    }
+    func size(at: Int, collectionSize: CGSize) -> CGSize {
+      if at % 2 == 0 {
+        return headerSizeSource(at / 2, data(at: at) as! HeaderData, collectionSize)
+      } else {
+        sections[at / 2].layout(collectionSize: collectionSize)
+        return sections[at / 2].contentSize
+      }
+    }
+  }
+}

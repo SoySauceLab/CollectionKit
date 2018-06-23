@@ -10,35 +10,51 @@ import UIKit
 import CollectionKit
 import UIKit.UIGestureRecognizerSubclass
 
-extension CollectionLayout where Data == CGSize {
+extension Layout {
 
-  func mockLayout(parentSize: (CGFloat, CGFloat) = (300, 300), _ childSizes: (CGFloat, CGFloat)...) {
-    layout(collectionSize: CGSize(width: parentSize.0, height: parentSize.1),
-           dataProvider: ArrayDataProvider(data: sizes(childSizes)),
-           sizeProvider: { (index, data, collectionSize) -> CGSize in
-              return data
-    })
+  struct MockLayoutContext: LayoutContext {
+    var parentSize: (CGFloat, CGFloat)
+    var childSizes: [(CGFloat, CGFloat)]
+    var collectionSize: CGSize {
+      return CGSize(width: parentSize.0, height: parentSize.1)
+    }
+    var numberOfItems: Int {
+      return childSizes.count
+    }
+    func data(at: Int) -> Any {
+      return childSizes[at]
+    }
+    func identifier(at: Int) -> String {
+      return "\(at)"
+    }
+    func size(at: Int, collectionSize: CGSize) -> CGSize {
+      let size = childSizes[at]
+      return CGSize(width: size.0, height: size.1)
+    }
   }
 
+  func mockLayout(parentSize: (CGFloat, CGFloat) = (300, 300), _ childSizes: (CGFloat, CGFloat)...) {
+    layout(context: MockLayoutContext(parentSize: parentSize, childSizes: childSizes))
+  }
 }
 
-class SimpleTestProvider<Data>: CollectionProvider<Data, UILabel> {
+class SimpleTestProvider<Data>: BasicProvider<Data, UILabel> {
 
   var data: [Data] {
-    get { return (dataProvider as! ArrayDataProvider<Data>).data }
-    set { (dataProvider as! ArrayDataProvider<Data>).data = newValue }
+    get { return (dataSource as! ArrayDataSource<Data>).data }
+    set { (dataSource as! ArrayDataSource<Data>).data = newValue }
   }
 
   convenience init(data: [Data]) {
     self.init(
-      dataProvider: ArrayDataProvider(data: data, identifierMapper: { _, data in "\(data)" }),
-      viewUpdater: { (label: UILabel, data: Data, index: Int) in
+      dataSource: ArrayDataSource(data: data, identifierMapper: { _, data in "\(data)" }),
+      viewSource: ClosureViewSource(viewUpdater: { (label: UILabel, data: Data, index: Int) in
         label.backgroundColor = .red
         label.layer.cornerRadius = 8
         label.textAlignment = .center
         label.text = "\(data)"
-      },
-      sizeProvider: { (index: Int, data: Data, collectionSize: CGSize) -> CGSize in
+      }),
+      sizeSource: { (index: Int, data: Data, collectionSize: CGSize) -> CGSize in
         return CGSize(width: 50, height: 50)
       }
     )

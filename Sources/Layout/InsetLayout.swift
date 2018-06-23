@@ -8,16 +8,37 @@
 
 import UIKit
 
-open class InsetLayout<Data>: WrapperLayout<Data> {
+open class InsetLayout: WrapperLayout {
   public var insets: UIEdgeInsets
   public var insetProvider: ((CGSize) -> UIEdgeInsets)?
 
-  public init(_ rootLayout: CollectionLayout<Data>, insets: UIEdgeInsets = .zero) {
+  struct InsetLayoutContext: LayoutContext {
+    var original: LayoutContext
+    var insets: UIEdgeInsets
+
+    var collectionSize: CGSize {
+      return original.collectionSize.insets(by: insets)
+    }
+    var numberOfItems: Int {
+      return original.numberOfItems
+    }
+    func data(at: Int) -> Any {
+      return original.data(at: at)
+    }
+    func identifier(at: Int) -> String {
+      return original.identifier(at: at)
+    }
+    func size(at: Int, collectionSize: CGSize) -> CGSize {
+      return original.size(at: at, collectionSize: collectionSize)
+    }
+  }
+
+  public init(_ rootLayout: Layout, insets: UIEdgeInsets = .zero) {
     self.insets = insets
     super.init(rootLayout)
   }
 
-  public init(_ rootLayout: CollectionLayout<Data>, insetProvider: @escaping ((CGSize) -> UIEdgeInsets)) {
+  public init(_ rootLayout: Layout, insetProvider: @escaping ((CGSize) -> UIEdgeInsets)) {
     self.insets = .zero
     self.insetProvider = insetProvider
     super.init(rootLayout)
@@ -27,14 +48,11 @@ open class InsetLayout<Data>: WrapperLayout<Data> {
     return rootLayout.contentSize.insets(by: -insets)
   }
 
-  open override func layout(collectionSize: CGSize,
-                            dataProvider: CollectionDataProvider<Data>,
-                            sizeProvider: @escaping (Int, Data, CGSize) -> CGSize) {
+  open override func layout(context: LayoutContext) {
     if let insetProvider = insetProvider {
-      insets = insetProvider(collectionSize)
+      insets = insetProvider(context.collectionSize)
     }
-    rootLayout.layout(collectionSize: collectionSize.insets(by: insets),
-                      dataProvider: dataProvider, sizeProvider: sizeProvider)
+    rootLayout.layout(context: InsetLayoutContext(original: context, insets: insets))
   }
 
   open override func visibleIndexes(visibleFrame: CGRect) -> [Int] {

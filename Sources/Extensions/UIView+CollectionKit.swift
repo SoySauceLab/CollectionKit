@@ -11,8 +11,8 @@ import UIKit
 extension UIView {
   private struct AssociatedKeys {
     static var reuseManager = "reuseManager"
-    static var presenter = "presenter"
-    static var currentPresenter = "currentPresenter"
+    static var animator = "animator"
+    static var currentAnimator = "currentAnimator"
   }
 
   internal var reuseManager: CollectionReuseViewManager? {
@@ -20,19 +20,19 @@ extension UIView {
     set { objc_setAssociatedObject(self, &AssociatedKeys.reuseManager, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
   }
 
-  public var collectionPresenter: CollectionPresenter? {
-    get { return objc_getAssociatedObject(self, &AssociatedKeys.presenter) as? CollectionPresenter }
+  public var collectionAnimator: Animator? {
+    get { return objc_getAssociatedObject(self, &AssociatedKeys.animator) as? Animator }
     set {
-      if collectionPresenter === currentCollectionPresenter {
-        currentCollectionPresenter = newValue
+      if collectionAnimator === currentCollectionAnimator {
+        currentCollectionAnimator = newValue
       }
-      objc_setAssociatedObject(self, &AssociatedKeys.presenter, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+      objc_setAssociatedObject(self, &AssociatedKeys.animator, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
   }
 
-  internal var currentCollectionPresenter: CollectionPresenter? {
-    get { return objc_getAssociatedObject(self, &AssociatedKeys.currentPresenter) as? CollectionPresenter }
-    set { objc_setAssociatedObject(self, &AssociatedKeys.currentPresenter,
+  internal var currentCollectionAnimator: Animator? {
+    get { return objc_getAssociatedObject(self, &AssociatedKeys.currentAnimator) as? Animator }
+    set { objc_setAssociatedObject(self, &AssociatedKeys.currentAnimator,
                                    newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
   }
 

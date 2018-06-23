@@ -9,30 +9,66 @@
 import UIKit
 import CollectionKit
 
-class MessageCell: DynamicView {
+class TextMessageCell: MessageCell {
   var textLabel = UILabel()
-  var imageView: UIImageView?
 
-  var message: Message! {
+  override var message: Message! {
     didSet {
       textLabel.text = message.content
       textLabel.textColor = message.textColor
       textLabel.font = UIFont.systemFont(ofSize: message.fontSize)
+    }
+  }
 
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    textLabel.frame = frame
+    textLabel.numberOfLines = 0
+    addSubview(textLabel)
+  }
+
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    textLabel.frame = bounds.insetBy(dx: message.cellPadding, dy: message.cellPadding)
+  }
+}
+
+class ImageMessageCell: MessageCell {
+  var imageView = UIImageView()
+
+  override var message: Message! {
+    didSet {
+      imageView.image = UIImage(named: message.content)
+    }
+  }
+
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    imageView.frame = bounds
+    imageView.contentMode = .scaleAspectFill
+    clipsToBounds = true
+    addSubview(imageView)
+  }
+
+  required init?(coder aDecoder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    imageView.frame = bounds
+  }
+}
+
+class MessageCell: DynamicView {
+
+  var message: Message! {
+    didSet {
       layer.cornerRadius = message.roundedCornder ? 10 : 0
-
-      if message.type == .image {
-        imageView = imageView ?? UIImageView()
-        imageView?.image = UIImage(named: message.content)
-        imageView?.frame = bounds
-        imageView?.contentMode = .scaleAspectFill
-        imageView?.clipsToBounds = true
-        imageView?.layer.cornerRadius = layer.cornerRadius
-        addSubview(imageView!)
-      } else {
-        imageView?.removeFromSuperview()
-        imageView = nil
-      }
 
       if message.showShadow {
         layer.shadowOffset = CGSize(width: 0, height: 5)
@@ -51,9 +87,6 @@ class MessageCell: DynamicView {
 
   override init(frame: CGRect) {
     super.init(frame: frame)
-    addSubview(textLabel)
-    textLabel.frame = frame
-    textLabel.numberOfLines = 0
     layer.shouldRasterize = true
     layer.rasterizationScale = UIScreen.main.scale
     isOpaque = true
@@ -68,8 +101,6 @@ class MessageCell: DynamicView {
     if message?.showShadow ?? false {
       layer.shadowPath = UIBezierPath(roundedRect: bounds, cornerRadius: layer.cornerRadius).cgPath
     }
-    textLabel.frame = bounds.insetBy(dx: message.cellPadding, dy: message.cellPadding)
-    imageView?.frame = bounds
   }
 
   static func sizeForText(_ text: String, fontSize: CGFloat, maxWidth: CGFloat, padding: CGFloat) -> CGSize {

@@ -8,13 +8,11 @@
 
 import UIKit
 
-open class SimpleLayout<Data>: CollectionLayout<Data> {
+open class SimpleLayout: Layout {
   var _contentSize: CGSize = .zero
   public private(set) var frames: [CGRect] = []
 
-  open func simpleLayout(collectionSize: CGSize,
-                         dataProvider: CollectionDataProvider<Data>,
-                         sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
+  open func simpleLayout(context: LayoutContext) -> [CGRect] {
     fatalError("Subclass should provide its own layout")
   }
 
@@ -22,11 +20,8 @@ open class SimpleLayout<Data>: CollectionLayout<Data> {
 
   }
 
-  public final override func layout(collectionSize: CGSize,
-                                    dataProvider: CollectionDataProvider<Data>,
-                                    sizeProvider: @escaping CollectionSizeProvider<Data>) {
-    frames = simpleLayout(collectionSize: collectionSize,
-                          dataProvider: dataProvider, sizeProvider: sizeProvider)
+  public final override func layout(context: LayoutContext) {
+    frames = simpleLayout(context: context)
     _contentSize = frames.reduce(CGRect.zero) { (old, item) in
       old.union(item)
     }.size
@@ -52,7 +47,7 @@ open class SimpleLayout<Data>: CollectionLayout<Data> {
   }
 }
 
-open class VerticalSimpleLayout<Data>: SimpleLayout<Data> {
+open class VerticalSimpleLayout: SimpleLayout {
   private var maxFrameLength: CGFloat = 0
 
   open override func doneLayout() {
@@ -76,7 +71,7 @@ open class VerticalSimpleLayout<Data>: SimpleLayout<Data> {
   }
 }
 
-open class HorizontalSimpleLayout<Data>: SimpleLayout<Data> {
+open class HorizontalSimpleLayout: SimpleLayout {
   private var maxFrameLength: CGFloat = 0
 
   open override func doneLayout() {

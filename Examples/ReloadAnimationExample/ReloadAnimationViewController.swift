@@ -9,7 +9,7 @@
 import UIKit
 import CollectionKit
 
-class AnimatedReloadPresenter: CollectionPresenter {
+class AnimatedReloadAnimator: Animator {
   static let defaultEntryTransform: CATransform3D = CATransform3DTranslate(CATransform3DScale(CATransform3DIdentity, 0.8, 0.8, 1), 0, 0, -1)
   static let fancyEntryTransform: CATransform3D = {
     var trans = CATransform3DIdentity
@@ -25,7 +25,7 @@ class AnimatedReloadPresenter: CollectionPresenter {
   }
 
   override func delete(collectionView: CollectionView, view: UIView) {
-    if collectionView.reloading, collectionView.bounds.intersects(view.frame) {
+    if collectionView.isReloading, collectionView.bounds.intersects(view.frame) {
       UIView.animate(withDuration: 0.25, animations: {
         view.layer.transform = self.entryTransform
         view.alpha = 0
@@ -44,7 +44,7 @@ class AnimatedReloadPresenter: CollectionPresenter {
   override func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     view.bounds = frame.bounds
     view.center = frame.center
-    if collectionView.reloading, collectionView.hasReloaded, collectionView.bounds.intersects(frame) {
+    if collectionView.isReloading, collectionView.hasReloaded, collectionView.bounds.intersects(frame) {
       let offsetTime: TimeInterval = TimeInterval(frame.origin.distance(collectionView.contentOffset) / 3000)
       view.layer.transform = entryTransform
       view.alpha = 0
@@ -77,7 +77,7 @@ class AnimatedReloadPresenter: CollectionPresenter {
 
 class ReloadAnimationViewController: CollectionViewController {
 
-  let dataProvider = ArrayDataProvider<Int>(data: []) { (_, data) in
+  let dataSource = ArrayDataSource<Int>(data: []) { (_, data) in
     return "\(data)"
   }
 
@@ -95,10 +95,10 @@ class ReloadAnimationViewController: CollectionViewController {
 
   var currentDataIndex = 0
   var data: [[Int]] = [
-    [],
     [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],
     [2,3,5,8,10],
     [8,9,10,11,12,13,14,15,16],
+    [],
   ]
 
   override func viewDidLoad() {
@@ -106,49 +106,42 @@ class ReloadAnimationViewController: CollectionViewController {
     reloadButton.addTarget(self, action: #selector(reload), for: .touchUpInside)
     view.addSubview(reloadButton)
 
-    collectionView.contentInset = UIEdgeInsetsMake(20, 10, 20, 10)
-    let layout = FlowLayout<Int>(lineSpacing: 15,
-                                 interitemSpacing: 15,
-                                 justifyContent: .spaceAround,
-                                 alignItems: .center,
-                                 alignContent: .center)
-    let presenter = AnimatedReloadPresenter(entryTransform: AnimatedReloadPresenter.fancyEntryTransform)
-    let provider = CollectionProvider(
-      dataProvider: dataProvider,
-      viewUpdater: { (view: UILabel, data: Int, index: Int) in
+    collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 54, right: 10)
+    dataSource.data = data[0]
+
+    provider = BasicProvider(
+      dataSource: dataSource,
+      viewSource: ClosureViewSource(viewUpdater: { (view: SquareView, data: Int, index: Int) in
         view.backgroundColor = UIColor(hue: CGFloat(data) / 30,
                                        saturation: 0.68,
                                        brightness: 0.98,
                                        alpha: 1)
-        view.textColor = .white
-        view.textAlignment = .center
-        view.layer.cornerRadius = 4
-        view.layer.masksToBounds = true
         view.text = "\(data)"
+      }),
+      sizeSource: { (index, data, _) in
+        return CGSize(width: 80, height: 80)
+      },
+      layout: FlowLayout(lineSpacing: 15,
+                         interitemSpacing: 15,
+                         justifyContent: .spaceAround,
+                         alignItems: .center,
+                         alignContent: .center),
+      animator: AnimatedReloadAnimator(entryTransform: AnimatedReloadAnimator.fancyEntryTransform),
+      tapHandler: { [weak self] context in
+        self?.dataSource.data.remove(at: context.index)
       }
     )
-    provider.layout = layout
-    provider.sizeProvider = { (index, data, _) in
-      return CGSize(width: 80, height: 80)
-    }
-    provider.presenter = presenter
-    provider.tapHandler = { [weak self] (view, index, _) in
-      self?.dataProvider.data.remove(at: index)
-    }
-    self.provider = provider
   }
 
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
-    let viewWidth = view.bounds.width
-    let viewHeight = view.bounds.height
-    reloadButton.frame = CGRect(x: 0, y: viewHeight - 44, width: viewWidth, height: 44)
-    collectionView.frame = CGRect(x: 0, y: 0, width: viewWidth, height: viewHeight - 44)
+    reloadButton.frame = CGRect(x: 0, y: view.bounds.height - 44,
+                                width: view.bounds.width, height: 44)
   }
 
   @objc func reload() {
     currentDataIndex = (currentDataIndex + 1) % data.count
-    dataProvider.data = data[currentDataIndex]
+    dataSource.data = data[currentDataIndex]
   }
 }
 

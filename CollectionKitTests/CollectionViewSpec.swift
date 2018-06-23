@@ -14,18 +14,17 @@ class CollectionViewSpec: QuickSpec {
 
   override func spec() {
     describe("CollectionView") {
-      var provider: CollectionProvider<Int, UILabel>!
+      var provider: BasicProvider<Int, UILabel>!
       var collectionView: CollectionView!
       beforeEach {
-        provider = CollectionProvider(
-          data: [1, 2, 3, 4],
-          viewUpdater: { (label: UILabel, data: Int, index: Int) in
+        provider = BasicProvider(
+          dataSource: ArrayDataSource(data: [1, 2, 3, 4]),
+          viewSource: ClosureViewSource(viewUpdater: { (label: UILabel, data: Int, index: Int) in
             label.backgroundColor = .red
-            label.layer.cornerRadius = 8
             label.textAlignment = .center
             label.text = "\(data)"
-          },
-          sizeProvider: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+          }),
+          sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
             return CGSize(width: 50, height: 50)
           }
         )
@@ -51,7 +50,7 @@ class CollectionViewSpec: QuickSpec {
         expect((collectionView.subviews[0] as! UILabel).text) == "1"
         expect((collectionView.subviews[0] as! UILabel).textAlignment) == NSTextAlignment.center
 
-        expect(provider.layout).to(beAKindOf(FlowLayout<Int>.self))
+        expect(provider.layout).to(beAKindOf(FlowLayout.self))
         expect(collectionView.subviews[0].frame) == CGRect(x: 0, y: 0, width: 50, height: 50)
         expect(collectionView.subviews[1].frame) == CGRect(x: 50, y: 0, width: 50, height: 50)
         expect(collectionView.subviews[2].frame) == CGRect(x: 100, y: 0, width: 50, height: 50)
@@ -123,7 +122,7 @@ class CollectionViewSpec: QuickSpec {
         expect((collectionView.subviews[1] as! UILabel).text) == "2"
         expect(collectionView.contentSize) == CGSize(width: 100, height: 100)
 
-        provider.dataProvider = ArrayDataProvider(data:[9, 8, 5, 6, 7])
+        provider.dataSource = ArrayDataSource(data:[9, 8, 5, 6, 7])
         collectionView.layoutIfNeeded()
         expect(collectionView.reloadCount) == 2
 
@@ -134,7 +133,7 @@ class CollectionViewSpec: QuickSpec {
         expect((collectionView.subviews[1] as! UILabel).text) == "8"
         expect(collectionView.contentSize) == CGSize(width: 100, height: 150)
 
-        provider.dataProvider = ArrayDataProvider(data:[8, 5, 6, 7])
+        provider.dataSource = ArrayDataSource(data:[8, 5, 6, 7])
         collectionView.layoutIfNeeded()
         expect(collectionView.reloadCount) == 3
 
@@ -183,12 +182,12 @@ class CollectionViewSpec: QuickSpec {
         expect((collectionView.cell(at: 0) as! UILabel).text) == "1"
         expect((collectionView.cell(at: 1) as! UILabel).text) == "2"
 
-        provider = CollectionProvider(
-          dataProvider: ArrayDataProvider(data: [0,0,0,0], identifierMapper: { _, data in "\(data)" }),
-          viewUpdater: { (label: UILabel, data: Int, index: Int) in
+        provider = BasicProvider(
+          dataSource: ArrayDataSource(data: [0, 0, 0, 0]),
+          viewSource: ClosureViewSource(viewUpdater: { (label: UILabel, data: Int, index: Int) in
             label.text = "\(data)"
-          },
-          sizeProvider: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+          }),
+          sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
             return CGSize(width: 50, height: 50)
           }
         )
@@ -219,18 +218,19 @@ class CollectionViewSpec: QuickSpec {
 
       it("handles tap") {
         var lastTappedIndex: Int = -1
-        provider = CollectionProvider(
-          data: [0, 1, 2, 3],
-          viewUpdater: { (label: UILabel, data: Int, index: Int) in
+        provider = BasicProvider(
+          dataSource: ArrayDataSource(data: [0, 1, 2, 3]),
+          viewSource: ClosureViewSource(viewUpdater: { (label: UILabel, data: Int, index: Int) in
             label.text = "\(data)"
-          },
-          sizeProvider: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+          }),
+          sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
             return CGSize(width: 50, height: 50)
           },
-          tapHandler: { view, index, dataProvider in
-            lastTappedIndex = index
+          tapHandler: { context in
+            lastTappedIndex = context.index
           }
         )
+        
         collectionView.provider = provider
         collectionView.frame = CGRect(x: 0, y: 0, width: 500, height: 50)
         collectionView.layoutIfNeeded()

@@ -8,13 +8,13 @@
 
 import UIKit
 
-public class RowLayout<Data>: HorizontalSimpleLayout<Data> {
+public class RowLayout: HorizontalSimpleLayout {
   public var spacing: CGFloat
   public var fillIdentifiers: Set<String>
   public var alignItems: AlignItem
   public var justifyContent: JustifyContent
 
-  /// always stretch filling item to fill empty space even if sizeProvider returns a smaller size
+  /// always stretch filling item to fill empty space even if sizeSource returns a smaller size
   public var alwaysFillEmptySpaces: Bool = true
 
   public init(fillIdentifiers: Set<String>,
@@ -36,23 +36,19 @@ public class RowLayout<Data>: HorizontalSimpleLayout<Data> {
               justifyContent: justifyContent, alignItems: alignItems)
   }
 
-  public override func simpleLayout(collectionSize: CGSize,
-                                    dataProvider: CollectionDataProvider<Data>,
-                                    sizeProvider: @escaping CollectionSizeProvider<Data>) -> [CGRect] {
+  public override func simpleLayout(context: LayoutContext) -> [CGRect] {
 
-    let (sizes, totalWidth) = getCellSizes(collectionSize: collectionSize,
-                                           dataProvider: dataProvider,
-                                           sizeProvider: sizeProvider)
+    let (sizes, totalWidth) = getCellSizes(context: context)
 
     let (offset, distributedSpacing) = LayoutHelper.distribute(justifyContent: justifyContent,
-                                                               maxPrimary: collectionSize.width,
+                                                               maxPrimary: context.collectionSize.width,
                                                                totalPrimary: totalWidth,
                                                                minimunSpacing: spacing,
-                                                               numberOfItems: dataProvider.numberOfItems)
+                                                               numberOfItems: context.numberOfItems)
 
     let frames = LayoutHelper.alignItem(alignItems: alignItems,
                                         startingPrimaryOffset: offset, spacing: distributedSpacing,
-                                        sizes: sizes, secondaryRange: 0...max(0, collectionSize.height))
+                                        sizes: sizes, secondaryRange: 0...max(0, context.collectionSize.height))
 
     return frames
   }
@@ -60,29 +56,27 @@ public class RowLayout<Data>: HorizontalSimpleLayout<Data> {
 
 extension RowLayout {
 
-  func getCellSizes(collectionSize: CGSize,
-                    dataProvider: CollectionDataProvider<Data>,
-                    sizeProvider: @escaping CollectionSizeProvider<Data>) -> (sizes: [CGSize], totalWidth: CGFloat) {
+  func getCellSizes(context: LayoutContext) -> (sizes: [CGSize], totalWidth: CGFloat) {
     var sizes: [CGSize] = []
-    let spacings = spacing * CGFloat(dataProvider.numberOfItems - 1)
+    let spacings = spacing * CGFloat(context.numberOfItems - 1)
     var freezedWidth = spacings
     var fillIndexes: [Int] = []
 
-    for i in 0..<dataProvider.numberOfItems {
-      if fillIdentifiers.contains(dataProvider.identifier(at: i)) {
+    for i in 0..<context.numberOfItems {
+      if fillIdentifiers.contains(context.identifier(at: i)) {
         fillIndexes.append(i)
         sizes.append(.zero)
       } else {
-        let size = sizeProvider(i, dataProvider.data(at: i), collectionSize)
+        let size = context.size(at: i, collectionSize: context.collectionSize)
         sizes.append(size)
         freezedWidth += size.width
       }
     }
 
-    let leftOverWidthPerItem: CGFloat = max(0, collectionSize.width - freezedWidth) / CGFloat(fillIndexes.count)
+    let leftOverWidthPerItem: CGFloat = max(0, context.collectionSize.width - freezedWidth) / CGFloat(fillIndexes.count)
     for i in fillIndexes {
-      let size = sizeProvider(i, dataProvider.data(at: i), CGSize(width: leftOverWidthPerItem,
-                                                                  height: collectionSize.height))
+      let size = context.size(at: i, collectionSize: CGSize(width: leftOverWidthPerItem,
+                                                            height: context.collectionSize.height))
       let width = alwaysFillEmptySpaces ? max(leftOverWidthPerItem, size.width) : size.width
       sizes[i] = CGSize(width: width, height: size.height)
       freezedWidth += sizes[i].width

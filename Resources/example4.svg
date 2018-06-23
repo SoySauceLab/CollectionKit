@@ -1,0 +1,42 @@
+<svg width="240px" height="140px" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs></defs>
+    <style>
+        .bodyText { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            font-size: 24pt;
+            font-weight: normal;
+            fill: #D73A49;
+        }
+    </style>
+    <rect fill="#F6F8FA" width="100%" height="100%" rx="8"></rect>
+
+    <svg x="5" y="0" width="50" height="50">
+        <rect fill="#FFD8DC" rx="8" width="100%" height="100%"></rect>
+        <text x="50%" y ="55%" class="bodyText" text-anchor="middle" alignment-baseline="middle" >7</text>
+    </svg>
+
+    <svg x="65" y="0" width="50" height="50">
+        <rect fill="#FFD8DC" rx="8" width="100%" height="100%"></rect>
+        <text x="50%" y ="55%" class="bodyText" text-anchor="middle" alignment-baseline="middle" >8</text>
+    </svg>
+
+    <svg x="125" y="0" width="50" height="50">
+        <rect fill="#FFD8DC" rx="8" width="100%" height="100%"></rect>
+        <text x="50%" y ="55%" class="bodyText" text-anchor="middle" alignment-baseline="middle" >9</text>
+    </svg>
+
+    <svg x="185" y="0" width="50" height="50">
+        <rect fill="#FFD8DC" rx="8" width="100%" height="100%"></rect>
+        <text x="50%" y ="55%" class="bodyText" text-anchor="middle" alignment-baseline="middle" >10</text>
+    </svg>
+
+    <svg x="65" y="60" width="50" height="50">
+        <rect fill="#FFD8DC" rx="8" width="100%" height="100%"></rect>
+        <text x="50%" y ="55%" class="bodyText" text-anchor="middle" alignment-baseline="middle" >11</text>
+    </svg>
+
+    <svg x="125" y="60" width="50" height="50">
+        <rect fill="#FFD8DC" rx="8" width="100%" height="100%"></rect>
+        <text x="50%" y ="55%" class="bodyText" text-anchor="middle" alignment-baseline="middle" >12</text>
+    </svg>
+</svg>
