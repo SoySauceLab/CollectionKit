@@ -6,7 +6,7 @@
 //  Copyright © 2017 lkzhao. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public protocol CollectionReloadable: class {
   var collectionView: CollectionView? { get }
@@ -52,7 +52,7 @@ internal class CollectionViewManager {
 // UIScrollView has a weird behavior where its contentOffset resets to .zero when
 // frame is assigned.
 // this swizzling fixed the issue. where the scrollview would jump during scroll
-extension CollectionView {
+extension UIScrollView {
   @objc func collectionKitAdjustContentOffsetIfNecessary(_ animated: Bool) {
     guard !isDragging && !isDecelerating else { return }
     self.perform(#selector(CollectionView.collectionKitAdjustContentOffsetIfNecessary))
