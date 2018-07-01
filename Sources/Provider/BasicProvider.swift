@@ -13,8 +13,8 @@ open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, 
   public var identifier: String?
   public var dataSource: DataSource<Data> { didSet { setNeedsReload() } }
   public var viewSource: ViewSource<Data, View> { didSet { setNeedsReload() } }
-  public var sizeSource: SizeSource<Data> { didSet { setNeedsReload() } }
-  public var layout: Layout { didSet { setNeedsReload() } }
+  public var sizeSource: SizeSource<Data> { didSet { setNeedsInvalidateLayout() } }
+  public var layout: Layout { didSet { setNeedsInvalidateLayout() } }
   public var animator: Animator? { didSet { setNeedsReload() } }
   public var tapHandler: TapHandler?
 

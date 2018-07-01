@@ -24,6 +24,9 @@ extension CollectionReloadable {
   public func setNeedsReload() {
     collectionView?.setNeedsReload()
   }
+  public func setNeedsInvalidateLayout() {
+    collectionView?.setNeedsInvalidateLayout()
+  }
 }
 
 internal class CollectionViewManager {
@@ -38,7 +41,7 @@ internal class CollectionViewManager {
     collectionViews.add(collectionView)
   }
 
-  internal func collectionView(for reloadable: CollectionReloadable) -> CollectionView? {
+  func collectionView(for reloadable: CollectionReloadable) -> CollectionView? {
     for collectionView in collectionViews.allObjects {
       if let provider = collectionView.provider, provider.hasReloadable(reloadable) {
         return collectionView

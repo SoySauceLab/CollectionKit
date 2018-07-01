@@ -34,14 +34,14 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
   }
 
   public var headerSizeSource: HeaderSizeSource {
-    didSet { setNeedsReload() }
+    didSet { setNeedsInvalidateLayout() }
   }
 
   public var layout: Layout {
     get { return stickyLayout.rootLayout }
     set {
       stickyLayout.rootLayout = newValue
-      setNeedsReload()
+      setNeedsInvalidateLayout()
     }
   }
 

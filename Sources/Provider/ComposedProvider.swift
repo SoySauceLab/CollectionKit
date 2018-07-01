@@ -13,7 +13,7 @@ open class ComposedProvider: SectionProvider, LayoutableProvider, CollectionRelo
   public var identifier: String?
   public var sections: [Provider] { didSet { setNeedsReload() } }
   public var animator: Animator? { didSet { setNeedsReload() } }
-  public var layout: Layout { didSet { setNeedsReload() } }
+  public var layout: Layout { didSet { setNeedsInvalidateLayout() } }
 
   public init(identifier: String? = nil,
               layout: Layout = FlowLayout(),
