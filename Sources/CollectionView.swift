@@ -26,6 +26,7 @@ open class CollectionView: UIScrollView {
   public var hasReloaded: Bool { return reloadCount > 0 }
 
   public let tapGestureRecognizer = UITapGestureRecognizer()
+  public let longPressGestureRecognizer = UILongPressGestureRecognizer()
 
   // visible identifiers for cells on screen
   public private(set) var visibleIndexes: [Int] = []
@@ -58,12 +59,23 @@ open class CollectionView: UIScrollView {
 
     tapGestureRecognizer.addTarget(self, action: #selector(tap(gesture:)))
     addGestureRecognizer(tapGestureRecognizer)
+    longPressGestureRecognizer.addTarget(self, action: #selector(longPress(gesture:)))
+    addGestureRecognizer(longPressGestureRecognizer)
   }
 
   @objc func tap(gesture: UITapGestureRecognizer) {
     for (cell, index) in zip(visibleCells, visibleIndexes).reversed() {
       if cell.point(inside: gesture.location(in: cell), with: nil) {
         flattenedProvider.didTap(view: cell, at: index)
+        return
+      }
+    }
+  }
+
+  @objc func longPress(gesture: UILongPressGestureRecognizer) {
+    for (cell, index) in zip(visibleCells, visibleIndexes).reversed() {
+      if cell.point(inside: gesture.location(in: cell), with: nil) {
+        flattenedProvider.didLongPress(view: cell, at: index)
         return
       }
     }

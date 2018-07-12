@@ -56,6 +56,11 @@ class ReloadDataViewController: CollectionViewController {
       animator: ScaleAnimator(),
       tapHandler: { [weak self] context in
         self?.dataSource.data.remove(at: context.index)
+      },
+      longPressHandler: { [weak self] context in
+        let alert = UIAlertController(title: nil, message: "Long pressed", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak alert] action in alert?.dismiss(animated: true) })
+        self?.present(alert, animated: true)
       }
     )
   }

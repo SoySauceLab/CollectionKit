@@ -44,6 +44,7 @@ open class EmptyCollectionProvider: ItemProvider, CollectionReloadable {
   open func willReload() {}
   open func didReload() {}
   open func didTap(view: UIView, at: Int) {}
+  open func didLongPress(view: UIView, at: Int) {}
 
   open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     return reloadable === self

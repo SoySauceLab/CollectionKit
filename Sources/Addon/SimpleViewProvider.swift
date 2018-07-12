@@ -77,6 +77,7 @@ open class SimpleViewProvider: ItemProvider, CollectionReloadable {
 
   public func update(view: UIView, at: Int) {}
   public func didTap(view: UIView, at: Int) {}
+  public func didLongPress(view: UIView, at: Int) {}
 
   struct SimpleViewLayoutContext: LayoutContext {
     let collectionSize: CGSize
