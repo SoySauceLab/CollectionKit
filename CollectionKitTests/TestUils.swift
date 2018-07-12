@@ -98,3 +98,23 @@ extension UITapGestureRecognizer {
     return (view ?? parent).convert(testLocation, from: parent)
   }
 }
+
+extension UILongPressGestureRecognizer {
+  static var testLocation: CGPoint? = {
+    let swizzling: (AnyClass, Selector, Selector) -> Void = { forClass, originalSelector, swizzledSelector in
+      let originalMethod = class_getInstanceMethod(forClass, originalSelector)
+      let swizzledMethod = class_getInstanceMethod(forClass, swizzledSelector)
+      method_exchangeImplementations(originalMethod!, swizzledMethod!)
+    }
+    let originalSelector = #selector(location(in:))
+    let swizzledSelector = #selector(test_location(in:))
+    swizzling(UILongPressGestureRecognizer.self, originalSelector, swizzledSelector)
+    return nil
+  }()
+
+
+  @objc dynamic func test_location(in view: UIView?) -> CGPoint {
+    guard let testLocation = UILongPressGestureRecognizer.testLocation, let parent = self.view else { return test_location(in: view) }
+    return (view ?? parent).convert(testLocation, from: parent)
+  }
+}

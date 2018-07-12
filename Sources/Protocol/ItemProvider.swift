@@ -13,6 +13,7 @@ public protocol ItemProvider: Provider {
   func update(view: UIView, at: Int)
 
   func didTap(view: UIView, at: Int)
+  func didLongPress(view: UIView, at: Int)
 }
 
 extension ItemProvider {

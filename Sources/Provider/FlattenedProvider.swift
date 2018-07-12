@@ -129,8 +129,14 @@ struct FlattenedProvider: ItemProvider {
   }
 
   func didTap(view: UIView, at: Int) {
-    return apply(at) {
+    apply(at) {
       $0.didTap(view: view, at: $1)
+    }
+  }
+
+  func didLongPress(view: UIView, at: Int) {
+    apply(at) {
+      $0.didLongPress(view: view, at: $1)
     }
   }
 

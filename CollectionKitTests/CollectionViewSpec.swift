@@ -230,7 +230,7 @@ class CollectionViewSpec: QuickSpec {
             lastTappedIndex = context.index
           }
         )
-        
+
         collectionView.provider = provider
         collectionView.frame = CGRect(x: 0, y: 0, width: 500, height: 50)
         collectionView.layoutIfNeeded()
@@ -242,6 +242,34 @@ class CollectionViewSpec: QuickSpec {
         collectionView.tap(gesture: collectionView.tapGestureRecognizer)
         UITapGestureRecognizer.testLocation = nil
         expect(lastTappedIndex) == 2
+      }
+
+      it("handles longPress") {
+        var lastPressedIndex: Int = -1
+        provider = BasicProvider(
+          dataSource: ArrayDataSource(data: [0, 1, 2, 3]),
+          viewSource: ClosureViewSource(viewUpdater: { (label: UILabel, data: Int, index: Int) in
+            label.text = "\(data)"
+          }),
+          sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
+            return CGSize(width: 50, height: 50)
+          },
+          longPressHandler: { context in
+            lastPressedIndex = context.index
+          }
+        )
+
+        collectionView.provider = provider
+        collectionView.frame = CGRect(x: 0, y: 0, width: 500, height: 50)
+        collectionView.layoutIfNeeded()
+        UILongPressGestureRecognizer.testLocation = CGPoint(x: 10, y: 10)
+        collectionView.longPress(gesture: collectionView.longPressGestureRecognizer)
+        UILongPressGestureRecognizer.testLocation = nil
+        expect(lastPressedIndex) == 0
+        UILongPressGestureRecognizer.testLocation = CGPoint(x: 110, y: 10)
+        collectionView.longPress(gesture: collectionView.longPressGestureRecognizer)
+        UILongPressGestureRecognizer.testLocation = nil
+        expect(lastPressedIndex) == 2
       }
     }
   }
