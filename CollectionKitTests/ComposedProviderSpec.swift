@@ -75,25 +75,55 @@ class ComposedProviderSpec: QuickSpec {
         expect((collectionView.subviews[0] as! UILabel).text) == "a"
         expect((collectionView.subviews[1] as! UILabel).text) == "b"
 
-        expect(collectionView.subviews[0].frame.origin) == CGPoint.zero
-        composer.layout = RowLayout(justifyContent: .center)
-        collectionView.layoutIfNeeded()
-        expect(collectionView.reloadCount) == 3
-        expect(collectionView.subviews[0].frame.origin) != CGPoint.zero
-
         composer.animator = ScaleAnimator()
         collectionView.layoutIfNeeded()
-        expect(collectionView.reloadCount) == 4
+        expect(collectionView.reloadCount) == 3
 
         provider2.data = ["b"]
         collectionView.layoutIfNeeded()
-        expect(collectionView.reloadCount) == 5
+        expect(collectionView.reloadCount) == 4
         expect(collectionView.visibleCells.count) == 1
         expect((collectionView.subviews[0] as! UILabel).text) == "b"
 
         provider1.data = [3, 4, 5] // provider1 is not a section anymore, shouldnt trigger reload
         collectionView.layoutIfNeeded()
-        expect(collectionView.reloadCount) == 5
+        expect(collectionView.reloadCount) == 4
+      }
+
+      it("shouldn't reload when it doesn't need to") {
+        let provider1 = SimpleTestProvider(data: [1, 2, 3, 4])
+        let provider2 = SimpleTestProvider(data: ["a", "b"])
+        let provider3 = SimpleTestProvider(data: ["hello", "collectionKit"])
+        let composer = ComposedProvider(sections: [provider1, provider2, provider3])
+        let collectionView = CollectionView(provider: composer)
+        collectionView.frame = CGRect(x: 0, y: 0, width: 300, height: 500)
+        collectionView.layoutIfNeeded()
+        expect(collectionView.reloadCount) == 1
+
+        expect(collectionView.subviews[0].frame.origin) == CGPoint.zero
+        expect(collectionView.subviews[1].frame.origin) == CGPoint(x: 50, y: 0)
+        provider1.sizeSource = { _, _, _ in
+          return CGSize(width: 30, height: 30)
+        }
+        collectionView.layoutIfNeeded()
+        expect(collectionView.reloadCount) == 1
+        expect(collectionView.subviews[0].frame.origin) == CGPoint.zero
+        expect(collectionView.subviews[1].frame.origin) == CGPoint(x: 30, y: 0)
+
+        // changing layout shouldn't reload, but will invalidate layout
+        provider1.layout = FlowLayout(justifyContent: .spaceBetween)
+        collectionView.layoutIfNeeded()
+        expect(collectionView.reloadCount) == 1
+        expect(collectionView.subviews[0].frame.origin) == CGPoint.zero
+        expect(collectionView.subviews[1].frame.origin) != CGPoint(x: 30, y: 0)
+
+        // changing layout shouldn't reload, but will invalidate layout
+        provider1.layout = FlowLayout()
+        composer.layout = FlowLayout(justifyContent: .center)
+        collectionView.layoutIfNeeded()
+        print(collectionView.subviews.map({ $0.frame }))
+        expect(collectionView.reloadCount) == 1
+        expect(collectionView.subviews[0].frame.origin) != CGPoint.zero
       }
 
       it("supports nested update") {
