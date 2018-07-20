@@ -57,7 +57,7 @@ internal class CollectionViewManager {
 // this swizzling fixed the issue. where the scrollview would jump during scroll
 extension UIScrollView {
   @objc func collectionKitAdjustContentOffsetIfNecessary(_ animated: Bool) {
-    guard !isDragging && !isDecelerating else { return }
+    guard !(self is CollectionView) || !isDragging && !isDecelerating else { return }
     self.perform(#selector(CollectionView.collectionKitAdjustContentOffsetIfNecessary))
   }
 
