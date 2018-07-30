@@ -61,9 +61,9 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
   public typealias TapHandler = (TapContext) -> Void
 
   public struct TapContext {
-    let view: HeaderView
-    let index: Int
-    let section: Provider
+    public let view: HeaderView
+    public let index: Int
+    public let section: Provider
   }
 
   private var stickyLayout: StickyLayout
