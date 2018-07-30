@@ -132,7 +132,8 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
 
   public func didTap(view: UIView, at: Int) {
     if let tapHandler = tapHandler {
-      let context = TapContext(view: view as! HeaderView, index: at, section: sections[at])
+      let index = at / 2
+      let context = TapContext(view: view as! HeaderView, index: index, section: sections[index])
       tapHandler(context)
     }
   }
