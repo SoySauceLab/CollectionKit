@@ -26,6 +26,7 @@ open class SimpleViewProvider: ItemProvider, CollectionReloadable {
     didSet { setNeedsReload() }
   }
   public var animator: Animator? { didSet { setNeedsReload() } }
+  public var tapHandler: ((UIView) -> Void)?
 
   public init(identifier: String? = nil,
               views: [UIView] = [],
@@ -76,7 +77,9 @@ open class SimpleViewProvider: ItemProvider, CollectionReloadable {
   }
 
   public func update(view: UIView, at: Int) {}
-  public func didTap(view: UIView, at: Int) {}
+  public func didTap(view: UIView, at: Int) {
+    tapHandler?(view)
+  }
 
   struct SimpleViewLayoutContext: LayoutContext {
     let collectionSize: CGSize
