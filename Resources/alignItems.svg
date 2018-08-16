@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="510px" height="410px" viewBox="0 0 510 410" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>alignItems</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="alignItems" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(10.000000, 10.000000)">
+            <rect id="Rectangle" fill="#F6F8FA" x="0" y="0" width="240" height="150" rx="8"></rect>
+            <g id="Group" transform="translate(8.000000, 8.000000)">
+                <rect id="Rectangle-2" fill="#FF576B" x="0" y="0" width="50" height="92" rx="8"></rect>
+                <rect id="Rectangle-2" fill="#DA88FF" x="174" y="0" width="50" height="81" rx="8"></rect>
+                <rect id="Rectangle-2" fill="#6DABF4" x="58" y="0" width="50" height="59" rx="8"></rect>
+                <rect id="Rectangle-2" fill="#50E3C2" x="116" y="0" width="50" height="136" rx="8"></rect>
+            </g>
+            <text id=".start" font-family="Helvetica-Bold, Helvetica" font-size="30" font-weight="bold" letter-spacing="0.4615385" fill="#656565">
+                <tspan x="81.935697" y="179">.start</tspan>
+            </text>
+        </g>
+        <g id="Group-2" transform="translate(10.000000, 210.000000)">
+            <rect id="Rectangle" fill="#F6F8FA" x="0" y="0" width="240" height="150" rx="8"></rect>
+            <g id="Group" transform="translate(8.000000, 8.000000)">
+                <rect id="Rectangle-2" fill="#FF576B" x="0" y="22" width="50" height="92" rx="8"></rect>
+                <rect id="Rectangle-2" fill="#DA88FF" x="174" y="28" width="50" height="81" rx="8"></rect>
+                <rect id="Rectangle-2" fill="#6DABF4" x="58" y="39" width="50" height="59" rx="8"></rect>
+                <rect id="Rectangle-2" fill="#50E3C2" x="116" y="0" width="50" height="136" rx="8"></rect>
+            </g>
+            <text id=".center" font-family="Helvetica-Bold, Helvetica" font-size="30" font-weight="bold" letter-spacing="0.4615385" fill="#656565">
+                <tspan x="69.1951621" y="179">.center</tspan>
+            </text>
+        </g>
+        <g id="Group-2" transform="translate(260.000000, 10.000000)">
+            <rect id="Rectangle" fill="#F6F8FA" x="0" y="0" width="240" height="150" rx="8"></rect>
+            <g id="Group" transform="translate(8.000000, 8.000000)">
+                <rect id="Rectangle-2" fill="#FF576B" x="0" y="44" width="50" height="92" rx="8"></rect>
+                <rect id="Rectangle-2" fill="#DA88FF" x="174" y="55" width="50" height="81" rx="8"></rect>
+                <rect id="Rectangle-2" fill="#6DABF4" x="58" y="77" width="50" height="59" rx="8"></rect>
+                <rect id="Rectangle-2" fill="#50E3C2" x="116" y="0" width="50" height="136" rx="8"></rect>
+            </g>
+            <text id=".end" font-family="Helvetica-Bold, Helvetica" font-size="30" font-weight="bold" letter-spacing="0.4615385" fill="#656565">
+                <tspan x="88.2419621" y="179">.end</tspan>
+            </text>
+        </g>
+        <g id="Group-2-Copy" transform="translate(260.000000, 210.000000)">
+            <rect id="Rectangle" fill="#F6F8FA" x="0" y="0" width="240" height="150" rx="8"></rect>
+            <g id="Group" transform="translate(8.000000, 8.000000)">
+                <rect id="Rectangle-2" fill="#FF576B" x="0" y="0" width="50" height="134" rx="8"></rect>
+                <rect id="Rectangle-2" fill="#DA88FF" x="174" y="0" width="50" height="134" rx="8"></rect>
+                <rect id="Rectangle-2" fill="#6DABF4" x="58" y="0" width="50" height="134" rx="8"></rect>
+                <rect id="Rectangle-2" fill="#50E3C2" x="116" y="0" width="50" height="136" rx="8"></rect>
+            </g>
+            <text id=".stretch" font-family="Helvetica-Bold, Helvetica" font-size="30" font-weight="bold" letter-spacing="0.4615385" fill="#656565">
+                <tspan x="63.9692757" y="179">.stretch</tspan>
+            </text>
+        </g>
+    </g>
+</svg>
