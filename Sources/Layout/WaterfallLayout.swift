@@ -14,7 +14,7 @@ public class WaterfallLayout: VerticalSimpleLayout {
   private var columnWidth: [CGFloat] = [0, 0]
   private var maxSize = CGSize.zero
 
-  public init(columns: Int = 1, spacing: CGFloat = 10) {
+  public init(columns: Int = 2, spacing: CGFloat = 0) {
     self.columns = columns
     self.spacing = spacing
     super.init()
