@@ -274,6 +274,14 @@
 			path = ReloadDataExample;
 			sourceTree = "<group>";
 		};
+		A31DCF22213144DE00C948A3 /* WobbleAnimator */ = {
+			isa = PBXGroup;
+			children = (
+				B144CE121F437AB70073CF4E /* WobbleAnimator.swift */,
+			);
+			path = WobbleAnimator;
+			sourceTree = "<group>";
+		};
 		A351C3441CE4C917005E15A7 /* ChatExample (Advance) */ = {
 			isa = PBXGroup;
 			children = (
@@ -353,6 +361,7 @@
 				A33E637320D7957200BC6D2C /* v2_migration.md */,
 				A3DDEED01C7D893D0053BFAE /* Sources */,
 				A3FC21C61C6EE5AA008566BB /* Examples */,
+				A31DCF22213144DE00C948A3 /* WobbleAnimator */,
 				B19D64CC1F23DE8100D02FDB /* CollectionKitTests */,
 				B15029101EA66FC400F89915 /* Frameworks */,
 			);
@@ -500,7 +509,6 @@
 				B145FFA31F5DF5C300A4F318 /* PresenterExampleViewController.swift */,
 				B14B0E091F27A084003E5105 /* SelectionButton.swift */,
 				B1A0736F1F438A3500E28E23 /* EdgeShrinkAnimator.swift */,
-				B144CE121F437AB70073CF4E /* WobbleAnimator.swift */,
 				B144CE141F437AC10073CF4E /* ZoomAnimator.swift */,
 			);
 			path = AnimatorExample;
