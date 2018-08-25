@@ -14,11 +14,13 @@ class CollectionViewSpec: QuickSpec {
 
   override func spec() {
     describe("CollectionView") {
+      var dataSource: ArrayDataSource<Int>!
       var provider: BasicProvider<Int, UILabel>!
       var collectionView: CollectionView!
       beforeEach {
+        dataSource = ArrayDataSource(data: [1, 2, 3, 4])
         provider = BasicProvider(
-          dataSource: ArrayDataSource(data: [1, 2, 3, 4]),
+          dataSource: dataSource,
           viewSource: ClosureViewSource(viewUpdater: { (label: UILabel, data: Int, index: Int) in
             label.backgroundColor = .red
             label.textAlignment = .center
@@ -172,6 +174,49 @@ class CollectionViewSpec: QuickSpec {
         expect(collectionView.index(for: collectionView.cell(at: 0)!)) == 0
         expect(collectionView.index(for: collectionView.cell(at: 1)!)) == 1
         expect(collectionView.index(for: UIView())).to(beNil())
+      }
+
+      it("can handle conflict identifiers") {
+        dataSource.identifierMapper = {
+          return "\($1)"
+        }
+        dataSource.data = [0, 0, 0, 0]
+        collectionView.frame = CGRect(x: 0, y: 0, width: 300, height: 300)
+        collectionView.layoutIfNeeded()
+        expect(collectionView.reloadCount) == 1
+        expect(collectionView.visibleCells.count) == 4
+        expect(collectionView.subviews.count) == 4
+
+        expect((collectionView.cell(at: 0) as! UILabel).text) == "0"
+        expect((collectionView.cell(at: 1) as! UILabel).text) == "0"
+        expect((collectionView.cell(at: 2) as! UILabel).text) == "0"
+        expect((collectionView.cell(at: 3) as! UILabel).text) == "0"
+
+        dataSource.data = [0, 0, 1, 2]
+        collectionView.layoutIfNeeded()
+        expect(collectionView.reloadCount) == 2
+        expect(collectionView.visibleCells.count) == 4
+        expect(collectionView.subviews.count) == 4
+        expect((collectionView.cell(at: 0) as! UILabel).text) == "0"
+        expect((collectionView.cell(at: 1) as! UILabel).text) == "0"
+        expect((collectionView.cell(at: 2) as! UILabel).text) == "1"
+        expect((collectionView.cell(at: 3) as! UILabel).text) == "2"
+
+        dataSource.data = [0, 0, 0, 0]
+        collectionView.layoutIfNeeded()
+        expect(collectionView.reloadCount) == 3
+        expect((collectionView.cell(at: 2) as! UILabel).text) == "0"
+        expect((collectionView.cell(at: 3) as! UILabel).text) == "0"
+
+        dataSource.data = [1, 2, 3, 4]
+        collectionView.layoutIfNeeded()
+        expect(collectionView.reloadCount) == 4
+        expect(collectionView.visibleCells.count) == 4
+        expect(collectionView.subviews.count) == 4
+        expect((collectionView.cell(at: 0) as! UILabel).text) == "1"
+        expect((collectionView.cell(at: 1) as! UILabel).text) == "2"
+        expect((collectionView.cell(at: 2) as! UILabel).text) == "3"
+        expect((collectionView.cell(at: 3) as! UILabel).text) == "4"
       }
 
       it("can switch provider and handle duplicate identifiers") {
