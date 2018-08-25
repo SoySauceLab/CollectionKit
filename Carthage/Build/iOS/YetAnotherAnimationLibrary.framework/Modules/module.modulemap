@@ -1,4 +1,0 @@
-framework module YetAnotherAnimationLibrary {
-    header "YetAnotherAnimationLibrary-Swift.h"
-    requires objc
-}
