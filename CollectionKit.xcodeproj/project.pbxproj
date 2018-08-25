@@ -382,7 +382,7 @@
 				A363C57120CBF6A8009A885F /* HeaderExample */,
 				B136E9A11D04C0D500D02FCA /* GridExample */,
 				A3E7918A1D11025B005D9410 /* HorizontalGalleryExample */,
-				B145FFA71F5DFA0100A4F318 /* PresenterExample */,
+				B145FFA71F5DFA0100A4F318 /* AnimatorExample */,
 				0E3258461F5E32DB00D455F8 /* ReloadDataExample */,
 				B14ABA2E1FE30655005D889A /* ReloadAnimationExample */,
 				A3DDEED11C7D894D0053BFAE /* Supporting Files */,
@@ -494,7 +494,7 @@
 			path = DataSource;
 			sourceTree = "<group>";
 		};
-		B145FFA71F5DFA0100A4F318 /* PresenterExample */ = {
+		B145FFA71F5DFA0100A4F318 /* AnimatorExample */ = {
 			isa = PBXGroup;
 			children = (
 				B145FFA31F5DF5C300A4F318 /* PresenterExampleViewController.swift */,
@@ -503,7 +503,7 @@
 				B144CE121F437AB70073CF4E /* WobbleAnimator.swift */,
 				B144CE141F437AC10073CF4E /* ZoomAnimator.swift */,
 			);
-			path = PresenterExample;
+			path = AnimatorExample;
 			sourceTree = "<group>";
 		};
 		B14ABA2E1FE30655005D889A /* ReloadAnimationExample */ = {
