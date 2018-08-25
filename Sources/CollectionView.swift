@@ -161,26 +161,39 @@ open class CollectionView: UIScrollView {
     let newIndexes = flattenedProvider.visibleIndexes(visibleFrame: visibleFrame)
 
     // optimization: we assume that corresponding identifier for each index doesnt change unless forceReload is true.
-    guard forceReload || newIndexes.last != visibleIndexes.last || newIndexes != visibleIndexes else {
+    guard forceReload ||
+      newIndexes.last != visibleIndexes.last ||
+      newIndexes != visibleIndexes else {
       return
     }
 
+    // during reloadData we clear all cache
     if forceReload {
       identifierCache.removeAll()
     }
 
+    var newIdentifierSet = Set<String>()
     let newIdentifiers: [String] = newIndexes.map { index in
       if let identifier = identifierCache[index] {
+        newIdentifierSet.insert(identifier)
         return identifier
       } else {
         let identifier = flattenedProvider.identifier(at: index)
-        identifierCache[index] = identifier
-        return identifier
+
+        // avoid identifier collision
+        var finalIdentifier = identifier
+        var count = 1
+        while newIdentifierSet.contains(finalIdentifier) {
+          finalIdentifier = identifier + "(\(count))"
+          count += 1
+        }
+        newIdentifierSet.insert(finalIdentifier)
+        identifierCache[index] = finalIdentifier
+        return finalIdentifier
       }
     }
 
     var existingIdentifierToCellMap: [String: UIView] = [:]
-    let newIdentifierSet = Set(newIdentifiers)
 
     // 1st pass, delete all removed cells
     for (index, identifier) in visibleIdentifiers.enumerated() {
