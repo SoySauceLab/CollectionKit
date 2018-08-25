@@ -34,7 +34,7 @@ class AnimatorExampleViewController: CollectionViewController {
         view.image = data
       }),
       sizeSource: imageSizeProvider,
-      layout: WaterfallLayout(columns: 2).transposed().inset(by: bodyInset).insetVisibleFrame(by: visibleFrameInsets),
+      layout: WaterfallLayout(columns: 2, spacing: 10).transposed().inset(by: bodyInset).insetVisibleFrame(by: visibleFrameInsets),
       animator: animators[0].1
     )
 

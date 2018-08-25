@@ -40,7 +40,7 @@ class HorizontalGalleryViewController: CollectionViewController {
         view.image = data
       }),
       sizeSource: imageSizeProvider,
-      layout: WaterfallLayout(columns: 2).transposed().insetVisibleFrame(by: visibleFrameInsets),
+      layout: WaterfallLayout(columns: 2, spacing: 10).transposed().insetVisibleFrame(by: visibleFrameInsets),
       animator: WobbleAnimator()
     )
   }
