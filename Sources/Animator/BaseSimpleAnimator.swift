@@ -9,7 +9,7 @@
 import UIKit
 
 open class BaseSimpleAnimator: Animator {
-  public var updateAnimationDuration: TimeInterval = 0.2
+  open var updateAnimationDuration: TimeInterval = 0.2
 
   open func hide(view: UIView) {}
 

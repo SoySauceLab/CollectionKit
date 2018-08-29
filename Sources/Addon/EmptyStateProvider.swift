@@ -9,10 +9,10 @@
 import UIKit
 
 public class EmptyStateProvider: ComposedProvider {
-  public var emptyStateView: UIView?
-  public var emptyStateViewGetter: () -> UIView
-  public var contentProvider: Provider
-  public var emptyStateViewSectionIdentifier: String = "emptyStateView"
+  open var emptyStateView: UIView?
+  open var emptyStateViewGetter: () -> UIView
+  open var contentProvider: Provider
+  open var emptyStateViewSectionIdentifier: String = "emptyStateView"
 
   public init(identifier: String? = nil,
               emptyStateView: @autoclosure @escaping () -> UIView,
@@ -24,7 +24,7 @@ public class EmptyStateProvider: ComposedProvider {
                sections: [content])
   }
 
-  public override func willReload() {
+  open override func willReload() {
     contentProvider.willReload()
     if contentProvider.numberOfItems == 0, sections.first?.identifier != emptyStateViewSectionIdentifier {
       if emptyStateView == nil {
@@ -44,7 +44,7 @@ public class EmptyStateProvider: ComposedProvider {
     }
   }
 
-  public override func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
+  open override func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     return super.hasReloadable(reloadable) || contentProvider.hasReloadable(reloadable)
   }
 }

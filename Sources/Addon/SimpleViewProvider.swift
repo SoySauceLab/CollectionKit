@@ -34,7 +34,7 @@ open class SimpleViewProvider: ItemProvider, CollectionReloadable {
   open var animator: Animator? { didSet { setNeedsReload() } }
   open var tapHandler: ((UIView) -> Void)?
 
-  open init(identifier: String? = nil,
+  public init(identifier: String? = nil,
               views: [UIView] = [],
               sizeStrategy: (width: ViewSizeStrategy, height: ViewSizeStrategy) = (.fit, .fit),
               layout: Layout = FlowLayout(),
