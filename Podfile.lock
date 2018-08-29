@@ -3,14 +3,14 @@ PODS:
   - CollectionKit/WobbleAnimator (2.1.0):
     - CollectionKit/Core
     - YetAnotherAnimationLibrary
-  - Nimble (7.1.3)
-  - Quick (1.3.1)
+  - Nimble (7.1.1)
+  - Quick (1.3.0)
   - YetAnotherAnimationLibrary (1.2.0)
 
 DEPENDENCIES:
   - CollectionKit/WobbleAnimator (from `./`)
-  - Nimble
-  - Quick
+  - Nimble (= 7.1.1)
+  - Quick (= 1.3.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -24,10 +24,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   CollectionKit: 0135ba9cc4910fb0342f99282d00394603c1e26e
-  Nimble: 2839b01d1b31f6a6a7777a221f0d91cf52e8e27b
-  Quick: d17304d58d0d169dd0bd1c6e5c28e3318de32a1a
+  Nimble: 391f07782af4b37914f9bd7b2ffbb952731b8202
+  Quick: 03278013f71aa05fe9ecabc94fbcc6835f1ee76f
   YetAnotherAnimationLibrary: 3cb3e784cf1b4305095e0ef2c57965eb1b51b1c6
 
-PODFILE CHECKSUM: b9492cf94acf42f4f0db5ff48979899ab0bcf3f5
+PODFILE CHECKSUM: df18bae1d7f714105eb69f89ac607e9ea557e408
 
 COCOAPODS: 1.5.3

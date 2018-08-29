@@ -16,37 +16,47 @@ open class SimpleViewProvider: ItemProvider, CollectionReloadable {
     case absolute(CGFloat)
   }
 
-  public var identifier: String?
-  public var layout: Layout
-  public var views: [UIView] { didSet { setNeedsReload() } }
-  public var sizeStrategy: (width: ViewSizeStrategy, height: ViewSizeStrategy) {
-    didSet { setNeedsReload() }
+  open var identifierMapper: (Int, UIView) -> String {
+    didSet {
+      setNeedsReload()
+    }
   }
-  public var sizeStrategyOverride: [UIView: (width: ViewSizeStrategy, height: ViewSizeStrategy)] = [:] {
-    didSet { setNeedsReload() }
-  }
-  public var animator: Animator? { didSet { setNeedsReload() } }
-  public var tapHandler: ((UIView) -> Void)?
 
-  public init(identifier: String? = nil,
+  open var identifier: String?
+  open var layout: Layout
+  open var views: [UIView] { didSet { setNeedsReload() } }
+  open var sizeStrategy: (width: ViewSizeStrategy, height: ViewSizeStrategy) {
+    didSet { setNeedsReload() }
+  }
+  open var sizeStrategyOverride: [UIView: (width: ViewSizeStrategy, height: ViewSizeStrategy)] = [:] {
+    didSet { setNeedsReload() }
+  }
+  open var animator: Animator? { didSet { setNeedsReload() } }
+  open var tapHandler: ((UIView) -> Void)?
+
+  open init(identifier: String? = nil,
               views: [UIView] = [],
               sizeStrategy: (width: ViewSizeStrategy, height: ViewSizeStrategy) = (.fit, .fit),
-              layout: Layout = FlowLayout()) {
+              layout: Layout = FlowLayout(),
+              identifierMapper: @escaping (Int, UIView) -> String = { index, view in
+                return "\(view.hash)"
+              }) {
     self.identifier = identifier
     self.layout = layout
     self.sizeStrategy = sizeStrategy
     self.views = views
+    self.identifierMapper = identifierMapper
   }
 
-  public var numberOfItems: Int {
+  open var numberOfItems: Int {
     return views.count
   }
 
-  public func identifier(at: Int) -> String {
-    return "\(views[at].hash)"
+  open func identifier(at: Int) -> String {
+    return identifierMapper(at, views[at])
   }
 
-  public func layout(collectionSize: CGSize) {
+  open func layout(collectionSize: CGSize) {
     let context = SimpleViewLayoutContext(
       collectionSize: collectionSize,
       views: views,
@@ -56,28 +66,28 @@ open class SimpleViewProvider: ItemProvider, CollectionReloadable {
     layout.layout(context: context)
   }
 
-  public func visibleIndexes(visibleFrame: CGRect) -> [Int] {
+  open func visibleIndexes(visibleFrame: CGRect) -> [Int] {
     return layout.visibleIndexes(visibleFrame: visibleFrame)
   }
 
-  public var contentSize: CGSize {
+  open var contentSize: CGSize {
     return layout.contentSize
   }
 
-  public func frame(at: Int) -> CGRect {
+  open func frame(at: Int) -> CGRect {
     return layout.frame(at: at)
   }
 
-  public func view(at: Int) -> UIView {
+  open func view(at: Int) -> UIView {
     return views[at]
   }
 
-  public func animator(at: Int) -> Animator? {
+  open func animator(at: Int) -> Animator? {
     return animator
   }
 
-  public func update(view: UIView, at: Int) {}
-  public func didTap(view: UIView, at: Int) {
+  open func update(view: UIView, at: Int) {}
+  open func didTap(view: UIView, at: Int) {
     tapHandler?(view)
   }
 
