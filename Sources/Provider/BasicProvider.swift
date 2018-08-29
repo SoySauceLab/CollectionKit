@@ -10,13 +10,13 @@ import UIKit
 
 open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, CollectionReloadable {
 
-  public var identifier: String?
-  public var dataSource: DataSource<Data> { didSet { setNeedsReload() } }
-  public var viewSource: ViewSource<Data, View> { didSet { setNeedsReload() } }
-  public var sizeSource: SizeSource<Data> { didSet { setNeedsInvalidateLayout() } }
-  public var layout: Layout { didSet { setNeedsInvalidateLayout() } }
-  public var animator: Animator? { didSet { setNeedsReload() } }
-  public var tapHandler: TapHandler?
+  open var identifier: String?
+  open var dataSource: DataSource<Data> { didSet { setNeedsReload() } }
+  open var viewSource: ViewSource<Data, View> { didSet { setNeedsReload() } }
+  open var sizeSource: SizeSource<Data> { didSet { setNeedsInvalidateLayout() } }
+  open var layout: Layout { didSet { setNeedsInvalidateLayout() } }
+  open var animator: Animator? { didSet { setNeedsReload() } }
+  open var tapHandler: TapHandler?
 
   public typealias TapHandler = (TapContext) -> Void
 

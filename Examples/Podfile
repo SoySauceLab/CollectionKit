@@ -1,0 +1,7 @@
+
+use_frameworks!
+
+target "CollectionKitExamples" do
+	pod "CollectionKit", :path => '../'
+	pod "CollectionKit/WobbleAnimator", :path => '../'
+end

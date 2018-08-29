@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CollectionKit
 import YetAnotherAnimationLibrary
 
 open class WobbleAnimator: Animator {

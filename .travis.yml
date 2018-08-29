@@ -1,16 +1,8 @@
-os: osx
 language: swift
-osx_image: xcode9
+osx_image: xcode9.4
 
-script:
-  - xcodebuild -scheme CollectionKit -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 7,OS=10.3.1' build test
-
-cache:
-  directories:
-  - Carthage
-
-before_install:
-  - carthage bootstrap --no-use-binaries --platform iOS --cache-builds
+script: 
+  xcodebuild -workspace CollectionKit.xcworkspace -scheme CollectionKit -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 7,OS=10.3.1' build test
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -J 'CollectionKit'

@@ -10,10 +10,10 @@ import UIKit
 
 open class ComposedProvider: SectionProvider, LayoutableProvider, CollectionReloadable {
 
-  public var identifier: String?
-  public var sections: [Provider] { didSet { setNeedsReload() } }
-  public var animator: Animator? { didSet { setNeedsReload() } }
-  public var layout: Layout { didSet { setNeedsInvalidateLayout() } }
+  open var identifier: String?
+  open var sections: [Provider] { didSet { setNeedsReload() } }
+  open var animator: Animator? { didSet { setNeedsReload() } }
+  open var layout: Layout { didSet { setNeedsInvalidateLayout() } }
 
   public init(identifier: String? = nil,
               layout: Layout = FlowLayout(),

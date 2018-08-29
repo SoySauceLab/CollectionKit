@@ -13,7 +13,7 @@ open class SpaceProvider: EmptyCollectionProvider {
     case fill
     case absolute(CGFloat)
   }
-  public var sizeStrategy: (SpaceSizeStrategy, SpaceSizeStrategy)
+  open var sizeStrategy: (SpaceSizeStrategy, SpaceSizeStrategy)
   public init(sizeStrategy: (SpaceSizeStrategy, SpaceSizeStrategy) = (.fill, .fill)) {
     self.sizeStrategy = sizeStrategy
     super.init()

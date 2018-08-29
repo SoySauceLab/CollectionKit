@@ -19,25 +19,25 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
   public typealias HeaderViewSource = ViewSource<HeaderData, HeaderView>
   public typealias HeaderSizeSource = SizeSource<HeaderData>
 
-  public var identifier: String?
+  open var identifier: String?
 
-  public var sections: [Provider] {
+  open var sections: [Provider] {
     didSet { setNeedsReload() }
   }
 
-  public var animator: Animator? {
+  open var animator: Animator? {
     didSet { setNeedsReload() }
   }
 
-  public var headerViewSource: HeaderViewSource {
+  open var headerViewSource: HeaderViewSource {
     didSet { setNeedsReload() }
   }
 
-  public var headerSizeSource: HeaderSizeSource {
+  open var headerSizeSource: HeaderSizeSource {
     didSet { setNeedsInvalidateLayout() }
   }
 
-  public var layout: Layout {
+  open var layout: Layout {
     get { return stickyLayout.rootLayout }
     set {
       stickyLayout.rootLayout = newValue
@@ -45,7 +45,7 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
     }
   }
 
-  public var isSticky = true {
+  open var isSticky = true {
     didSet {
       if isSticky {
         stickyLayout.isStickyFn = { $0 % 2 == 0 }
@@ -56,7 +56,7 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
     }
   }
 
-  public var tapHandler: TapHandler?
+  open var tapHandler: TapHandler?
 
   public typealias TapHandler = (TapContext) -> Void
 
@@ -118,19 +118,19 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
     return animator
   }
 
-  public func view(at: Int) -> UIView {
+  open func view(at: Int) -> UIView {
     let index = at / 2
     return headerViewSource.view(data: HeaderData(index: index, section: sections[index]), index: index)
   }
 
-  public func update(view: UIView, at: Int) {
+  open func update(view: UIView, at: Int) {
     let index = at / 2
     headerViewSource.update(view: view as! HeaderView,
                               data: HeaderData(index: index, section: sections[index]),
                               index: index)
   }
 
-  public func didTap(view: UIView, at: Int) {
+  open func didTap(view: UIView, at: Int) {
     if let tapHandler = tapHandler {
       let index = at / 2
       let context = TapContext(view: view as! HeaderView, index: index, section: sections[index])
