@@ -9,9 +9,12 @@
 import UIKit
 
 open class FadeAnimator: BaseSimpleAnimator {
+  open var alpha: CGFloat = 0
+
   open override func hide(view: UIView) {
-    view.alpha = 0
+    view.alpha = alpha
   }
+
   open override func show(view: UIView) {
     view.alpha = 1
   }
