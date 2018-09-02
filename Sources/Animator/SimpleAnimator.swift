@@ -1,5 +1,5 @@
 //
-//  BaseSimpleAnimator.swift
+//  SimpleAnimator.swift
 //  CollectionKit
 //
 //  Created by Luke Zhao on 2018-06-16.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class BaseSimpleAnimator: Animator {
+open class SimpleAnimator: Animator {
   open var animationDuration: TimeInterval = 0.3
   open var animationOptions: UIViewAnimationOptions = []
   open var useSpringAnimation: Bool = false
