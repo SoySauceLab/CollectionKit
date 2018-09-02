@@ -8,13 +8,16 @@
 
 import UIKit
 
-open class ScaleAnimator: BaseSimpleAnimator {
+open class ScaleAnimator: FadeAnimator {
+  open var scale: CGFloat = 0.5
+
   open override func hide(view: UIView) {
-    view.alpha = 0
-    view.transform = CGAffineTransform.identity.scaledBy(x: 0.5, y: 0.5)
+    super.hide(view: view)
+    view.transform = CGAffineTransform.identity.scaledBy(x: scale, y: scale)
   }
+
   open override func show(view: UIView) {
-    view.alpha = 1
+    super.show(view: view)
     view.transform = CGAffineTransform.identity
   }
 }

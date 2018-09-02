@@ -9,25 +9,28 @@
 import UIKit
 
 open class BaseSimpleAnimator: Animator {
-  open var updateAnimationDuration: TimeInterval = 0.2
+  open var animationDuration: TimeInterval = 0.3
+  open var animationOptions: UIViewAnimationOptions = []
+  open var useSpringAnimation: Bool = false
+  open var springDamping: CGFloat = 0.8
 
+  // override point for subclass
   open func hide(view: UIView) {}
-
   open func show(view: UIView) {}
 
   open override func insert(collectionView: CollectionView, view: UIView, at: Int, frame: CGRect) {
     super.insert(collectionView: collectionView, view: view, at: at, frame: frame)
     if collectionView.isReloading, collectionView.hasReloaded, collectionView.bounds.intersects(frame) {
       hide(view: view)
-      UIView.animate(withDuration: 0.2, animations: {
+      animate {
         self.show(view: view)
-      })
+      }
     }
   }
 
   open override func delete(collectionView: CollectionView, view: UIView) {
     if collectionView.isReloading, collectionView.bounds.intersects(view.frame) {
-      UIView.animate(withDuration: 0.2, animations: {
+      animate({
         self.hide(view: view)
       }, completion: { _ in
         if !collectionView.visibleCells.contains(view) {
@@ -44,8 +47,31 @@ open class BaseSimpleAnimator: Animator {
     if view.bounds.size != frame.bounds.size {
       view.bounds.size = frame.bounds.size
     }
-    UIView.animate(withDuration: updateAnimationDuration) {
+    animate {
       view.center = frame.center
+    }
+  }
+
+  open func animate(_ animations: @escaping () -> Void) {
+    animate(animations, completion: nil)
+  }
+
+  open func animate(_ animations: @escaping () -> Void,
+                    completion: ((Bool) -> Void)?) {
+    if useSpringAnimation {
+      UIView.animate(withDuration: animationDuration,
+                     delay: 0,
+                     usingSpringWithDamping: springDamping,
+                     initialSpringVelocity: 0,
+                     options: animationOptions,
+                     animations: animations,
+                     completion: completion)
+    } else {
+      UIView.animate(withDuration: animationDuration,
+                     delay: 0,
+                     options: animationOptions,
+                     animations: animations,
+                     completion: completion)
     }
   }
 }
