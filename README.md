@@ -240,8 +240,7 @@ provider.animator = FadeAnimator()
 view.collectionAnimator = WobbleAnimator()
 ```
 
-Note: that `WobbleAnimator`, `ZoomAnimator`, & `EdgeShrinkAnimator` are not provided with CollectionKit. But feel free to grab it from the example project and use them in your project.
-
+Note: that in order to use  `WobbleAnimator`, you have to include `pod "CollectionKit/WobbleAnimator"` subspec to your podfile.
 
 #### Please checkout the example project to see many of these examples in action.
 
