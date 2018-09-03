@@ -33,7 +33,7 @@
 		A32B58A6213662D300DED8B4 /* GridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32B5888213662D200DED8B4 /* GridViewController.swift */; };
 		A32B58A7213662D300DED8B4 /* HeaderExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32B588A213662D200DED8B4 /* HeaderExampleViewController.swift */; };
 		A32B58A8213662D300DED8B4 /* EdgeShrinkAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32B588C213662D200DED8B4 /* EdgeShrinkAnimator.swift */; };
-		A32B58A9213662D300DED8B4 /* PresenterExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32B588D213662D200DED8B4 /* PresenterExampleViewController.swift */; };
+		A32B58A9213662D300DED8B4 /* AnimatorExampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32B588D213662D200DED8B4 /* AnimatorExampleViewController.swift */; };
 		A32B58AA213662D300DED8B4 /* SelectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32B588E213662D200DED8B4 /* SelectionButton.swift */; };
 		A32B58AB213662D300DED8B4 /* ZoomAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32B588F213662D200DED8B4 /* ZoomAnimator.swift */; };
 /* End PBXBuildFile section */
@@ -68,7 +68,7 @@
 		A32B5888213662D200DED8B4 /* GridViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridViewController.swift; sourceTree = "<group>"; };
 		A32B588A213662D200DED8B4 /* HeaderExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderExampleViewController.swift; sourceTree = "<group>"; };
 		A32B588C213662D200DED8B4 /* EdgeShrinkAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EdgeShrinkAnimator.swift; sourceTree = "<group>"; };
-		A32B588D213662D200DED8B4 /* PresenterExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresenterExampleViewController.swift; sourceTree = "<group>"; };
+		A32B588D213662D200DED8B4 /* AnimatorExampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatorExampleViewController.swift; sourceTree = "<group>"; };
 		A32B588E213662D200DED8B4 /* SelectionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectionButton.swift; sourceTree = "<group>"; };
 		A32B588F213662D200DED8B4 /* ZoomAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ZoomAnimator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -212,7 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				A32B588C213662D200DED8B4 /* EdgeShrinkAnimator.swift */,
-				A32B588D213662D200DED8B4 /* PresenterExampleViewController.swift */,
+				A32B588D213662D200DED8B4 /* AnimatorExampleViewController.swift */,
 				A32B588E213662D200DED8B4 /* SelectionButton.swift */,
 				A32B588F213662D200DED8B4 /* ZoomAnimator.swift */,
 			);
@@ -355,7 +355,7 @@
 				A32B5893213662D200DED8B4 /* ArticleExampleViewController.swift in Sources */,
 				A32B58A8213662D300DED8B4 /* EdgeShrinkAnimator.swift in Sources */,
 				A32B5891213662D200DED8B4 /* ArticleData.swift in Sources */,
-				A32B58A9213662D300DED8B4 /* PresenterExampleViewController.swift in Sources */,
+				A32B58A9213662D300DED8B4 /* AnimatorExampleViewController.swift in Sources */,
 				A32B5894213662D200DED8B4 /* Messages.swift in Sources */,
 				A32B58A2213662D300DED8B4 /* HorizontalGalleryViewController.swift in Sources */,
 				A32B589F213662D200DED8B4 /* ViewController.swift in Sources */,
