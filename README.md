@@ -127,7 +127,7 @@ Up to this point, the collection is still a bit ugly to look at. Every cell is l
 These can be achieved with Layout objects. Here is an example.
 
 ```swift
-dataSource.layout = FlowLayout(spacing: 10, justifyContent: .center)
+provider.layout = FlowLayout(spacing: 10, justifyContent: .center)
 ```
 
 <img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example4.svg" />
@@ -142,7 +142,7 @@ Every layout also supports `inset(by:)` and `transposed()` methods.
 
 ```swift
 let inset = UIEdgeInset(top: 10, left: 10, bottom: 10, right: 10)
-dataSource.layout = FlowLayout(spacing: 10).inset(by: inset)
+provider.layout = FlowLayout(spacing: 10).inset(by: inset)
 ```
 
 <img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example5.svg" />
@@ -150,7 +150,7 @@ dataSource.layout = FlowLayout(spacing: 10).inset(by: inset)
 `transposed()` converts a vertical layout into a horizontal layout or vice-versa. It returns the original layout wrapped inside a `TransposedLayout`
 
 ```swift
-dataSource.layout = FlowLayout(spacing: 10).transposed()
+provider.layout = FlowLayout(spacing: 10).transposed()
 ```
 
 <img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example6.svg" />
@@ -159,7 +159,7 @@ You can also use them together like
 
 ```swift
 let inset = UIEdgeInset(top: 10, left: 10, bottom: 10, right: 10)
-dataSource.layout = FlowLayout(spacing: 10).transposed().inset(by: inset)
+provider.layout = FlowLayout(spacing: 10).transposed().inset(by: inset)
 ```
 
 <img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example7.svg" />
