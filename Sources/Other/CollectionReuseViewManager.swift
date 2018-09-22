@@ -37,6 +37,7 @@ public class CollectionReuseViewManager: NSObject {
     if let view = view as? CollectionViewReusableView {
       view.prepareForReuse()
     }
+    view.isHidden = false
     view.reuseManager = self
     return view
   }
@@ -48,11 +49,17 @@ public class CollectionReuseViewManager: NSObject {
     if let view = view as? CollectionViewReusableView {
         view.prepareForReuse()
     }
+    view.isHidden = false
     view.reuseManager = self
     return view
   }
 
   @objc func cleanup() {
+    for views in reusableViews.values {
+      for view in views {
+        view.removeFromSuperview()
+      }
+    }
     reusableViews.removeAll()
   }
 }
