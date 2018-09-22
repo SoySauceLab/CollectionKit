@@ -10,7 +10,7 @@ import UIKit
 
 open class SimpleAnimator: Animator {
   open var animationDuration: TimeInterval = 0.3
-  open var animationOptions: UIViewAnimationOptions = []
+  open var animationOptions: UIView.AnimationOptions = []
   open var useSpringAnimation: Bool = false
   open var springDamping: CGFloat = 0.8
 

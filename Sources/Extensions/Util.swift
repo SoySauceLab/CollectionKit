@@ -123,9 +123,12 @@ extension CGRect {
   var transposed: CGRect {
     return CGRect(origin: origin.transposed, size: size.transposed)
   }
+#if swift(>=4.2)
+#else
   func inset(by insets: UIEdgeInsets) -> CGRect {
     return UIEdgeInsetsInsetRect(self, insets)
   }
+#endif
 }
 
 func delay(_ delay: Double, closure:@escaping () -> Void) {
