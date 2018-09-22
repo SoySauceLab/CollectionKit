@@ -37,7 +37,8 @@ extension UIView {
   }
 
   public func recycleForCollectionKitReuse() {
-    removeFromSuperview()
+//    removeFromSuperview()
+    isHidden = true
     reuseManager?.queue(view: self)
   }
 }
