@@ -21,7 +21,6 @@
 		A32B589A213662D200DED8B4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A32B5877213662D200DED8B4 /* LaunchScreen.storyboard */; };
 		A32B589B213662D200DED8B4 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32B5879213662D200DED8B4 /* Util.swift */; };
 		A32B589C213662D200DED8B4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32B587A213662D200DED8B4 /* AppDelegate.swift */; };
-		A32B589D213662D200DED8B4 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A32B587B213662D200DED8B4 /* Info.plist */; };
 		A32B589E213662D200DED8B4 /* SquareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32B587C213662D200DED8B4 /* SquareView.swift */; };
 		A32B589F213662D200DED8B4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32B587E213662D200DED8B4 /* ViewController.swift */; };
 		A32B58A0213662D200DED8B4 /* ExampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A32B587F213662D200DED8B4 /* ExampleView.swift */; };
@@ -290,7 +289,6 @@
 			files = (
 				A32B5899213662D200DED8B4 /* Assets.xcassets in Resources */,
 				A32B589A213662D200DED8B4 /* LaunchScreen.storyboard in Resources */,
-				A32B589D213662D200DED8B4 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
