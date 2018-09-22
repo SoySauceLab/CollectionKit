@@ -17,7 +17,7 @@ class GridViewController: CollectionViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    let dataSource = ArrayDataSource(data: Array(1...kGridSize.width * kGridSize.height), identifierMapper: { (_, data) in
+    let dataSource = ArrayDataSource(data: Array(1...kGridSize.width * kGridSize.height), identifierSource: { (_, data) in
       return "\(data)"
     })
     let visibleFrameInsets = UIEdgeInsets(top: -150, left: -150, bottom: -150, right: -150)

@@ -11,7 +11,7 @@ import CollectionKit
 
 class MessageDataProvider: ArrayDataSource<Message> {
   init() {
-    super.init(data: testMessages, identifierMapper: { (_, data) in
+    super.init(data: testMessages, identifierSource: { (_, data) in
       return data.identifier
     })
   }

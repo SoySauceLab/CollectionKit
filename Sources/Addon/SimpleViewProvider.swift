@@ -16,7 +16,7 @@ open class SimpleViewProvider: ItemProvider, CollectionReloadable {
     case absolute(CGFloat)
   }
 
-  open var identifierMapper: (Int, UIView) -> String {
+  open var identifierSource: IdentifierSource<UIView> {
     didSet {
       setNeedsReload()
     }
@@ -38,14 +38,12 @@ open class SimpleViewProvider: ItemProvider, CollectionReloadable {
               views: [UIView] = [],
               sizeStrategy: (width: ViewSizeStrategy, height: ViewSizeStrategy) = (.fit, .fit),
               layout: Layout = FlowLayout(),
-              identifierMapper: @escaping (Int, UIView) -> String = { index, view in
-                return "\(view.hash)"
-              }) {
+              identifierSource: @escaping IdentifierSource<UIView> = defaultViewIdentifierSource) {
     self.identifier = identifier
     self.layout = layout
     self.sizeStrategy = sizeStrategy
     self.views = views
-    self.identifierMapper = identifierMapper
+    self.identifierSource = identifierSource
   }
 
   open var numberOfItems: Int {
@@ -53,7 +51,7 @@ open class SimpleViewProvider: ItemProvider, CollectionReloadable {
   }
 
   open func identifier(at: Int) -> String {
-    return identifierMapper(at, views[at])
+    return identifierSource(at, views[at])
   }
 
   open func layout(collectionSize: CGSize) {

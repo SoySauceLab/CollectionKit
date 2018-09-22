@@ -14,23 +14,27 @@ open class ArrayDataSource<Data>: DataSource<Data> {
       setNeedsReload()
     }
   }
-  open var identifierMapper: (Int, Data) -> String {
+
+  open var identifierSource: IdentifierSource<Data> {
     didSet {
       setNeedsReload()
     }
   }
 
-  public init(data: [Data] = [], identifierMapper: @escaping (Int, Data) -> String = { index, _ in "\(index)" }) {
+  public init(data: [Data] = [],
+              identifierSource: @escaping IdentifierSource<Data> = defaultIdentifierSource) {
     self.data = data
-    self.identifierMapper = identifierMapper
+    self.identifierSource = identifierSource
   }
 
   open override var numberOfItems: Int {
     return data.count
   }
+
   open override func identifier(at: Int) -> String {
-    return identifierMapper(at, data[at])
+    return identifierSource(at, data[at])
   }
+
   open override func data(at: Int) -> Data {
     return data[at]
   }
