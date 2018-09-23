@@ -20,6 +20,7 @@ public class CollectionReuseViewManager: NSObject {
   public func queue(view: UIView) {
     let identifier = NSStringFromClass(type(of: view))
     view.reuseManager = nil
+    view.isHidden = true
     if reusableViews[identifier] != nil && !reusableViews[identifier]!.contains(view) {
       reusableViews[identifier]?.append(view)
     } else {
