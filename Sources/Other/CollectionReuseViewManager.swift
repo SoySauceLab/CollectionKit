@@ -13,9 +13,13 @@ public protocol CollectionViewReusableView: class {
 }
 
 public class CollectionReuseViewManager: NSObject {
+
+  /// Time it takes for CollectionReuseViewManager to
+  /// dump all reusableViews to save memory
+  public var lifeSpan: TimeInterval = 5.0
+
   var reusableViews: [String: [UIView]] = [:]
   var cleanupTimer: Timer?
-  public var lifeSpan: TimeInterval = 0.5
 
   public func queue(view: UIView) {
     let identifier = NSStringFromClass(type(of: view))
@@ -26,9 +30,12 @@ public class CollectionReuseViewManager: NSObject {
     } else {
       reusableViews[identifier] = [view]
     }
-    cleanupTimer?.invalidate()
-    cleanupTimer = Timer.scheduledTimer(timeInterval: lifeSpan, target: self,
-                                        selector: #selector(cleanup), userInfo: nil, repeats: false)
+    if let cleanupTimer = cleanupTimer {
+      cleanupTimer.fireDate = Date().addingTimeInterval(lifeSpan)
+    } else {
+      cleanupTimer = Timer.scheduledTimer(timeInterval: lifeSpan, target: self,
+                                          selector: #selector(cleanup), userInfo: nil, repeats: false)
+    }
   }
 
   public func dequeue<T: UIView> (_ defaultView: @autoclosure () -> T) -> T {
@@ -62,5 +69,7 @@ public class CollectionReuseViewManager: NSObject {
       }
     }
     reusableViews.removeAll()
+    cleanupTimer?.invalidate()
+    cleanupTimer = nil
   }
 }
