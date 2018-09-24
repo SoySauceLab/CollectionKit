@@ -51,15 +51,7 @@ public class CollectionReuseViewManager: NSObject {
   }
 
   public func dequeue<T: UIView> (type: T.Type) -> T {
-    let identifier = NSStringFromClass(type.self)
-    let queuedView = reusableViews[identifier]?.popLast() as? T
-    let view = queuedView ?? type.init()
-    if let view = view as? CollectionViewReusableView {
-        view.prepareForReuse()
-    }
-    view.isHidden = false
-    view.reuseManager = self
-    return view
+    return dequeue(type.init())
   }
 
   @objc func cleanup() {
