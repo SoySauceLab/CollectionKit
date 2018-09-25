@@ -247,3 +247,5 @@ Note: that in order to use  `WobbleAnimator`, you have to include `pod "Collecti
 ## Questions? Want to contribute?
 
 Join our public [Slack](https://slackin-axnycthvks.now.sh)!
+
+# 你写的太好了
