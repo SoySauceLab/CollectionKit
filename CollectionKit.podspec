@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'WobbleAnimator' do |cs|
     cs.dependency 'CollectionKit/Core'
-    cs.dependency 'YetAnotherAnimationLibrary'
+    cs.dependency 'YetAnotherAnimationLibrary', "~> 1.3.0"
     cs.source_files = 'WobbleAnimator/**/*.swift'
   end
 end
