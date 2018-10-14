@@ -13,7 +13,11 @@ public protocol CollectionViewReusableView: class {
 }
 
 public class CollectionReuseViewManager: NSObject {
-  public var lifeSpan: TimeInterval = 0.5
+
+  /// Time it takes for CollectionReuseViewManager to
+  /// dump all reusableViews to save memory
+  public var lifeSpan: TimeInterval = 5.0
+
   public var removeFromCollectionViewWhenReuse = false
 
   var reusableViews: [String: [UIView]] = [:]
@@ -32,9 +36,12 @@ public class CollectionReuseViewManager: NSObject {
     } else {
       reusableViews[identifier] = [view]
     }
-    cleanupTimer?.invalidate()
-    cleanupTimer = Timer.scheduledTimer(timeInterval: lifeSpan, target: self,
-                                        selector: #selector(cleanup), userInfo: nil, repeats: false)
+    if let cleanupTimer = cleanupTimer {
+      cleanupTimer.fireDate = Date().addingTimeInterval(lifeSpan)
+    } else {
+      cleanupTimer = Timer.scheduledTimer(timeInterval: lifeSpan, target: self,
+                                          selector: #selector(cleanup), userInfo: nil, repeats: false)
+    }
   }
 
   public func dequeue<T: UIView> (_ defaultView: @autoclosure () -> T) -> T {
@@ -52,15 +59,7 @@ public class CollectionReuseViewManager: NSObject {
   }
 
   public func dequeue<T: UIView> (type: T.Type) -> T {
-    let identifier = NSStringFromClass(type.self)
-    let queuedView = reusableViews[identifier]?.popLast() as? T
-    let view = queuedView ?? type.init()
-    if let view = view as? CollectionViewReusableView {
-        view.prepareForReuse()
-    }
-    view.isHidden = false
-    view.reuseManager = self
-    return view
+    return dequeue(type.init())
   }
 
   @objc func cleanup() {
@@ -70,5 +69,7 @@ public class CollectionReuseViewManager: NSObject {
       }
     }
     reusableViews.removeAll()
+    cleanupTimer?.invalidate()
+    cleanupTimer = nil
   }
 }
