@@ -18,6 +18,10 @@ public class CollectionReuseViewManager: NSObject {
   /// dump all reusableViews to save memory
   public var lifeSpan: TimeInterval = 5.0
 
+  /// When `removeFromCollectionViewWhenReuse` is enabled,
+  /// cells will always be removed from Collection View during reuse.
+  /// This is slower but it doesn't influence the `isHidden` property
+  /// of individual cells.
   public var removeFromCollectionViewWhenReuse = false
 
   var reusableViews: [String: [UIView]] = [:]
