@@ -13,14 +13,20 @@ public protocol CollectionViewReusableView: class {
 }
 
 public class CollectionReuseViewManager: NSObject {
+  public var lifeSpan: TimeInterval = 0.5
+  public var removeFromCollectionViewWhenReuse = false
+
   var reusableViews: [String: [UIView]] = [:]
   var cleanupTimer: Timer?
-  public var lifeSpan: TimeInterval = 0.5
 
   public func queue(view: UIView) {
     let identifier = NSStringFromClass(type(of: view))
     view.reuseManager = nil
-    view.isHidden = true
+    if removeFromCollectionViewWhenReuse {
+      view.removeFromSuperview()
+    } else {
+      view.isHidden = true
+    }
     if reusableViews[identifier] != nil && !reusableViews[identifier]!.contains(view) {
       reusableViews[identifier]?.append(view)
     } else {
@@ -38,7 +44,9 @@ public class CollectionReuseViewManager: NSObject {
     if let view = view as? CollectionViewReusableView {
       view.prepareForReuse()
     }
-    view.isHidden = false
+    if !removeFromCollectionViewWhenReuse {
+      view.isHidden = false
+    }
     view.reuseManager = self
     return view
   }
