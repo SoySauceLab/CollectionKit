@@ -9,19 +9,6 @@
 import UIKit
 import CollectionKit
 
-func imageSizeProvider(at: Int, data: UIImage, collectionSize: CGSize) -> CGSize {
-  var imageSize = data.size
-  if imageSize.width > collectionSize.width {
-    imageSize.height /= imageSize.width/collectionSize.width
-    imageSize.width = collectionSize.width
-  }
-  if imageSize.height > collectionSize.height {
-    imageSize.width /= imageSize.height/collectionSize.height
-    imageSize.height = collectionSize.height
-  }
-  return imageSize
-}
-
 class HorizontalGalleryViewController: CollectionViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -39,7 +26,7 @@ class HorizontalGalleryViewController: CollectionViewController {
       }, viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
         view.image = data
       }),
-      sizeSource: imageSizeProvider,
+      sizeSource: UIImageSizeSource(),
       layout: WaterfallLayout(columns: 2, spacing: 10).transposed().insetVisibleFrame(by: visibleFrameInsets),
       animator: WobbleAnimator()
     )

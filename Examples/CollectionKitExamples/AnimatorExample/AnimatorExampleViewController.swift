@@ -33,7 +33,7 @@ class AnimatorExampleViewController: CollectionViewController {
       }, viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
         view.image = data
       }),
-      sizeSource: imageSizeProvider,
+      sizeSource: UIImageSizeSource(),
       layout: WaterfallLayout(columns: 2, spacing: 10).transposed().inset(by: bodyInset).insetVisibleFrame(by: visibleFrameInsets),
       animator: animators[0].1
     )

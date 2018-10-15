@@ -13,5 +13,5 @@ public protocol LayoutContext {
   var numberOfItems: Int { get }
   func data(at: Int) -> Any
   func identifier(at: Int) -> String
-  func size(at: Int, collectionSize: CGSize) -> CGSize
+  func size(at index: Int, collectionSize: CGSize) -> CGSize
 }

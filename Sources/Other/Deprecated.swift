@@ -78,7 +78,7 @@ extension BasicProvider {
                           dataProvider: DataSource<Data>,
                           viewProvider: ViewSource<Data, View>,
                           layout: Layout = FlowLayout(),
-                          sizeProvider: @escaping SizeSource<Data> = defaultSizeSource,
+                          sizeProvider: SizeSource<Data> = SizeSource<Data>(),
                           presenter: Animator? = nil,
                           willReloadHandler: (() -> Void)? = nil,
                           didReloadHandler: (() -> Void)? = nil,
@@ -98,7 +98,7 @@ extension BasicProvider {
                           viewGenerator: ((Data, Int) -> View)? = nil,
                           viewUpdater: @escaping (View, Data, Int) -> Void,
                           layout: Layout = FlowLayout(),
-                          sizeProvider: @escaping SizeSource<Data> = defaultSizeSource,
+                          sizeProvider: SizeSource<Data> = SizeSource<Data>(),
                           presenter: Animator? = nil,
                           willReloadHandler: (() -> Void)? = nil,
                           didReloadHandler: (() -> Void)? = nil,
@@ -118,7 +118,7 @@ extension BasicProvider {
                           viewGenerator: ((Data, Int) -> View)? = nil,
                           viewUpdater: @escaping (View, Data, Int) -> Void,
                           layout: Layout = FlowLayout(),
-                          sizeProvider: @escaping SizeSource<Data> = defaultSizeSource,
+                          sizeProvider: SizeSource<Data> = SizeSource<Data>(),
                           presenter: Animator? = nil,
                           willReloadHandler: (() -> Void)? = nil,
                           didReloadHandler: (() -> Void)? = nil,
@@ -130,6 +130,42 @@ extension BasicProvider {
               layout: layout,
               animator: presenter,
               tapHandler: BasicProvider.convertTapHandler(tapHandler))
+  }
+
+  @available(*, deprecated, message: "please use designated init instead")
+  public convenience init(identifier: String? = nil,
+              dataSource: DataSource<Data>,
+              viewSource: ViewSource<Data, View>,
+              sizeSource: @escaping ClosureSizeSourceFn<Data>,
+              layout: Layout = FlowLayout(),
+              animator: Animator? = nil,
+              tapHandler: TapHandler? = nil) {
+    self.init(identifier: identifier,
+              dataSource: dataSource,
+              viewSource: viewSource,
+              sizeSource: ClosureSizeSource(sizeSource: sizeSource),
+              layout: layout,
+              animator: animator,
+              tapHandler: tapHandler)
+  }
+}
+
+extension ComposedHeaderProvider {
+  @available(*, deprecated, message: "please use designated init instead")
+  public convenience init(identifier: String? = nil,
+              layout: Layout = FlowLayout(),
+              animator: Animator? = nil,
+              headerViewSource: HeaderViewSource,
+              headerSizeSource: @escaping ClosureSizeSourceFn<HeaderData>,
+              sections: [Provider] = [],
+              tapHandler: TapHandler? = nil) {
+    self.init(identifier: identifier,
+              layout: layout,
+              animator: animator,
+              headerViewSource: headerViewSource,
+              headerSizeSource: ClosureSizeSource(sizeSource: headerSizeSource),
+              sections: sections,
+              tapHandler: tapHandler)
   }
 }
 
