@@ -33,11 +33,10 @@ class ViewController: CollectionViewController {
     super.viewDidLoad()
 
     let examplesSection = BasicProvider(
-      dataSource: ArrayDataSource(data: examples),
-      viewSource: ClosureViewSource(viewUpdater: {
-        (view: ExampleView, data: (String, UIViewController.Type), at: Int) in
+      dataSource: examples,
+      viewSource: { (view: ExampleView, data: (String, UIViewController.Type), at: Int) in
         view.populate(title: data.0, contentViewControllerType: data.1)
-      }),
+      },
       sizeSource: { (_, _, size) -> CGSize in
         return CGSize(width: size.width, height: max(360, UIScreen.main.bounds.height * 0.7))
       },

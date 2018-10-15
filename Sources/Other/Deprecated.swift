@@ -131,42 +131,6 @@ extension BasicProvider {
               animator: presenter,
               tapHandler: BasicProvider.convertTapHandler(tapHandler))
   }
-
-  @available(*, deprecated, message: "please use designated init instead")
-  public convenience init(identifier: String? = nil,
-              dataSource: DataSource<Data>,
-              viewSource: ViewSource<Data, View>,
-              sizeSource: @escaping ClosureSizeSourceFn<Data>,
-              layout: Layout = FlowLayout(),
-              animator: Animator? = nil,
-              tapHandler: TapHandler? = nil) {
-    self.init(identifier: identifier,
-              dataSource: dataSource,
-              viewSource: viewSource,
-              sizeSource: ClosureSizeSource(sizeSource: sizeSource),
-              layout: layout,
-              animator: animator,
-              tapHandler: tapHandler)
-  }
-}
-
-extension ComposedHeaderProvider {
-  @available(*, deprecated, message: "please use designated init instead")
-  public convenience init(identifier: String? = nil,
-              layout: Layout = FlowLayout(),
-              animator: Animator? = nil,
-              headerViewSource: HeaderViewSource,
-              headerSizeSource: @escaping ClosureSizeSourceFn<HeaderData>,
-              sections: [Provider] = [],
-              tapHandler: TapHandler? = nil) {
-    self.init(identifier: identifier,
-              layout: layout,
-              animator: animator,
-              headerViewSource: headerViewSource,
-              headerSizeSource: ClosureSizeSource(sizeSource: headerSizeSource),
-              sections: sections,
-              tapHandler: tapHandler)
-  }
 }
 
 @available(*, deprecated, message: "will be removed soon")

@@ -38,13 +38,13 @@ class ReloadDataViewController: CollectionViewController {
 
     provider = BasicProvider(
       dataSource: dataSource,
-      viewSource: ClosureViewSource(viewUpdater: { (view: SquareView, data: Int, index: Int) in
+      viewSource: { (view: SquareView, data: Int, index: Int) in
         view.backgroundColor = UIColor(hue: CGFloat(data) / 30,
                                        saturation: 0.68,
                                        brightness: 0.98,
                                        alpha: 1)
         view.text = "\(data)"
-      }),
+      },
       sizeSource: { (index, data, _) in
         return CGSize(width: 80, height: data % 3 == 0 ? 120 : 80)
       },

@@ -17,7 +17,7 @@ class HorizontalGalleryViewController: CollectionViewController {
 
     let visibleFrameInsets = UIEdgeInsets(top: 0, left: -100, bottom: 0, right: -100)
     provider = BasicProvider(
-      dataSource: ArrayDataSource(data: testImages),
+      dataSource: testImages,
       viewSource: ClosureViewSource(viewGenerator: { (data, index) -> UIImageView in
         let view = UIImageView()
         view.layer.cornerRadius = 5
