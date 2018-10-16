@@ -21,11 +21,11 @@ class CollectionViewSpec: QuickSpec {
         dataSource = ArrayDataSource(data: [1, 2, 3, 4])
         provider = BasicProvider(
           dataSource: dataSource,
-          viewSource: ClosureViewSource(viewUpdater: { (label: UILabel, data: Int, index: Int) in
+          viewSource: { (label: UILabel, data: Int, index: Int) in
             label.backgroundColor = .red
             label.textAlignment = .center
             label.text = "\(data)"
-          }),
+          },
           sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
             return CGSize(width: 50, height: 50)
           }
@@ -228,10 +228,10 @@ class CollectionViewSpec: QuickSpec {
         expect((collectionView.cell(at: 1) as! UILabel).text) == "2"
 
         provider = BasicProvider(
-          dataSource: ArrayDataSource(data: [0, 0, 0, 0]),
-          viewSource: ClosureViewSource(viewUpdater: { (label: UILabel, data: Int, index: Int) in
+          dataSource: [0, 0, 0, 0],
+          viewSource: { (label: UILabel, data: Int, index: Int) in
             label.text = "\(data)"
-          }),
+          },
           sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
             return CGSize(width: 50, height: 50)
           }
@@ -264,10 +264,10 @@ class CollectionViewSpec: QuickSpec {
       it("handles tap") {
         var lastTappedIndex: Int = -1
         provider = BasicProvider(
-          dataSource: ArrayDataSource(data: [0, 1, 2, 3]),
-          viewSource: ClosureViewSource(viewUpdater: { (label: UILabel, data: Int, index: Int) in
+          dataSource: [0, 1, 2, 3],
+          viewSource: { (label: UILabel, data: Int, index: Int) in
             label.text = "\(data)"
-          }),
+          },
           sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
             return CGSize(width: 50, height: 50)
           },
