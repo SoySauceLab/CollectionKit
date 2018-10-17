@@ -19,8 +19,7 @@ open class ViewSource<Data, View: UIView> {
   }
 
   /// Should update the given view with the provided data and index
-  open func update(view: View, data: Data, index: Int) {
-  }
+  open func update(view: View, data: Data, index: Int) {}
 
   public init() {}
 }

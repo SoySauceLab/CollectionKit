@@ -77,7 +77,7 @@ open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, 
     }
   }
   open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
-    return reloadable === self || reloadable === dataSource
+    return reloadable === self || reloadable === dataSource || reloadable === sizeSource
   }
 }
 
