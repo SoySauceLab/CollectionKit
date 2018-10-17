@@ -8,13 +8,13 @@
 
 import UIKit
 
+public struct HeaderData {
+  public let index: Int
+  public let section: Provider
+}
+
 open class ComposedHeaderProvider<HeaderView: UIView>:
   SectionProvider, ItemProvider, LayoutableProvider, CollectionReloadable {
-
-  public struct HeaderData {
-    public let index: Int
-    public let section: Provider
-  }
 
   public typealias HeaderViewSource = ViewSource<HeaderData, HeaderView>
   public typealias HeaderSizeSource = SizeSource<HeaderData>
