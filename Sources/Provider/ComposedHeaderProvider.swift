@@ -152,7 +152,8 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
 
   // MARK: private stuff
   open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
-    return reloadable === self || reloadable === headerSizeSource || sections.contains(where: { $0.hasReloadable(reloadable) })
+    return reloadable === self || reloadable === headerSizeSource
+      || sections.contains(where: { $0.hasReloadable(reloadable) })
   }
 
   open func flattenedProvider() -> ItemProvider {

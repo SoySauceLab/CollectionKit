@@ -19,8 +19,8 @@
 		A39C84932177B028002084AD /* WaterfallLayoutSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C84922177B028002084AD /* WaterfallLayoutSpec.swift */; };
 		A39C84952177B347002084AD /* BasicProviderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C84942177B347002084AD /* BasicProviderSpec.swift */; };
 		A39C849D2177BF9B002084AD /* SimpleViewSizeSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C849B2177BF8B002084AD /* SimpleViewSizeSource.swift */; };
-		A39C849E2177BFA0002084AD /* ClosureSizeSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C84992177BF62002084AD /* ClosureSizeSource.swift */; };
 		A39C849F2177BFA0002084AD /* UIImageSizeSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C84972177BF49002084AD /* UIImageSizeSource.swift */; };
+		A39C84A02177C369002084AD /* ClosureSizeSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C84992177BF62002084AD /* ClosureSizeSource.swift */; };
 		A3C76C1820CFBE2E003082BF /* Deprecated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1720CFBE2E003082BF /* Deprecated.swift */; };
 		A3C76C1F20D10817003082BF /* LayoutableProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C1E20D10817003082BF /* LayoutableProvider.swift */; };
 		A3C76C2120D1082D003082BF /* SectionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C76C2020D1082D003082BF /* SectionProvider.swift */; };
@@ -547,6 +547,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A3C76C2120D1082D003082BF /* SectionProvider.swift in Sources */,
+				A39C84A02177C369002084AD /* ClosureSizeSource.swift in Sources */,
 				B1CCA0AF1F3A691B00632B19 /* EmptyStateProvider.swift in Sources */,
 				B183C1221F634A3200CEAAE1 /* TransposeLayout.swift in Sources */,
 				A3C76C1820CFBE2E003082BF /* Deprecated.swift in Sources */,
@@ -556,7 +557,6 @@
 				A363C56C20CACA8A009A885F /* FlattenedProvider.swift in Sources */,
 				B1688A2D1F25632900C229BD /* SpaceProvider.swift in Sources */,
 				A363C56520C7EA44009A885F /* ComposedViewSource.swift in Sources */,
-				A39C849E2177BFA0002084AD /* ClosureSizeSource.swift in Sources */,
 				B1B7B0611E7DAD2700F2483E /* Util.swift in Sources */,
 				A3066AAD2176997900467E3C /* BasicProvider+Convenience.swift in Sources */,
 				B144CE0A1F437A6B0073CF4E /* EmptyCollectionProvider.swift in Sources */,
