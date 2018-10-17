@@ -8,11 +8,15 @@
 
 import UIKit
 
-public class ClosureViewSource<Data, View>: ViewSource<Data, View> where View: UIView {
-  public var viewUpdater: (View, Data, Int) -> Void
-  public var viewGenerator: ((Data, Int) -> View)?
+public typealias ViewUpdaterFn<Data, View> = (View, Data, Int) -> Void
+public typealias ViewGeneratorFn<Data, View> = (Data, Int) -> View
 
-  public init(viewGenerator: ((Data, Int) -> View)? = nil, viewUpdater: @escaping (View, Data, Int) -> Void) {
+public class ClosureViewSource<Data, View>: ViewSource<Data, View> where View: UIView {
+  public var viewGenerator: ViewGeneratorFn<Data, View>?
+  public var viewUpdater: ViewUpdaterFn<Data, View>
+
+  public init(viewGenerator: ViewGeneratorFn<Data, View>? = nil,
+              viewUpdater: @escaping ViewUpdaterFn<Data, View>) {
     self.viewGenerator = viewGenerator
     self.viewUpdater = viewUpdater
     super.init()

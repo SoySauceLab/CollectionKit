@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0E3258451F5E23B000D455F8 /* FlowLayoutSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3258441F5E23B000D455F8 /* FlowLayoutSpec.swift */; };
+		A3066AAD2176997900467E3C /* BasicProvider+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3066AAC2176997800467E3C /* BasicProvider+Convenience.swift */; };
+		A3066AAF2176997F00467E3C /* ComposedHeaderProvider+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3066AAE2176997F00467E3C /* ComposedHeaderProvider+Convenience.swift */; };
 		A3299F342064ED690075A137 /* VisibleFrameInsetLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3299F332064ED690075A137 /* VisibleFrameInsetLayout.swift */; };
 		A363C56520C7EA44009A885F /* ComposedViewSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56420C7EA44009A885F /* ComposedViewSource.swift */; };
 		A363C56620C7EA66009A885F /* AnyViewSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56220C7EA2E009A885F /* AnyViewSource.swift */; };
@@ -74,6 +76,8 @@
 		0E3258441F5E23B000D455F8 /* FlowLayoutSpec.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlowLayoutSpec.swift; sourceTree = "<group>"; };
 		18407FD826F3703406A838D4 /* Pods_CollectionKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CollectionKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		571F2E4FA7747B7E5CAC5A2D /* Pods-CollectionKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CollectionKitTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CollectionKitTests/Pods-CollectionKitTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A3066AAC2176997800467E3C /* BasicProvider+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BasicProvider+Convenience.swift"; sourceTree = "<group>"; };
+		A3066AAE2176997F00467E3C /* ComposedHeaderProvider+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ComposedHeaderProvider+Convenience.swift"; sourceTree = "<group>"; };
 		A3299F332064ED690075A137 /* VisibleFrameInsetLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisibleFrameInsetLayout.swift; sourceTree = "<group>"; };
 		A32B59BD213C063400DED8B4 /* CollectionKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CollectionKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A32B59BE213C063400DED8B4 /* CollectionKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CollectionKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -279,8 +283,10 @@
 			isa = PBXGroup;
 			children = (
 				B148237A1F1E87F60007A7E2 /* BasicProvider.swift */,
+				A3066AAC2176997800467E3C /* BasicProvider+Convenience.swift */,
 				B1E861F81F21520200621BA0 /* ComposedProvider.swift */,
 				A363C56D20CBD55B009A885F /* ComposedHeaderProvider.swift */,
+				A3066AAE2176997F00467E3C /* ComposedHeaderProvider+Convenience.swift */,
 				A363C56B20CACA89009A885F /* FlattenedProvider.swift */,
 				B144CE091F437A6B0073CF4E /* EmptyCollectionProvider.swift */,
 			);
@@ -526,6 +532,7 @@
 				B1688A2D1F25632900C229BD /* SpaceProvider.swift in Sources */,
 				A363C56520C7EA44009A885F /* ComposedViewSource.swift in Sources */,
 				B1B7B0611E7DAD2700F2483E /* Util.swift in Sources */,
+				A3066AAD2176997900467E3C /* BasicProvider+Convenience.swift in Sources */,
 				B144CE0A1F437A6B0073CF4E /* EmptyCollectionProvider.swift in Sources */,
 				B144CE061F437A1D0073CF4E /* RowLayout.swift in Sources */,
 				B19D64C91F23DCA800D02FDB /* CollectionReuseViewManager.swift in Sources */,
@@ -546,6 +553,7 @@
 				B1B7B05F1E7DAD2700F2483E /* CollectionView.swift in Sources */,
 				B157E51A1F6719F0008AEF83 /* SimpleLayout.swift in Sources */,
 				A3299F342064ED690075A137 /* VisibleFrameInsetLayout.swift in Sources */,
+				A3066AAF2176997F00467E3C /* ComposedHeaderProvider+Convenience.swift in Sources */,
 				B1E861F41F21517400621BA0 /* DataSource.swift in Sources */,
 				A3C76C1F20D10817003082BF /* LayoutableProvider.swift in Sources */,
 				B157E5181F66FEE5008AEF83 /* OverlayLayout.swift in Sources */,

@@ -24,7 +24,7 @@ class AnimatorExampleViewController: CollectionViewController {
     let visibleFrameInsets = UIEdgeInsets(top: 0, left: -100, bottom: 0, right: -100)
 
     let imageProvider = BasicProvider(
-      dataSource: ArrayDataSource(data: testImages),
+      dataSource: testImages,
       viewSource: ClosureViewSource(viewGenerator: { (data, index) -> UIImageView in
         let view = UIImageView()
         view.layer.cornerRadius = 5
@@ -33,7 +33,7 @@ class AnimatorExampleViewController: CollectionViewController {
       }, viewUpdater: { (view: UIImageView, data: UIImage, at: Int) in
         view.image = data
       }),
-      sizeSource: imageSizeProvider,
+      sizeSource: UIImageSizeSource(),
       layout: WaterfallLayout(columns: 2, spacing: 10).transposed().inset(by: bodyInset).insetVisibleFrame(by: visibleFrameInsets),
       animator: animators[0].1
     )
@@ -44,12 +44,12 @@ class AnimatorExampleViewController: CollectionViewController {
     buttonsCollectionView.showsHorizontalScrollIndicator = false
 
     let buttonsProvider = BasicProvider(
-      dataSource: ArrayDataSource(data: animators),
-      viewSource: ClosureViewSource(viewUpdater: { (view: SelectionButton, data: (String, Animator), at: Int) in
+      dataSource: animators,
+      viewSource: { (view: SelectionButton, data: (String, Animator), at: Int) in
         view.label.text = data.0
         view.label.textColor = imageProvider.animator === data.1 ? .white : .black
         view.backgroundColor = imageProvider.animator === data.1 ? .lightGray : .white
-      }),
+      },
       sizeSource: { _, data, maxSize in
         return CGSize(width: data.0.width(withConstraintedHeight: maxSize.height, font: UIFont.systemFont(ofSize:18)) + 20, height: maxSize.height)
       },

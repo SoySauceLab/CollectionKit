@@ -102,9 +102,9 @@ class ComposedProviderSpec: QuickSpec {
 
         expect(collectionView.subviews[0].frame.origin) == CGPoint.zero
         expect(collectionView.subviews[1].frame.origin) == CGPoint(x: 50, y: 0)
-        provider1.sizeSource = { _, _, _ in
+        provider1.sizeSource = ClosureSizeSource(sizeSource: { _, _, _ in
           return CGSize(width: 30, height: 30)
-        }
+        })
         collectionView.layoutIfNeeded()
         expect(collectionView.reloadCount) == 1
         expect(collectionView.subviews[0].frame.origin) == CGPoint.zero
@@ -160,11 +160,11 @@ class ComposedProviderSpec: QuickSpec {
         let provider2 = SimpleTestProvider(data: ["a", "b"])
 
         let tapProvider = BasicProvider(
-          dataSource: ArrayDataSource(data: [11, 12]),
-          viewSource: ClosureViewSource(viewUpdater: {
+          dataSource: [11, 12],
+          viewSource: {
             (label: UILabel, data: Int, index: Int) in
             label.text = "\(data)"
-          }),
+          },
           sizeSource: { (index: Int, data: Int, collectionSize: CGSize) -> CGSize in
             return CGSize(width: 50, height: 50)
           },

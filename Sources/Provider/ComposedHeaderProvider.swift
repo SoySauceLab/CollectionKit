@@ -73,7 +73,7 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
               layout: Layout = FlowLayout(),
               animator: Animator? = nil,
               headerViewSource: HeaderViewSource,
-              headerSizeSource: @escaping HeaderSizeSource,
+              headerSizeSource: HeaderSizeSource,
               sections: [Provider] = [],
               tapHandler: TapHandler? = nil) {
     self.animator = animator
@@ -182,12 +182,14 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
         return sectionIdentifier
       }
     }
-    func size(at: Int, collectionSize: CGSize) -> CGSize {
-      if at % 2 == 0 {
-        return headerSizeSource(at / 2, data(at: at) as! HeaderData, collectionSize)
+    func size(at index: Int, collectionSize: CGSize) -> CGSize {
+      if index % 2 == 0 {
+        return headerSizeSource.size(at: index / 2,
+                                     data: data(at: index) as! HeaderData,
+                                     collectionSize: collectionSize)
       } else {
-        sections[at / 2].layout(collectionSize: collectionSize)
-        return sections[at / 2].contentSize
+        sections[index / 2].layout(collectionSize: collectionSize)
+        return sections[index / 2].contentSize
       }
     }
   }

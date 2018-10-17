@@ -54,9 +54,9 @@ class SimpleTestProvider<Data>: BasicProvider<Data, UILabel> {
         label.textAlignment = .center
         label.text = "\(data)"
       }),
-      sizeSource: { (index: Int, data: Data, collectionSize: CGSize) -> CGSize in
+      sizeSource: ClosureSizeSource(sizeSource: { (index: Int, data: Data, collectionSize: CGSize) -> CGSize in
         return CGSize(width: 50, height: 50)
-      }
+      })
     )
   }
 

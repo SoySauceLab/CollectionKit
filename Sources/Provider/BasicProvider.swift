@@ -37,7 +37,7 @@ open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, 
   public init(identifier: String? = nil,
               dataSource: DataSource<Data>,
               viewSource: ViewSource<Data, View>,
-              sizeSource: @escaping SizeSource<Data> = defaultSizeSource,
+              sizeSource: SizeSource<Data> = SizeSource<Data>(),
               layout: Layout = FlowLayout(),
               animator: Animator? = nil,
               tapHandler: TapHandler? = nil) {
@@ -95,7 +95,7 @@ struct BasicProviderLayoutContext<Data>: LayoutContext {
   func identifier(at: Int) -> String {
     return dataSource.identifier(at: at)
   }
-  func size(at: Int, collectionSize: CGSize) -> CGSize {
-    return sizeSource(at, dataSource.data(at: at), collectionSize)
+  func size(at index: Int, collectionSize: CGSize) -> CGSize {
+    return sizeSource.size(at: index, data: dataSource.data(at: index), collectionSize: collectionSize)
   }
 }
