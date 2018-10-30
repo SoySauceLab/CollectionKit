@@ -8,13 +8,13 @@
 
 import UIKit
 
+public struct HeaderData {
+  public let index: Int
+  public let section: Provider
+}
+
 open class ComposedHeaderProvider<HeaderView: UIView>:
   SectionProvider, ItemProvider, LayoutableProvider, CollectionReloadable {
-
-  public struct HeaderData {
-    public let index: Int
-    public let section: Provider
-  }
 
   public typealias HeaderViewSource = ViewSource<HeaderData, HeaderView>
   public typealias HeaderSizeSource = SizeSource<HeaderData>
@@ -152,7 +152,8 @@ open class ComposedHeaderProvider<HeaderView: UIView>:
 
   // MARK: private stuff
   open func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
-    return reloadable === self || sections.contains(where: { $0.hasReloadable(reloadable) })
+    return reloadable === self || reloadable === headerSizeSource
+      || sections.contains(where: { $0.hasReloadable(reloadable) })
   }
 
   open func flattenedProvider() -> ItemProvider {

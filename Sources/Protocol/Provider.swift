@@ -36,19 +36,4 @@ public protocol Provider {
 extension Provider {
   public func willReload() {}
   public func didReload() {}
-  public func animator(at: Int) -> Animator? {
-    return nil
-  }
-  public func flattenedProvider() -> ItemProvider {
-    fatalError("""
-      Provider shouldn't be used by itself,
-      please use either SectionProvider or ItemProvider
-      """)
-  }
-}
-
-extension Provider where Self: AnyObject {
-  public func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
-    return reloadable === self
-  }
 }
