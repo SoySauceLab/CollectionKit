@@ -106,7 +106,8 @@ class MessageCell: DynamicView {
   static func sizeForText(_ text: String, fontSize: CGFloat, maxWidth: CGFloat, padding: CGFloat) -> CGSize {
     let maxSize = CGSize(width: maxWidth, height: 0)
     let font = UIFont.systemFont(ofSize: fontSize)
-    var rect = text.boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: [ NSAttributedStringKey.font: font ], context: nil)
+    var rect = text.boundingRect(with: maxSize, options: .usesLineFragmentOrigin,
+                                 attributes: [ NSAttributedString.Key.font: font ], context: nil)
     rect.size = CGSize(width: ceil(rect.size.width) + 2 * padding, height: ceil(rect.size.height) + 2 * padding)
     return rect.size
   }

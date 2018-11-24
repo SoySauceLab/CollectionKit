@@ -81,7 +81,7 @@ func delay(_ delay: Double, closure:@escaping ()->Void) {
 extension String {
   func width(withConstraintedHeight height: CGFloat, font: UIFont) -> CGFloat {
     let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
-    let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedStringKey.font: font], context: nil)
+    let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil)
     
     return boundingBox.width
   }

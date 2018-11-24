@@ -120,8 +120,8 @@ class MessagesViewController: CollectionViewController {
     view.addSubview(newMessageButton)
 
     collectionView.delegate = self
-    collectionView.contentInset = UIEdgeInsetsMake(30, 10, 54, 10)
-    collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(30, 0, 54, 0)
+    collectionView.contentInset = UIEdgeInsets(top: 30, left: 10, bottom: 54, right: 10)
+    collectionView.scrollIndicatorInsets = UIEdgeInsets(top: 30, left: 0, bottom: 54, right: 0)
 
     let textMessageViewSource = ClosureViewSource(viewUpdater: { (view: TextMessageCell, data: Message, at: Int) in
       view.message = data

@@ -16,7 +16,9 @@ open class LabelProvider: SimpleViewProvider {
   public init(identifier: String? = nil, insets: UIEdgeInsets = .zero) {
     let label = UILabel()
     label.numberOfLines = 0
-    super.init(identifier: identifier, views: [label], sizeStrategy: (.fill, .fit),
+    super.init(identifier: identifier,
+               views: [label],
+               sizeSource: SimpleViewSizeSource(sizeStrategy: (.fill, .fit)),
                layout: insets == .zero ? FlowLayout() : FlowLayout().inset(by: insets))
   }
   public init(identifier: String? = nil,
@@ -29,14 +31,18 @@ open class LabelProvider: SimpleViewProvider {
     label.textColor = color
     label.text = text
     label.numberOfLines = 0
-    super.init(identifier: identifier, views: [label], sizeStrategy: (.fill, .fit),
+    super.init(identifier: identifier,
+               views: [label],
+               sizeSource: SimpleViewSizeSource(sizeStrategy: (.fill, .fit)),
                layout: insets == .zero ? FlowLayout() : FlowLayout().inset(by: insets))
   }
   public init(identifier: String? = nil, attributedString: NSAttributedString, insets: UIEdgeInsets = .zero) {
     let label = UILabel()
     label.attributedText = attributedString
     label.numberOfLines = 0
-    super.init(identifier: identifier, views: [label], sizeStrategy: (.fill, .fit),
+    super.init(identifier: identifier,
+               views: [label],
+               sizeSource: SimpleViewSizeSource(sizeStrategy: (.fill, .fit)),
                layout: insets == .zero ? FlowLayout() : FlowLayout().inset(by: insets))
   }
 }

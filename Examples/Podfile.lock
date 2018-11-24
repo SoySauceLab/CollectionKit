@@ -1,11 +1,11 @@
 PODS:
-  - CollectionKit (2.1.0):
-    - CollectionKit/Core (= 2.1.0)
-  - CollectionKit/Core (2.1.0)
-  - CollectionKit/WobbleAnimator (2.1.0):
+  - CollectionKit (2.2.0):
+    - CollectionKit/Core (= 2.2.0)
+  - CollectionKit/Core (2.2.0)
+  - CollectionKit/WobbleAnimator (2.2.0):
     - CollectionKit/Core
-    - YetAnotherAnimationLibrary
-  - YetAnotherAnimationLibrary (1.2.0)
+    - YetAnotherAnimationLibrary (~> 1.3.0)
+  - YetAnotherAnimationLibrary (1.3.0)
 
 DEPENDENCIES:
   - CollectionKit (from `../`)
@@ -20,8 +20,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  CollectionKit: 0135ba9cc4910fb0342f99282d00394603c1e26e
-  YetAnotherAnimationLibrary: 3cb3e784cf1b4305095e0ef2c57965eb1b51b1c6
+  CollectionKit: b565757b67da67271a1c9938d5b6cb3211216e4a
+  YetAnotherAnimationLibrary: 69655d8bc9986919f334c940ddebde8e42bdd007
 
 PODFILE CHECKSUM: ebee1e253f63ed2523d8c23e296d4f3f5c625a3d
 

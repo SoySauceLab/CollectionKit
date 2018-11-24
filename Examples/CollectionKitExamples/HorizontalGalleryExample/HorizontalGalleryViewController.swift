@@ -13,7 +13,7 @@ class HorizontalGalleryViewController: CollectionViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
 
-    collectionView.contentInset = UIEdgeInsetsMake(10, 10, 10, 10)
+    collectionView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
 
     let visibleFrameInsets = UIEdgeInsets(top: 0, left: -100, bottom: 0, right: -100)
     provider = BasicProvider(
