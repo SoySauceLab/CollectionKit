@@ -46,7 +46,7 @@ class WaterfallLayoutSpec: QuickSpec {
       it("should not display cells outside of the visible area") {
         let layout = WaterfallLayout()
         layout.mockLayout(parentSize: (100, 50), (50, 50), (50, 50), (50, 50), (50, 50))
-        let visible = layout.visibleIndexes(visibleFrame: CGRect(x: 0, y: 50, width: 100, height: 50))
+        let visible = layout.visible(for: CGRect(x: 0, y: 50, width: 100, height: 50)).indexes
         expect(visible).to(equal([2, 3]))
       }
     }

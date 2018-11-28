@@ -84,23 +84,26 @@ struct FlattenedProvider: ItemProvider {
     return provider.contentSize
   }
 
-  func visibleIndexes(visibleFrame: CGRect) -> [Int] {
-    var visible = [Int]()
-    for sectionIndex in provider.visibleIndexes(visibleFrame: visibleFrame) {
-      let beginIndex = childSections[sectionIndex].beginIndex
-      if let sectionData = childSections[sectionIndex].sectionData {
-        let sectionFrame = provider.frame(at: sectionIndex)
-        let intersectFrame = visibleFrame.intersection(sectionFrame)
-        let visibleFrameForCell = CGRect(origin: intersectFrame.origin - sectionFrame.origin, size: intersectFrame.size)
-        let sectionVisible = sectionData.visibleIndexes(visibleFrame: visibleFrameForCell)
-        for item in sectionVisible {
-          visible.append(item + beginIndex)
-        }
-      } else {
-        visible.append(beginIndex)
+  // BREAKS STICKY HEADERS
+  func visible(for visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect)  {
+    let visibleFrame = provider.visible(for: visibleFrame).frame
+    
+    let indexes: [Int] = childSections.enumerated().flatMap { index, child -> [Int] in
+      let sectionFrame = provider.frame(at: index)
+      let intersectFrame = visibleFrame.intersection(sectionFrame)
+      var visibleFrameForCell = CGRect(origin: intersectFrame.origin - sectionFrame.origin, size: intersectFrame.size)
+      if intersectFrame.origin == .infinity {
+        // even if there is no intersection now, there might be
+        // after the layout adds visible frame inset so we still
+        // call the section with a valid frame
+        visibleFrameForCell.origin = visibleFrame.origin
       }
+      let visible = child.sectionData?.visible(for: visibleFrameForCell)
+      let indexes = visible?.indexes ?? [0]
+      return indexes.map { $0 + child.beginIndex }
     }
-    return visible
+    
+    return (indexes, visibleFrame)
   }
 
   func frame(at: Int) -> CGRect {
@@ -137,4 +140,8 @@ struct FlattenedProvider: ItemProvider {
   func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     return provider.hasReloadable(reloadable)
   }
+}
+
+extension CGPoint {
+  static var infinity: CGPoint = CGPoint(x: CGFloat.infinity, y: CGFloat.infinity)
 }
