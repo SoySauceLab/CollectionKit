@@ -84,26 +84,27 @@ struct FlattenedProvider: ItemProvider {
     return provider.contentSize
   }
 
-  // BREAKS STICKY HEADERS
   func visible(for visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect)  {
-    let visibleFrame = provider.visible(for: visibleFrame).frame
-    
-    let indexes: [Int] = childSections.enumerated().flatMap { index, child -> [Int] in
+    let visible = provider.visible(for: visibleFrame)
+    // sort child sections by the indexes from layout
+    let sections = Array(0..<childSections.count).sorted(by: visible.indexes)
+    // load indexes from all child sections
+    let indexes = sections.flatMap { index -> [Int] in
       let sectionFrame = provider.frame(at: index)
-      let intersectFrame = visibleFrame.intersection(sectionFrame)
+      let intersectFrame = visible.frame.intersection(sectionFrame)
       var visibleFrameForCell = CGRect(origin: intersectFrame.origin - sectionFrame.origin, size: intersectFrame.size)
       if intersectFrame.origin == .infinity {
         // even if there is no intersection now, there might be
-        // after the layout adds visible frame inset so we still
-        // call the section with a valid frame
-        visibleFrameForCell.origin = visibleFrame.origin
+        // after the childs layout adds visible frame inset so
+        // we still call the section with a valid frame
+        visibleFrameForCell.origin = visible.frame.origin
       }
-      let visible = child.sectionData?.visible(for: visibleFrameForCell)
-      let indexes = visible?.indexes ?? [0]
-      return indexes.map { $0 + child.beginIndex }
+      let child = childSections[index]
+      let childVisible = child.sectionData?.visible(for: visibleFrameForCell)
+      let childIndexes = childVisible?.indexes ?? [0]
+      return childIndexes.map { $0 + child.beginIndex }
     }
-    
-    return (indexes, visibleFrame)
+    return (indexes, visible.frame)
   }
 
   func frame(at: Int) -> CGRect {
@@ -144,4 +145,15 @@ struct FlattenedProvider: ItemProvider {
 
 extension CGPoint {
   static var infinity: CGPoint = CGPoint(x: CGFloat.infinity, y: CGFloat.infinity)
+}
+
+extension Array where Element: Equatable {
+  
+  /// Returns an array sorted based on another array
+  ///
+  /// - Parameter array: The array with items that we sort bt
+  /// - Returns: An array sorted by elements in parameter array.
+  func sorted(by array: [Element]) -> [Element] {
+    return array.filter { contains($0) } + filter { !array.contains($0) }
+  }
 }
