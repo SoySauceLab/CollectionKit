@@ -90,15 +90,21 @@ struct FlattenedProvider: ItemProvider {
     let sections = Array(0..<childSections.count).sorted(by: visible.indexes)
     // load indexes from all child sections
     let indexes = sections.flatMap { index -> [Int] in
-      let sectionFrame = provider.frame(at: index)
-      let intersectFrame = visible.frame.intersection(sectionFrame)
-      var visibleFrameForCell = CGRect(origin: intersectFrame.origin - sectionFrame.origin, size: intersectFrame.size)
-      if intersectFrame.origin == .infinity {
-        // even if there is no intersection now, there might be
-        // after the childs layout adds visible frame inset so
-        // we still call the section with a valid frame
-        visibleFrameForCell.origin = visible.frame.origin
-      }
+      let section = provider.frame(at: index)
+      // intersection that doesn't return invalid frame when the
+      // rects don't intersect but rather returns a rect spanning
+      // the part of the border of the visible frame where the
+      // section frame would enter the visible frame if it
+      // were closer. This allows for the section to add its
+      // visible inset to that rect and show according to that.
+      // Calculation source https://math.stackexchange.com/a/99576
+      let x = max(0, visible.frame.origin.x - section.origin.x)
+      let y = max(0, visible.frame.origin.y - section.origin.y)
+      let maxTop = max(visible.frame.origin.y, section.origin.y)
+      let maxLeft = max(visible.frame.origin.x, section.origin.x)
+      let minBottom = min(visible.frame.origin.y + visible.frame.size.height, section.origin.y + section.size.height)
+      let minRight = min(visible.frame.origin.x + visible.frame.size.width, section.origin.x + section.size.width)
+      let visibleFrameForCell = CGRect(x: x, y: y, width: minRight - maxLeft, height: minBottom - maxTop)
       let child = childSections[index]
       let childVisible = child.sectionData?.visible(for: visibleFrameForCell)
       let childIndexes = childVisible?.indexes ?? [0]
