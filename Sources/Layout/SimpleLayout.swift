@@ -36,7 +36,7 @@ open class SimpleLayout: Layout {
     return frames[at]
   }
 
-  open override func visible(for visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
+  open override func visible(in visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
     var result = [Int]()
     for (i, frame) in frames.enumerated() {
       if frame.intersects(visibleFrame) {
@@ -54,7 +54,7 @@ open class VerticalSimpleLayout: SimpleLayout {
     maxFrameLength = frames.max { $0.height < $1.height }?.height ?? 0
   }
 
-  open override func visible(for visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
+  open override func visible(in visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
     guard !visibleFrame.isEmptyOrNegative else {
         // When this vertical layout gets called in a
         // section provider with horizontal layout we need
@@ -85,7 +85,7 @@ open class HorizontalSimpleLayout: SimpleLayout {
     maxFrameLength = frames.max { $0.width < $1.width }?.width ?? 0
   }
 
-  open override func visible(for visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
+  open override func visible(in visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
     guard !visibleFrame.isEmptyOrNegative else {
         return ([], visibleFrame)
     }

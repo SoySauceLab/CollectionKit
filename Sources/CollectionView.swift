@@ -158,7 +158,7 @@ open class CollectionView: UIScrollView {
   }
 
   private func _loadCells(forceReload: Bool) {
-    let newIndexes = flattenedProvider.visible(for: visibleFrame).indexes
+    let newIndexes = flattenedProvider.visible(in: visibleFrame).indexes
 
     // optimization: we assume that corresponding identifier for each index doesnt change unless forceReload is true.
     guard forceReload ||

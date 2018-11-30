@@ -37,8 +37,8 @@ open class TransposeLayout: WrapperLayout {
     rootLayout.layout(context: TransposeLayoutContext(original: context))
   }
 
-  open override func visible(for visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
-    let visible = rootLayout.visible(for: visibleFrame.transposed)
+  open override func visible(in visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
+    let visible = rootLayout.visible(in: visibleFrame.transposed)
     return (visible.indexes, visible.frame.transposed)
   }
 

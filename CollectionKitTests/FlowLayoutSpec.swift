@@ -49,7 +49,7 @@ class FlowLayoutSpec: QuickSpec {
       it("should not display cells outside of the visible area") {
         let layout = FlowLayout().transposed()
         layout.mockLayout(parentSize: (100, 50), (50, 50), (50, 50), (50, 50), (50, 50))
-        let visible = layout.visible(for: CGRect(x: 50, y: 0, width: 100, height: 50)).indexes
+        let visible = layout.visible(in: CGRect(x: 50, y: 0, width: 100, height: 50)).indexes
         expect(visible).to(equal([1, 2]))
       }
     }

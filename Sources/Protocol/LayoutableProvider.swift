@@ -21,8 +21,8 @@ extension LayoutableProvider where Self: Provider {
   public func layout(collectionSize: CGSize) {
     internalLayout.layout(context: layoutContext(collectionSize: collectionSize))
   }
-  public func visible(for visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
-    return internalLayout.visible(for: visibleFrame)
+  public func visible(in visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
+    return internalLayout.visible(in: visibleFrame)
   }
   public var contentSize: CGSize {
     return internalLayout.contentSize

@@ -34,19 +34,19 @@ public class StickyLayout: WrapperLayout {
     }
   }
 
-  // TODO: Fix for the new FlattenedProvider.visible(for:)
-  public override func visible(for visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
+  // TODO: Fix for the new FlattenedProvider.visible(in:)
+  public override func visible(in visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
     self.visibleFrame = visibleFrame
     topFrameIndex = stickyFrames.binarySearch { $0.frame.minY < visibleFrame.minY } - 1
     if let index = stickyFrames.get(topFrameIndex)?.index, index >= 0 {
-      var oldVisible = rootLayout.visible(for: visibleFrame)
+      var oldVisible = rootLayout.visible(in: visibleFrame)
       if let index = oldVisible.indexes.index(of: index) {
         oldVisible.indexes.remove(at: index)
       }
       oldVisible.indexes += [index]
       return oldVisible
     }
-    return rootLayout.visible(for: visibleFrame)
+    return rootLayout.visible(in: visibleFrame)
   }
 
   public override func frame(at: Int) -> CGRect {

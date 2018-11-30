@@ -30,7 +30,7 @@ open class VisibleFrameInsetLayout: WrapperLayout {
     super.layout(context: context)
   }
 
-  open override func visible(for visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
-    return rootLayout.visible(for: visibleFrame.inset(by: insets))
+  open override func visible(in visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
+    return rootLayout.visible(in: visibleFrame.inset(by: insets))
   }
 }

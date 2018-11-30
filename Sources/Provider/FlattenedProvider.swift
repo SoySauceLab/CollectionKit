@@ -84,8 +84,8 @@ struct FlattenedProvider: ItemProvider {
     return provider.contentSize
   }
 
-  func visible(for visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
-    let visible = provider.visible(for: visibleFrame)
+  func visible(in visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
+    let visible = provider.visible(in: visibleFrame)
     // sort child sections by the indexes from layout
     let sections = Array(0..<childSections.count).sorted(by: visible.indexes)
     // load indexes from all child sections
@@ -106,7 +106,7 @@ struct FlattenedProvider: ItemProvider {
       let minRight = min(visible.frame.maxX, section.maxX)
       let visibleFrameForCell = CGRect(x: x, y: y, width: minRight - maxLeft, height: minBottom - maxTop)
       let child = childSections[index]
-      let childVisible = child.sectionData?.visible(for: visibleFrameForCell)
+      let childVisible = child.sectionData?.visible(in: visibleFrameForCell)
       let childIndexes = childVisible?.indexes ?? [0]
       return childIndexes.map { $0 + child.beginIndex }
     }

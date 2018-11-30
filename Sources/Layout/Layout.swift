@@ -22,7 +22,7 @@ open class Layout {
     fatalError("Subclass should provide its own layout")
   }
 
-  open func visible(for visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
+  open func visible(in visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
     fatalError("Subclass should provide its own layout")
   }
 
