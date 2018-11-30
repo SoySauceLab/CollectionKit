@@ -55,6 +55,13 @@ open class VerticalSimpleLayout: SimpleLayout {
   }
 
   open override func visible(for visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
+    guard !visibleFrame.isEmptyOrNegative else {
+        // When this vertical layout gets called in a
+        // section provider with horizontal layout we need
+        // to guard here because the optimised index search
+        // here doesn't take the X axes into account.
+      return ([], visibleFrame)
+    }
     var index = frames.binarySearch { $0.minY < visibleFrame.minY - maxFrameLength }
     var visibleIndexes = [Int]()
     while index < frames.count {
@@ -79,6 +86,9 @@ open class HorizontalSimpleLayout: SimpleLayout {
   }
 
   open override func visible(for visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
+    guard !visibleFrame.isEmptyOrNegative else {
+        return ([], visibleFrame)
+    }
     var index = frames.binarySearch { $0.minX < visibleFrame.minX - maxFrameLength }
     var visibleIndexes = [Int]()
     while index < frames.count {
@@ -92,5 +102,13 @@ open class HorizontalSimpleLayout: SimpleLayout {
       index += 1
     }
     return (visibleIndexes, visibleFrame)
+  }
+}
+
+extension CGRect {
+  /// Returns whether a rectangle has zero or less
+  /// width or height, or is a null rectangle.
+  var isEmptyOrNegative: Bool {
+    return isEmpty || size.width < 0 || size.height < 0
   }
 }
