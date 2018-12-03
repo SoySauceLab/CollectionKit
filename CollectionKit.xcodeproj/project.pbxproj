@@ -17,6 +17,8 @@
 		A363C56A20C955C7009A885F /* LayoutContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56920C955C7009A885F /* LayoutContext.swift */; };
 		A363C56C20CACA8A009A885F /* FlattenedProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56B20CACA89009A885F /* FlattenedProvider.swift */; };
 		A363C56E20CBD55B009A885F /* ComposedHeaderProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A363C56D20CBD55B009A885F /* ComposedHeaderProvider.swift */; };
+		A376B2E921B5A00E00A027BD /* SingleSectionPerformanceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376B2E821B5A00E00A027BD /* SingleSectionPerformanceTest.swift */; };
+		A376B2EB21B5A43900A027BD /* ComposedSectionPerformanceTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = A376B2EA21B5A43900A027BD /* ComposedSectionPerformanceTest.swift */; };
 		A39C84932177B028002084AD /* WaterfallLayoutSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C84922177B028002084AD /* WaterfallLayoutSpec.swift */; };
 		A39C84952177B347002084AD /* BasicProviderSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C84942177B347002084AD /* BasicProviderSpec.swift */; };
 		A39C849D2177BF9B002084AD /* SimpleViewSizeSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A39C849B2177BF8B002084AD /* SimpleViewSizeSource.swift */; };
@@ -97,6 +99,8 @@
 		A363C56920C955C7009A885F /* LayoutContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutContext.swift; sourceTree = "<group>"; };
 		A363C56B20CACA89009A885F /* FlattenedProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlattenedProvider.swift; sourceTree = "<group>"; };
 		A363C56D20CBD55B009A885F /* ComposedHeaderProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposedHeaderProvider.swift; sourceTree = "<group>"; };
+		A376B2E821B5A00E00A027BD /* SingleSectionPerformanceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleSectionPerformanceTest.swift; sourceTree = "<group>"; };
+		A376B2EA21B5A43900A027BD /* ComposedSectionPerformanceTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposedSectionPerformanceTest.swift; sourceTree = "<group>"; };
 		A39C84922177B028002084AD /* WaterfallLayoutSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaterfallLayoutSpec.swift; sourceTree = "<group>"; };
 		A39C84942177B347002084AD /* BasicProviderSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicProviderSpec.swift; sourceTree = "<group>"; };
 		A39C84972177BF49002084AD /* UIImageSizeSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageSizeSource.swift; sourceTree = "<group>"; };
@@ -363,6 +367,8 @@
 				B145FF9F1F5BB4D700A4F318 /* ComposedProviderSpec.swift */,
 				A39C84A12177E223002084AD /* ComposedHeaderProviderSpec.swift */,
 				A3328EB5218B96A000A28AE8 /* EmptyStateProviderSpec.swift */,
+				A376B2E821B5A00E00A027BD /* SingleSectionPerformanceTest.swift */,
+				A376B2EA21B5A43900A027BD /* ComposedSectionPerformanceTest.swift */,
 			);
 			path = CollectionKitTests;
 			sourceTree = SOURCE_ROOT;
@@ -542,7 +548,9 @@
 				B19D64D01F23DE8100D02FDB /* RowLayoutSpec.swift in Sources */,
 				B145FFA01F5BB4D700A4F318 /* ComposedProviderSpec.swift in Sources */,
 				0E3258451F5E23B000D455F8 /* FlowLayoutSpec.swift in Sources */,
+				A376B2EB21B5A43900A027BD /* ComposedSectionPerformanceTest.swift in Sources */,
 				A39C84932177B028002084AD /* WaterfallLayoutSpec.swift in Sources */,
+				A376B2E921B5A00E00A027BD /* SingleSectionPerformanceTest.swift in Sources */,
 				A39C84952177B347002084AD /* BasicProviderSpec.swift in Sources */,
 				B1A8E2DD1F59E99500172387 /* CollectionViewSpec.swift in Sources */,
 				A3328EB6218B96A000A28AE8 /* EmptyStateProviderSpec.swift in Sources */,
