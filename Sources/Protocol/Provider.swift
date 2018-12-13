@@ -17,7 +17,7 @@ public protocol Provider {
 
   // layout
   func layout(collectionSize: CGSize)
-  func visibleIndexes(visibleFrame: CGRect) -> [Int]
+  func visible(in visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect)
   var contentSize: CGSize { get }
   func frame(at: Int) -> CGRect
 

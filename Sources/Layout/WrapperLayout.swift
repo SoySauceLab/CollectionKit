@@ -23,8 +23,8 @@ open class WrapperLayout: Layout {
     rootLayout.layout(context: context)
   }
 
-  open override func visibleIndexes(visibleFrame: CGRect) -> [Int] {
-    return rootLayout.visibleIndexes(visibleFrame: visibleFrame)
+  open override func visible(in visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
+    return rootLayout.visible(in: visibleFrame)
   }
 
   open override func frame(at: Int) -> CGRect {

@@ -22,7 +22,7 @@ open class Layout {
     fatalError("Subclass should provide its own layout")
   }
 
-  open func visibleIndexes(visibleFrame: CGRect) -> [Int] {
+  open func visible(in visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
     fatalError("Subclass should provide its own layout")
   }
 
@@ -38,6 +38,7 @@ extension Layout {
     return InsetLayout(self, insets: insets)
   }
 
+  /// Visible insets in the opposite of the layout direction are doubled
   public func insetVisibleFrame(by insets: UIEdgeInsets) -> VisibleFrameInsetLayout {
     return VisibleFrameInsetLayout(self, insets: insets)
   }

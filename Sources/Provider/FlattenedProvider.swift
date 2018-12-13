@@ -84,23 +84,33 @@ struct FlattenedProvider: ItemProvider {
     return provider.contentSize
   }
 
-  func visibleIndexes(visibleFrame: CGRect) -> [Int] {
-    var visible = [Int]()
-    for sectionIndex in provider.visibleIndexes(visibleFrame: visibleFrame) {
-      let beginIndex = childSections[sectionIndex].beginIndex
-      if let sectionData = childSections[sectionIndex].sectionData {
-        let sectionFrame = provider.frame(at: sectionIndex)
-        let intersectFrame = visibleFrame.intersection(sectionFrame)
-        let visibleFrameForCell = CGRect(origin: intersectFrame.origin - sectionFrame.origin, size: intersectFrame.size)
-        let sectionVisible = sectionData.visibleIndexes(visibleFrame: visibleFrameForCell)
-        for item in sectionVisible {
-          visible.append(item + beginIndex)
-        }
-      } else {
-        visible.append(beginIndex)
-      }
+  func visible(in visibleFrame: CGRect) -> (indexes: [Int], frame: CGRect) {
+    let visible = provider.visible(in: visibleFrame)
+    // sort child sections by the indexes from layout
+    let sections = Array(0..<childSections.count).sorted(by: visible.indexes)
+    // load indexes from all child sections
+    let indexes = sections.flatMap { index -> [Int] in
+      let section = provider.frame(at: index)
+      // intersection that doesn't return invalid frame when the
+      // rects don't intersect but rather returns a rect spanning
+      // the part of the border of the visible frame where the
+      // section frame would enter the visible frame if it
+      // were closer. This allows for the section to add its
+      // visible inset to that rect and show according to that.
+      // Calculation source https://math.stackexchange.com/a/99576
+      let x = max(0, visible.frame.origin.x - section.origin.x)
+      let y = max(0, visible.frame.origin.y - section.origin.y)
+      let maxTop = max(visible.frame.origin.y, section.origin.y)
+      let maxLeft = max(visible.frame.origin.x, section.origin.x)
+      let minBottom = min(visible.frame.maxY, section.maxY)
+      let minRight = min(visible.frame.maxX, section.maxX)
+      let visibleFrameForCell = CGRect(x: x, y: y, width: minRight - maxLeft, height: minBottom - maxTop)
+      let child = childSections[index]
+      let childVisible = child.sectionData?.visible(in: visibleFrameForCell)
+      let childIndexes = childVisible?.indexes ?? [0]
+      return childIndexes.map { $0 + child.beginIndex }
     }
-    return visible
+    return (indexes, visible.frame)
   }
 
   func frame(at: Int) -> CGRect {
@@ -136,5 +146,20 @@ struct FlattenedProvider: ItemProvider {
 
   func hasReloadable(_ reloadable: CollectionReloadable) -> Bool {
     return provider.hasReloadable(reloadable)
+  }
+}
+
+extension CGPoint {
+  static var infinity: CGPoint = CGPoint(x: CGFloat.infinity, y: CGFloat.infinity)
+}
+
+extension Array where Element: Equatable {
+  
+  /// Returns an array sorted based on another array
+  ///
+  /// - Parameter array: The array with items that we sort bt
+  /// - Returns: An array sorted by elements in parameter array.
+  func sorted(by array: [Element]) -> [Element] {
+    return array.filter { contains($0) } + filter { !array.contains($0) }
   }
 }
