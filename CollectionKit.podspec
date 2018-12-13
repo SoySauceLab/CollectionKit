@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "CollectionKit"
-  s.version          = "2.2.0"
+  s.version          = "2.3.0"
   s.summary          = "A modern swift framework for building data-driven reusable collection view components."
 
   s.description      = <<-DESC
