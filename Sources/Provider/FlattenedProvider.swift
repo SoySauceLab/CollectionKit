@@ -70,7 +70,7 @@ struct FlattenedProvider: ItemProvider {
   func identifier(at: Int) -> String {
     let (sectionIndex, item) = indexPath(at)
     if let sectionData = childSections[sectionIndex].sectionData {
-      return provider.identifier(at: sectionIndex) + sectionData.identifier(at: item)
+      return provider.identifier(at: sectionIndex) + "-" + sectionData.identifier(at: item)
     } else {
       return provider.identifier(at: sectionIndex)
     }
