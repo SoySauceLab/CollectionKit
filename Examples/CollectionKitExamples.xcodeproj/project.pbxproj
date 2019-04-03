@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -260,7 +260,7 @@
 				TargetAttributes = {
 					A32B5811213651E400DED8B4 = {
 						CreatedOnToolsVersion = 9.4.1;
-						LastSwiftMigration = "";
+						LastSwiftMigration = 1020;
 					};
 				};
 			};
@@ -318,19 +318,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-CollectionKitExamples/Pods-CollectionKitExamples-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/CollectionKit/CollectionKit.framework",
-				"${BUILT_PRODUCTS_DIR}/YetAnotherAnimationLibrary/YetAnotherAnimationLibrary.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CollectionKitExamples/Pods-CollectionKitExamples-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CollectionKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YetAnotherAnimationLibrary.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CollectionKitExamples/Pods-CollectionKitExamples-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CollectionKitExamples/Pods-CollectionKitExamples-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CollectionKitExamples/Pods-CollectionKitExamples-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -512,7 +509,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -532,7 +529,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lkzhao.CollectionViewExamples;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

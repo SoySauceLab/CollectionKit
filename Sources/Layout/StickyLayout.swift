@@ -39,7 +39,7 @@ public class StickyLayout: WrapperLayout {
     topFrameIndex = stickyFrames.binarySearch { $0.frame.minY < visibleFrame.minY } - 1
     if let index = stickyFrames.get(topFrameIndex)?.index, index >= 0 {
       var oldVisible = rootLayout.visibleIndexes(visibleFrame: visibleFrame)
-      if let index = oldVisible.index(of: index) {
+      if let index = oldVisible.firstIndex(of: index) {
         oldVisible.remove(at: index)
       }
       return oldVisible + [index]

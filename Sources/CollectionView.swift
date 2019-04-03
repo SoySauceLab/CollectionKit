@@ -246,14 +246,14 @@ extension CollectionView {
   }
 
   public func index(for cell: UIView) -> Int? {
-    if let position = visibleCells.index(of: cell) {
+    if let position = visibleCells.firstIndex(of: cell) {
       return visibleIndexes[position]
     }
     return nil
   }
 
   public func cell(at index: Int) -> UIView? {
-    if let position = visibleIndexes.index(of: index) {
+    if let position = visibleIndexes.firstIndex(of: index) {
       return visibleCells[position]
     }
     return nil

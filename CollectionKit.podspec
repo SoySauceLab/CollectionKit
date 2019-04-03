@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = "CollectionKit"
-  s.version          = "2.3.0"
+  s.version          = "2.4.0"
   s.summary          = "A modern swift framework for building data-driven reusable collection view components."
 
   s.description      = <<-DESC
@@ -39,7 +39,7 @@ Pod::Spec.new do |s|
 
   s.subspec 'WobbleAnimator' do |cs|
     cs.dependency 'CollectionKit/Core'
-    cs.dependency 'YetAnotherAnimationLibrary', "~> 1.3.0"
+    cs.dependency 'YetAnotherAnimationLibrary', "~> 1.4.0"
     cs.source_files = 'WobbleAnimator/**/*.swift'
   end
 end
