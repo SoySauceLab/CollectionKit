@@ -66,7 +66,7 @@ public class CollectionReuseViewManager: NSObject {
     return dequeue(type.init())
   }
 
-  @objc func cleanup() {
+  @objc public func cleanup() {
     for views in reusableViews.values {
       for view in views {
         view.removeFromSuperview()

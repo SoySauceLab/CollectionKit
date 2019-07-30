@@ -56,6 +56,7 @@ open class CollectionView: UIScrollView {
   func commonInit() {
     CollectionViewManager.shared.register(collectionView: self)
 
+    tapGestureRecognizer.cancelsTouchesInView = false
     tapGestureRecognizer.addTarget(self, action: #selector(tap(gesture:)))
     addGestureRecognizer(tapGestureRecognizer)
   }
