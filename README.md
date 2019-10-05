@@ -41,7 +41,7 @@ github "SoySauceLab/CollectionKit"
 
 To start using CollectionKit, use `CollectionView` in place of `UICollectionView`. `CollectionView` is CollectionKit's alternative to `UICollectionView`. You give it a `Provider` object that tells `CollectionView` how to display a collection.
 
-The simpliest way to construct a provider is by using `BasicProvider` class.
+The simplest way to construct a provider is by using `BasicProvider` class.
 
 ### BasicProvider
 
@@ -54,7 +54,7 @@ To build a `BasicProvider`, here is what you need:
 * **SizeSource**
   * an function that gives the size for each cell.
 
-It sounds complicated, but it really isn't. Here is a short example demostrating
+It sounds complicated, but it really isn't. Here is a short example demonstrating
 how it all works.
 
 ```swift
@@ -78,7 +78,7 @@ collectionView.provider = provider
 
 <img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example1.svg" />
 
-Note that we used `ArrayDataSource` & `ClosureViewSource` here. These two classes are built-in to CollectionKit, and should be able to serve most jobs. You can implement other `dataSource` and `viewSource` as well. Imagine implementing a `NetworkDataSource` in your project, that retrives json data and parse into swift objects.
+Note that we used `ArrayDataSource` & `ClosureViewSource` here. These two classes are built-in to CollectionKit, and should be able to serve most jobs. You can implement other `dataSource` and `viewSource` as well. Imagine implementing a `NetworkDataSource` in your project, that retrieves json data and parse into swift objects.
 
 
 ### Reload
@@ -165,7 +165,7 @@ provider.layout = FlowLayout(spacing: 10).transposed().inset(by: inset)
 <img src="https://cdn.rawgit.com/SoySauceLab/CollectionKit/4045170/Resources/example7.svg" />
 
 
-There can be a lot to talk about with Layouts. We will create more tutorial later to teach you how to create your own layout and show you some advance usages. In the mean time, feel free to dive in the source code. I promise you it is not complecated at all.
+There can be a lot to talk about with Layouts. We will create more tutorial later to teach you how to create your own layout and show you some advance usages. In the mean time, feel free to dive in the source code. I promise you it is not complicated at all.
 
 ### Composing (ComposedProvider)
 
