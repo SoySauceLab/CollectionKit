@@ -9,7 +9,7 @@
 import UIKit
 
 open class ViewSource<Data, View: UIView> {
-  public private(set) lazy var reuseManager = CollectionReuseViewManager()
+  public lazy var reuseManager = CollectionReuseViewManager()
 
   /// Should return a new view for the given data and index
   open func view(data: Data, index: Int) -> View {
