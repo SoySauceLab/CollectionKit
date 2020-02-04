@@ -213,8 +213,8 @@ open class CollectionView: UIScrollView {
         return _generateCell(index: index)
       }
     }
-    
-    if visibleIdentifiers.isEmpty && !newCells.isEmpty {
+
+    if !newCells.isEmpty && (visibleCells.filter{type(of: $0) === type(of: newCells.first!)}).count == 0 {
         newCells.first?.reuseManager?.prepareReuseIfNeeded(type: type(of: newCells.first!))
     }
     
