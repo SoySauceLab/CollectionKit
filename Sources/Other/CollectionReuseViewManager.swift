@@ -36,7 +36,7 @@ public class CollectionReuseViewManager: NSObject {
   
   public func prepareReuseIfNeeded<T: UIView>(type: T.Type) {
     let identifier = NSStringFromClass(type)
-    guard generateAdditionalViewsForReuse && reusableViews[identifier]?.isEmpty == true else {return}
+    guard generateAdditionalViewsForReuse && reusableViews[identifier]?.isEmpty == nil else {return}
     for _ in 0..<numberOfAdditinalViewsForReuse {
       queue(view: type.init())
     }
