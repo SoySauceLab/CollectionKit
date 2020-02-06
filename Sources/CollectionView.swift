@@ -218,7 +218,7 @@ open class CollectionView: UIScrollView {
         newCells.first?.reuseManager?.prepareReuseIfNeeded(type: type(of: newCells.first!))
     }
     
-    for (index, cell) in newCells.enumerated() where subviews.get(index) !== cell && cell.superview != self {
+    for (index, cell) in newCells.enumerated() where subviews.get(index) !== cell {
       insertSubview(cell, at: index)
     }
     visibleIndexes = newIndexes

@@ -12,7 +12,7 @@ DEPENDENCIES:
   - CollectionKit/WobbleAnimator (from `../`)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - YetAnotherAnimationLibrary
 
 EXTERNAL SOURCES:
@@ -25,4 +25,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: ebee1e253f63ed2523d8c23e296d4f3f5c625a3d
 
-COCOAPODS: 1.7.0.beta.3
+COCOAPODS: 1.9.0.beta.2
