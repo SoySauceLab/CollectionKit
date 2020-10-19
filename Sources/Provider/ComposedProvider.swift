@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class ComposedProvider: SectionProvider, LayoutableProvider, CollectionReloadable {
+open class ComposedProvider: SectionProvider, LayoutableProvider, CollectionReloadable, CollectionAnimatable {
 
   open var identifier: String?
   open var sections: [Provider] { didSet { setNeedsReload() } }

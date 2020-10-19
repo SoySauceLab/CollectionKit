@@ -15,7 +15,7 @@ extension UIView {
     static var currentAnimator = "currentAnimator"
   }
 
-  internal var reuseManager: CollectionReuseViewManager? {
+  public var reuseManager: CollectionReuseViewManager? {
     get { return objc_getAssociatedObject(self, &AssociatedKeys.reuseManager) as? CollectionReuseViewManager }
     set { objc_setAssociatedObject(self, &AssociatedKeys.reuseManager, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
   }
@@ -36,7 +36,7 @@ extension UIView {
                                    newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
   }
 
-  public func recycleForCollectionKitReuse() {
+  @objc open func recycleForCollectionKitReuse() {
     if let reuseManager = reuseManager {
       reuseManager.queue(view: self)
     } else {

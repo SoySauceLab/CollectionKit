@@ -8,7 +8,7 @@
 
 import UIKit
 
-open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, CollectionReloadable {
+open class BasicProvider<Data, View: UIView>: ItemProvider, LayoutableProvider, CollectionReloadable, CollectionAnimatable {
 
   open var identifier: String?
   open var dataSource: DataSource<Data> { didSet { setNeedsReload() } }
