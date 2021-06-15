@@ -72,6 +72,9 @@ struct CollectionComposerLayoutContext: LayoutContext {
   var numberOfItems: Int {
     return sections.count
   }
+  var realNumberOfItems: Int {
+    return sections.reduce(0) { $0 + ($1.numberOfItems > 0 ? 1 : 0) }
+  }
   func data(at: Int) -> Any {
     return sections[at]
   }

@@ -22,6 +22,9 @@ open class InsetLayout: WrapperLayout {
     var numberOfItems: Int {
       return original.numberOfItems
     }
+    var realNumberOfItems: Int {
+      return original.realNumberOfItems
+    }
     func data(at: Int) -> Any {
       return original.data(at: at)
     }

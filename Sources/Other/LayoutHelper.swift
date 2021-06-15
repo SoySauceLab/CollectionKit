@@ -60,7 +60,7 @@ struct LayoutHelper {
                          numberOfItems: Int) -> (offset: CGFloat, spacing: CGFloat) {
     var offset: CGFloat = 0
     var spacing = minimunSpacing
-    guard numberOfItems > 0 else { return (offset, spacing) }
+    guard numberOfItems > 0 else { return (offset, 0) }
     if totalPrimary + CGFloat(numberOfItems - 1) * minimunSpacing < maxPrimary {
       let leftOverPrimary = maxPrimary - totalPrimary
       switch justifyContent {
@@ -81,6 +81,6 @@ struct LayoutHelper {
         offset = spacing
       }
     }
-    return (offset, spacing)
+    return (offset, (offset == 0 && numberOfItems == 1) ? 0 : spacing)
   }
 }

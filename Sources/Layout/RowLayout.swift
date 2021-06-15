@@ -44,7 +44,7 @@ public class RowLayout: HorizontalSimpleLayout {
                                                                maxPrimary: context.collectionSize.width,
                                                                totalPrimary: totalWidth,
                                                                minimunSpacing: spacing,
-                                                               numberOfItems: context.numberOfItems)
+                                                               numberOfItems: context.realNumberOfItems)
 
     let frames = LayoutHelper.alignItem(alignItems: alignItems,
                                         startingPrimaryOffset: offset, spacing: distributedSpacing,
