@@ -1,5 +1,0 @@
-ignore:
-  - "Examples"
-  - "CollectionKitTests"
-  - "Sources/Addon"
-  - "Sources/Other"
