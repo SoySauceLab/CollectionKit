@@ -40,6 +40,9 @@ public class CollectionReuseViewManager: NSObject {
     } else {
       reusableViews[identifier] = [view]
     }
+    if let collectionView = view as? CollectionView {
+      collectionView.provider = nil
+    }
     if let cleanupTimer = cleanupTimer {
       cleanupTimer.fireDate = Date().addingTimeInterval(lifeSpan)
     } else {
